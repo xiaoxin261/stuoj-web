@@ -43,6 +43,24 @@ const router = createRouter({
       meta:{permission: ROLE.Visitor, },
     },
     {
+      path:'/aiprocess',
+      name:'aiprocess',
+      component: () => import('../views/auth/AIProcess.vue'),
+      meta:{permission: ROLE.Visitor, },
+    },
+    {
+      path:'/problemdisplay',
+      name:'problemdisplay',
+      component: () => import('../views/auth/ProblemDisplay.vue'),
+      meta:{permission: ROLE.Visitor, },
+    },
+    {
+      path:'/writecode',
+      name:'writecode',
+      component: () => import('../views/auth/WriteCode.vue'),
+      meta:{permission: ROLE.Visitor, },
+    },
+    {
       path:'/problem/:id',
       name:'problem',
       component: () => import('../views/problem/ProblemView.vue'),
