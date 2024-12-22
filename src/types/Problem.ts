@@ -10,7 +10,7 @@ export interface ProblemInfo {
     sample_input?: string;
     sample_output?: string;
     source: string;
-    status: number;
+    status: ProblemStatus;
     time_limit: number;
     title: string;
     update_time: string;
@@ -119,6 +119,20 @@ export interface FpsSolution {
     source_code: string;
     update_time: string;
     [property: string]: any;
+}
+
+export enum ProblemStatus{
+    invalid = 0,
+    public = 1,
+    editing = 2,
+    eebugging = 3,
+}
+
+export const ProblemStatusMap = {
+    [ProblemStatus.invalid]: "作废",
+    [ProblemStatus.public]: "公开",
+    [ProblemStatus.editing]: "出题中",
+    [ProblemStatus.eebugging]: "调试中",
 }
 
 export enum Difficulty{
