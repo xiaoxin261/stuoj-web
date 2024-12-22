@@ -35,14 +35,49 @@
   import type { ProblemSubmit } from '@/types/AiProcess';
   import ProblemTagSelect from '@/components/problem/ProblemTagSelect.vue';
   // 响应式数据
-  const req = ref<ProblemSubmit>({description:'',tags:[]});
+  const req = ref<ProblemSubmit>({title:'',description:'',tags:[]});
+  const aiProblemInfo = ref<ProblemInfo | null>(null);;
+  const {execute:submitInfo, state:curProblemInfo} = aiProcessApi();
+  const {execute:submitProblem, state:getProblemid} = uploadProblemApi();
+  const { token } = userStore();
   // 提交表单的方法
   const submitForm = async () => {
       // 控制台输出用户填写的文本区域和选择的算法标签
   console.log('算法情景描述:', req.value.description);
   console.log('选择的算法标签:', req.value.tags);
+  await submitInfo({
+    headers: {
+            Authorization: `Bearer ${token.value}`
+        },
+    data:{
+      title:req.value.title,
+      description:req.value.description,
+      tags:req.value.tags
+  }
+  });
+  console.log('返回题目信息',curProblemInfo);
+  aiProblemInfo.value = curProblemInfo.value?.data as ProblemInfo;
+ console.log('题目信息和des',aiProblemInfo.value.title,aiProblemInfo.value?.description);
 
-    router.push({path:'/problemDisplay'});
+  router.push({path:'/problemdisplay'});
+  // if(getProblemInfo.value?.code === 1){
+  //  const res = getProblemInfo.value?.data as ProblemInfo; 
+  //  await submitProblem({
+  //   headers: {
+  //           Authorization: `Bearer ${token.value}`
+  //       },
+  //   data : res.value
+  //  });
+  //  console.log('返回题目id',getProblemid);
+  //  if(getProblemid.value?.code===1)
+  //  {
+  //   const problemId = getProblemid.value.data;
+  //   console.log('题目id',problemId);
+  //   //router.push({path:'/web/problem/:problemId'});
+  //  }
+  // }
+
+    
   };
   </script>
   
