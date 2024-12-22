@@ -35,8 +35,8 @@ const updateInfo = async () => {
         const state = await execute({
             id: userId.value,
         });
-        if (state.value?.code === 1) {
-            info.value = state.value?.data as BaseUserInfo;
+        if (state.value) {
+            info.value = state.value;
         }
     }
     document.title = `${info.value?.username}的个人空间`;

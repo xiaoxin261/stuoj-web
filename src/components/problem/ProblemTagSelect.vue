@@ -57,8 +57,8 @@ const { state, execute } = getProblemTagsApi();
 
 onMounted(async () => {
     await execute();
-    if (state.value?.data && Array.isArray(state.value.data)) {
-        wsTags.value = state.value.data.map((tag: Tag) => ({
+    if (state.value) {
+        wsTags.value = state.value.map((tag: Tag) => ({
             checked: false,
             data: tag
         }));

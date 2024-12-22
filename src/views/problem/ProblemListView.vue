@@ -49,8 +49,8 @@ const getList = async () => {
             tag: params.value.tag?.join(',') // 将数组转换为字符串
         }
     })
-    if (state.value && state.value.code === 1) {
-        problemPage.value = state.value.data as Page<"problems", ProblemInfo>;
+    if (state.value) {
+        problemPage.value = state.value;
         problems.value = problemPage.value.problems;
     }
 }

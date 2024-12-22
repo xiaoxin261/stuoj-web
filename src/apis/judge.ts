@@ -17,7 +17,7 @@ export const Submit = useDefineApi<
 
 export const GetLanguages = useDefineApi<
     {},
-    Language
+    Language[]
 >({
     url: "/judge/language",
     method: "get"
