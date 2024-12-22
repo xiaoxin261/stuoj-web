@@ -77,7 +77,7 @@ const handleDebug = async () => {
     resultFlag.value = true;
     await testExcute({
         headers: {
-            Authorization: token.value
+            Authorization: `Bearer ${token.value}`
         },
         data: {
             language_id: language_id.value,
@@ -116,7 +116,7 @@ const handleSubmit = async () => {
     if (problem_id != undefined)
         await submitExcute({
             headers: {
-                Authorization: token.value
+                Authorization: `Bearer ${token.value}`
             },
             data: {
                 language_id: language_id.value,
