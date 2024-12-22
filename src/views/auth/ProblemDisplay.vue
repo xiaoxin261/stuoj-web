@@ -1,112 +1,119 @@
 <template>
-    <div class="container">
-      <div class="content">
-        <div class="section">
-          <h2>题目</h2>
-          <p>{{ title }}</p>
-        </div>
-        <div class="section">
-          <h2>题目描述</h2>
-          <p>{{ description }}</p>
-        </div>
-        <div class="section">
-          <h2>输入格式</h2>
-          <p>{{ input }}</p>
-        </div>
-        <div class="section">
-          <h2>输出格式</h2>
-          <p>{{ output }}</p>
-        </div>
-        <div class="section">
-          <h2>输入输出样例</h2>
-          <div class="example">
-            <div class="example-input">
-              <h3>输入</h3>
-              <p>{{ sample_input }}</p>
-            </div>
-            <div class="example-output">
-              <h3>输出</h3>
-              <p>{{ sample_output }}</p>
-            </div>
+  <div class="container">
+    <div class="content">
+      <div class="section">
+        <h2>题目</h2>
+        <textarea v-model="title" class="editable-text"></textarea>
+      </div>
+      <div class="section">
+        <h2>题目描述</h2>
+        <textarea v-model="description" class="editable-text"></textarea>
+      </div>
+      <div class="section">
+        <h2>输入格式</h2>
+        <textarea v-model="input" class="editable-text"></textarea>
+      </div>
+      <div class="section">
+        <h2>输出格式</h2>
+        <textarea v-model="output" class="editable-text"></textarea>
+      </div>
+      <div class="section">
+        <h2>输入输出样例</h2>
+        <div class="example">
+          <div class="example-input">
+            <h3>输入</h3>
+            <textarea v-model="sample_input" class="editable-text"></textarea>
+          </div>
+          <div class="example-output">
+            <h3>输出</h3>
+            <textarea v-model="sample_output" class="editable-text"></textarea>
           </div>
         </div>
-        <div class="section">
-          <h2>说明和提示</h2>
-          <p>{{ hint }}</p>
-        </div>
-     </div >
- <el-button class = "solve-button" type="primary" @click="handleSolve" link>尝试解题</el-Button>
+      </div>
+      <div class="section">
+        <h2>说明和提示</h2>
+        <textarea v-model="hint" class="editable-text"></textarea>
+      </div>
     </div>
+    <el-button class="solve-button" type="primary" @click="handleSolve" link>尝试解题</el-button>
+    <el-button class="save-button" type="primary" @click="saveChanges">保存修改</el-button>
+  </div>
+</template>
 
-  <!-- </div>
-      <el-button type="primary" @click="submitForm">确定</el-button>
-    </div> -->
-  </template>
   
-  <script >
+  <script lang="ts" >
+  import { nextTick } from 'vue';
 import router from '@/router';
 import { ElButton, ElContainer } from 'element-plus';
-import {problemInfoApi} from '@/apis/aiProcess';
+import {problemInfoApi} from '@/apis/aiProcessApis';
 import { ref } from 'vue';
 import { onMounted } from 'vue';
+import type { ProblemInfo } from '@/types/Problem';
+// 初始化 req 为一个响应式引用，并指定类型为 ProblemInfo | null
+const req = ref<ProblemInfo | null>(null);
 
-// export default {
-//   name: 'ProblemStatement',
-//   setup() {
-//     const title = ref('');
-//     const description = ref('');
-//     const input = ref('');
-//     const output = ref('');
-//     const sample_input = ref('');
-//     const sample_output = ref('');
-//     const hint = ref('');
+// 获取本地存储中的问题信息，并进行空值检查
+const problemInfoString = localStorage.getItem('aiProblemInfo');
+// 定义响应式变量
+const title = ref('');
+const description = ref('');
+const input = ref('');
+const output = ref('');
+const sample_input = ref('');
+const sample_output = ref('');
+const hint = ref('');
+if (problemInfoString) {
+  try {
+    req.value = JSON.parse(problemInfoString);
+   
+    // 检查 req.value 是否包含 title 和 description 字段
+    if (req.value) {
+      console.log('req有值', req.value);
+      console.log('获取问题题目信息成功', req.value?.title);
+      title.value = req.value.title;
+      description.value = req.value.description;
+    } else {
+      console.warn('问题信息中缺少 title 或 description 字段');
+    }
+  } catch (error) {
+    console.error('解析问题信息失败:', error);
+  }
+}
 
-//     onMounted(async () => {
-//       try {
-//         const response = await problemInfoApi();
-//         const data = response.data;
-//         title = data.title;
-//         title.value = data.title; // 假设后端返回的 Title 对应背景信息
-//         description.value = data.description;
-//         input.value = data.input;
-//         output.value = data.output;
-//         sample_input.value = data.sample_input;
-//         sample_output.value = data.sample_output;
-//         hint.value = data.hint;
-//       } catch (error) {
-//         console.error('获取题目信息失败:', error);
-//       }
-//     });
 
-//     return {
-//       title,
-//       description,
-//       input,
-//       output,
-//       sample_input,
-//       sample_output,
-//       hint,
-//       handleSolve,
-//     };
-//   },
-//   methods: {
-//     handleSolve() {
-//       router.push({
-//         path: '/writeCode',
-//         query: {
-//           title: title.value,
-//           description: description.value,
-//           input: input.value,
-//           output: output.value,
-//           sample_input: sample_input.value,
-//           sample_output: sample_output.value,
-//           hint: hint.value,
-//         },
-//       });
-//     },
-//   },
-// };
-  
+
+
+// 初始化响应式变量
+onMounted(async () => {
+  if (req.value) {
+    console.log('进入onmounted', req.value);
+    title.value = req.value.title;
+    description.value = req.value.description;
+    input.value = req.value.input;
+    output.value = req.value.output;
+    sample_input.value = req.value.sample_input;
+    sample_output.value = req.value.sample_output;
+    hint.value = req.value.hint;
+  } else {
+    console.log('进入else', req.value);
+  }
+  await nextTick(); // 确保 DOM 更新
+});
+
+  // 保存修改的方法
+const saveChanges = () => {
+  if (req.value) {
+    req.value.title = title.value;
+    req.value.description = description.value;
+    req.value.input = input.value;
+    req.value.output = output.value;
+    req.value.sample_input = sample_input.value;
+    req.value.sample_output = sample_output.value;
+    req.value.hint = hint.value;
+    localStorage.setItem('problemInfo', JSON.stringify(req.value));
+    console.log('修改已保存', req.value);
+  }
+};
   </script>
   
   <style scoped>

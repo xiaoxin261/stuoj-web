@@ -18,6 +18,7 @@ export interface CodeSubmit {
 }
 
 export interface ProblemSubmit {
+    title:string;
     description:string;
     tags:number[];
 }
