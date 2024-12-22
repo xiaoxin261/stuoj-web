@@ -37,77 +37,80 @@
      </div >
  <el-button class = "solve-button" type="primary" @click="handleSolve" link>尝试解题</el-Button>
     </div>
+    <el-button class="solve-button" type="primary" @click="handleSolve" link>尝试解题</el-button>
+    <el-button class="save-button" type="primary" @click="saveChanges">保存修改</el-button>
+  </div>
+  <div>
+    <ProblemTagSelect v-model="tags" ref="problemTagSelectRef" />
+  </div>
+</template>
 
-  <!-- </div>
-      <el-button type="primary" @click="submitForm">确定</el-button>
-    </div> -->
-  </template>
-  
-  <script >
+<script lang="ts">
+import { ref } from 'vue';
 import router from '@/router';
 import { ElButton, ElContainer } from 'element-plus';
-import {problemInfoApi} from '@/apis/aiProcess';
-import { ref } from 'vue';
-import { onMounted } from 'vue';
+import { problemInfoApi } from '@/apis/aiProcessApis';
+import type { ProblemInfo } from '@/types/Problem';
+import { useRoute } from 'vue-router';
 
-// export default {
-//   name: 'ProblemStatement',
-//   setup() {
-//     const title = ref('');
-//     const description = ref('');
-//     const input = ref('');
-//     const output = ref('');
-//     const sample_input = ref('');
-//     const sample_output = ref('');
-//     const hint = ref('');
+export default {
+  setup() {
+    const tags= ref<number[]>([]);
+    const route = useRoute();
+    const title = ref<string>(String(route.query.title || '无'));
+    const description = ref<string>(String(route.query.description || '无'));
+    const input = ref<string>(String(route.query.input || '无'));
+    const output = ref<string>(String(route.query.output || '无'));
+    const sample_input = ref<string>(String(route.query.sample_input || '无'));
+    const sample_output = ref<string>(String(route.query.sample_output || '无'));
+    const hint = ref<string>(String(route.query.hint || '无'));
 
-//     onMounted(async () => {
-//       try {
-//         const response = await problemInfoApi();
-//         const data = response.data;
-//         title = data.title;
-//         title.value = data.title; // 假设后端返回的 Title 对应背景信息
-//         description.value = data.description;
-//         input.value = data.input;
-//         output.value = data.output;
-//         sample_input.value = data.sample_input;
-//         sample_output.value = data.sample_output;
-//         hint.value = data.hint;
-//       } catch (error) {
-//         console.error('获取题目信息失败:', error);
-//       }
-//     });
+    // 定义 saveChanges 方法
+    const saveChanges = () => {
+      console.log('保存修改');
+      // 将数据存储到本地
+      localStorage.setItem('problemInfo', JSON.stringify({
+        title: title.value,
+        description: description.value,
+        input: input.value,
+        output: output.value,
+        sample_input: sample_input.value,
+        sample_output: sample_output.value,
+        hint: hint.value,
+      }));
+      console.log('修改已保存', {
+        title: title.value,
+        description: description.value,
+        input: input.value,
+        output: output.value,
+        sample_input: sample_input.value,
+        sample_output: sample_output.value,
+        hint: hint.value,
+        tags: tags.value,
+      });
+    };
 
-//     return {
-//       title,
-//       description,
-//       input,
-//       output,
-//       sample_input,
-//       sample_output,
-//       hint,
-//       handleSolve,
-//     };
-//   },
-//   methods: {
-//     handleSolve() {
-//       router.push({
-//         path: '/writeCode',
-//         query: {
-//           title: title.value,
-//           description: description.value,
-//           input: input.value,
-//           output: output.value,
-//           sample_input: sample_input.value,
-//           sample_output: sample_output.value,
-//           hint: hint.value,
-//         },
-//       });
-//     },
-//   },
-// };
-  
-  </script>
+    // 定义 handleSolve 方法
+    const handleSolve = () => {
+      console.log('尝试解题');
+      // 这里可以添加尝试解题的逻辑，例如跳转到解题页面或调用 API
+    };
+
+    return {
+      title,
+      description,
+      input,
+      output,
+      sample_input,
+      sample_output,
+      hint,
+      tags,
+      saveChanges, // 返回 saveChanges 方法
+      handleSolve, // 返回 handleSolve 方法
+    };
+  },
+};
+</script>
   
   <style scoped>
 
