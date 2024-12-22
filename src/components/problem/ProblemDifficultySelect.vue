@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { ref, defineProps, defineEmits } from 'vue';
-import { Difficulty,DifficultyMap } from '@/types/Problem';
+import { Difficulty, DifficultyMap } from '@/types/Problem';
 const props = defineProps({
     modelValue: {
         type: [Number, String],
@@ -14,36 +14,16 @@ const props = defineProps({
     },
 });
 
-const options = [
-    {
-        value: Difficulty.unknown,
-        label: DifficultyMap[Difficulty.unknown],
-    },
-    {
-        value: Difficulty.easy,
-        label: DifficultyMap[Difficulty.easy],
-    },
-    {
-        value: Difficulty.medium,
-        label: DifficultyMap[Difficulty.medium],
-    },
-    {
-        value: Difficulty.hard,
-        label: DifficultyMap[Difficulty.hard],
-    },
-    {
-        value: Difficulty.expert,
-        label: DifficultyMap[Difficulty.expert],
-    },
-    {
-        value: Difficulty.legend,
-        label: DifficultyMap[Difficulty.legend],
-    },
-    {
-        value: Difficulty.master,
-        label: DifficultyMap[Difficulty.master],
-    }
-]
+const generateOptions = (): { value: number; label: string }[] => {
+    return Object.entries(DifficultyMap).map(([key, value]) => {
+        return {
+            value: parseInt(key),
+            label: value,
+        };
+    });
+};
+
+const options = generateOptions();
 
 // 初始化selectedValue为props中的modelValue
 const selectedValue = ref(props.modelValue);

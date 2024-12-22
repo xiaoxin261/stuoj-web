@@ -137,20 +137,20 @@ export const ProblemStatusMap = {
 
 export enum Difficulty{
     unknown = 0,
-    easy = 1,
-    medium = 2,
-    hard = 3,
-    expert = 4,
-    master = 5,
-    legend = 6,
+    E = 1,
+    D = 2,
+    C = 3,
+    B = 4,
+    A = 5,
+    S = 6,
 }
 
 export const DifficultyMap = {
     [Difficulty.unknown]: "暂无评定",
-    [Difficulty.easy]: "普及−",
-    [Difficulty.medium]: "普及/提高−",
-    [Difficulty.hard]: "普及+/提高",
-    [Difficulty.expert]: "提高+/省选−",
-    [Difficulty.master]: "省选/NOI",
-    [Difficulty.legend]: "NOI/NOI+/CTSC",
+    [Difficulty.E]: "E级（入门）",
+    [Difficulty.D]: "D级（简单）",
+    [Difficulty.C]: "C级（中等）",
+    [Difficulty.B]: "B级（较难）",
+    [Difficulty.A]: "A级（困难）",
+    [Difficulty.S]: "S级（超级困难）",
 }
