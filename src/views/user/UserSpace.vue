@@ -3,13 +3,34 @@
         <ElContainer class="background">
             <ElRow :gutter="20" style="width: 100%; height: 30%;">
                 <ElCol :span="2" class="avatar-container">
-                    <Avatar :size="100" :src="info?.avatar" />
+                    <Avatar class="avatar" :size="100" :src="info?.avatar" />
                 </ElCol>
                 <ElCol :span="3">
-                    <div style="font-size: 40px; text-align: left;">{{ info?.username }}</div>
+                    <div class="username">{{ info?.username }}</div>
+                    <div class="signature">{{ signature }}}</div>
                 </ElCol>
             </ElRow>
         </ElContainer>
+        <ElRow>
+            <ElCol :span="18">
+                <ElCard class="card" shadow="always">
+                    <div class="user-info">
+                        <div class="info-item">
+                            <span class="info-label">邮箱：</span>
+                            <span class="info-value">{{ info?.email }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">角色：</span>
+                            <span class="info-value">{{ info ? RoleMap[info?.role] : '未知' }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">创建时间：</span>
+                            <span class="info-value">{{ info?.create_time }}</span>
+                        </div>
+                    </div>
+                </ElCard>
+            </ElCol>
+        </ElRow>
     </div>
 </template>
 
@@ -18,7 +39,7 @@ import { onBeforeMount, ref, watchEffect } from "vue";
 import { useRouteParams } from "@vueuse/router";
 import { userStore } from "@/stores/user";
 import { GetUserInfo } from "@/apis/user";
-import type { BaseUserInfo } from "@/types/User";
+import { type BaseUserInfo, RoleMap } from "@/types/User";
 
 const { info: info_, id } = userStore();
 const { execute } = GetUserInfo();
@@ -27,6 +48,7 @@ let info = ref<BaseUserInfo>();
 
 const userId = useRouteParams<number>("id");
 
+const signature = ref<string>();
 const updateInfo = async () => {
     const userIdNum = Number(userId.value);
     if (userIdNum === id.value) {
@@ -39,6 +61,7 @@ const updateInfo = async () => {
             info.value = state.value;
         }
     }
+    signature.value = info.value?.signature;
     document.title = `${info.value?.username}的个人空间`;
 };
 
@@ -52,21 +75,64 @@ onBeforeMount(async () => {
 
 </script>
 
-<style>
+<style scoped>
 .space-div {
-    display: flex;
     justify-content: center;
     width: 100%;
-    height: 100%;
+    height: 100vh;
+    flex-direction: column;
+}
+
+.avatar {
+    margin-top: 12px;
 }
 
 .background {
     display: flex;
     background-color: #EEE;
     margin-top: 5vh;
-    height: 35%;
+    height: 250px;
     align-items: flex-end;
-    /* 将子元素对齐到容器底部 */
     justify-content: flex-end;
+}
+
+.username {
+    font-size: 40px;
+    margin-top: 15px;
+    margin-left: 15px;
+    text-align: left;
+}
+
+.signature {
+    font-size: 26px;
+    margin-left: 15px;
+    text-align: left;
+}
+
+.card {
+    margin-top: 50px;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.info-label {
+    font-weight: bold;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.info-value {
+    color: #333;
+    font-size: 18px;
 }
 </style>
