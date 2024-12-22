@@ -3,7 +3,7 @@
         <ElContainer class="background">
             <ElRow :gutter="20" style="width: 100%; height: 30%;">
                 <ElCol :span="2" class="avatar-container">
-                        <Avatar :size="100" :src="info?.avatar" />
+                    <Avatar :size="100" :src="info?.avatar" />
                 </ElCol>
                 <ElCol :span="3">
                     <div style="font-size: 40px; text-align: left;">{{ info?.username }}</div>
@@ -25,18 +25,16 @@ const { execute } = GetUserInfo();
 
 let info = ref<BaseUserInfo>();
 
-const userId = useRouteParams<string>("id");
+const userId = useRouteParams<number>("id");
 
 const updateInfo = async () => {
     const userIdNum = Number(userId.value);
     if (userIdNum === id.value) {
         info = info_;
     } else {
-        const state = await execute(
-            {
-                url: `/${userId.value}`
-            }
-        );
+        const state = await execute({
+            id: userId.value,
+        });
         if (state.value?.code === 1) {
             info.value = state.value?.data as BaseUserInfo;
         }
