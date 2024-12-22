@@ -5,29 +5,29 @@
                 <div class="problem-title">
                     <h1>{{ problemInfo.id }} {{ problemInfo.title }}</h1>
                 </div>
-                <div class="problem-content">
+                <div class="problem-content custom-font-size">
                     <h3 class="weight">描述</h3>
                     <div v-html="renderMarkAndLaTeX(problemInfo.description || '')"></div>
                 </div>
-                <div class="problem-input">
+                <div class="problem-input custom-font-size">
                     <h3 class="weight">输入格式</h3>
                     <div v-html="renderMarkAndLaTeX(problemInfo.input || '')"></div>
                 </div>
-                <div class="problem-output">
+                <div class="problem-output custom-font-size">
                     <h3 class="weight">输出格式</h3>
                     <div v-html="renderMarkAndLaTeX(problemInfo.output || '')"></div>
                 </div>
-                <div class="problem-sample">
+                <div class="problem-sample custom-font-size">
                     <h3 class="weight">输入样例</h3>
                     <div class="problem-sample-input sample-box">
                         {{ problemInfo.sample_input }}
                     </div>
                     <h3 class="weight">输出样例</h3>
-                    <div class="problem-sample-output sample-box">
+                    <div class="problem-sample-output sample-box custom-font-size">
                         {{ problemInfo.sample_output }}
                     </div>
                 </div>
-                <div class="problem-hint">
+                <div class="problem-hint custom-font-size">
                     <h3 class="weight">提示</h3>
                     <div v-html="renderMarkAndLaTeX(problemInfo.hint || '')"></div>
                 </div>
@@ -36,25 +36,25 @@
         </ElCol>
         <ElCol :span="6">
             <ElCard shadow="always">
-                <div class="problem-info">
+                <div class="problem-info custom-font-size">
                     <div class="problem-info-item">
-                        <h4>难度</h4>
+                        <h4 class="weight">难度</h4>
                         <span>{{ DifficultyMap[problemInfo.difficulty] }}</span>
                     </div>
-                    <div class="problem-info-item">
-                        <h4>时间限制</h4>
+                    <div class="problem-info-item custom-font-size">
+                        <h4 class="weight">时间限制</h4>
                         <span>{{ problemInfo.time_limit }} s</span>
                     </div>
-                    <div class="problem-info-item">
-                        <h4>内存限制</h4>
+                    <div class="problem-info-item custom-font-size">
+                        <h4 class="weight">内存限制</h4>
                         <span>{{ problemInfo.memory_limit / 1024 }} MB</span>
                     </div>
                 </div>
             </ElCard>
             <ElCard shadow="always" style="margin-top: 20px;">
-                <div class="problem-info">
+                <div class="problem-info custom-font-size">
                     <div class="problem-info-item">
-                        <h4>来源</h4>
+                        <h4 class="weight">来源</h4>
                         <span>{{ problemInfo.source }}</span>
                     </div>
                 </div>
@@ -135,5 +135,8 @@ onMounted(async () => {
     /* 背景颜色 */
     margin-bottom: 20px;
     /* 底部外边距 */
+}
+.custom-font-size {
+    font-size: 17px;
 }
 </style>
