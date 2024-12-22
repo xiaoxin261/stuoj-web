@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { RegisterApi } from '@/apis/auth';
 import type { RegisterReq } from '@/types/User';
 import { ElNotification, type FormItemProps } from 'element-plus';
@@ -47,5 +47,9 @@ const handleLogin = async () => {
         router.push('/login')
     }
 };
+
+onMounted(() => {
+  document.title = '注册 - STUOJ';
+});
 
 </script>

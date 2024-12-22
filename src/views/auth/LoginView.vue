@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { LoginApi } from '@/apis/auth';
 import type { LoginReq } from '@/types/User';
 import { userStore } from '@/stores/user'
@@ -52,5 +52,9 @@ const handleLogin = async () => {
 const handleRegister_ = () => {
     router.push({ path: '/register' });
 };
+
+onMounted(() => {
+  document.title = '登录 - STUOJ';
+});
 
 </script>

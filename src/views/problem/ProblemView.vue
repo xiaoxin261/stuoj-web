@@ -96,6 +96,7 @@ onMounted(async () => {
             }
         }
     }
+    document.title = `${problemInfo.value.title} - STUOJ`;
 });
 
 
