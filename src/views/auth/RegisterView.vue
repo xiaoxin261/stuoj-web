@@ -24,7 +24,7 @@ import { onMounted, ref } from 'vue';
 import { RegisterApi } from '@/apis/auth';
 import type { RegisterReq } from '@/types/User';
 import { ElNotification, type FormItemProps } from 'element-plus';
-import  router  from '@/router';
+import router from '@/router';
 
 const req = ref<RegisterReq>({ username: '', email: '', password: '' });
 const itemLabelPosition = ref<FormItemProps['labelPosition']>('right')
@@ -37,19 +37,18 @@ const handleLogin = async () => {
             email: req.value.email,
             password: req.value.password
         }
-    })
-    if (state.value) {
+    }).then(() => {
         ElNotification({
             title: '成功',
             message: '注册成功',
             type: 'success',
         });
         router.push('/login')
-    }
+    });
 };
 
 onMounted(() => {
-  document.title = '注册 - STUOJ';
+    document.title = '注册 - STUOJ';
 });
 
 </script>

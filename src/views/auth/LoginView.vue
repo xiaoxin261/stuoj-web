@@ -38,7 +38,7 @@ const handleLogin = async () => {
         }
     })
     if (state.value) {
-        updateToken(state.value.data as string);
+        updateToken(state.value);
         ElNotification({
             title: "登录成功",
             type: "success"

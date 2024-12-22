@@ -23,8 +23,8 @@ const selectedValue = ref(props.modelValue);
 
 onMounted(async () => {
     await execute();
-    if (state.value?.code === 1) {
-        options.value = state.value.data as Language[];
+    if (state.value) {
+        options.value = state.value;
     }
 });
 const emit = defineEmits(['update:modelValue']);

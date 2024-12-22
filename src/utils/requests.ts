@@ -51,20 +51,21 @@ const _req = async <T>(config: AxiosRequestConfig): Promise<ApiResponse<T> | und
 };
 
 export const request = <T>(config: AxiosRequestConfig) => {
-  return useAsyncState<ApiResponse<T> | undefined, AxiosRequestConfig2[]>(
+  return useAsyncState<T | undefined, AxiosRequestConfig2[]>(
     async (config2) => {
       if (config2 && config2.id) {
         config2.url = config.url + "/" + config2.id;
       }
       config2 = Object.assign({}, config, config2);
       const result = await _req<T>(config2);
-      return result as ApiResponse<T>;
+      console.log("res:" + result);
+      return result?.data as T;
     },
     undefined,
     {
       immediate: false,
       shallow: false as any,
-      throwError: false,
+      throwError: true,
       resetOnExecute: false,
       onError: (e: any) => {
         console.error(e);

@@ -85,18 +85,11 @@ const handleDebug = async () => {
             stdin: debug_input.value,
         }
     });
-    if (testState.value?.code === 1) {
-        const res = testState.value?.data as {
-            memory: number;
-            status: number;
-            stdout: string;
-            time: number;
-            [property: string]: any;
-        };
-        debug_output.value = res.stdout;
-        memory.value = res.memory;
-        time.value = res.time;
-        state.value = res.status;
+    if (testState.value) {
+        debug_output.value = testState.value.stdout;
+        memory.value = testState.value.memory;
+        time.value = testState.value.time;
+        state.value = testState.value.status;
     }
 
 };
@@ -124,9 +117,8 @@ const handleSubmit = async () => {
                 problem_id: problem_id,
             }
         });
-    if (submitState.value?.code === 1) {
-        const res = submitState.value?.data as number;
-        judge_id.value = res;
+    if (submitState.value) {
+        judge_id.value = submitState.value;
     }
 };
 </script>

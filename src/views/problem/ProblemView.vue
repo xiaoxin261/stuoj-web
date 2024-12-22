@@ -83,18 +83,8 @@ onMounted(async () => {
     await execute({
         id: problemId.value,
     });
-    if (state.value?.code === 1) {
-        if (state.value.data) {
-            const data = state.value as unknown as ApiResponse<{
-                problem: ProblemInfo
-                tags: Tag[]
-                solutions?: Solution[]
-            }>;
-            console.log(data.data);
-            if (typeof data.data === 'object' && data.data !== null && 'problem' in data.data) {
-                problemInfo.value = data.data.problem as ProblemInfo;
-            }
-        }
+    if (state.value) {
+        problemInfo.value = state.value.problem;
     }
     document.title = `${problemInfo.value.title} - STUOJ`;
 });
@@ -137,6 +127,7 @@ onMounted(async () => {
     margin-bottom: 20px;
     /* 底部外边距 */
 }
+
 .custom-font-size {
     font-size: 17px;
 }

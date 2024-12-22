@@ -9,7 +9,7 @@
                 <ElContainer direction="vertical">
                     <div class="UserNameText">{{ info?.username }}</div>
                     <ElContainer style="justify-content: center;">
-                        <ToUserSettingButton v-if="info_.avatar>=2 || id===userId" />
+                        <ToUserSettingButton v-if="info_.avatar >= 2 || id === userId" />
                         <el-divider direction="vertical" style="height: 30px;" />
                         <LogoutButton v-if="id == userId" />
                     </ElContainer>
@@ -26,7 +26,7 @@ import { GetUserInfo } from '@/apis/user';
 import type { BaseUserInfo } from '@/types/User';
 import router from '@/router';
 
-const { id, isLogin, info:info_ } = userStore();
+const { id, isLogin, info: info_ } = userStore();
 
 const props = withDefaults(defineProps<{
     userId?: number;
@@ -35,7 +35,7 @@ const props = withDefaults(defineProps<{
 });
 
 let info = ref<BaseUserInfo>(
-    
+
 );
 let userId = ref(0);
 
@@ -54,12 +54,10 @@ const updateInfo = async () => {
     } else {
         const { state, execute } = GetUserInfo();
         await execute({
-            data: {
-                url: `/${userId.value}`,
-            }
+            id: userId.value,
         });
-        if (state.value?.code === 1) {
-            info.value = state.value?.data as BaseUserInfo;
+        if (state.value) {
+            info.value = state.value;
         }
     }
 };
@@ -67,7 +65,7 @@ const updateInfo = async () => {
 const handelClick = () => {
     if (!isLogin.value) {
         router.push('/login');
-    }else{
+    } else {
         router.push(`/user/${userId.value}`);
     }
 }
@@ -75,8 +73,8 @@ const handelClick = () => {
 </script>
 
 <style>
-.UserNameText{
-    display:flex;
+.UserNameText {
+    display: flex;
     justify-content: center;
     font-size: 25px;
     color: #303133;

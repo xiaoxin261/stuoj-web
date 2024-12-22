@@ -1,4 +1,4 @@
-import { computed, ref, watchEffect} from "vue";
+import { computed, ref, watchEffect } from "vue";
 import { ROLE, type BaseUserInfo } from "@/types/User";
 import { GetUserInfo, GetId } from "@/apis/user";
 import { createGlobalState, useStorage } from "@vueuse/core";
@@ -29,7 +29,7 @@ export const userStore = createGlobalState(() => {
   });
 
   const getId = async () => {
-    if(!isLogin.value)
+    if (!isLogin.value)
       return;
     const state = await getIdExecute(
       {
@@ -39,13 +39,13 @@ export const userStore = createGlobalState(() => {
       }
     )
     if (state.value) {
-      id.value = state.value.data as number;
+      id.value = state.value;
     }
   };
 
 
   const getUserInfo = async (userInfo?: BaseUserInfo) => {
-    if(!isLogin.value)
+    if (!isLogin.value)
       return;
     if (userInfo) {
       info.value = userInfo;
@@ -63,7 +63,7 @@ export const userStore = createGlobalState(() => {
         id: id.value
       });
       if (state.value) {
-        info.value = state.value.data as BaseUserInfo;
+        info.value = state.value;
       }
     };
   };

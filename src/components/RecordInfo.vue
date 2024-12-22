@@ -103,13 +103,9 @@ const fetchData = async () => {
         },
         id: props.id
     });
-    if (state.value?.code === 1) {
-        const res = state.value?.data as {
-            submission: Submission,
-            judgements: Judgement[]
-        };
-        judge_result = res.judgements;
-        result = res.submission;
+    if (state.value) {
+        judge_result = state.value.judgements;
+        result = state.value.submission;
         show.value = true;
     }
 };

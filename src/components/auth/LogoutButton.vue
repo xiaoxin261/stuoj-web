@@ -3,11 +3,11 @@
 </template>
 
 <script setup lang="ts">
-import {SwitchButton} from "@element-plus/icons-vue";
-import {ElNotification} from "element-plus";
+import { SwitchButton } from "@element-plus/icons-vue";
+import { ElNotification } from "element-plus";
 import { userStore } from "@/stores/user";
 
-const {clearToken} = userStore();
+const { clearToken } = userStore();
 
 const handelLogout = () => {
     clearToken();
