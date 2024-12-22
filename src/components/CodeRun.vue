@@ -24,7 +24,7 @@
                     </div>
                 </div>
                 <div v-else>
-                    <RecordInfo v-bind:id="judge_id" />
+                    <RecordInfo v-bind:id="judge_id" ref="recordInfoRef" />
                 </div>
             </ElMain>
         </ElContainer>
@@ -36,6 +36,7 @@ import { ref, watch } from 'vue';
 import { userStore } from '@/stores/user';
 import { TestRun } from '@/apis/judge';
 import { Submit } from '@/apis/judge';
+import RecordInfo from '@/components/RecordInfo.vue';
 
 const { execute: testExcute, state: testState } = TestRun();
 const { execute: submitExcute, state: submitState } = Submit();
@@ -65,6 +66,7 @@ const time = ref(0);
 const memory = ref(0);
 const state = ref(0);
 const judge_id = ref(0);
+const recordInfoRef = ref<InstanceType<typeof RecordInfo> | null>(null); // 显式声明类型
 
 const emit = defineEmits(['update:modelValue']);
 
@@ -75,6 +77,9 @@ watch(() => code_text, (newValue) => {
 const handleDebug = async () => {
     debugFlag.value = true;
     resultFlag.value = true;
+    if (recordInfoRef.value) {
+        recordInfoRef.value.clear(); // 清空子组件内容
+    }
     await testExcute({
         headers: {
             Authorization: `Bearer ${token.value}`
@@ -91,13 +96,16 @@ const handleDebug = async () => {
         time.value = testState.value.time;
         state.value = testState.value.status;
     }
-
 };
 
 const handleSubmit = async () => {
     debugFlag.value = false;
     resultFlag.value = true;
+    if (recordInfoRef.value) {
+        recordInfoRef.value.clear(); // 清空子组件内容
+    }
     let problem_id: number | undefined;
+
     if (typeof props.problem === 'string') {
         const match = props.problem.match(/\d+/);
         if (match) {
