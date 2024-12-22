@@ -42,7 +42,7 @@
   // 响应式数据
   const req = ref<ProblemSubmit>({title:'',description:'',tags:[]});
   const aiProblemInfo = ref<ProblemInfo | null>(null);;
-  const {execute:submitInfo, state:getProblemInfo} = aiProcessApi();
+  const {execute:submitInfo, state:curProblemInfo} = aiProcessApi();
   const {execute:submitProblem, state:getProblemid} = uploadProblemApi();
   const { token } = userStore();
   // 提交表单的方法
@@ -61,8 +61,8 @@
       tags:req.value.tags
   }
   });
-  console.log('返回题目信息',getProblemInfo);
-  aiProblemInfo.value = getProblemInfo.value?.data as ProblemInfo;
+  console.log('返回题目信息',curProblemInfo);
+  aiProblemInfo.value = curProblemInfo.value?.data as ProblemInfo;
  console.log('题目信息和des',aiProblemInfo.value.title,aiProblemInfo.value?.description);
 
   router.push({path:'/problemdisplay'});
