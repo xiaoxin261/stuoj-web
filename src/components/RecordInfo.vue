@@ -96,6 +96,7 @@ const props = withDefaults(defineProps<{
 });
 
 const fetchData = async () => {
+    clear(); // 清空子组件内容
     if (props.id === 0) return;
     await execute({
         headers: {
@@ -109,6 +110,16 @@ const fetchData = async () => {
         show.value = true;
     }
 };
+
+const clear = () => {
+    show.value = false;
+    judge_result = [];
+    result = {} as Judgement;
+};
+
+defineExpose({
+    clear
+});
 
 // 在组件挂载时首次获取数据
 fetchData();
