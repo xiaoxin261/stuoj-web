@@ -40,7 +40,6 @@ import RecordInfo from '@/components/RecordInfo.vue';
 
 const { execute: testExcute, state: testState } = TestRun();
 const { execute: submitExcute, state: submitState } = Submit();
-
 const { token } = userStore();
 
 const props = withDefaults(defineProps<{

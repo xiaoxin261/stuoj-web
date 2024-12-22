@@ -13,7 +13,7 @@ export interface ProblemInfo {
     status: ProblemStatus;
     time_limit: number;
     title: string;
-    update_time: string;
+    update_time?: string;
     [property: string]: any;
 }
 

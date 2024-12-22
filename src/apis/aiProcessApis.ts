@@ -4,16 +4,17 @@ import type {  ProblemInfo } from "src/types/Problem";
 export const aiProcessApi = useDefineApi<
     {
         data: {
+            title: string;
             //算法情景
-            scenario: string;
+            description: string;
             //算法标签id
             tags: number[];
             
         };
     },
-    string
+    ProblemInfo
 >({
-    url: "/problem/info",//交互的后端https
+    url: "/admin/problem/generate",//交互的后端https
     method: "POST"
 });
 
