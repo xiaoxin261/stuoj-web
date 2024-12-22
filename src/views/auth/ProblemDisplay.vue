@@ -38,83 +38,77 @@
     <el-button class="solve-button" type="primary" @click="handleSolve" link>尝试解题</el-button>
     <el-button class="save-button" type="primary" @click="saveChanges">保存修改</el-button>
   </div>
+  <div>
+    <ProblemTagSelect v-model="tags" ref="problemTagSelectRef" />
+  </div>
 </template>
 
-  
-  <script lang="ts" >
-  import { nextTick } from 'vue';
+<script lang="ts">
+import { ref } from 'vue';
 import router from '@/router';
 import { ElButton, ElContainer } from 'element-plus';
-import {problemInfoApi} from '@/apis/aiProcessApis';
-import { ref } from 'vue';
-import { onMounted } from 'vue';
+import { problemInfoApi } from '@/apis/aiProcessApis';
 import type { ProblemInfo } from '@/types/Problem';
-// 初始化 req 为一个响应式引用，并指定类型为 ProblemInfo | null
-const req = ref<ProblemInfo | null>(null);
+import { useRoute } from 'vue-router';
 
-// 获取本地存储中的问题信息，并进行空值检查
-const problemInfoString = localStorage.getItem('aiProblemInfo');
-// 定义响应式变量
-const title = ref('');
-const description = ref('');
-const input = ref('');
-const output = ref('');
-const sample_input = ref('');
-const sample_output = ref('');
-const hint = ref('');
-if (problemInfoString) {
-  try {
-    req.value = JSON.parse(problemInfoString);
-   
-    // 检查 req.value 是否包含 title 和 description 字段
-    if (req.value) {
-      console.log('req有值', req.value);
-      console.log('获取问题题目信息成功', req.value?.title);
-      title.value = req.value.title;
-      description.value = req.value.description;
-    } else {
-      console.warn('问题信息中缺少 title 或 description 字段');
-    }
-  } catch (error) {
-    console.error('解析问题信息失败:', error);
-  }
-}
+export default {
+  setup() {
+    const tags= ref<number[]>([]);
+    const route = useRoute();
+    const title = ref<string>(String(route.query.title || '无'));
+    const description = ref<string>(String(route.query.description || '无'));
+    const input = ref<string>(String(route.query.input || '无'));
+    const output = ref<string>(String(route.query.output || '无'));
+    const sample_input = ref<string>(String(route.query.sample_input || '无'));
+    const sample_output = ref<string>(String(route.query.sample_output || '无'));
+    const hint = ref<string>(String(route.query.hint || '无'));
 
+    // 定义 saveChanges 方法
+    const saveChanges = () => {
+      console.log('保存修改');
+      // 将数据存储到本地
+      localStorage.setItem('problemInfo', JSON.stringify({
+        title: title.value,
+        description: description.value,
+        input: input.value,
+        output: output.value,
+        sample_input: sample_input.value,
+        sample_output: sample_output.value,
+        hint: hint.value,
+      }));
+      console.log('修改已保存', {
+        title: title.value,
+        description: description.value,
+        input: input.value,
+        output: output.value,
+        sample_input: sample_input.value,
+        sample_output: sample_output.value,
+        hint: hint.value,
+        tags: tags.value,
+      });
+    };
 
+    // 定义 handleSolve 方法
+    const handleSolve = () => {
+      console.log('尝试解题');
+      // 这里可以添加尝试解题的逻辑，例如跳转到解题页面或调用 API
+    };
 
-
-// 初始化响应式变量
-onMounted(async () => {
-  if (req.value) {
-    console.log('进入onmounted', req.value);
-    title.value = req.value.title;
-    description.value = req.value.description;
-    input.value = req.value.input;
-    output.value = req.value.output;
-    sample_input.value = req.value.sample_input;
-    sample_output.value = req.value.sample_output;
-    hint.value = req.value.hint;
-  } else {
-    console.log('进入else', req.value);
-  }
-  await nextTick(); // 确保 DOM 更新
-});
-
-  // 保存修改的方法
-const saveChanges = () => {
-  if (req.value) {
-    req.value.title = title.value;
-    req.value.description = description.value;
-    req.value.input = input.value;
-    req.value.output = output.value;
-    req.value.sample_input = sample_input.value;
-    req.value.sample_output = sample_output.value;
-    req.value.hint = hint.value;
-    localStorage.setItem('problemInfo', JSON.stringify(req.value));
-    console.log('修改已保存', req.value);
-  }
+    return {
+      title,
+      description,
+      input,
+      output,
+      sample_input,
+      sample_output,
+      hint,
+      tags,
+      saveChanges, // 返回 saveChanges 方法
+      handleSolve, // 返回 handleSolve 方法
+    };
+  },
 };
-  </script>
+</script>
   
   <style scoped>
 
