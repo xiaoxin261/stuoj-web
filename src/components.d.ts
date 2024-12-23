@@ -15,6 +15,7 @@ declare module 'vue' {
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
+    ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElCheckTag: typeof import('element-plus/es')['ElCheckTag']
     ElCol: typeof import('element-plus/es')['ElCol']
     ElContainer: typeof import('element-plus/es')['ElContainer']
@@ -41,7 +42,6 @@ declare module 'vue' {
     LanguageSelect: typeof import('./components/LanguageSelect.vue')['default']
     LogoutButton: typeof import('./components/auth/LogoutButton.vue')['default']
     ProblemDifficultySelect: typeof import('./components/problem/ProblemDifficultySelect.vue')['default']
-    ProblemInfoEdit: typeof import('./components/problem/ProblemInfoEdit.vue')['default']
     ProblemList: typeof import('./components/problem/ProblemList.vue')['default']
     ProblemListItem: typeof import('./components/problem/ProblemListItem.vue')['default']
     Problems: typeof import('./components/problem/Problems.vue')['default']
@@ -50,6 +50,7 @@ declare module 'vue' {
     RecordInfo: typeof import('./components/RecordInfo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TestTable: typeof import('./components/problem/TestTable.vue')['default']
     ToUserSettingButton: typeof import('./components/user/ToUserSettingButton.vue')['default']
   }
 }
