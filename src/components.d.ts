@@ -50,6 +50,8 @@ declare module 'vue' {
     RecordInfo: typeof import('./components/record/RecordInfo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TestcaseEdit: typeof import('./components/problem/TestcaseEdit.vue')['default']
+    TestCaseEdit: typeof import('./components/problem/TestCaseEdit.vue')['default']
     TestTable: typeof import('./components/problem/TestTable.vue')['default']
     ToUserSettingButton: typeof import('./components/user/ToUserSettingButton.vue')['default']
   }
