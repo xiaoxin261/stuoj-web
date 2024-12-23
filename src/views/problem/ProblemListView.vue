@@ -1,5 +1,5 @@
 <template>
-  <div class="padding-enable">
+  <div class="container-main">
     <el-card>
       <ElForm :model="params">
         <el-form-item label="题名" label-position="right">
