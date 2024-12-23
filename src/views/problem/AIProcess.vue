@@ -145,14 +145,6 @@ const submitForm = async () => {
   isLoading.value = true;
   stringArray.value = [taginput1.value, taginput2.value, taginput3.value];
   // 控制台输出用户填写的文本区域和选择的算法标签
-  console.log('标题:', req.value.title);
-  console.log('算法情景描述:', req.value.description);
-  console.log('输入的算法标签:', stringArray.value);
-  console.log('输入:', req.value.input);
-  console.log('输出:', req.value.output);
-  console.log('Sample_input:', req.value.Sample_input);
-  console.log('Sample_output:', req.value.Sample_output);
-  console.log('Hint:', req.value.Hint);
 
   await submitInfo({
     headers: {

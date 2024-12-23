@@ -33,6 +33,7 @@ declare module 'vue' {
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTag: typeof import('element-plus/es')['ElTag']
+    ElText: typeof import('element-plus/es')['ElText']
     HeaderNav: typeof import('./components/HeaderNav.vue')['default']
     LanguageSelect: typeof import('./components/LanguageSelect.vue')['default']
     LogoutButton: typeof import('./components/auth/LogoutButton.vue')['default']
