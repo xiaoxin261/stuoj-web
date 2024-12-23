@@ -37,15 +37,27 @@
      </div >
  <el-button class = "solve-button" type="primary" @click="handleSolve" link>尝试解题</el-Button>
     </div>
-    <el-button class="solve-button" type="primary" @click="handleSolve" link>尝试解题</el-button>
-    <el-button class="save-button" type="primary" @click="saveChanges">保存修改</el-button>
-  </div>
-  <div>
-    <ProblemTagSelect v-model="tags" ref="problemTagSelectRef" />
+
+
+
+    <!-- <el-button class="solve-button" type="primary" @click="handleSolve" link>尝试解题</el-button>
+    <el-button class="save-button" type="primary" @click="saveChanges">保存修改</el-button> -->
+    <div class="cards">
+      <div class="card red" @click="handleSolve" link>
+        尝试解题
+      </div>
+      <div class="card blue" @click="saveChanges">
+        保存修改
+      </div>
+      <div>
+        <ProblemTagSelect v-model="tags" ref="problemTagSelectRef" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
+import '@/assets/aiprocess/changeAndcomfirmButton.css';
 import { ref } from 'vue';
 import router from '@/router';
 import { ElButton, ElContainer } from 'element-plus';
