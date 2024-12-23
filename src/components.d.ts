@@ -47,6 +47,8 @@ declare module 'vue' {
     ProblemDifficultySelect: typeof import('./components/problem/ProblemDifficultySelect.vue')['default']
     ProblemList: typeof import('./components/problem/ProblemList.vue')['default']
     ProblemListItem: typeof import('./components/problem/ProblemListItem.vue')['default']
+    Problems: typeof import('./components/problem/Problems.vue')['default']
+    ProblemSelect: typeof import('./components/problem/ProblemSelect.vue')['default']
     ProblemTagSelect: typeof import('./components/problem/ProblemTagSelect.vue')['default']
     RecordInfo: typeof import('./components/RecordInfo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
