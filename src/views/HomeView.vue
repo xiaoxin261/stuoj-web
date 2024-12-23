@@ -6,6 +6,5 @@
 import { onMounted } from 'vue';
 
 onMounted(() => {
-  document.title = 'STUOJ';
 });
 </script>

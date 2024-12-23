@@ -57,7 +57,6 @@ const getList = async () => {
 
 onMounted (() => {
     getList();
-    document.title = `题库 - STUOJ`;
 });
 
 const problemTagSelectRef = ref<InstanceType<typeof ProblemTagSelect> | null>(null);

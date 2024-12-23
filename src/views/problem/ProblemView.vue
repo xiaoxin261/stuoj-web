@@ -86,7 +86,6 @@ onMounted(async () => {
     if (state.value) {
         problemInfo.value = state.value.problem;
     }
-    document.title = `${problemInfo.value.title} - STUOJ`;
 });
 
 
