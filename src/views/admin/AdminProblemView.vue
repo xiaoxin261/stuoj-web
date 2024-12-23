@@ -62,14 +62,14 @@ onMounted (() => {
           <el-table-column type="selection" :selectable="selectable" width="55" />
           <el-table-column label="编号" prop="id" width="80px" />
           <el-table-column label="标题" prop="title" width="300px" />
-          <el-table-column label="创建时间" width="100px">
+          <el-table-column label="创建时间" width="120px">
             <template #default="scope">
               <span>
                 {{ formatDateStr(scope.row.create_time) }}
               </span>
             </template>
           </el-table-column>
-          <el-table-column label="更新时间" width="100px">
+          <el-table-column label="更新时间" width="120px">
             <template #default="scope">
               <span>
                 {{ formatDateStr(scope.row.create_time) }}
@@ -100,6 +100,18 @@ onMounted (() => {
             </template>
           </el-table-column>
         </el-table>
+        <br/>
+        <el-pagination
+            v-model:current-page="params.page"
+            v-model:page-size="params.size"
+            :page-sizes="[10, 20, 50, 100]"
+            :size="'small'"
+            :background="true"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="problemPage?.total"
+            @size-change="getList"
+            @current-change="getList"
+        />
       </el-card>
     </el-main>
   </el-container>
