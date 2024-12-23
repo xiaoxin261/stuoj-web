@@ -169,9 +169,8 @@ const submitForm = async () => {
       Hint:req.value.Hint,
     }
   });
-  console.log('返回题目信息', curProblemInfo);
-  aiProblemInfo.value = curProblemInfo.value?.data as ProblemInfo;
-  console.log('题目信息和des', aiProblemInfo.value.title, aiProblemInfo.value?.description);
+  aiProblemInfo.value = curProblemInfo.value as ProblemInfo;
+  console.log(aiProblemInfo.value);
   const title = aiProblemInfo.value?.title;
   const description = aiProblemInfo.value?.description;
   const input = aiProblemInfo.value?.input;
