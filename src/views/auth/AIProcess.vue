@@ -57,7 +57,7 @@
       tags: req.value.tags
     }
   });
-  console.log('返回题目信息', curProblemInfo.value);
+  console.log('返回题目信息', curProblemInfo);
   aiProblemInfo.value = curProblemInfo.value?.data as ProblemInfo;
   console.log('题目信息和des', aiProblemInfo.value.title, aiProblemInfo.value?.description);
   const title = aiProblemInfo.value?.title;
