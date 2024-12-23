@@ -25,7 +25,6 @@ const generateOptions = (): { value: number; label: string }[] => {
 
 const options = generateOptions();
 
-// 初始化selectedValue为props中的modelValue
 const selectedValue = ref(props.modelValue);
 
 const emit = defineEmits(['update:modelValue']);
@@ -36,6 +35,7 @@ const handleSelectChange = (value: number) => {
 };
 const reset = () => {
     selectedValue.value = "";
+    emit('update:modelValue', null);
 };
 defineExpose({
     reset,

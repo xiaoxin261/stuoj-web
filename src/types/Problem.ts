@@ -121,7 +121,7 @@ export interface FpsSolution {
     [property: string]: any;
 }
 
-export enum ProblemStatus{
+export enum ProblemStatus {
     invalid = 0,
     public = 1,
     editing = 2,
@@ -135,7 +135,7 @@ export const ProblemStatusMap = {
     [ProblemStatus.eebugging]: "调试中",
 }
 
-export enum Difficulty{
+export enum Difficulty {
     unknown = 0,
     E = 1,
     D = 2,
@@ -153,4 +153,13 @@ export const DifficultyMap = {
     [Difficulty.B]: "B级（较难）",
     [Difficulty.A]: "A级（困难）",
     [Difficulty.S]: "S级（超级困难）",
+}
+
+export interface ProblemParams {
+    page: number
+    size: number
+    title?: string
+    difficulty?: number
+    tag?: string
+    status?: number
 }
