@@ -4,3 +4,15 @@ export function formatDate(date: Date): string {
     const day = date.getDate().toString().padStart(2, '0'); // 日期补0
     return `${year}-${month}-${day}`;
 }
+
+export function formatDataTimeStr(time: string) {
+    return new Date(time).toLocaleString();
+}
+
+export function formatTimeStr(time: string) {
+    return new Date(time).toLocaleTimeString();
+}
+
+export function formatDateStr(time: string) {
+    return new Date(time).toLocaleDateString();
+}

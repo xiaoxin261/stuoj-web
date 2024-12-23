@@ -1,49 +1,48 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { getProblemListApi } from '@/apis/problem';
+import {onMounted, ref} from "vue";
+import { ProblemStatusMap, DifficultyMap } from '@/types/Problem';
+import { formatDateStr } from "@/utils/date";
+import type { ProblemInfo } from '@/types/Problem';
+import type { Page } from '@/types/misc';
 
-interface User {
-  date: string
-  name: string
-  address: string
+interface Scope {
+  row: {
+    difficulty: keyof typeof DifficultyMap;
+    status: keyof typeof ProblemStatusMap;
+  };
+}
+interface ProblemParams {
+  page: number
+  size: number
 }
 
-const search = ref('')
-const filterTableData = computed(() =>
-    tableData.filter(
-        (data) =>
-            !search.value ||
-            data.name.toLowerCase().includes(search.value.toLowerCase())
-    )
-)
-const handleEdit = (index: number, row: User) => {
-  console.log(index, row)
-}
-const handleDelete = (index: number, row: User) => {
-  console.log(index, row)
+const problemPage = ref<Page<"problems", ProblemInfo>>();
+const problems = ref<ProblemInfo[]>([]);
+const { state, execute } = getProblemListApi();
+const params = ref<ProblemParams>({
+  page: 1,
+  size: 10
+});
+
+const getList = async () => {
+  await execute({
+    params: {
+      ...params.value,
+    }
+  });
+
+  if (state.value) {
+    problemPage.value = state.value;
+    problems.value = problemPage.value.problems;
+  }
 }
 
-const tableData: User[] = [
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-02',
-    name: 'John',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-04',
-    name: 'Morgan',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Jessy',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-]
+onMounted (() => {
+  getList();
+})
+
+
 </script>
 
 <template>
@@ -55,30 +54,49 @@ const tableData: User[] = [
       <h1>题目管理</h1>
       <el-divider></el-divider>
       <el-card>
-        <el-button type="primary" @click="createProblem">创建题目</el-button>
-        <el-button type="primary" @click="importProblem">导入 FPS</el-button>
-        <el-button type="primary" @click="generateProblem">AI 生成</el-button>
+        <el-button type="primary" @click="handleCreate">创建题目</el-button>
+        <el-button type="primary" @click="handleImportFps">导入 FPS</el-button>
+        <el-button type="primary" @click="handleGenerate">AI 生成</el-button>
         <el-divider></el-divider>
-        <el-table :data="filterTableData" style="width: 100%">
+        <el-table :data="problems" style="width: 100%">
           <el-table-column type="selection" :selectable="selectable" width="55" />
-          <el-table-column label="编号" prop="date" />
-          <el-table-column label="标题" prop="name" />
-          <el-table-column label="状态" prop="name" />
+          <el-table-column label="编号" prop="id" width="80px" />
+          <el-table-column label="标题" prop="title" width="300px" />
+          <el-table-column label="创建时间" width="100px">
+            <template #default="scope">
+              <span>
+                {{ formatDateStr(scope.row.create_time) }}
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column label="更新时间" width="100px">
+            <template #default="scope">
+              <span>
+                {{ formatDateStr(scope.row.create_time) }}
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column label="难度" width="100px">
+            <template #default="scope: Scope">
+              <el-tag>
+                {{ DifficultyMap[scope.row.difficulty] }}
+              </el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column label="状态" width="80px">
+            <template #default="scope: Scope">
+              <el-tag>
+                {{ ProblemStatusMap[scope.row.status] }}
+              </el-tag>
+            </template>
+          </el-table-column>
           <el-table-column align="right">
             <template #header>
-              <el-input v-model="search" size="small" placeholder="搜索" />
+              <el-input v-model="search" size="small" placeholder="题目ID" />
             </template>
             <template #default="scope">
-              <el-button size="small" @click="handleEdit(scope.$index, scope.row)">
-                编辑
-              </el-button>
-              <el-button
-                  size="small"
-                  type="danger"
-                  @click="handleDelete(scope.$index, scope.row)"
-              >
-                删除
-              </el-button>
+              <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+              <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
