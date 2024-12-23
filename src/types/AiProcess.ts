@@ -20,5 +20,12 @@ export interface CodeSubmit {
 export interface ProblemSubmit {
     title:string;
     description:string;
-    tags:number[];
+    input?:string;
+    output?:string;
+    Sample_input?:string;
+    Sample_output?:string;
+    Hint?:string;
+    Solution?:string;
+    tagsId:number[];
+    tags?:string[];
 }
