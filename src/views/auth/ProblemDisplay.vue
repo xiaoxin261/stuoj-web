@@ -57,8 +57,11 @@ import { userStore } from '@/stores/user';
 import { Difficulty, DifficultyMap } from '@/types/Problem';
 const { token } = userStore();
 const { execute: submitProblem, state: curProblemid } = uploadProblemApi();
+
 const req = ref<ProblemInfo | null>(null);
+
 console.log('这是第一次req', req);
+
 export default {
   setup() {
 
