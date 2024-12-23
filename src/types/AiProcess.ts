@@ -26,6 +26,6 @@ export interface ProblemSubmit {
     Sample_output?:string;
     Hint?:string;
     Solution?:string;
-    tagsId:number[];
-    tags?:string[];
+    //tagsId:number[];
+    Tags?:string[];
 }

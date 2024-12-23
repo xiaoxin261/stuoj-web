@@ -19,16 +19,28 @@
     <div style="display: table-row;">
       <textarea class="input"         id="input"
         v-model="req.input"
-        placeholder="请输入题目样例输入"
+        placeholder="输入格式"
         style="height: 100px;width: 200px; margin-right: 100px; margin-top: 25px;"
         ></textarea>
         <textarea class="input"         id="output"
         v-model="req.output"
-        placeholder="请输入题目样例输出"
+        placeholder="输出格式"
         style="height: 100px;width: 200px;margin-top: 25px;"
         ></textarea>
     </div>
-    <form class="form" style="margin: 50px;">
+    <div style="display: table-row;">
+      <textarea class="input"         id="sample_input"
+        v-model="req.Sample_input"
+        placeholder="请输入题目样例输入"
+        style="height: 100px;width: 200px; margin-right: 100px; margin-top: 5px;"
+        ></textarea>
+        <textarea class="input"         id="sample_output"
+        v-model="req.Sample_output"
+        placeholder="请输入题目样例输出"
+        style="height: 100px;width: 200px;margin-top: 5px;"
+        ></textarea>
+    </div>
+    <form class="form" style="margin: 15px;">
   <input placeholder="输入算法标签1" class="tagInput" type="text" v-model="taginput1">
   <input placeholder="输入算法标签2" class="tagInput" type="text" v-model="taginput2">
     <input placeholder="输入算法标签3" class="tagInput" type="text" v-model="taginput3">
@@ -104,12 +116,15 @@
     import '@/assets/aiprocess/loadingConponent.css'
     import '@/assets/aiprocess/tagInput.css'
   import { ref ,onMounted} from 'vue';
-  import { ElCheckbox, ElCheckboxGroup, ElButton } from 'element-plus';
   import router from '@/router';
   import type { ProblemSubmit } from '@/types/AiProcess';
-  import ProblemTagSelect from '@/components/problem/ProblemTagSelect.vue';
+  import axios from 'axios';
+  import{aiProcessApi} from'@/apis/aiProcessApis';
+  import { uploadProblemApi } from '@/apis/problem';
+  import type { ProblemInfo } from '@/types/Problem';
+  import { userStore } from '@/stores/user';
 
-  const req = ref<ProblemSubmit>({title:'',description:'',tagsId:[]});
+  const req = ref<ProblemSubmit>({title:'',description:'',input:'',output:'',Sample_input:''});
   const aiProblemInfo = ref<ProblemInfo | null>(null);
   const {execute:submitInfo, state:curProblemInfo} = aiProcessApi();
   const {execute:submitProblem, state:curProblemid} = uploadProblemApi();
@@ -129,7 +144,7 @@ const stringArray = ref<string[]>([]);
   // 控制台输出用户填写的文本区域和选择的算法标签
   console.log('标题:', req.value.title);
   console.log('算法情景描述:', req.value.description);
-  console.log('输入的算法标签:', stringArray);
+  console.log('输入的算法标签:', stringArray.value);
   console.log('输入:', req.value.input);
   console.log('输出:', req.value.output);
   await submitInfo({
@@ -141,7 +156,10 @@ const stringArray = ref<string[]>([]);
       description: req.value.description,
       input: req.value.input,
       output: req.value.output,
-      tags:req.value.tagsId,
+      sample_input: req.value.Sample_input,
+      Sample_output: req.value.Sample_output,
+      Tags:stringArray.value as string[],
+     
     }
   });
   console.log('返回题目信息', curProblemInfo);
