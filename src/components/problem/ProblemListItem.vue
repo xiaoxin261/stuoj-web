@@ -1,18 +1,15 @@
 <template>
-    <div class="problem-list-item">
-        <div class="problem-list-item__id">
-            {{ props.problem.id }}
-        </div>
-        <ElLink class="problem-list-item__title" :href="'/problem/' + props.problem.id">
-            {{ props.problem.title }}
-        </ElLink>
-        <div v-if="info.role >= ROLE.Admin" class="problem-list-item__status">
-            {{ statusString }}
-        </div>
-        <div class="problem-list-item__difficulty">
-            {{ difficultyString }}
-        </div>
+  <div class="problem-list-item">
+    <div class="problem-list-item__id">{{ problem.id }}</div>
+    <router-link :to="'/problem/' + problem.id" class="problem-list-item__title">
+      {{ problem.title }}
+    </router-link>
+    <div class="problem-list-item__tags">
+      <el-tag v-for="tag in problem.tags" :key="tag">{{ tag }}</el-tag>
     </div>
+    <div class="problem-list-item__difficulty">{{ difficultyString }}</div>
+    <div class="problem-list-item__status">{{ statusString }}</div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -61,9 +58,6 @@ const statusString = ref<string>(ProblemStatusMap[props.problem.status]);
 .problem-list-item__status {
     font-weight: bold;
     /* 加粗状态文本 */
-}
-
-.problem-list-item__status {
     margin-left: auto;
     /* 确保难度项靠右 */
 }
