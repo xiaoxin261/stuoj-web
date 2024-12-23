@@ -24,7 +24,7 @@
     </div>
     <div>
       <textarea class="input" id="hint" v-model="req.Hint" placeholder="请输入题目提示"
-      style="height: 50px;width: 500px;margin-top: 5px;"></textarea>
+        style="height: 50px;width: 500px;margin-top: 5px;"></textarea>
     </div>
     <form class="form" style="margin: 15px;">
       <input placeholder="输入算法标签1" class="tagInput" type="text" v-model="taginput1">
@@ -107,7 +107,7 @@ import '@/assets/aiprocess/proceedButton.css';
 import '@/assets/aiprocess/textInput.css'
 import '@/assets/aiprocess/loadingConponent.css'
 import '@/assets/aiprocess/tagInput.css'
-import { ref, watch}from 'vue';
+import { ref, watch } from 'vue';
 import router from '@/router';
 import type { ProblemSubmit } from '@/types/AiProcess';
 import axios from 'axios';
@@ -158,38 +158,31 @@ const submitForm = async () => {
       sample_input: req.value.Sample_input,
       Sample_output: req.value.Sample_output,
       Tags: stringArray.value as string[],
-      Hint:req.value.Hint,
+      Hint: req.value.Hint,
     }
+  }).then((res) => {
+    aiProblemInfo.value = res.value as ProblemInfo;
+    const title = res.value?.title;
+    const description = res.value?.description;
+    const input = res.value?.input;
+    const output = res.value?.output;
+    const sample_input = res.value?.sample_input;
+    const sample_output = res?.value?.sample_output;
+    const hint = res?.value?.hint;
+
+    router.push({
+      path: '/problemedit',
+      query: {
+        title: title,
+        description: description,
+        input: input,
+        output: output,
+        sample_input: sample_input,
+        sample_output: sample_output,
+        hint: hint
+      }
+    });
   });
-  aiProblemInfo.value = curProblemInfo.value as ProblemInfo;
-  console.log(aiProblemInfo.value);
-  const title = aiProblemInfo.value?.title;
-  const description = aiProblemInfo.value?.description;
-  const input = aiProblemInfo.value?.input;
-  const output = aiProblemInfo.value?.output;
-  const sample_input = aiProblemInfo.value?.sample_input;
-  const sample_output = aiProblemInfo?.value?.sample_output;
-  const hint = aiProblemInfo?.value?.hint;
-
-  if (!curProblemInfo.value) {
-    isLoading.value = false;
-  }
-  // 将 aiProblemInfo 作为路由参数传递
-  router.push({
-    path: '/problemdisplay',
-    query: {
-      title: title,
-      description: description,
-      input: input,
-      output: output,
-      sample_input: sample_input,
-      sample_output: sample_output,
-      hint: hint
-    }
-  });
-
-
-
 };
 </script>
 
