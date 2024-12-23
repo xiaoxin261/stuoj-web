@@ -1,11 +1,15 @@
 .cards {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    margin-left: 250px;
+    width: 250px;
     gap: 15px;
   }
   
   .cards .red {
     background-color: #f43f5e;
+    margin-right: 50px;
+
     
   }
   

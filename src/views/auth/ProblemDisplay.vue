@@ -1,64 +1,64 @@
 <template>
-  <div class="container">
-    <div class="content">
-      <div class="section">
-        <h2>题目</h2>
-        <textarea v-model="title" class="editable-text"></textarea>
-      </div>
-      <div class="section">
-        <h2>题目描述</h2>
-        <textarea v-model="description" class="editable-text"></textarea>
-      </div>
-      <div class="section">
-        <h2>输入格式</h2>
-        <textarea v-model="input" class="editable-text"></textarea>
-      </div>
-      <div class="section">
-        <h2>输出格式</h2>
-        <textarea v-model="output" class="editable-text"></textarea>
-      </div>
-      <div class="section">
-        <h2>输入输出样例</h2>
-        <div class="example">
-          <div class="example-input">
-            <h3>输入</h3>
-            <textarea v-model="sample_input" class="editable-text"></textarea>
-          </div>
-          <div class="example-output">
-            <h3>输出</h3>
-            <textarea v-model="sample_output" class="editable-text"></textarea>
+  <el-card class="box-card">
+    <div class="container">
+      <div class="content">
+        <div class="section">
+          <h2>题目</h2>
+          <textarea v-model="title" class="input" style="width:300px;"></textarea>
+        </div>
+        <div class="section">
+          <h2>题目描述</h2>
+          <textarea v-model="description" class="input" style="width:500px;height: 150px;"></textarea>
+        </div>
+        <div class="section">
+          <h2>输入格式</h2>
+          <textarea v-model="input" class="input" style="width:400px; height: 50px;"></textarea>
+        </div>
+        <div class="section">
+          <h2>输出格式</h2>
+          <textarea v-model="output" class="input" style="width:400px; height: 50px;"></textarea>
+        </div>
+        <div class="section">
+          <h2>输入输出样例</h2>
+          <div class="example">
+            <div class="example-input">
+              <h3>输入</h3>
+              <textarea v-model="sample_input" class="input" style="width:300px;height: 100px;"></textarea>
+            </div>
+            <div class="example-output">
+              <h3>输出</h3>
+              <textarea v-model="sample_output" class="input" style="width:300px;height: 100px;"></textarea>
+            </div>
           </div>
         </div>
+        <div class="section">
+          <h2>说明和提示</h2>
+          <textarea v-model="hint" class="input" style="width:400px; height: 70px;"></textarea>
+        </div>
+        <div>
+            <ProblemTagSelect v-model="tags" ref="problemTagSelectRef" />
+          </div>
+        <div class="cards" >
+          <div class="card red" @click="handleSolve" link>
+            尝试解题
+          </div>
+          <div class="card blue" @click="saveChanges">
+            保存修改
+          </div>
+        </div>
+
       </div>
-      <div class="section">
-        <h2>说明和提示</h2>
-        <textarea v-model="hint" class="editable-text"></textarea>
-      </div>
+
     </div>
-
-
-
-    <!-- <el-button class="solve-button" type="primary" @click="handleSolve" link>尝试解题</el-button>
-    <el-button class="save-button" type="primary" @click="saveChanges">保存修改</el-button> -->
-    <div class="cards">
-      <div class="card red" @click="handleSolve" link>
-        尝试解题
-      </div>
-      <div class="card blue" @click="saveChanges">
-        保存修改
-      </div>
-      <div>
-        <ProblemTagSelect v-model="tags" ref="problemTagSelectRef" />
-      </div>
-    </div>
-  </div>
+  </el-card>
 </template>
 
 <script lang="ts">
 import '@/assets/aiprocess/changeAndcomfirmButton.css';
+import '@/assets/aiprocess/textInput.css'
 import { ref } from 'vue';
 import router from '@/router';
-import { ElButton, ElContainer } from 'element-plus';
+import { ElCard } from 'element-plus';
 import { problemInfoApi } from '@/apis/aiProcessApis';
 import { uploadProblemApi } from '@/apis/problem';
 import type { ProblemInfo } from '@/types/Problem';
@@ -218,12 +218,13 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 120vh;
   background-color: #edecec;
 }
 
 .content {
   width: 80%;
+  height: 115vh;
   max-width: 800px;
   background-color: #fff;
   padding: 20px;

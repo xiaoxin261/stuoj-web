@@ -4,11 +4,15 @@ import type {  ProblemInfo } from "src/types/Problem";
 export const aiProcessApi = useDefineApi<
     {
         data: {
-            title: string;
-            //算法情景
-            description: string;
-            //算法标签id
-            tags: number[];
+            title:string;
+            description:string;
+            input?:string;
+            output?:string;
+            Sample_input?:string;
+            Sample_output?:string;
+            Hint?:string;
+            Solution?:string;
+            Tags?:string[];
             
         };
     },
