@@ -1,5 +1,5 @@
 <template>
-  <ElText>我是主页</ElText>
+  <ElText>我是主页，你是谁？</ElText>
 </template>
 
 <script setup lang="ts">
