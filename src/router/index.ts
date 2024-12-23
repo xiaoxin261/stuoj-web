@@ -63,19 +63,19 @@ const router = createRouter({
     {
       path:'/writecode',
       name:'writecode',
-      component: () => import('../views/auth/WriteCode.vue'),
+      component: () => import('../views/problem/WriteCode.vue'),
       meta:{permission: ROLE.Visitor, },
     },
     {
       path:'/aiprocess',
       name:'aiprocess',
-      component: () => import('../views/auth/AIProcess.vue'),
+      component: () => import('../views/problem/AIProcess.vue'),
       meta:{permission: ROLE.Visitor, },
     },
     {
       path:'/problemdisplay',
       name:'problemdisplay',
-      component: () => import('../views/auth/ProblemDisplay.vue'),
+      component: () => import('../views/problem/ProblemDisplay.vue'),
       meta:{permission: ROLE.Visitor, },
     },
     {
