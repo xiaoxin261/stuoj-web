@@ -58,10 +58,10 @@ onMounted (() => {
         <el-button type="primary" @click="handleImportFps">导入 FPS</el-button>
         <el-button type="primary" @click="handleGenerate">AI 生成</el-button>
         <el-divider></el-divider>
-        <el-table :data="problems" style="width: 100%">
+        <el-table :data="problems" style="width: 100%" stripe>
           <el-table-column type="selection" :selectable="selectable" width="55" />
-          <el-table-column label="编号" prop="id" width="80px" />
-          <el-table-column label="标题" prop="title" width="300px" />
+          <el-table-column label="ID" prop="id" width="80px" sortable/>
+          <el-table-column label="标题" prop="title" width="150px" show-overflow-tooltip/>
           <el-table-column label="创建时间" width="120px">
             <template #default="scope">
               <span>
