@@ -47,13 +47,88 @@ const router = createRouter({
       name:'problem',
       component: () => import('../views/problem/ProblemView.vue'),
       meta:{permission: ROLE.Visitor, },
+    },
+    {
+      path:'/admin',
+      name:'admin',
+      component: () => import('@/views/admin/AdminView.vue'),
+      meta:{
+        title: '管理面板 - STUOJ',
+        permission: ROLE.Admin,
+      },
+    },
+    {
+      path: '/admin/user',
+      component: () => import('@/views/admin/AdminUserView.vue'),
+      meta: {
+        title: '用户管理 - STUOJ',
+        permission: ROLE.Admin,
+      }
+    },
+    {
+      path: '/admin/problem',
+      component: () => import('@/views/admin/AdminProblemView.vue'),
+      meta: {
+        title: '题目管理 - STUOJ',
+        permission: ROLE.Admin,
+      }
+    },
+    {
+      path: '/admin/tag',
+      component: () => import('@/views/admin/AdminTagView.vue'),
+      meta: {
+        title: '标签管理 - STUOJ',
+        permission: ROLE.Admin,
+      }
+    },
+    {
+      path: '/admin/record',
+      component: () => import('@/views/admin/AdminRecordView.vue'),
+      meta: {
+        title: '记录管理 - STUOJ',
+        permission: ROLE.Admin,
+      }
+    },
+    {
+      path: '/admin/blog',
+      component: () => import('@/views/admin/AdminBlogView.vue'),
+      meta: {
+        title: '博客管理 - STUOJ',
+        permission: ROLE.Admin,
+      }
+    },
+    {
+      path: '/admin/comment',
+      component: () => import('@/views/admin/AdminCommentView.vue'),
+      meta: {
+        title: '评论管理 - STUOJ',
+        permission: ROLE.Admin,
+      }
+    },
+    {
+      path: '/admin/report',
+      component: () => import('@/views/admin/AdminReportView.vue'),
+      meta: {
+        title: '处理举报 - STUOJ',
+        permission: ROLE.Admin,
+      }
+    },
+    {
+      path: '/admin/statistics',
+      component: () => import('@/views/admin/AdminStatisticsView.vue'),
+      meta: {
+        title: '系统设置 - STUOJ',
+        permission: ROLE.Admin,
+      }
+    },
+    {
+      path: '/admin/system',
+      component: () => import('@/views/admin/AdminSystemView.vue'),
+      meta: {
+        title: '系统设置 - STUOJ',
+        permission: ROLE.Admin,
+      }
     }
-    // {
-    //   path:'admin',
-    //   name:'admin',
-    //   component: () => import('../views/AdminView.vue'),
-    //   meta:{permission: ROLE.Admin },
-    // }
   ],
 })
 
