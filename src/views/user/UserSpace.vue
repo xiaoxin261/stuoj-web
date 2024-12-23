@@ -39,7 +39,6 @@ const updateInfo = async () => {
             info.value = state.value;
         }
     }
-    document.title = `${info.value?.username}的个人空间`;
 };
 
 watchEffect(() => {

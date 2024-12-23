@@ -54,7 +54,6 @@ const handleRegister_ = () => {
 };
 
 onMounted(() => {
-  document.title = '登录 - STUOJ';
 });
 
 </script>

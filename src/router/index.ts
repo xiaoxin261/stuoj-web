@@ -10,43 +10,64 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: () => import('../views/HomeView.vue'),
-      meta:{permission: ROLE.Visitor, },
+      meta:{
+        permission: ROLE.Visitor,
+        title: 'STUOJ',
+      },
     },
     {
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue'),
-      meta:{permission: ROLE.Visitor, },
+      meta:{
+        permission: ROLE.Visitor,
+        title: '关于 - STUOJ',
+      },
     },
     {
       path: '/login',
       name: 'login',
       component: () => import('../views/auth/LoginView.vue'),
-      meta:{permission: ROLE.Visitor, },
+      meta:{
+        permission: ROLE.Visitor,
+        title: '登录 - STUOJ',
+      },
     },
     {
       path: '/register',
       name: 'register',
       component: () => import('../views/auth/RegisterView.vue'),
-      meta:{permission: ROLE.Visitor, },
+      meta:{
+        permission: ROLE.Visitor,
+        title: '注册 - STUOJ',
+      },
     },
     {
       path:'/user/:id',
       name:'user',
       component: () => import('../views/user/UserSpace.vue'),
-      meta:{permission: ROLE.Visitor, },
+      meta:{
+        permission: ROLE.Visitor,
+        title: '个人空间 - STUOJ',
+      },
     },
     {
       path:'/problems',
       name:'problems',
       component: () => import('../views/problem/ProblemListView.vue'),
-      meta:{permission: ROLE.Visitor, },
+      meta:{
+        permission: ROLE.Visitor,
+        title: '题库 - STUOJ',
+      },
     },
     {
       path:'/problem/:id',
       name:'problem',
       component: () => import('../views/problem/ProblemView.vue'),
-      meta:{permission: ROLE.Visitor, },
+      meta:{
+        permission: ROLE.Visitor,
+        title: '题目 - STUOJ',
+      },
     },
     {
       path:'/admin',

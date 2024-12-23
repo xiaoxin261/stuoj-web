@@ -48,7 +48,6 @@ const handleLogin = async () => {
 };
 
 onMounted(() => {
-    document.title = '注册 - STUOJ';
 });
 
 </script>
