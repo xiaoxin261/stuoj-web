@@ -61,21 +61,15 @@ const router = createRouter({
       },
     },
     {
-      path:'/writecode',
-      name:'writecode',
-      component: () => import('../views/problem/WriteCode.vue'),
-      meta:{permission: ROLE.Visitor, },
-    },
-    {
       path:'/aiprocess',
       name:'aiprocess',
       component: () => import('../views/problem/AIProcess.vue'),
       meta:{permission: ROLE.Visitor, },
     },
     {
-      path:'/problemdisplay',
-      name:'problemdisplay',
-      component: () => import('../views/problem/ProblemDisplay.vue'),
+      path:'/problemedit',
+      name:'problemedit',
+      component: () => import('../views/problem/ProblemEdit.vue'),
       meta:{permission: ROLE.Visitor, },
     },
     {
