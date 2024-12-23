@@ -117,7 +117,7 @@ export default {
 
         create_time: new Date().toISOString(),
         description: description.value,
-        difficulty: Difficulty.medium,
+        difficulty: Difficulty.E,
         hint: hint.value,
         id: 0,
         input: input.value,
@@ -142,7 +142,7 @@ export default {
         });
       }
       console.log('返回题目id', curProblemid.value);
-      if (curProblemid.value?.code === 1) {
+      if (curProblemid.value) {
 
       }
       // 这里可以添加尝试解题的逻辑，例如跳转到解题页面或调用 API
