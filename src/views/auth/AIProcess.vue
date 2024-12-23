@@ -22,6 +22,10 @@
       <textarea class="input" id="sample_output" v-model="req.Sample_output" placeholder="请输入题目样例输出"
         style="height: 100px;width: 200px;margin-top: 5px;"></textarea>
     </div>
+    <div>
+      <textarea class="input" id="hint" v-model="req.Hint" placeholder="请输入题目提示"
+      style="height: 50px;width: 500px;margin-top: 5px;"></textarea>
+    </div>
     <form class="form" style="margin: 15px;">
       <input placeholder="输入算法标签1" class="tagInput" type="text" v-model="taginput1">
       <input placeholder="输入算法标签2" class="tagInput" type="text" v-model="taginput2">
@@ -115,7 +119,6 @@ import { userStore } from '@/stores/user';
 const req = ref<ProblemSubmit>({ title: '', description: '', input: '', output: '', Sample_input: '' });
 const aiProblemInfo = ref<ProblemInfo | null>(null);
 const { execute: submitInfo, state: curProblemInfo } = aiProcessApi();
-const { execute: submitProblem, state: curProblemid } = uploadProblemApi();
 const { token } = userStore();
 // 响应式变量，控制加载状态
 const isLoading = ref(false);
@@ -147,6 +150,10 @@ const submitForm = async () => {
   console.log('输入的算法标签:', stringArray.value);
   console.log('输入:', req.value.input);
   console.log('输出:', req.value.output);
+  console.log('Sample_input:', req.value.Sample_input);
+  console.log('Sample_output:', req.value.Sample_output);
+  console.log('Hint:', req.value.Hint);
+
   await submitInfo({
     headers: {
       Authorization: `Bearer ${token.value}`
@@ -159,7 +166,7 @@ const submitForm = async () => {
       sample_input: req.value.Sample_input,
       Sample_output: req.value.Sample_output,
       Tags: stringArray.value as string[],
-
+      Hint:req.value.Hint,
     }
   });
   console.log('返回题目信息', curProblemInfo);
