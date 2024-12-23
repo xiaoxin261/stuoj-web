@@ -47,24 +47,29 @@
     </ElCol>
     <ElCol :span="12">
       <div style="display: flex; justify-content: space-between; gap: 20px;">
-        <ElCard class="box-card" style="width: 50%;">
+        <ElCard class="box-card" style="width: 50%; height: 75px;">
           <ProblemDifficultySelect v-model:model-value="problem.difficulty" style="margin-right: 20%; width: 60%;" />
           <ProblemTagSelect v-model:model-value="problem.tags" />
         </ElCard>
         <ElCard class="box-card" style="width: 50%;">
-          
+          <TestTable v-model:testcase="testcase" v-bind:problem-id="problem.id" ref="testTableRef" />
         </ElCard>
       </div>
+      <ElCard style="margin-top: 10px;">
+        <TestcaseEdit v-model:testcase="testcase"/>
+      </ElCard>
     </ElCol>
   </ElRow>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onBeforeMount, ref, watch } from 'vue';
 import { ElRow } from 'element-plus';
-import type { ProblemInfo } from '@/types/Problem';
+import type { ProblemInfo,Testcase } from '@/types/Problem';
 import { getProblemApi } from '@/apis/problem';
 import { useRoute } from 'vue-router';
+import TestTable from '@/components/problem/TestTable.vue';
+import TestcaseEdit from '@/components/problem/TestCaseEdit.vue';
 
 const { execute: getProblemExecute } = getProblemApi();
 const problem = ref<ProblemInfo>({
@@ -78,10 +83,12 @@ const problem = ref<ProblemInfo>({
   tags: [],
 });
 
+const testTableRef = ref<InstanceType<typeof TestTable> | null>(null);
+const testcase= ref<Testcase>();
 const route = useRoute();
 let problemId = ref<number | null>(null);
 
-onMounted(async () => {
+onBeforeMount(async () => {
   const idParam = route.query.id;
   if (typeof idParam === 'string') {
     const match = idParam.match(/\d+/);
@@ -93,6 +100,9 @@ onMounted(async () => {
         if (res.value)
           problem.value = res.value.problem;
       });
+      if(testTableRef.value){
+        testTableRef.value.refreshTestcases();
+      }
     }
   } else {
     problem.value.title = route.query.title as string;
@@ -104,9 +114,6 @@ onMounted(async () => {
     problem.value.hint = route.query.hint as string;
   }
 });
-
-
-
 
 </script>
 
