@@ -107,7 +107,7 @@ export interface FpsProblemInfo {
     [property: string]: any;
 }
 
-export interface FpsTestCase {
+export interface FpsTestcase {
     test_input?: string;
     test_output?: string;
     [property: string]: any;
