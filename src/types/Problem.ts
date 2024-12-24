@@ -143,7 +143,7 @@ export const ProblemStatusColor = {
 }
 
 export enum Difficulty {
-    unknown = 0,
+    U = 0,
     E = 1,
     D = 2,
     C = 3,
@@ -153,13 +153,23 @@ export enum Difficulty {
 }
 
 export const DifficultyMap = {
-    [Difficulty.unknown]: "暂无评定",
-    [Difficulty.E]: "E级（入门）",
-    [Difficulty.D]: "D级（简单）",
-    [Difficulty.C]: "C级（中等）",
-    [Difficulty.B]: "B级（较难）",
-    [Difficulty.A]: "A级（困难）",
-    [Difficulty.S]: "S级（超级困难）",
+    [Difficulty.U]: "[?]未知",
+    [Difficulty.E]: "[E]入门",
+    [Difficulty.D]: "[D]简单",
+    [Difficulty.C]: "[C]中等",
+    [Difficulty.B]: "[B]较难",
+    [Difficulty.A]: "[A]困难",
+    [Difficulty.S]: "[S]超难",
+}
+
+export const DifficultyColor = {
+    [Difficulty.U]: "#999999",
+    [Difficulty.E]: "#E6A23C",
+    [Difficulty.D]: "#67C23A",
+    [Difficulty.C]: "#409EFF",
+    [Difficulty.B]: "#F56C6C",
+    [Difficulty.A]: "#9D3DCF",
+    [Difficulty.S]: "#000000",
 }
 
 export interface ProblemParams {

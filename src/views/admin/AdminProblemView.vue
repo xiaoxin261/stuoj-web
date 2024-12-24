@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { getProblemListApi } from '@/apis/problem';
 import {onMounted, ref} from "vue";
-import { ProblemStatusMap, DifficultyMap, ProblemStatusColor } from '@/types/Problem';
+import { ProblemStatusMap, DifficultyMap, ProblemStatusColor, DifficultyColor } from '@/types/Problem';
 import { formatDateStr } from "@/utils/date";
 import {userStore} from "@/stores/user";
 import type { ProblemInfo } from '@/types/Problem';
@@ -46,8 +46,6 @@ const getList = async () => {
 onMounted (() => {
   getList();
 })
-
-
 </script>
 
 <template>
@@ -96,7 +94,7 @@ onMounted (() => {
           </el-table-column>
           <el-table-column label="难度" width="100">
             <template #default="scope: Scope">
-              <el-tag>
+              <el-tag :color="DifficultyColor[scope.row.difficulty]" style="color: #fff">
                 {{ DifficultyMap[scope.row.difficulty] }}
               </el-tag>
             </template>
