@@ -33,11 +33,11 @@ export enum ROLE {
 }
 
 export const UserRoleMap = {
-    [ROLE.Visitor]: "Visitor",
-    [ROLE.Banned]: "Banned",
-    [ROLE.User]: "User",
-    [ROLE.Admin]: "Admin",
-    [ROLE.Root]: "Root"
+    [ROLE.Visitor]: "访客",
+    [ROLE.Banned]: "封禁",
+    [ROLE.User]: "用户",
+    [ROLE.Admin]: "管理",
+    [ROLE.Root]: "超管"
 };
 
 export interface LoginReq{
