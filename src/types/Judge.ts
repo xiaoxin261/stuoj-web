@@ -5,6 +5,7 @@ export interface Language {
 }
 
 export enum JudgeStatus {
+    Unknown = 0,
     InQueue = 1,
     Processing = 2,
     Accepted = 3,
@@ -22,6 +23,7 @@ export enum JudgeStatus {
 }
 
 export const JudgeStatusString = {
+    [JudgeStatus.Unknown]: "Unknown",
     [JudgeStatus.InQueue]: "In Queue",
     [JudgeStatus.Processing]: "Processing",
     [JudgeStatus.Accepted]: "Accepted",
@@ -39,6 +41,7 @@ export const JudgeStatusString = {
 }
 
 export const JudgeStatusAbbr = {
+    [JudgeStatus.Unknown]: "UK",
     [JudgeStatus.InQueue]: "IQ",
     [JudgeStatus.Processing]: "PR",
     [JudgeStatus.Accepted]: "AC",
@@ -56,18 +59,19 @@ export const JudgeStatusAbbr = {
 }
 
 export const JudgeStatusColor = {
-    [JudgeStatus.InQueue]: "#FFFFFF",
-    [JudgeStatus.Processing]: "#79BBFF",
+    [JudgeStatus.Unknown]: "#000000",
+    [JudgeStatus.InQueue]: "#99CCFF",
+    [JudgeStatus.Processing]: "#66CCFF",
     [JudgeStatus.Accepted]: "#67C23A",
     [JudgeStatus.WrongAnswer]: "#F56C6C",
     [JudgeStatus.TimeLimitExceeded]: "#E6A23C",
-    [JudgeStatus.CompilationError]: "#337ECC",
-    [JudgeStatus.RuntimeErrorSIGSEGV]: "#337ECC",
-    [JudgeStatus.RuntimeErrorSIGXFSZ]: "#337ECC",
-    [JudgeStatus.RuntimeErrorSIGFPE]: "#337ECC",
-    [JudgeStatus.RuntimeErrorSIGABRT]: "#337ECC",
-    [JudgeStatus.RuntimeErrorNZEC]: "#337ECC",
-    [JudgeStatus.RuntimeErrorOther]: "#337ECC",
-    [JudgeStatus.InternalError]: "#337ECC",
-    [JudgeStatus.ExecFormatError]: "#337ECC"
+    [JudgeStatus.CompilationError]: "#AAAAAA",
+    [JudgeStatus.RuntimeErrorSIGSEGV]: "#9D3DCF",
+    [JudgeStatus.RuntimeErrorSIGXFSZ]: "#9D3DCF",
+    [JudgeStatus.RuntimeErrorSIGFPE]: "#9D3DCF",
+    [JudgeStatus.RuntimeErrorSIGABRT]: "#9D3DCF",
+    [JudgeStatus.RuntimeErrorNZEC]: "#9D3DCF",
+    [JudgeStatus.RuntimeErrorOther]: "#9D3DCF",
+    [JudgeStatus.InternalError]: "#000000",
+    [JudgeStatus.ExecFormatError]: "#9D3DCF"
 }
