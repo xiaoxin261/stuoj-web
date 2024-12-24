@@ -42,5 +42,12 @@ export default defineConfig({
         followRedirects: true
       }
     }
-  }
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler',
+      },
+    },
+  },
 })
