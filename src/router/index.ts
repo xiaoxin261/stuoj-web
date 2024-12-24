@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { onMounted } from 'vue';
 import { userStore } from '@/stores/user';
 import { ROLE } from '@/types/User';
 
@@ -117,6 +116,14 @@ const router = createRouter({
       component: () => import('@/views/admin/AdminTagView.vue'),
       meta: {
         title: '标签管理 - STUOJ',
+        permission: ROLE.Admin,
+      }
+    },
+    {
+      path: '/admin/collection',
+      component: () => import('@/views/admin/AdminCollectionView.vue'),
+      meta: {
+        title: '题单管理 - STUOJ',
         permission: ROLE.Admin,
       }
     },

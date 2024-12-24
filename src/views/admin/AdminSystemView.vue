@@ -9,7 +9,7 @@
     </el-aside>
     <el-main>
       <h1>系统设置</h1>
-      <hr/>
+      <el-divider/>
     </el-main>
   </el-container>
 </template>

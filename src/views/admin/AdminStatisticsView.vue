@@ -9,7 +9,7 @@
     </el-aside>
     <el-main>
       <h1>统计信息</h1>
-      <hr/>
+      <el-divider/>
     </el-main>
   </el-container>
 </template>

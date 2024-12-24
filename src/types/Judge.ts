@@ -4,7 +4,8 @@ export interface Language {
     [property: string]: any;
 }
 
-export enum JudegeStatuses {
+export enum JudgeStatus {
+    Unknown = 0,
     InQueue = 1,
     Processing = 2,
     Accepted = 3,
@@ -21,53 +22,56 @@ export enum JudegeStatuses {
     ExecFormatError = 14,
 }
 
-export const JudegeStatusesString = {
-    [JudegeStatuses.InQueue]: "In Queue",
-    [JudegeStatuses.Processing]: "Processing",
-    [JudegeStatuses.Accepted]: "Accepted",
-    [JudegeStatuses.WrongAnswer]: "Wrong Answer",
-    [JudegeStatuses.TimeLimitExceeded]: "Time Limit Exceeded",
-    [JudegeStatuses.CompilationError]: "Compilation Error",
-    [JudegeStatuses.RuntimeErrorSIGSEGV]: "Runtime Error (SIGSEGV)",
-    [JudegeStatuses.RuntimeErrorSIGXFSZ]: "Runtime Error (SIGXFSZ)",
-    [JudegeStatuses.RuntimeErrorSIGFPE]: "Runtime Error (SIGFPE)",
-    [JudegeStatuses.RuntimeErrorSIGABRT]: "Runtime Error (SIGABRT)",
-    [JudegeStatuses.RuntimeErrorNZEC]: "Runtime Error (NZEC)",
-    [JudegeStatuses.RuntimeErrorOther]: "Runtime Error (Other)",
-    [JudegeStatuses.InternalError]: "Internal Error",
-    [JudegeStatuses.ExecFormatError]: "Exec Format Error"
+export const JudgeStatusString = {
+    [JudgeStatus.Unknown]: "Unknown",
+    [JudgeStatus.InQueue]: "In Queue",
+    [JudgeStatus.Processing]: "Processing",
+    [JudgeStatus.Accepted]: "Accepted",
+    [JudgeStatus.WrongAnswer]: "Wrong Answer",
+    [JudgeStatus.TimeLimitExceeded]: "Time Limit Exceeded",
+    [JudgeStatus.CompilationError]: "Compilation Error",
+    [JudgeStatus.RuntimeErrorSIGSEGV]: "Runtime Error (SIGSEGV)",
+    [JudgeStatus.RuntimeErrorSIGXFSZ]: "Runtime Error (SIGXFSZ)",
+    [JudgeStatus.RuntimeErrorSIGFPE]: "Runtime Error (SIGFPE)",
+    [JudgeStatus.RuntimeErrorSIGABRT]: "Runtime Error (SIGABRT)",
+    [JudgeStatus.RuntimeErrorNZEC]: "Runtime Error (NZEC)",
+    [JudgeStatus.RuntimeErrorOther]: "Runtime Error (Other)",
+    [JudgeStatus.InternalError]: "Internal Error",
+    [JudgeStatus.ExecFormatError]: "Exec Format Error"
 }
 
-export const JudegeStatusesAbbr = {
-    [JudegeStatuses.InQueue]: "IQ",
-    [JudegeStatuses.Processing]: "P",
-    [JudegeStatuses.Accepted]: "AC",
-    [JudegeStatuses.WrongAnswer]: "WA",
-    [JudegeStatuses.TimeLimitExceeded]: "TL",
-    [JudegeStatuses.CompilationError]: "CE",
-    [JudegeStatuses.RuntimeErrorSIGSEGV]: "RE",
-    [JudegeStatuses.RuntimeErrorSIGXFSZ]: "RE",
-    [JudegeStatuses.RuntimeErrorSIGFPE]: "RE",
-    [JudegeStatuses.RuntimeErrorSIGABRT]: "RE",
-    [JudegeStatuses.RuntimeErrorNZEC]: "RE",
-    [JudegeStatuses.RuntimeErrorOther]: "RE",
-    [JudegeStatuses.InternalError]: "IE",
-    [JudegeStatuses.ExecFormatError]: "EFE"
+export const JudgeStatusAbbr = {
+    [JudgeStatus.Unknown]: "UK",
+    [JudgeStatus.InQueue]: "IQ",
+    [JudgeStatus.Processing]: "PR",
+    [JudgeStatus.Accepted]: "AC",
+    [JudgeStatus.WrongAnswer]: "WA",
+    [JudgeStatus.TimeLimitExceeded]: "TLE",
+    [JudgeStatus.CompilationError]: "CE",
+    [JudgeStatus.RuntimeErrorSIGSEGV]: "RE",
+    [JudgeStatus.RuntimeErrorSIGXFSZ]: "RE",
+    [JudgeStatus.RuntimeErrorSIGFPE]: "RE",
+    [JudgeStatus.RuntimeErrorSIGABRT]: "RE",
+    [JudgeStatus.RuntimeErrorNZEC]: "RE",
+    [JudgeStatus.RuntimeErrorOther]: "RE",
+    [JudgeStatus.InternalError]: "IE",
+    [JudgeStatus.ExecFormatError]: "EFE"
 }
 
-export const JudegeStatusesColor = {
-    [JudegeStatuses.InQueue]: "#FFFFFF",
-    [JudegeStatuses.Processing]: "#79BBFF",
-    [JudegeStatuses.Accepted]: "#67C23A",
-    [JudegeStatuses.WrongAnswer]: "#F56C6C",
-    [JudegeStatuses.TimeLimitExceeded]: "#E6A23C",
-    [JudegeStatuses.CompilationError]: "#337ECC",
-    [JudegeStatuses.RuntimeErrorSIGSEGV]: "#337ECC",
-    [JudegeStatuses.RuntimeErrorSIGXFSZ]: "#337ECC",
-    [JudegeStatuses.RuntimeErrorSIGFPE]: "#337ECC",
-    [JudegeStatuses.RuntimeErrorSIGABRT]: "#337ECC",
-    [JudegeStatuses.RuntimeErrorNZEC]: "#337ECC",
-    [JudegeStatuses.RuntimeErrorOther]: "#337ECC",
-    [JudegeStatuses.InternalError]: "#337ECC",
-    [JudegeStatuses.ExecFormatError]: "#337ECC"
+export const JudgeStatusColor = {
+    [JudgeStatus.Unknown]: "#000000",
+    [JudgeStatus.InQueue]: "#99CCFF",
+    [JudgeStatus.Processing]: "#66CCFF",
+    [JudgeStatus.Accepted]: "#67C23A",
+    [JudgeStatus.WrongAnswer]: "#F56C6C",
+    [JudgeStatus.TimeLimitExceeded]: "#E6A23C",
+    [JudgeStatus.CompilationError]: "#AAAAAA",
+    [JudgeStatus.RuntimeErrorSIGSEGV]: "#9D3DCF",
+    [JudgeStatus.RuntimeErrorSIGXFSZ]: "#9D3DCF",
+    [JudgeStatus.RuntimeErrorSIGFPE]: "#9D3DCF",
+    [JudgeStatus.RuntimeErrorSIGABRT]: "#9D3DCF",
+    [JudgeStatus.RuntimeErrorNZEC]: "#9D3DCF",
+    [JudgeStatus.RuntimeErrorOther]: "#9D3DCF",
+    [JudgeStatus.InternalError]: "#000000",
+    [JudgeStatus.ExecFormatError]: "#9D3DCF"
 }

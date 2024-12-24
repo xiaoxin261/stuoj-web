@@ -1,4 +1,4 @@
-import type { JudegeStatuses } from "./Judge";
+import type { JudgeStatus } from "./Judge";
 
 export interface Submission {
     create_time: string;
@@ -9,7 +9,7 @@ export interface Submission {
     problem_id: number;
     score?: number;
     source_code?: string;
-    status: JudegeStatuses;
+    status: JudgeStatus;
     time?: number;
     update_time: string;
     user_id: number;
@@ -22,7 +22,7 @@ export interface Judgement {
     id?: number;
     memory?: number;
     message?: string;
-    status?: JudegeStatuses;
+    status?: JudgeStatus;
     stderr?: string;
     stdout?: string;
     submission_id?: number;

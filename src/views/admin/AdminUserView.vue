@@ -73,7 +73,13 @@ onMounted (() => {
               <Avatar :info="scope.row.id" />
             </template>
           </el-table-column>
-          <el-table-column label="用户名" prop="username" show-overflow-tooltip/>
+          <el-table-column label="用户名">
+            <template #default="scope">
+              <router-link :to="'/user/' + scope.row.user_id">
+                {{ scope.row.username }}
+              </router-link>
+            </template>
+          </el-table-column>
           <el-table-column label="邮箱" width="200" prop="email" show-overflow-tooltip/>
           <el-table-column label="注册时间" width="120px">
             <template #default="scope">

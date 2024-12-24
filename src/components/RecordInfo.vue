@@ -10,8 +10,9 @@
                         状态
                     </div>
                 </template>
-                <span :style="{ color: JudegeStatusesColor[result.status as JudegeStatuses] }">{{
-                    JudegeStatusesAbbr[result.status as JudegeStatuses] }}</span>
+                <span :style="{ color: JudgeStatusColor[result.status as JudegeStatusMap] }">{{
+                    JudgeStatusAbbr[result.status as JudegeStatusMap]
+                  }}</span>
             </el-descriptions-item>
             <el-descriptions-item>
                 <template #label>
@@ -51,8 +52,9 @@
             <ElTableColumn prop="testcase_id" label="测试点" width="80" />
             <ElTableColumn prop="status" label="状态" width="100">
                 <template #default="scope">
-                    <span :style="{ color: JudegeStatusesColor[scope.row.status as JudegeStatuses] }">{{
-                        JudegeStatusesAbbr[scope.row.status as JudegeStatuses] }}</span>
+                    <span :style="{ color: JudgeStatusColor[scope.row.status as JudegeStatusMap] }">{{
+                        JudgeStatusAbbr[scope.row.status as JudegeStatusMap]
+                      }}</span>
                 </template>
             </ElTableColumn>
             <ElTableColumn prop="time" label="时间" width="100">
@@ -67,7 +69,7 @@
             </ElTableColumn>
             <ElTableColumn prop="status" label="信息" width="1000">
                 <template #default="scope">
-                    {{ JudegeStatusesString[scope.row.status as JudegeStatuses] }}
+                  {{ JudgeStatusString[scope.row.status as JudegeStatusMap] }}
                 </template>
             </ElTableColumn>
         </ElTable>
@@ -79,7 +81,7 @@ import { userStore } from '@/stores/user';
 import { getRecordInfo } from '@/apis/record';
 import type { Submission, Judgement } from '@/types/Record';
 import { ref, watch } from 'vue';
-import { JudegeStatuses, JudegeStatusesAbbr, JudegeStatusesColor, JudegeStatusesString } from '@/types/Judge';
+import { JudegeStatusMap, JudgeStatusAbbr, JudgeStatusColor, JudgeStatusString } from '@/types/Judge';
 import { ElTableColumn } from 'element-plus';
 
 const { execute, state } = getRecordInfo();
