@@ -125,14 +125,21 @@ export enum ProblemStatus {
     invalid = 0,
     public = 1,
     editing = 2,
-    eebugging = 3,
+    debugging = 3,
 }
 
 export const ProblemStatusMap = {
     [ProblemStatus.invalid]: "作废",
     [ProblemStatus.public]: "公开",
-    [ProblemStatus.editing]: "出题中",
-    [ProblemStatus.eebugging]: "调试中",
+    [ProblemStatus.editing]: "出题",
+    [ProblemStatus.debugging]: "调试",
+}
+
+export const ProblemStatusColor = {
+    [ProblemStatus.invalid]: "#F56C6C",
+    [ProblemStatus.public]: "#67C23A",
+    [ProblemStatus.editing]: "#999999",
+    [ProblemStatus.debugging]: "#409EFF",
 }
 
 export enum Difficulty {

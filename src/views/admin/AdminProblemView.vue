@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { getProblemListApi } from '@/apis/problem';
 import {onMounted, ref} from "vue";
-import { ProblemStatusMap, DifficultyMap } from '@/types/Problem';
+import { ProblemStatusMap, DifficultyMap, ProblemStatusColor } from '@/types/Problem';
 import { formatDateStr } from "@/utils/date";
+import {userStore} from "@/stores/user";
 import type { ProblemInfo } from '@/types/Problem';
 import type { Page } from '@/types/misc';
 
@@ -24,9 +25,13 @@ const params = ref<ProblemParams>({
   page: 1,
   size: 10
 });
+const { token } = userStore();
 
 const getList = async () => {
   await execute({
+    headers: {
+      Authorization: `Bearer ${token.value}`
+    },
     params: {
       ...params.value,
     }
@@ -98,7 +103,7 @@ onMounted (() => {
           </el-table-column>
           <el-table-column label="状态" width="80">
             <template #default="scope: Scope">
-              <el-tag>
+              <el-tag :color="ProblemStatusColor[scope.row.status]" style="color: #fff">
                 {{ ProblemStatusMap[scope.row.status] }}
               </el-tag>
             </template>
