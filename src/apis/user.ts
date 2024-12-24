@@ -1,11 +1,22 @@
 import { useDefineApi } from "@/stores/useDefineApi"
-import type { BaseUserInfo } from "@/types/User"
+import type {UserInfo, UserParams} from "@/types/User";
+import type {Page} from "@/types/misc";
+
+export const getUserListApi = useDefineApi<
+    {
+        params:UserParams;
+    },
+    Page<"users", UserInfo>
+>({
+    url: "/admin/user",
+    method: "get"
+});
 
 export const GetUserInfo = useDefineApi<
     {
         id: number;
     },
-    BaseUserInfo
+    UserInfo
 >({
     url: "/user",
     method: "GET"

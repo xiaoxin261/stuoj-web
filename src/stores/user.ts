@@ -1,5 +1,5 @@
 import { computed, ref, watchEffect } from "vue";
-import { ROLE, type BaseUserInfo } from "@/types/User";
+import { ROLE, type UserInfo } from "@/types/User";
 import { GetUserInfo, GetId } from "@/apis/user";
 import { createGlobalState, useStorage } from "@vueuse/core";
 
@@ -18,7 +18,7 @@ export const userStore = createGlobalState(() => {
 
   const id = ref(0);
   const isLogin = computed(() => token.value !== "");
-  const info = ref<BaseUserInfo>({
+  const info = ref<UserInfo>({
     avatar: "",
     create_time: "",
     email: "",
@@ -44,7 +44,7 @@ export const userStore = createGlobalState(() => {
   };
 
 
-  const getUserInfo = async (userInfo?: BaseUserInfo) => {
+  const getUserInfo = async (userInfo?: UserInfo) => {
     if (!isLogin.value)
       return;
     if (userInfo) {

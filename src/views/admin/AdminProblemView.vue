@@ -51,46 +51,53 @@ onMounted (() => {
       <AdminMenu></AdminMenu>
     </el-aside>
     <el-main>
-      <h1>题目管理</h1>
+      <el-row justify="space-between">
+        <el-col :span="4">
+          <strong>题目管理</strong>
+        </el-col>
+        <el-col :span="20" style="text-align: right">
+          <el-button type="primary" @click="handleCreate">创建题目</el-button>
+          <el-button type=""><router-link to="/fps">导入 FPS 题目</router-link></el-button>
+          <el-button type=""><router-link to="/ai/problem">AI 生成题目</router-link></el-button>
+          <el-button type=""><router-link to="/ai/problem">AI 生成测试用例</router-link></el-button>
+          <el-button type=""><router-link to="/ai/problem">AI 生成题解</router-link></el-button>
+        </el-col>
+      </el-row>
       <el-divider></el-divider>
       <el-card>
-        <el-button type="primary" @click="handleCreate">创建题目</el-button>
-        <el-button type="primary" @click="handleImportFps">导入 FPS</el-button>
-        <el-button type="primary" @click="handleGenerate">AI 生成</el-button>
-        <el-divider></el-divider>
         <el-table :data="problems" style="width: 100%" stripe>
           <el-table-column type="selection" :selectable="selectable" width="55" />
           <el-table-column label="ID" prop="id" width="80px" sortable/>
-          <el-table-column label="标题" prop="title" width="150px" show-overflow-tooltip/>
-          <el-table-column label="创建时间" width="120px">
+          <el-table-column label="标题" prop="title" show-overflow-tooltip/>
+          <el-table-column label="创建时间" width="120">
             <template #default="scope">
               <span>
                 {{ formatDateStr(scope.row.create_time) }}
               </span>
             </template>
           </el-table-column>
-          <el-table-column label="更新时间" width="120px">
+          <el-table-column label="更新时间" width="120">
             <template #default="scope">
               <span>
                 {{ formatDateStr(scope.row.create_time) }}
               </span>
             </template>
           </el-table-column>
-          <el-table-column label="难度" width="100px">
+          <el-table-column label="难度" width="100">
             <template #default="scope: Scope">
               <el-tag>
                 {{ DifficultyMap[scope.row.difficulty] }}
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column label="状态" width="80px">
+          <el-table-column label="状态" width="80">
             <template #default="scope: Scope">
               <el-tag>
                 {{ ProblemStatusMap[scope.row.status] }}
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column align="right">
+          <el-table-column align="right" width="200">
             <template #header>
               <el-input v-model="search" size="small" placeholder="题目ID" />
             </template>
@@ -118,5 +125,20 @@ onMounted (() => {
 </template>
 
 <style scoped>
+a:link {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
 
 </style>

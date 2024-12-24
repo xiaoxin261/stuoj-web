@@ -1,4 +1,4 @@
-export interface BaseUserInfo {
+export interface UserInfo {
     /**
      * 用户头像
      */
@@ -32,12 +32,12 @@ export enum ROLE {
     Root = 3,
 }
 
-export const role = {
-    [ROLE.Visitor]: "Visitor",
-    [ROLE.Banned]: "Banned",
-    [ROLE.User]: "User",
-    [ROLE.Admin]: "Admin",
-    [ROLE.Root]: "Root"
+export const UserRoleMap = {
+    [ROLE.Visitor]: "访客",
+    [ROLE.Banned]: "封禁",
+    [ROLE.User]: "用户",
+    [ROLE.Admin]: "管理",
+    [ROLE.Root]: "超管"
 };
 
 export interface LoginReq{
@@ -49,4 +49,13 @@ export interface RegisterReq{
     username: string;
     email: string;
     password: string;
+}
+
+export interface UserParams {
+    page: number
+    size: number
+    title?: string
+    difficulty?: number
+    tag?: string
+    status?: number
 }

@@ -48,13 +48,9 @@ const menuLinks = computed(() => {
             to: '/contests'
         },
         {
-            name: '讨论',
-            to: '/discuss'
+            name: '博客',
+            to: '/blog'
         },
-        {
-            name: 'AI题目生成',
-            to: '/aiprocess'
-        }
     ];
     let links = [
         ...basicLinks
@@ -81,11 +77,12 @@ const menuLinks = computed(() => {
 }
 
 .header-nav__logo{
-    height: 100%;
+  height: 100%;
 }
 
 .header-nav__logo-img{
-    height: 100%;
+  height: 90%;
+  margin-left: 50%;
 }
 
 .header-nav__row {

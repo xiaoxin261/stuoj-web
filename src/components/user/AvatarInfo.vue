@@ -23,7 +23,7 @@
 import { onBeforeMount, onMounted, ref } from 'vue';
 import { userStore } from '@/stores/user';
 import { GetUserInfo } from '@/apis/user';
-import type { BaseUserInfo } from '@/types/User';
+import type { UserInfo } from '@/types/User';
 import router from '@/router';
 
 const { id, isLogin, info: info_ } = userStore();
@@ -34,7 +34,7 @@ const props = withDefaults(defineProps<{
     userId: 0,
 });
 
-let info = ref<BaseUserInfo>(
+let info = ref<UserInfo>(
 
 );
 let userId = ref(0);
