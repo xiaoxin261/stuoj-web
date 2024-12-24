@@ -9,7 +9,7 @@
     </el-aside>
     <el-main>
       <h1>记录管理</h1>
-      <hr/>
+      <el-divider/>
     </el-main>
   </el-container>
 </template>

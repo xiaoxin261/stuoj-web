@@ -8,7 +8,7 @@
       <AdminMenu></AdminMenu>
     </el-aside>
     <el-main>
-      <h1>处理举报</h1>
+      <h1>题单管理</h1>
       <el-divider/>
     </el-main>
   </el-container>
