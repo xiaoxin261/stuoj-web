@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { getRecordListApi } from '@/apis/record';
 import {onMounted, ref} from "vue";
-import { JudgeStatusAbbr, JudgeStatusColor } from '@/types/Judge';
+import { JudgeStatusAbbr, JudgeStatusColor, JudgeStatusMap } from '@/types/Judge';
 import { formatDateStr } from "@/utils/date";
 import {userStore} from "@/stores/user";
 import type { Submission } from '@/types/Record';
@@ -102,9 +102,16 @@ onMounted (() => {
           <el-table-column label="分数" prop="score" width="80" sortable/>
           <el-table-column label="状态" width="80">
             <template #default="scope: Scope">
+              <el-tooltip
+                  class="box-item"
+                  effect="dark"
+                  :content="JudgeStatusMap[scope.row.status]"
+                  placement="top"
+              >
               <el-tag :color="JudgeStatusColor[scope.row.status]" style="color: #fff">
                 {{ JudgeStatusAbbr[scope.row.status] }}
               </el-tag>
+              </el-tooltip>
             </template>
           </el-table-column>
           <el-table-column align="right">

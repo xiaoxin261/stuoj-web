@@ -40,6 +40,7 @@ declare module 'vue' {
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTag: typeof import('element-plus/es')['ElTag']
     ElText: typeof import('element-plus/es')['ElText']
+    ElTooltip: typeof import('element-plus/es')['ElTooltip']
     HeaderNav: typeof import('./components/HeaderNav.vue')['default']
     LanguageSelect: typeof import('./components/LanguageSelect.vue')['default']
     LogoutButton: typeof import('./components/auth/LogoutButton.vue')['default']
