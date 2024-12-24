@@ -67,14 +67,14 @@ onMounted (() => {
         <el-table :data="records" style="width: 100%" stripe>
           <el-table-column type="selection" :selectable="selectable" width="55" />
           <el-table-column label="ID" prop="id" width="80" sortable/>
-          <el-table-column label="题目ID" width="100" sortable>
+          <el-table-column label="题目ID" width="100">
             <template #default="scope">
               <router-link :to="'/problem/' + scope.row.problem_id">
                 {{ scope.row.problem_id }}
               </router-link>
             </template>
           </el-table-column>
-          <el-table-column label="用户ID" width="100" sortable>
+          <el-table-column label="用户ID" width="100">
             <template #default="scope">
               <router-link :to="'/user/' + scope.row.user_id">
                 {{ scope.row.user_id }}

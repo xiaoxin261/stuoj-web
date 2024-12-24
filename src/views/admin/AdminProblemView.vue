@@ -68,7 +68,13 @@ onMounted (() => {
         <el-table :data="problems" style="width: 100%" stripe>
           <el-table-column type="selection" :selectable="selectable" width="55" />
           <el-table-column label="ID" prop="id" width="80px" sortable/>
-          <el-table-column label="标题" prop="title" show-overflow-tooltip/>
+          <el-table-column label="标题" show-overflow-tooltip>
+            <template #default="scope">
+              <router-link :to="'/problem/' + scope.row.problem_id">
+                {{ scope.row.title }}
+              </router-link>
+            </template>
+          </el-table-column>
           <el-table-column label="创建时间" width="120">
             <template #default="scope">
               <span>
