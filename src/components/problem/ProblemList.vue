@@ -2,21 +2,21 @@
   <el-table :data="problems" style="width: 100%" stripe>
     <el-table-column label="状态" prop="" width="80px" />
     <el-table-column label="ID" prop="id" width="80px" sortable />
-    <el-table-column label="标题" width="500px" show-overflow-tooltip>
+    <el-table-column label="标题" show-overflow-tooltip>
       <template #default="scope">
         <router-link :to="'/problem/' + scope.row.id">
           {{ scope.row.title }}
         </router-link>
       </template>
     </el-table-column>
-    <el-table-column label="标签" width="300px">
+    <el-table-column label="标签" width="300">
       <el-tag>tag</el-tag>&nbsp;
       <el-tag>tag</el-tag>&nbsp;
       <el-tag>tag</el-tag>&nbsp;
       <el-tag>tag</el-tag>&nbsp;
       <el-tag>tag</el-tag>&nbsp;
     </el-table-column>
-    <el-table-column label="难度">
+    <el-table-column label="难度" width="100">
       <template #default="scope: Scope">
         <el-tag>
           {{ DifficultyMap[scope.row.difficulty as Difficulty] }}
