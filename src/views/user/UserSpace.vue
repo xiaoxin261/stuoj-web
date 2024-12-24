@@ -18,12 +18,12 @@ import { onBeforeMount, ref, watchEffect } from "vue";
 import { useRouteParams } from "@vueuse/router";
 import { userStore } from "@/stores/user";
 import { GetUserInfo } from "@/apis/user";
-import type { BaseUserInfo } from "@/types/User";
+import type { UserInfo } from "@/types/User";
 
 const { info: info_, id } = userStore();
 const { execute } = GetUserInfo();
 
-let info = ref<BaseUserInfo>();
+let info = ref<UserInfo>();
 
 const userId = useRouteParams<number>("id");
 
