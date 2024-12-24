@@ -3,9 +3,9 @@ import { getRecordListApi } from '@/apis/record';
 import {onMounted, ref} from "vue";
 import { JudgeStatusAbbr, JudgeStatusColor } from '@/types/Judge';
 import { formatDateStr } from "@/utils/date";
+import {userStore} from "@/stores/user";
 import type { Submission } from '@/types/Record';
 import type { Page } from '@/types/misc';
-import {userStore} from "@/stores/user";
 
 interface Scope {
   row: {

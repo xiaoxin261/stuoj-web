@@ -59,3 +59,11 @@ export interface UserParams {
     tag?: string
     status?: number
 }
+
+export const UserRoleColor = {
+    [ROLE.Visitor]: "#999999",
+    [ROLE.Banned]: "#E6A23C",
+    [ROLE.User]: "#409EFF",
+    [ROLE.Admin]: "#F56C6C",
+    [ROLE.Root]: "#9D3DCF",
+}

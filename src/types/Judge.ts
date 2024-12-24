@@ -60,12 +60,12 @@ export const JudgeStatusAbbr = {
 
 export const JudgeStatusColor = {
     [JudgeStatus.Unknown]: "#000000",
-    [JudgeStatus.InQueue]: "#99CCFF",
-    [JudgeStatus.Processing]: "#66CCFF",
+    [JudgeStatus.InQueue]: "#66CCFF",
+    [JudgeStatus.Processing]: "#409EFF",
     [JudgeStatus.Accepted]: "#67C23A",
     [JudgeStatus.WrongAnswer]: "#F56C6C",
     [JudgeStatus.TimeLimitExceeded]: "#E6A23C",
-    [JudgeStatus.CompilationError]: "#AAAAAA",
+    [JudgeStatus.CompilationError]: "#66CCFF",
     [JudgeStatus.RuntimeErrorSIGSEGV]: "#9D3DCF",
     [JudgeStatus.RuntimeErrorSIGXFSZ]: "#9D3DCF",
     [JudgeStatus.RuntimeErrorSIGFPE]: "#9D3DCF",
