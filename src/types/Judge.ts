@@ -22,7 +22,7 @@ export enum JudgeStatus {
     ExecFormatError = 14,
 }
 
-export const JudgeStatusString = {
+export const JudgeStatusMap = {
     [JudgeStatus.Unknown]: "Unknown",
     [JudgeStatus.InQueue]: "In Queue",
     [JudgeStatus.Processing]: "Processing",
@@ -60,12 +60,12 @@ export const JudgeStatusAbbr = {
 
 export const JudgeStatusColor = {
     [JudgeStatus.Unknown]: "#000000",
-    [JudgeStatus.InQueue]: "#99CCFF",
-    [JudgeStatus.Processing]: "#66CCFF",
+    [JudgeStatus.InQueue]: "#66CCFF",
+    [JudgeStatus.Processing]: "#409EFF",
     [JudgeStatus.Accepted]: "#67C23A",
     [JudgeStatus.WrongAnswer]: "#F56C6C",
-    [JudgeStatus.TimeLimitExceeded]: "#E6A23C",
-    [JudgeStatus.CompilationError]: "#AAAAAA",
+    [JudgeStatus.TimeLimitExceeded]: "#999999",
+    [JudgeStatus.CompilationError]: "#E6A23C",
     [JudgeStatus.RuntimeErrorSIGSEGV]: "#9D3DCF",
     [JudgeStatus.RuntimeErrorSIGXFSZ]: "#9D3DCF",
     [JudgeStatus.RuntimeErrorSIGFPE]: "#9D3DCF",

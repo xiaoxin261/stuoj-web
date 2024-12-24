@@ -109,7 +109,7 @@ import '@/assets/aiprocess/loadingConponent.css'
 import '@/assets/aiprocess/tagInput.css'
 import { ref, watch } from 'vue';
 import router from '@/router';
-import type { ProblemSubmit } from '@/types/AiProcess';
+import type { ProblemSubmit } from '@/types/Ai';
 import axios from 'axios';
 import { aiApi } from '@/apis/ai';
 import { uploadProblemApi } from '@/apis/problem';

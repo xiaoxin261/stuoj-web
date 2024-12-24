@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { getUserListApi } from '@/apis/user';
 import {onMounted, ref} from "vue";
-import { UserRoleMap } from '@/types/User';
+import { UserRoleMap, UserRoleColor } from '@/types/User';
 import { formatDateStr } from "@/utils/date";
 import type { UserInfo } from '@/types/User';
 import type { Page } from '@/types/misc';
 import {userStore} from "@/stores/user";
+import {BlogStatusColor, BlogStatusMap} from "@/types/Blog";
 
 interface Scope {
   row: {
@@ -90,7 +91,7 @@ onMounted (() => {
           </el-table-column>
           <el-table-column label="角色" width="80">
             <template #default="scope: Scope">
-              <el-tag>
+              <el-tag :color="UserRoleColor[scope.row.role]" style="color: #fff">
                 {{ UserRoleMap[scope.row.role] }}
               </el-tag>
             </template>

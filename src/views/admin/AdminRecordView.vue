@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { getRecordListApi } from '@/apis/record';
 import {onMounted, ref} from "vue";
-import { JudgeStatusAbbr, JudgeStatusColor } from '@/types/Judge';
+import { JudgeStatusAbbr, JudgeStatusColor, JudgeStatusMap } from '@/types/Judge';
 import { formatDateStr } from "@/utils/date";
+import {userStore} from "@/stores/user";
 import type { Submission } from '@/types/Record';
 import type { Page } from '@/types/misc';
-import {userStore} from "@/stores/user";
 
 interface Scope {
   row: {
@@ -67,14 +67,14 @@ onMounted (() => {
         <el-table :data="records" style="width: 100%" stripe>
           <el-table-column type="selection" :selectable="selectable" width="55" />
           <el-table-column label="ID" prop="id" width="80" sortable/>
-          <el-table-column label="题目ID" width="100" sortable>
+          <el-table-column label="题目ID" width="100">
             <template #default="scope">
               <router-link :to="'/problem/' + scope.row.problem_id">
                 {{ scope.row.problem_id }}
               </router-link>
             </template>
           </el-table-column>
-          <el-table-column label="用户ID" width="100" sortable>
+          <el-table-column label="用户ID" width="100">
             <template #default="scope">
               <router-link :to="'/user/' + scope.row.user_id">
                 {{ scope.row.user_id }}
@@ -102,9 +102,16 @@ onMounted (() => {
           <el-table-column label="分数" prop="score" width="80" sortable/>
           <el-table-column label="状态" width="80">
             <template #default="scope: Scope">
+              <el-tooltip
+                  class="box-item"
+                  effect="dark"
+                  :content="JudgeStatusMap[scope.row.status]"
+                  placement="top"
+              >
               <el-tag :color="JudgeStatusColor[scope.row.status]" style="color: #fff">
                 {{ JudgeStatusAbbr[scope.row.status] }}
               </el-tag>
+              </el-tooltip>
             </template>
           </el-table-column>
           <el-table-column align="right">

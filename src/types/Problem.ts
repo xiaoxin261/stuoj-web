@@ -125,18 +125,25 @@ export enum ProblemStatus {
     invalid = 0,
     public = 1,
     editing = 2,
-    eebugging = 3,
+    debugging = 3,
 }
 
 export const ProblemStatusMap = {
     [ProblemStatus.invalid]: "作废",
     [ProblemStatus.public]: "公开",
-    [ProblemStatus.editing]: "出题中",
-    [ProblemStatus.eebugging]: "调试中",
+    [ProblemStatus.editing]: "出题",
+    [ProblemStatus.debugging]: "调试",
+}
+
+export const ProblemStatusColor = {
+    [ProblemStatus.invalid]: "#F56C6C",
+    [ProblemStatus.public]: "#67C23A",
+    [ProblemStatus.editing]: "#999999",
+    [ProblemStatus.debugging]: "#409EFF",
 }
 
 export enum Difficulty {
-    unknown = 0,
+    U = 0,
     E = 1,
     D = 2,
     C = 3,
@@ -146,13 +153,23 @@ export enum Difficulty {
 }
 
 export const DifficultyMap = {
-    [Difficulty.unknown]: "暂无评定",
-    [Difficulty.E]: "E级（入门）",
-    [Difficulty.D]: "D级（简单）",
-    [Difficulty.C]: "C级（中等）",
-    [Difficulty.B]: "B级（较难）",
-    [Difficulty.A]: "A级（困难）",
-    [Difficulty.S]: "S级（超级困难）",
+    [Difficulty.U]: "[?]未知",
+    [Difficulty.E]: "[E]入门",
+    [Difficulty.D]: "[D]简单",
+    [Difficulty.C]: "[C]中等",
+    [Difficulty.B]: "[B]较难",
+    [Difficulty.A]: "[A]困难",
+    [Difficulty.S]: "[S]超难",
+}
+
+export const DifficultyColor = {
+    [Difficulty.U]: "#999999",
+    [Difficulty.E]: "#E6A23C",
+    [Difficulty.D]: "#67C23A",
+    [Difficulty.C]: "#409EFF",
+    [Difficulty.B]: "#F56C6C",
+    [Difficulty.A]: "#9D3DCF",
+    [Difficulty.S]: "#000000",
 }
 
 export interface ProblemParams {

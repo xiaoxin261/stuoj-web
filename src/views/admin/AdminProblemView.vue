@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { getProblemListApi } from '@/apis/problem';
 import {onMounted, ref} from "vue";
-import { ProblemStatusMap, DifficultyMap } from '@/types/Problem';
+import { ProblemStatusMap, DifficultyMap, ProblemStatusColor, DifficultyColor } from '@/types/Problem';
 import { formatDateStr } from "@/utils/date";
+import {userStore} from "@/stores/user";
 import type { ProblemInfo } from '@/types/Problem';
 import type { Page } from '@/types/misc';
 
@@ -24,9 +25,13 @@ const params = ref<ProblemParams>({
   page: 1,
   size: 10
 });
+const { token } = userStore();
 
 const getList = async () => {
   await execute({
+    headers: {
+      Authorization: `Bearer ${token.value}`
+    },
     params: {
       ...params.value,
     }
@@ -41,8 +46,6 @@ const getList = async () => {
 onMounted (() => {
   getList();
 })
-
-
 </script>
 
 <template>
@@ -68,7 +71,13 @@ onMounted (() => {
         <el-table :data="problems" style="width: 100%" stripe>
           <el-table-column type="selection" :selectable="selectable" width="55" />
           <el-table-column label="ID" prop="id" width="80px" sortable/>
-          <el-table-column label="标题" prop="title" show-overflow-tooltip/>
+          <el-table-column label="标题" show-overflow-tooltip>
+            <template #default="scope">
+              <router-link :to="'/problem/' + scope.row.problem_id">
+                {{ scope.row.title }}
+              </router-link>
+            </template>
+          </el-table-column>
           <el-table-column label="创建时间" width="120">
             <template #default="scope">
               <span>
@@ -85,14 +94,14 @@ onMounted (() => {
           </el-table-column>
           <el-table-column label="难度" width="100">
             <template #default="scope: Scope">
-              <el-tag>
+              <el-tag :color="DifficultyColor[scope.row.difficulty]" style="color: #fff">
                 {{ DifficultyMap[scope.row.difficulty] }}
               </el-tag>
             </template>
           </el-table-column>
           <el-table-column label="状态" width="80">
             <template #default="scope: Scope">
-              <el-tag>
+              <el-tag :color="ProblemStatusColor[scope.row.status]" style="color: #fff">
                 {{ ProblemStatusMap[scope.row.status] }}
               </el-tag>
             </template>
