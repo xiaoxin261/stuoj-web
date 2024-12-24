@@ -37,23 +37,17 @@
 
 <script setup lang="ts">
 import { ElButton, ElInputNumber, ElSwitch } from 'element-plus';
-import { ref, watchEffect, watch } from 'vue';
+import { ref, watchEffect, type PropType } from 'vue';
 import { Type, type Value } from '@/types/Problem';
 
-const props = withDefaults(defineProps<{
-    value: Value;
-}>(), {
-    value: () => ({
-        type: Type.Int,
-        value_size_id: 0,
-        min: undefined,
-        max: undefined,
-        min_id: undefined,
-        max_id: undefined
-    })
+const props = defineProps({
+    value: {
+        type: Object as PropType<Value>,
+        required: true
+    },
 });
 
-const emit = defineEmits(['delete']);
+const emit = defineEmits(['update:value', 'delete']);
 
 const handleDelete = () => {
     emit('delete');
@@ -76,11 +70,8 @@ watchEffect(() => {
         min_id: minIdFlag.value ? min.value : undefined,
         max_id: maxIdFlag.value ? max.value : undefined
     };
+    emit('update:value', value.value);
 });
-
-watch(() => props.value, (newValue) => {
-    value.value = newValue;
-}, { deep: true });
 
 </script>
 
