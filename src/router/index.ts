@@ -9,7 +9,7 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: () => import('../views/HomeView.vue'),
-      meta:{
+      meta: {
         permission: ROLE.Visitor,
         title: 'STUOJ',
       },
@@ -18,7 +18,7 @@ const router = createRouter({
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue'),
-      meta:{
+      meta: {
         permission: ROLE.Visitor,
         title: '关于 - STUOJ',
       },
@@ -60,10 +60,10 @@ const router = createRouter({
       },
     },
     {
-      path:'/problems',
-      name:'problems',
+      path: '/problems',
+      name: 'problems',
       component: () => import('../views/problem/ProblemListView.vue'),
-      meta:{
+      meta: {
         permission: ROLE.Visitor,
         title: '题库 - STUOJ',
       },
@@ -78,10 +78,10 @@ const router = createRouter({
       },
     },
     {
-      path:'/problem/:id',
-      name:'problem',
+      path: '/problem/:id',
+      name: 'problem',
       component: () => import('../views/problem/ProblemView.vue'),
-      meta:{
+      meta: {
         permission: ROLE.Visitor,
         title: '题目 - STUOJ',
       },
@@ -135,7 +135,7 @@ const router = createRouter({
       path:'/admin',
       name:'admin',
       component: () => import('@/views/admin/AdminView.vue'),
-      meta:{
+      meta: {
         title: '管理面板 - STUOJ',
         permission: ROLE.Admin,
       },
@@ -224,7 +224,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to: any, from: any, next) => {
-  const {info}=userStore();
+  const { info } = userStore();
   const permission = info.value?.role ?? -1;
   if (to.meta.permission > permission) {
     next("/403");
