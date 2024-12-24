@@ -61,16 +61,22 @@ const router = createRouter({
       },
     },
     {
-      path:'/aiprocess',
-      name:'aiprocess',
-      component: () => import('../views/problem/AIProcess.vue'),
-      meta:{permission: ROLE.Visitor, },
+      path:'/ai/problem',
+      name:'ai-problem',
+      component: () => import('../views/problem/AIProblemView.vue'),
+      meta:{
+        permission: ROLE.Visitor,
+        title: 'AI 生成题目 - STUOJ',
+      },
     },
     {
-      path:'/problemedit',
-      name:'problemedit',
-      component: () => import('../views/problem/ProblemEdit.vue'),
-      meta:{permission: ROLE.Visitor, },
+      path:'/problem/edit',
+      name:'problem-edit',
+      component: () => import('../views/problem/ProblemEditView.vue'),
+      meta:{
+        permission: ROLE.Visitor,
+        title: '编辑题目 - STUOJ',
+      },
     },
     {
       path:'/problem/:id',

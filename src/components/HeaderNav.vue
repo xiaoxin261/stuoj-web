@@ -51,10 +51,6 @@ const menuLinks = computed(() => {
             name: '讨论',
             to: '/discuss'
         },
-        {
-            name: 'AI题目生成',
-            to: '/aiprocess'
-        }
     ];
     let links = [
         ...basicLinks
