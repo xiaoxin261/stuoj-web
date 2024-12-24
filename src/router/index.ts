@@ -10,7 +10,7 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: () => import('../views/HomeView.vue'),
-      meta:{
+      meta: {
         permission: ROLE.Visitor,
         title: 'STUOJ',
       },
@@ -19,7 +19,7 @@ const router = createRouter({
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue'),
-      meta:{
+      meta: {
         permission: ROLE.Visitor,
         title: '关于 - STUOJ',
       },
@@ -28,7 +28,7 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: () => import('../views/auth/LoginView.vue'),
-      meta:{
+      meta: {
         permission: ROLE.Visitor,
         title: '登录 - STUOJ',
       },
@@ -37,55 +37,58 @@ const router = createRouter({
       path: '/register',
       name: 'register',
       component: () => import('../views/auth/RegisterView.vue'),
-      meta:{
+      meta: {
         permission: ROLE.Visitor,
         title: '注册 - STUOJ',
       },
     },
     {
-      path:'/user/:id',
-      name:'user',
+      path: '/user/:id',
+      name: 'user',
       component: () => import('../views/user/UserSpace.vue'),
-      meta:{
+      meta: {
         permission: ROLE.Visitor,
         title: '个人空间 - STUOJ',
       },
     },
     {
-      path:'/problems',
-      name:'problems',
+      path: '/problems',
+      name: 'problems',
       component: () => import('../views/problem/ProblemListView.vue'),
-      meta:{
+      meta: {
         permission: ROLE.Visitor,
         title: '题库 - STUOJ',
       },
     },
     {
-      path:'/aiprocess',
-      name:'aiprocess',
+      path: '/aiprocess',
+      name: 'aiprocess',
       component: () => import('../views/problem/AIProcess.vue'),
-      meta:{permission: ROLE.Visitor, },
+      meta: { permission: ROLE.Visitor, },
     },
     {
-      path:'/problemedit',
-      name:'problemedit',
+      path: '/problem/edit',
+      name: 'problemedit',
       component: () => import('../views/problem/ProblemEdit.vue'),
-      meta:{permission: ROLE.Visitor, },
+      meta: {
+        permission: ROLE.Visitor,
+        title: '编辑题目 - STUOJ',
+      },
     },
     {
-      path:'/problem/:id',
-      name:'problem',
+      path: '/problem/:id',
+      name: 'problem',
       component: () => import('../views/problem/ProblemView.vue'),
-      meta:{
+      meta: {
         permission: ROLE.Visitor,
         title: '题目 - STUOJ',
       },
     },
     {
-      path:'/admin',
-      name:'admin',
+      path: '/admin',
+      name: 'admin',
       component: () => import('@/views/admin/AdminView.vue'),
-      meta:{
+      meta: {
         title: '管理面板 - STUOJ',
         permission: ROLE.Admin,
       },
@@ -166,7 +169,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to: any, from: any, next) => {
-  const {info}=userStore();
+  const { info } = userStore();
   const permission = info.value?.role ?? -1;
   if (to.meta.permission > permission) {
     next("/403");
