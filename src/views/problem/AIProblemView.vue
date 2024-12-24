@@ -111,14 +111,14 @@ import { ref, watch } from 'vue';
 import router from '@/router';
 import type { ProblemSubmit } from '@/types/AiProcess';
 import axios from 'axios';
-import { aiProcessApi } from '@/apis/aiProcessApis';
+import { aiApi } from '@/apis/ai';
 import { uploadProblemApi } from '@/apis/problem';
 import type { ProblemInfo } from '@/types/Problem';
 import { userStore } from '@/stores/user';
 
 const req = ref<ProblemSubmit>({ title: '', description: '', input: '', output: '', Sample_input: '' });
 const aiProblemInfo = ref<ProblemInfo | null>(null);
-const { execute: submitInfo, state: curProblemInfo } = aiProcessApi();
+const { execute: submitInfo, state: curProblemInfo } = aiApi();
 const { token } = userStore();
 // 响应式变量，控制加载状态
 const isLoading = ref(false);
