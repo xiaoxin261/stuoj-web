@@ -69,7 +69,7 @@
             </ElTableColumn>
             <ElTableColumn prop="status" label="信息" width="1000">
                 <template #default="scope">
-                  {{ JudgeStatusString[scope.row.status as JudegeStatusMap] }}
+                  {{ JudgeStatusMap[scope.row.status as JudegeStatusMap] }}
                 </template>
             </ElTableColumn>
         </ElTable>
@@ -81,7 +81,7 @@ import { userStore } from '@/stores/user';
 import { getRecordInfo } from '@/apis/record';
 import type { Submission, Judgement } from '@/types/Record';
 import { ref, watch } from 'vue';
-import { JudegeStatusMap, JudgeStatusAbbr, JudgeStatusColor, JudgeStatusString } from '@/types/Judge';
+import { JudegeStatusMap, JudgeStatusAbbr, JudgeStatusColor, JudgeStatusMap } from '@/types/Judge';
 import { ElTableColumn } from 'element-plus';
 
 const { execute, state } = getRecordInfo();
