@@ -1,5 +1,9 @@
 <template>
-    <ElForm :model="localTestcase" label-width="auto">
+    <div class="testcase-edit-title">
+        <h4>测试数据修改</h4>
+        <ElButton type="primary" @click="unfold">{{ unfoldFlag ? '收起' : '展开' }}</ElButton>
+    </div>
+    <ElForm v-if="unfoldFlag" :model="localTestcase" label-width="auto">
         <ElFormItem label="测试点ID" label-position="right">
             <ElInput v-model="localTestcase.id" disabled />
         </ElFormItem>
@@ -28,7 +32,7 @@ import { ref, watch } from 'vue';
 
 const props = withDefaults(defineProps<{
     testcase?: Testcase,
-}>(),{
+}>(), {
     testcase: () => ({
         id: 0,
         serial: 0,
@@ -37,6 +41,13 @@ const props = withDefaults(defineProps<{
         test_output: '',
     }),
 });
+
+const unfoldFlag = ref(false);
+
+const unfold = () => {
+    unfoldFlag.value = !unfoldFlag.value;
+};
+
 const emit = defineEmits(['update:testcase']);
 
 const localTestcase = ref<Testcase>({ ...props.testcase });
@@ -55,3 +66,12 @@ watch(props, () => {
         localTestcase.value = { ...props.testcase };
 });
 </script>
+
+<style scoped>
+.testcase-edit-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+</style>
