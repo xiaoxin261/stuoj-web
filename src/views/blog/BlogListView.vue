@@ -1,16 +1,11 @@
 <script setup lang="ts">
 import {getBlogListApi} from '@/apis/blog';
 import {onMounted, ref} from "vue";
-import {BlogStatusMap, BlogStatusColor} from '@/types/Blog';
+import {BlogStatusMap, BlogStatusColor, BlogStatus} from '@/types/Blog';
 import {formatDateStr} from "@/utils/date";
 import type {BlogInfo} from '@/types/Blog';
 import type {Page} from '@/types/misc';
 
-interface Scope {
-  row: {
-    status: keyof typeof BlogStatusMap;
-  };
-}
 interface BlogParams {
   page: number
   size: number
@@ -50,7 +45,7 @@ const blogForm = ref({
 
 <template>
   <div class="container-main">
-    <h1>STUOJ 博客</h1>
+    <h1>博客</h1>
     <el-divider></el-divider>
     <el-row :gutter="20">
       <el-col :span="6">
@@ -82,12 +77,12 @@ const blogForm = ref({
           </el-form>
         </el-card>
         <el-divider></el-divider>
-        <div v-for="blog in blogs" :key="blog">
+        <div v-for="blog in blogs" :key="blog.id">
           <router-link :to="'/blog/' + blog.id">
             <el-card class="blogCard">
                 <span>
-                  <el-tag :color:="BlogStatusColor[blog.status]">
-                    {{ BlogStatusMap[blog.status] }}
+                  <el-tag :color="BlogStatusColor[blog.status as BlogStatus]" style="color: #ffffff">
+                    {{ BlogStatusMap[blog.status as BlogStatus] }}
                   </el-tag>&nbsp;
                   <b>{{ blog.title }}</b><br/>
                 </span>

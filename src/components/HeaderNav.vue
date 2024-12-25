@@ -49,7 +49,7 @@ const menuLinks = computed(() => {
         },
         {
             name: '博客',
-            to: '/blog'
+            to: '/blogs'
         },
     ];
     let links = [

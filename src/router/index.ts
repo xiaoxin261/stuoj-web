@@ -123,8 +123,8 @@ const router = createRouter({
       },
     },
     {
-      path: '/blog',
-      name: 'blog',
+      path: '/blogs',
+      name: 'blogs',
         component: () => import('@/views/blog/BlogListView.vue'),
         meta:{
             permission: ROLE.Visitor,
