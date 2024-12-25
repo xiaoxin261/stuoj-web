@@ -1,22 +1,39 @@
 <template>
-    <div style="width: 100%; justify-content: center;">
-        <ElForm :model="req" label-width="auto">
-            <ElFormItem label="Username" :label-position="itemLabelPosition">
-                <ElInput v-model="req.username" />
-            </ElFormItem>
-            <ElFormItem label="Email" :label-position="itemLabelPosition">
-                <ElInput v-model="req.email" />
-            </ElFormItem>
-            <ElFormItem label="Password" :label-position="itemLabelPosition">
-                <ElInput v-model="req.password" type="password" />
-            </ElFormItem>
-            <ElFormItem>
-                <ElButton type="primary" @click="handleLogin" style="width: 100%;">
-                    Login
-                </ElButton>
-            </ElFormItem>
-        </ElForm>
-    </div>
+  <el-container>
+    <el-main>
+      <el-row justify="space-around">
+        <el-col :span="12">
+          <el-card>
+            <h1>用户注册</h1>
+            <br/>
+            <el-form :model="req" label-width="80px">
+              <el-form-item label="用户名">
+                <el-input v-model="req.username" />
+              </el-form-item>
+<!--
+              <el-form-item label="手机">
+                <el-input type="tel" v-model="req.phone" disabled />
+              </el-form-item>
+-->
+              <el-form-item label="邮箱">
+                <el-input type="email" v-model="req.email" />
+              </el-form-item>
+              <el-form-item label="密码">
+                <el-input type="password" v-model="req.password" />
+              </el-form-item>
+              <el-form-item>
+                <router-link to="/user/login"><el-button>登录</el-button></router-link>
+                &nbsp;&nbsp;
+                <el-button type="primary" @click="handleRegister">注册</el-button>
+                &nbsp;&nbsp;
+                <router-link to="/user/forgot"><el-button>忘记密码？</el-button></router-link>
+              </el-form-item>
+            </el-form>
+          </el-card>
+        </el-col>
+      </el-row>
+    </el-main>
+  </el-container>
 </template>
 
 <script setup lang="ts">
@@ -29,7 +46,7 @@ import router from '@/router';
 const req = ref<RegisterReq>({ username: '', email: '', password: '' });
 const itemLabelPosition = ref<FormItemProps['labelPosition']>('right')
 
-const handleLogin = async () => {
+const handleRegister = async () => {
     const { execute } = RegisterApi();
     const state = await execute({
         data: {

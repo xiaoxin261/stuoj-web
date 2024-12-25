@@ -1,5 +1,4 @@
 <template>
-  <div class="container-main">
     <el-container>
       <el-main>
         <el-row justify="space-around">
@@ -16,7 +15,7 @@
                 </el-form-item>
                 <el-form-item>
                   <el-checkbox-group>
-                    <el-checkbox label="记住密码"/>
+                    <el-checkbox label="记住密码" disabled/>
                   </el-checkbox-group>
                 </el-form-item>
                 <el-form-item>
@@ -32,8 +31,6 @@
         </el-row>
       </el-main>
     </el-container>
-
-  </div>
 </template>
 
 <script setup lang="ts">
