@@ -3,7 +3,7 @@
     <div class="button-container">
         <LanguageSelect v-model="language_id" style="width: 50%; margin-right: 2%;" />
         <ElButton class="debug-button" @click="handleDebug">调试</ElButton>
-        <ElButton class="submit-button" type="primary" @click="handleSubmit">提交</ElButton>
+        <ElButton v-if="props.problem" class="submit-button" type="primary" @click="handleSubmit">提交</ElButton>
     </div>
     <div class="result-container" v-if="resultFlag">
         <ElContainer class="result-container-content">
