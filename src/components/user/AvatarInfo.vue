@@ -64,7 +64,7 @@ const updateInfo = async () => {
 
 const handelClick = () => {
     if (!isLogin.value) {
-        router.push('/login');
+        router.push('/user/login');
     } else {
         router.push(`/user/${userId.value}`);
     }

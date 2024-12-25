@@ -1,6 +1,9 @@
 <template>
-    <ElContainer style="width: 100%; justify-content: center;" direction="vertical">
+    <div style="width: 100%; justify-content: center;">
         <ElForm :model="req" label-width="auto">
+            <ElFormItem label="Username" :label-position="itemLabelPosition">
+                <ElInput v-model="req.username" />
+            </ElFormItem>
             <ElFormItem label="Email" :label-position="itemLabelPosition">
                 <ElInput v-model="req.email" />
             </ElFormItem>
@@ -13,44 +16,35 @@
                 </ElButton>
             </ElFormItem>
         </ElForm>
-        <ElButton type="primary" @click="handleRegister_" link>Register</ElButton>
-    </ElContainer>
+    </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { LoginApi } from '@/apis/auth';
-import type { LoginReq } from '@/types/User';
-import { userStore } from '@/stores/user'
+import { RegisterApi } from '@/apis/auth';
+import type { RegisterReq } from '@/types/User';
 import { ElNotification, type FormItemProps } from 'element-plus';
 import router from '@/router';
 
-const req = ref<LoginReq>({ email: '', password: '' });
+const req = ref<RegisterReq>({ username: '', email: '', password: '' });
 const itemLabelPosition = ref<FormItemProps['labelPosition']>('right')
-const { updateToken, getUserInfo } = userStore();
 
 const handleLogin = async () => {
-    const { execute } = LoginApi();
+    const { execute } = RegisterApi();
     const state = await execute({
         data: {
+            username: req.value.username,
             email: req.value.email,
             password: req.value.password
         }
-    })
-    if (state.value) {
-        updateToken(state.value);
+    }).then(() => {
         ElNotification({
-            title: "登录成功",
-            type: "success"
+            title: '成功',
+            message: '注册成功',
+            type: 'success',
         });
-        router.push({ name: 'home' }).then(() => {
-            window.location.reload();
-        });
-    }
-};
-
-const handleRegister_ = () => {
-    router.push({ path: '/register' });
+        router.push('/user/login')
+    });
 };
 
 onMounted(() => {

@@ -24,27 +24,36 @@ const router = createRouter({
       },
     },
     {
-      path: '/login',
-      name: 'login',
-      component: () => import('../views/auth/LoginView.vue'),
+      path: '/user/login',
+      name: 'user-login',
+      component: () => import('../views/user/UserLoginView.vue'),
       meta:{
         permission: ROLE.Visitor,
         title: '登录 - STUOJ',
       },
     },
     {
-      path: '/register',
-      name: 'register',
-      component: () => import('../views/auth/RegisterView.vue'),
+      path: '/user/register',
+      name: 'user-register',
+      component: () => import('../views/user/UserRegisterView.vue'),
       meta:{
         permission: ROLE.Visitor,
         title: '注册 - STUOJ',
       },
     },
     {
+      path: '/user/forgot',
+      name: 'user-forgot',
+      component: () => import('../views/user/UserForgotView.vue'),
+      meta:{
+        permission: ROLE.Visitor,
+        title: '找回密码 - STUOJ',
+      },
+    },
+    {
       path:'/user/:id',
       name:'user',
-      component: () => import('../views/user/UserSpace.vue'),
+      component: () => import('../views/user/UserSpaceView.vue'),
       meta:{
         permission: ROLE.Visitor,
         title: '个人空间 - STUOJ',
