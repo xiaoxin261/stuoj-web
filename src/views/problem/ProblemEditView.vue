@@ -56,7 +56,10 @@
         </ElCard>
       </div>
       <ElCard style="margin-top: 10px;">
-        <TestcaseEdit v-model:testcase="testcase"/>
+        <TestcaseEdit v-model:testcase="testcase" />
+      </ElCard>
+      <ElCard style="margin-top: 10px;">
+        <DataMake v-bind:global="global" />
       </ElCard>
     </ElCol>
   </ElRow>
@@ -65,7 +68,7 @@
 <script setup lang="ts">
 import { onBeforeMount, ref, watch } from 'vue';
 import { ElRow } from 'element-plus';
-import type { ProblemInfo,Testcase } from '@/types/Problem';
+import type { ProblemInfo, Testcase, Global } from '@/types/Problem';
 import { getProblemApi } from '@/apis/problem';
 import { useRoute } from 'vue-router';
 import TestTable from '@/components/problem/TestTable.vue';
@@ -84,7 +87,10 @@ const problem = ref<ProblemInfo>({
 });
 
 const testTableRef = ref<InstanceType<typeof TestTable> | null>(null);
-const testcase= ref<Testcase>();
+const testcase = ref<Testcase>();
+const global = ref<Global>({
+  rows: []
+});
 const route = useRoute();
 let problemId = ref<number | null>(null);
 
@@ -100,7 +106,7 @@ onBeforeMount(async () => {
         if (res.value)
           problem.value = res.value.problem;
       });
-      if(testTableRef.value){
+      if (testTableRef.value) {
         testTableRef.value.refreshTestcases();
       }
     }
