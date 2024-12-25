@@ -132,8 +132,8 @@ const router = createRouter({
         }
     },
     {
-      path:'/admin',
-      name:'admin',
+      path: '/admin',
+      name: 'admin',
       component: () => import('@/views/admin/AdminView.vue'),
       meta: {
         title: '管理面板 - STUOJ',
