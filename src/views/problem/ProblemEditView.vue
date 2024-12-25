@@ -44,29 +44,54 @@
           </ElInput>
         </div>
       </ElCard>
+      <ElCard style="margin-top: 10px; display: flex; justify-content: flex-end;">
+        <ElButton type="primary" @click="handleUpload">创建</ElButton>
+        <ElButton v-if="isNumber(problemId)" type="primary" @click="handleUpdate">更新</ElButton>
+      </ElCard>
     </ElCol>
     <ElCol :span="12">
       <div style="display: flex; justify-content: space-between; gap: 20px;">
-        <ElCard class="box-card" style="width: 50%;">
+        <ElCard class="box-card" style="width: 50%; height: 75px;">
           <ProblemDifficultySelect v-model:model-value="problem.difficulty" style="margin-right: 20%; width: 60%;" />
           <ProblemTagSelect v-model:model-value="problem.tags" />
         </ElCard>
         <ElCard class="box-card" style="width: 50%;">
-          
+          <TestTable v-model:testcase="testcase" v-bind:problem-id="problem.id" ref="testTableRef" />
         </ElCard>
       </div>
+      <ElCard style="margin-top: 10px;">
+        <TestcaseEdit v-model:testcase="testcase" />
+      </ElCard>
+      <ElCard style="margin-top: 10px;">
+        <DataMake v-bind:global="global" />
+      </ElCard>
+      <ElCard style="margin-top: 10px;">
+        <div class="debug-title">
+          <h4>调试器</h4>
+          <ElButton type="primary" @click="handleDebugFlag">{{ debugFlag ? '收起' : '展开' }}</ElButton>
+        </div>
+        <CodeRun v-if="debugFlag" :problem="problemId ?? ''" />
+      </ElCard>
     </ElCol>
   </ElRow>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { ElRow } from 'element-plus';
-import type { ProblemInfo } from '@/types/Problem';
-import { getProblemApi } from '@/apis/problem';
+import { onBeforeMount, ref, h } from 'vue';
+import { ElLink, ElNotification, ElRow } from 'element-plus';
+import type { ProblemInfo, Testcase, Global } from '@/types/Problem';
+import { getProblemApi, uploadProblemApi, updateProblemApi } from '@/apis/problem';
 import { useRoute } from 'vue-router';
+import TestTable from '@/components/problem/TestTable.vue';
+import TestcaseEdit from '@/components/problem/TestCaseEdit.vue';
+import { isNumber } from 'element-plus/es/utils/types.mjs';
+import { userStore } from '@/stores/user';
+
+const { token } = userStore();
 
 const { execute: getProblemExecute } = getProblemApi();
+const { execute: updateProblemExecute } = updateProblemApi();
+const { execute: uploadProblemExecute } = uploadProblemApi();
 const problem = ref<ProblemInfo>({
   title: '',
   description: '',
@@ -78,10 +103,15 @@ const problem = ref<ProblemInfo>({
   tags: [],
 });
 
+const testTableRef = ref<InstanceType<typeof TestTable> | null>(null);
+const testcase = ref<Testcase>();
+const global = ref<Global>({
+  rows: []
+});
 const route = useRoute();
 let problemId = ref<number | null>(null);
 
-onMounted(async () => {
+onBeforeMount(async () => {
   const idParam = route.query.id;
   if (typeof idParam === 'string') {
     const match = idParam.match(/\d+/);
@@ -93,6 +123,9 @@ onMounted(async () => {
         if (res.value)
           problem.value = res.value.problem;
       });
+      if (testTableRef.value) {
+        testTableRef.value.refreshTestcases();
+      }
     }
   } else {
     problem.value.title = route.query.title as string;
@@ -105,9 +138,58 @@ onMounted(async () => {
   }
 });
 
+const debugFlag = ref(false);
 
+const handleDebugFlag = () => {
+  debugFlag.value = !debugFlag.value;
+};
 
+const handleUpload = async () => {
+  uploadProblemExecute({
+    headers: {
+      Authorization: `Bearer ${token.value}`
+    },
+    data: problem.value
+  }).then((res) => {
+    if (res.value) {
+      problemId.value = res.value;
+      ElNotification.success({
+        title: '创建成功',
+        message: h(ElLink, {
+          href: `/problem/${problemId.value}`,
+          target: 'primary',
+          type: 'primary'
+        }, '点击前往查看')
+      })
+    }
+  });
+}
+
+const handleUpdate = async () => {
+  updateProblemExecute({
+    headers: {
+      Authorization: `Bearer ${token.value}`
+    },
+    data: problem.value
+  }).then(() => {
+    ElNotification.success({
+      title: '更新成功',
+      message: h(ElLink, {
+        href: `/problem/${problemId.value}`,
+        target: 'primary',
+        type: 'primary'
+      }, '点击前往查看')
+    })
+  });
+};
 
 </script>
 
-<style scoped></style>
+<style scoped>
+.debug-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+</style>

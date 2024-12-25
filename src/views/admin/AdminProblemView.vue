@@ -6,6 +6,7 @@ import { formatDateStr } from "@/utils/date";
 import {userStore} from "@/stores/user";
 import type { ProblemInfo } from '@/types/Problem';
 import type { Page } from '@/types/misc';
+import router from '@/router';
 
 interface Scope {
   row: {
@@ -43,6 +44,10 @@ const getList = async () => {
   }
 }
 
+const handleEdit = async (index: number, row: ProblemInfo) => {
+  await router.push(`/problem/edit?id=${row.id}`);
+}
+
 onMounted (() => {
   getList();
 })
@@ -73,7 +78,7 @@ onMounted (() => {
           <el-table-column label="ID" prop="id" width="80px" sortable/>
           <el-table-column label="标题" show-overflow-tooltip>
             <template #default="scope">
-              <router-link :to="'/problem/' + scope.row.problem_id">
+              <router-link :to="'/problem/' + scope.row.id">
                 {{ scope.row.title }}
               </router-link>
             </template>

@@ -46,18 +46,12 @@ export interface Global {
     [property: string]: any;
 }
 
-/**
- * Row
- */
 export interface Row {
-    row_size_id?: number;
+    row_size_id: number;
     values: Value[];
     [property: string]: any;
 }
 
-/**
- * Value
- */
 export interface Value {
     max?: number;
     max_id?: number;
@@ -107,7 +101,7 @@ export interface FpsProblemInfo {
     [property: string]: any;
 }
 
-export interface FpsTestCase {
+export interface FpsTestcase {
     test_input?: string;
     test_output?: string;
     [property: string]: any;

@@ -67,7 +67,7 @@
                     {{ scope.row.memory }}KB
                 </template>
             </ElTableColumn>
-            <ElTableColumn prop="status" label="信息" width="1000">
+            <ElTableColumn prop="status" label="信息">
                 <template #default="scope">
                   {{ JudgeStatusMap[scope.row.status as JudegeStatusMap] }}
                 </template>

@@ -1,10 +1,10 @@
 import { useDefineApi } from "@/stores/useDefineApi";
-import type { FpsProblemInfo, FpsSolution, FpsTestCase, Global, ProblemHistory, ProblemInfo, ProblemParams, Solution, Tag, Testcase } from "@/types/Problem";
+import type { FpsProblemInfo, FpsSolution, FpsTestcase, Global, ProblemHistory, ProblemInfo, ProblemParams, Solution, Tag, Testcase } from "@/types/Problem";
 import type { Page } from "@/types/misc";
 
 export const getProblemListApi = useDefineApi<
     {
-        params:ProblemParams;
+        params: ProblemParams;
     },
     Page<"problems", ProblemInfo>
 >({
@@ -18,8 +18,9 @@ export const getProblemApi = useDefineApi<
     },
     {
         problem: ProblemInfo
-        tags: Tag[]
+        tags?: Tag[]
         solutions?: Solution[]
+        testcases?: Testcase[]
     }
 >({
     url: "/problem",
@@ -90,7 +91,7 @@ export const problemRemoveTagApi = useDefineApi<
     method: "delete"
 })
 
-export const getTestCaseApi = useDefineApi<
+export const getTestcaseApi = useDefineApi<
     {
         id: number
     },
@@ -100,7 +101,7 @@ export const getTestCaseApi = useDefineApi<
     method: "get"
 })
 
-export const uploadTestCaseApi = useDefineApi<
+export const uploadTestcaseApi = useDefineApi<
     {
         data: Testcase
     },
@@ -110,7 +111,7 @@ export const uploadTestCaseApi = useDefineApi<
     method: "post"
 })
 
-export const updateTestCaseApi = useDefineApi<
+export const updateTestcaseApi = useDefineApi<
     {
         data: Testcase
     },
@@ -120,7 +121,7 @@ export const updateTestCaseApi = useDefineApi<
     method: "put"
 })
 
-export const deleteTestCaseApi = useDefineApi<
+export const deleteTestcaseApi = useDefineApi<
     {
         id: number
     },
@@ -131,7 +132,7 @@ export const deleteTestCaseApi = useDefineApi<
 })
 
 export const datamakeApi = useDefineApi<
-    Global,
+    { data: Global },
     string
 >({
     url: "/admin/testcase/datamake",
@@ -190,12 +191,12 @@ export const getProblemHistoryApi = useDefineApi<
 
 export const uploadFPSApi = useDefineApi<
     {
-       
+
     },
     {
         problem: FpsProblemInfo
         solution: FpsSolution[]
-        testcases: FpsTestCase[]
+        testcases: FpsTestcase[]
     }
 >({
     url: "/admin/problem/fps",
