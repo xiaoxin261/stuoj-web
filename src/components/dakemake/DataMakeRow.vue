@@ -1,7 +1,7 @@
 <template>
     <div class="data-make-row">
         <div class="row-operation">
-            <ElInputNumber v-model="row.row_size_id" controls-position="right" size="small" class="number-input">
+            <ElInputNumber v-model="row.value_size_id" controls-position="right" size="small" class="number-input">
                 <template #prepend>
                     <span>sizeID</span>
                 </template>
@@ -10,69 +10,74 @@
             <ElButton type="primary" size="small" icon="Delete" @click="handleDelete" />
         </div>
         <div class="value-row">
-            <DataMakeValue v-for="(id, index) in valueId" :key="index" :id="id" @delete="removeValue()"
-                @update="updateValue()" />
+            <DataMakeValue v-for="(_, index) in row.values" :key="index" v-model:value="row.values[index]"
+                @delete="removeValue(index)" ref="valueRefs" />
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import { ElInputNumber } from 'element-plus';
-import { ref, type PropType, watchEffect, watch, toRef, onMounted, computed } from 'vue';
+import { ref, type PropType, watchEffect, nextTick } from 'vue';
 import { Type, type Row } from '@/types/Problem';
-import { datamakeStore } from '@/stores/datamake';
+import DataMakeValue from './DataMakeValue.vue';
 
-const { CreateValue, UpdateRow, GetRow, DeleteRow, GetValueIds } = datamakeStore();
-
-const props = defineProps<{
-    id: string,
-}>();
-
-const valueId = ref<string[]>([]);
-
-const row = ref<Row>({ row_size_id: 0, values: [] });
-
-const emit = defineEmits(['update', 'delete']);
-
-onMounted(() => {
-    row.value = GetRow(props.id);
-    valueId.value = GetValueIds(props.id);
+const props = defineProps({
+    row: {
+        type: Object as PropType<Row>,
+        required: true
+    },
 });
 
+const row = ref(props.row);
+
+const emit = defineEmits(['update:row', 'delete']);
+
+const valueRefs = ref<InstanceType<typeof DataMakeValue>[]>([]);
 
 const handleDelete = () => {
-    DeleteRow(props.id);
     emit('delete');
 };
 
-const addValue = () => {
-    CreateValue(props.id);
-    valueId.value = GetValueIds(props.id);
-    updateValue();
+const addValue = async () => {
+    row.value.values.push({
+        type: Type.Int,
+        value_size_id: undefined,
+        min: undefined,
+        max: undefined,
+        min_id: undefined,
+        max_id: undefined
+    });
 };
 
-const removeValue = () => {
-    valueId.value = GetValueIds(props.id);
-    updateValue();
+const removeValue = (index: number) => {
+    if (index >= 0 && index < row.value.values.length) {
+        row.value.values.splice(index, 1);
+        nextTick(() => {
+            valueRefs.value.forEach((comp) => {
+                comp.getFromProps();
+            });
+        });
+    } else {
+        console.warn('Index out of bounds');
+    }
 };
 
-const updateValue = () => {
-    valueId.value = [];
-    valueId.value = GetValueIds(props.id);
-    row.value = GetRow(props.id);
+const getFromProps = () => {
+    row.value = props.row;
+    nextTick(() => {
+        valueRefs.value.forEach((comp) => {
+            comp.getFromProps();
+        });
+    });
 };
 
-const idRef = toRef(props, 'id');
-
-watch(idRef, () => {
-    updateValue();
+defineExpose({
+    getFromProps,
 });
 
-const rowSizeId = computed(() => row.value.row_size_id);
-
-watch(rowSizeId, () => {
-    const row_ = GetRow(props.id);
-    UpdateRow(props.id, { ...row.value, globalId: row_?.globalId });
+watchEffect(() => {
+    emit('update:row', row.value);
 });
 </script>
 

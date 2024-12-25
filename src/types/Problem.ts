@@ -43,15 +43,12 @@ export interface Testcase {
 
 export interface Global {
     rows: Row[];
-    rowIds?: string[];
     [property: string]: any;
 }
 
 export interface Row {
     row_size_id: number;
     values: Value[];
-    valueIds?: string[];
-    globalId?: string;
     [property: string]: any;
 }
 
@@ -62,7 +59,6 @@ export interface Value {
     min_id?: number;
     type: Type;
     value_size_id?: number;
-    rowId?: string;
     [property: string]: any;
 }
 
