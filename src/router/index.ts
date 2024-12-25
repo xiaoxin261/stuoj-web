@@ -123,6 +123,15 @@ const router = createRouter({
       },
     },
     {
+      path: '/blogs',
+      name: 'blogs',
+        component: () => import('@/views/blog/BlogListView.vue'),
+        meta:{
+            permission: ROLE.Visitor,
+            title: '博客 - STUOJ',
+        }
+    },
+    {
       path:'/admin',
       name:'admin',
       component: () => import('@/views/admin/AdminView.vue'),

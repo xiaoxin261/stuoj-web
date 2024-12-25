@@ -36,7 +36,7 @@ import { ref, watch } from 'vue';
 import { userStore } from '@/stores/user';
 import { TestRun } from '@/apis/judge';
 import { Submit } from '@/apis/judge';
-import RecordInfo from '@/components/RecordInfo.vue';
+import RecordInfo from '@/components/record/RecordInfo.vue';
 
 const { execute: testExcute, state: testState } = TestRun();
 const { execute: submitExcute, state: submitState } = Submit();
