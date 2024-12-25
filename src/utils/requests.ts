@@ -58,7 +58,6 @@ export const request = <T>(config: AxiosRequestConfig) => {
       }
       config2 = Object.assign({}, config, config2);
       const result = await _req<T>(config2);
-      console.log("res:" + result);
       return result?.data as T;
     },
     undefined,

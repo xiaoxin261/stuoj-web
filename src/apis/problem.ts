@@ -4,7 +4,7 @@ import type { Page } from "@/types/misc";
 
 export const getProblemListApi = useDefineApi<
     {
-        params:ProblemParams;
+        params: ProblemParams;
     },
     Page<"problems", ProblemInfo>
 >({
@@ -132,7 +132,7 @@ export const deleteTestcaseApi = useDefineApi<
 })
 
 export const datamakeApi = useDefineApi<
-    Global,
+    { data: Global },
     string
 >({
     url: "/admin/testcase/datamake",
@@ -191,7 +191,7 @@ export const getProblemHistoryApi = useDefineApi<
 
 export const uploadFPSApi = useDefineApi<
     {
-       
+
     },
     {
         problem: FpsProblemInfo
