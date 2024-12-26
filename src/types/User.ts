@@ -3,22 +3,11 @@ export interface UserInfo {
      * 用户头像
      */
     avatar: string;
-    /**
-     * 注册日期
-     */
     create_time?: string;
     email?: string;
-    /**
-     * 用户id，ID 编号
-     */
     id: number;
-    /**
-     * 角色
-     */
     role: ROLE;
-    /**
-     * 更新日期
-     */
+    signature: string;
     update_time: string;
     username: string;
     [property: string]: any;
