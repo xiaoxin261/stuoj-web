@@ -23,6 +23,10 @@ onMounted(async () => {
     blog.value = state.value
   }
 });
+
+const commentForm = ref({
+  content: ""
+});
 </script>
 
 <template>
@@ -72,7 +76,32 @@ onMounted(async () => {
     </el-card>
     <br/>
     <el-card>
-      评论区
+      <div>
+        <strong>发表评论</strong><br/><br/>
+        <el-form :model="commentForm">
+          <el-form-item>
+            <el-input v-model="commentForm.content" placeholder="如何评价..." type="textarea"/>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="onSubmit">发送</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+      <el-divider></el-divider>
+      <strong>评论区</strong><br/><br/>
+      <div>
+        <el-card style="margin-bottom: 20px">
+          <div>
+            <el-icon><UserFilled/></el-icon>&nbsp;用户名
+            <el-divider direction="vertical"></el-divider>
+            <el-icon><Timer/></el-icon>&nbsp;2021-01-01
+          </div>
+          <br/>
+          <div>
+            评论内容
+          </div>
+        </el-card>
+      </div>
     </el-card>
   </div>
 </template>
