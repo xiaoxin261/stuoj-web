@@ -49,9 +49,19 @@ const blogForm = ref({
     <el-divider></el-divider>
     <el-row :gutter="20">
       <el-col :span="6">
-        <el-card>
-          <strong>博客热榜</strong>
-          <el-divider></el-divider>
+        <el-card style="margin-bottom: 20px">
+          <strong>搜索博客</strong><br/><br/>
+          <el-form>
+            <el-form-item>
+              <el-input type="text" placeholder="博客标题" clearable/>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary">搜索</el-button>
+            </el-form-item>
+          </el-form>
+        </el-card>
+        <el-card style="margin-bottom: 20px">
+          <strong>博客热榜</strong><br/><br/>
           <ul>
             <li>1. 今天天气真好</li>
             <li>2. 今天天气真好</li>
@@ -59,6 +69,13 @@ const blogForm = ref({
             <li>4. 今天天气真坏</li>
             <li>5. 今天天气真好</li>
           </ul>
+        </el-card>
+        <el-card style="margin-bottom: 20px">
+          <strong>标签分类</strong><br/><br/>
+          <el-tag>tag</el-tag>&nbsp;
+          <el-tag>tag</el-tag>&nbsp;
+          <el-tag>tag</el-tag>&nbsp;
+          <el-tag>tag</el-tag>&nbsp;
         </el-card>
       </el-col>
       <el-col :span="18">
