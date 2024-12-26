@@ -60,7 +60,7 @@
             </ElTableColumn>
             <ElTableColumn prop="memory" label="内存" width="100">
                 <template #default="scope">
-                    {{ scope.row.memory }}KB
+                    {{ scope.row.memory }}kb
                 </template>
             </ElTableColumn>
             <ElTableColumn prop="status" label="信息">
