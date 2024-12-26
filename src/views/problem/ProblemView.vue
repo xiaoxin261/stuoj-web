@@ -105,13 +105,14 @@
             </div>
             <div class="problem-info-item custom-font-size">
               <h4 class="weight">内存限制</h4>
-              <span>{{ problemInfo.memory_limit ?? 0 / 1024 }} MB</span>
+              <span>{{ problemInfo.memory_limit / 1024 }} MB</span>
             </div>
             <div class="problem-info-item custom-font-size">
               <div class="problem-info-item-title">
-              <h4 class="weight">标签</h4>
-              <ElButton style="margin-top: 20px;margin-left: 10px;" size="small" @click="toggleTagsVisibility" :icon="tagsFlag ? 'View' : 'Hide'" />
-            </div>
+                <h4 class="weight">标签</h4>
+                <ElButton style="margin-top: 20px;margin-left: 10px;" size="small" @click="toggleTagsVisibility"
+                  :icon="tagsFlag ? 'View' : 'Hide'" />
+              </div>
               <ProblemTag v-if="tagsFlag" :tags="tags" />
             </div>
           </div>
@@ -220,7 +221,8 @@ onMounted(async () => {
 .custom-font-size {
   font-size: 17px;
 }
-.problem-info-item-title{
+
+.problem-info-item-title {
   display: flex;
 }
 </style>
