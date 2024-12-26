@@ -55,7 +55,7 @@ onUnmounted(() => {
 
 <style scoped>
 .ace-editor {
-    height: 700px;
+    height: 500px;
     width: 100%;
     font-size: 16px;
 }

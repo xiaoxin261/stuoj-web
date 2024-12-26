@@ -60,8 +60,8 @@ const router = createRouter({
       },
     },
     {
-      path: '/problems',
-      name: 'problems',
+      path: '/problem',
+      name: 'problem-list',
       component: () => import('../views/problem/ProblemListView.vue'),
       meta: {
         permission: ROLE.Visitor,
@@ -123,13 +123,22 @@ const router = createRouter({
       },
     },
     {
-      path: '/blogs',
-      name: 'blogs',
+      path: '/blog',
+      name: 'blog-list',
         component: () => import('@/views/blog/BlogListView.vue'),
         meta:{
             permission: ROLE.Visitor,
             title: '博客 - STUOJ',
         }
+    },
+    {
+      path: '/blog/:id',
+      name: 'blog',
+      component: () => import('@/views/blog/BlogView.vue'),
+      meta:{
+        permission: ROLE.Visitor,
+        title: '博客 - STUOJ',
+      }
     },
     {
       path: '/admin',

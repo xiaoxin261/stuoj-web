@@ -6,13 +6,22 @@ export function formatDate(date: Date): string {
 }
 
 export function formatDataTimeStr(time: string) {
+    if (!time || time === '') {
+        return '0000-00-00 00:00:00';
+    }
     return new Date(time).toLocaleString();
 }
 
 export function formatTimeStr(time: string) {
+    if (!time || time === '') {
+        return '00:00:00';
+    }
     return new Date(time).toLocaleTimeString();
 }
 
 export function formatDateStr(time: string) {
+    if (!time || time === '') {
+        return '0000-00-00';
+    }
     return new Date(time).toLocaleDateString();
 }
