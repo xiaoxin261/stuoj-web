@@ -40,7 +40,7 @@
             <div class="problem-info custom-font-size">
               <div class="problem-info-item">
                 <h4 class="weight">难度</h4>
-                <span>{{ DifficultyMap[problemInfo.difficulty] }}</span>
+                <span>{{ DifficultyMap[problemInfo.difficulty as Difficulty] }}</span>
               </div>
               <div class="problem-info-item custom-font-size">
                 <h4 class="weight">时间限制</h4>
@@ -48,7 +48,7 @@
               </div>
               <div class="problem-info-item custom-font-size">
                 <h4 class="weight">内存限制</h4>
-                <span>{{ problemInfo.memory_limit / 1024 }} MB</span>
+                <span>{{ problemInfo.memory_limit ?? 0 / 1024 }} MB</span>
               </div>
             </div>
           </ElCard>
@@ -67,7 +67,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import type { ProblemInfo, Solution, Tag } from "@/types/Problem";
+import {Difficulty, type ProblemInfo, type Solution, type Tag} from "@/types/Problem";
 import { useRouteParams } from "@vueuse/router";
 import { getProblemApi } from "@/apis/problem";
 import type { ApiResponse } from "@/types/ApiResponse";
@@ -89,9 +89,6 @@ onMounted(async () => {
         problemInfo.value = state.value.problem;
     }
 });
-
-
-
 </script>
 
 <style scoped>
