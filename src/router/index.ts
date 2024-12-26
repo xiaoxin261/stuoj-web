@@ -61,7 +61,7 @@ const router = createRouter({
     },
     {
       path: '/problem',
-      name: 'problem',
+      name: 'problem-list',
       component: () => import('../views/problem/ProblemListView.vue'),
       meta: {
         permission: ROLE.Visitor,
@@ -124,7 +124,7 @@ const router = createRouter({
     },
     {
       path: '/blog',
-      name: 'blog',
+      name: 'blog-list',
         component: () => import('@/views/blog/BlogListView.vue'),
         meta:{
             permission: ROLE.Visitor,
