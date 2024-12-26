@@ -64,5 +64,6 @@ declare module 'vue' {
     TestCaseEdit: typeof import('./components/problem/TestCaseEdit.vue')['default']
     TestTable: typeof import('./components/problem/TestTable.vue')['default']
     ToUserSettingButton: typeof import('./components/user/ToUserSettingButton.vue')['default']
+    UserEdit: typeof import('./components/user/UserEdit.vue')['default']
   }
 }
