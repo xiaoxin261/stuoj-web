@@ -70,10 +70,11 @@ import { onMounted, ref } from "vue";
 import type { ProblemInfo, Solution, Tag } from "@/types/Problem";
 import { useRouteParams } from "@vueuse/router";
 import { getProblemApi } from "@/apis/problem";
-import type { ApiResponse } from "@/types/ApiResponse";
+import { userStore } from "@/stores/user";
 import { renderMarkAndLaTeX } from "@/utils/renderMarkAndLaTeX";
 import { DifficultyMap } from "@/types/Problem";
 
+const { token } = userStore();
 
 const problemId = useRouteParams<number>("id");
 
@@ -83,6 +84,9 @@ const problemInfo = ref<ProblemInfo>({} as ProblemInfo);
 
 onMounted(async () => {
     await execute({
+        headers: {
+            Authorization: `Bearer ${token.value}`,
+        },
         id: problemId.value,
     });
     if (state.value) {
