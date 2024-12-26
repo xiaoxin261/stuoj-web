@@ -7,7 +7,7 @@ import type { ApiResponse } from "@/types/ApiResponse";
 import { renderMarkAndLaTeX } from "@/utils/renderMarkAndLaTeX";
 import { BlogStatusMap } from "@/types/Blog";
 import {StarFilled} from "@element-plus/icons-vue";
-import {formatDateStr} from "../../utils/date";
+import { formatDataTimeStr } from "../../utils/date";
 
 const blogId = useRouteParams<number>("id");
 
@@ -52,12 +52,12 @@ const commentForm = ref({
         <el-divider direction="vertical"></el-divider>
         <el-icon><Share /></el-icon>&nbsp;0
         <el-divider direction="vertical"></el-divider>
-        <el-icon><Timer/></el-icon>&nbsp;{{ formatDateStr(blog?.create_time ?? "") }}
+        <el-icon><Timer/></el-icon>&nbsp;{{ formatDataTimeStr(blog?.create_time ?? "") }}
         <el-divider direction="vertical"></el-divider>
-        <el-icon><Stopwatch /></el-icon>&nbsp;{{ formatDateStr(blog?.update_time ?? "") }}
+        <el-icon><Stopwatch /></el-icon>&nbsp;{{ formatDataTimeStr(blog?.update_time ?? "") }}
         <el-divider direction="vertical"></el-divider>
       </div>
-      <br/><br/>
+      <br/>
       <div>
         <el-tag>tag</el-tag>&nbsp;
         <el-tag>tag</el-tag>&nbsp;
@@ -94,7 +94,7 @@ const commentForm = ref({
           <div>
             <el-icon><UserFilled/></el-icon>&nbsp;用户名
             <el-divider direction="vertical"></el-divider>
-            <el-icon><Timer/></el-icon>&nbsp;2021-01-01
+            <el-icon><Timer/></el-icon>&nbsp;2021-01-01 00:00:00
           </div>
           <br/>
           <div>
