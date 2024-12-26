@@ -72,9 +72,7 @@ onMounted (() => {
         </el-col>
       </el-row>
       <el-divider></el-divider>
-      <el-card>
         <Problems :admin="true"/>
-      </el-card>
     </el-main>
   </el-container>
 </template>
