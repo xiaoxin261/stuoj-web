@@ -44,8 +44,8 @@ const getList = async () => {
   }
 }
 
-const handleEdit = async (index: number, row: ProblemInfo) => {
-  await router.push(`/problem/edit?id=${row.id}`);
+const handleCreate = () => {
+  router.push("/problem/edit");
 }
 
 onMounted (() => {
