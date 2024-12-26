@@ -102,16 +102,7 @@ onMounted (() => {
           <el-table-column label="分数" prop="score" width="80" sortable/>
           <el-table-column label="状态" width="80">
             <template #default="scope: Scope">
-              <el-tooltip
-                  class="box-item"
-                  effect="dark"
-                  :content="JudgeStatusMap[scope.row.status]"
-                  placement="top"
-              >
-              <el-tag :color="JudgeStatusColor[scope.row.status]" style="color: #fff">
-                {{ JudgeStatusAbbr[scope.row.status] }}
-              </el-tag>
-              </el-tooltip>
+              <RecordTag :status="scope.row.status" />
             </template>
           </el-table-column>
           <el-table-column align="right">
