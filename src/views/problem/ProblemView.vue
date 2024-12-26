@@ -1,10 +1,32 @@
 <template>
     <div class="container-main">
+      <el-card>
+        <el-breadcrumb separator="/">
+          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/problem' }">题单</el-breadcrumb-item>
+          <el-breadcrumb-item>{{ problemInfo?.title }}</el-breadcrumb-item>
+        </el-breadcrumb>
+      </el-card>
+      <br/>
       <ElRow :gutter="20">
         <ElCol :span="18">
           <ElCard shadow="always">
             <div class="problem-title">
               <h1>{{ problemInfo.id }} {{ problemInfo.title }}</h1>
+              <div>
+                  <el-icon><View /></el-icon>&nbsp;0
+                  <el-divider direction="vertical"></el-divider>
+                  <el-icon><StarFilled /></el-icon>&nbsp;0
+                  <el-divider direction="vertical"></el-divider>
+                  <el-icon><Comment /></el-icon>&nbsp;0
+                  <el-divider direction="vertical"></el-divider>
+                  <el-icon><Share /></el-icon>&nbsp;0
+                  <el-divider direction="vertical"></el-divider>
+                  <el-icon><Timer/></el-icon>&nbsp;{{ formatDateStr(problemInfo?.create_time ?? "") }}
+                  <el-divider direction="vertical"></el-divider>
+                  <el-icon><Stopwatch /></el-icon>&nbsp;{{ formatDateStr(problemInfo?.update_time ?? "") }}
+                  <el-divider direction="vertical"></el-divider>
+              </div>
             </div>
             <div class="problem-content custom-font-size">
               <h3 class="weight">描述</h3>
@@ -38,6 +60,11 @@
         <ElCol :span="6">
           <ElCard shadow="always">
             <div class="problem-info custom-font-size">
+              <h3>题目信息</h3>
+              <div class="problem-info-item">
+                <h4 class="weight">来源</h4>
+                <span>{{ problemInfo.source }}</span>
+              </div>
               <div class="problem-info-item">
                 <h4 class="weight">难度</h4>
                 <span>{{ DifficultyMap[problemInfo.difficulty as Difficulty] }}</span>
@@ -51,13 +78,20 @@
                 <span>{{ problemInfo.memory_limit ?? 0 / 1024 }} MB</span>
               </div>
             </div>
+            <div>
+              <el-button><el-icon><View /></el-icon>&nbsp;0</el-button>
+              <el-button><el-icon><StarFilled /></el-icon>&nbsp;0</el-button>
+              <el-button><el-icon><Share /></el-icon>&nbsp;0</el-button>
+            </div>
           </ElCard>
           <ElCard shadow="always" style="margin-top: 20px;">
             <div class="problem-info custom-font-size">
-              <div class="problem-info-item">
-                <h4 class="weight">来源</h4>
-                <span>{{ problemInfo.source }}</span>
-              </div>
+              <h3>相关博客</h3>
+              <ul>
+                <li>博客1</li>
+                <li>博客2</li>
+                <li>博客3</li>
+              </ul>
             </div>
           </ElCard>
         </ElCol>
@@ -73,6 +107,8 @@ import { getProblemApi } from "@/apis/problem";
 import type { ApiResponse } from "@/types/ApiResponse";
 import { renderMarkAndLaTeX } from "@/utils/renderMarkAndLaTeX";
 import { DifficultyMap } from "@/types/Problem";
+import {formatDateStr} from "@/utils/date";
+import {StarFilled} from "@element-plus/icons-vue";
 
 
 const problemId = useRouteParams<number>("id");

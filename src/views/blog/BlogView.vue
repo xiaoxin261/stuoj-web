@@ -48,9 +48,9 @@ onMounted(async () => {
           <el-divider direction="vertical"></el-divider>
           <el-icon><Share /></el-icon>&nbsp;0
           <el-divider direction="vertical"></el-divider>
-          <el-icon><Timer/></el-icon>&nbsp;{{ formatDateStr(blog?.create_time) }}
+          <el-icon><Timer/></el-icon>&nbsp;{{ formatDateStr(blog?.create_time ?? "") }}
           <el-divider direction="vertical"></el-divider>
-          <el-icon><Stopwatch /></el-icon>&nbsp;{{ formatDateStr(blog?.update_time) }}
+          <el-icon><Stopwatch /></el-icon>&nbsp;{{ formatDateStr(blog?.update_time ?? "") }}
           <el-divider direction="vertical"></el-divider>
       </span>
       <br/><br/>
