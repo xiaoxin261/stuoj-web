@@ -73,11 +73,13 @@
             <h3>题目信息</h3>
             <div class="problem-info-item">
               <h4 class="weight">来源</h4>
-              <span>{{ problemInfo.source }}</span>
+              <el-tag>{{ problemInfo.source }}</el-tag>
             </div>
             <div class="problem-info-item">
               <h4 class="weight">难度</h4>
-              <span>{{ DifficultyMap[problemInfo.difficulty as Difficulty] }}</span>
+              <el-tag :color="DifficultyColor[problemInfo.difficulty as Difficulty]" style="color: white">
+                {{ DifficultyMap[problemInfo.difficulty as Difficulty] }}
+              </el-tag>
             </div>
             <div class="problem-info-item custom-font-size">
               <h4 class="weight">时间限制</h4>
@@ -118,7 +120,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import {Difficulty, type ProblemInfo, type Solution, type Tag} from "@/types/Problem";
+import {Difficulty, DifficultyColor, type ProblemInfo, type Solution, type Tag} from "@/types/Problem";
 import { useRouteParams } from "@vueuse/router";
 import { getProblemApi } from "@/apis/problem";
 import type { ApiResponse } from "@/types/ApiResponse";
