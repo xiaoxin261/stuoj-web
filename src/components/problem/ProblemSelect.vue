@@ -24,8 +24,10 @@ import ProblemDifficultySelect from '@/components/problem/ProblemDifficultySelec
 
 const props = withDefaults(defineProps<{
     modelValue?: ProblemParams;
+    admin?: boolean;
 }>(), {
-    modelValue: () => ({ page: 1, size: 20 })
+    modelValue: () => ({ page: 1, size: 20 }),
+    admin: false,
 });
 
 const tags = ref<number[]>([]);

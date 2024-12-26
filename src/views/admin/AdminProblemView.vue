@@ -44,8 +44,8 @@ const getList = async () => {
   }
 }
 
-const handleEdit = async (index: number, row: ProblemInfo) => {
-  await router.push(`/problem/edit?id=${row.id}`);
+const handleCreate = () => {
+  router.push("/problem/edit");
 }
 
 onMounted (() => {
@@ -72,68 +72,7 @@ onMounted (() => {
         </el-col>
       </el-row>
       <el-divider></el-divider>
-      <el-card>
-        <el-table :data="problems" style="width: 100%" stripe>
-          <el-table-column type="selection" :selectable="selectable" width="55" />
-          <el-table-column label="ID" prop="id" width="80px" sortable/>
-          <el-table-column label="标题" show-overflow-tooltip>
-            <template #default="scope">
-              <router-link :to="'/problem/' + scope.row.id">
-                {{ scope.row.title }}
-              </router-link>
-            </template>
-          </el-table-column>
-          <el-table-column label="创建时间" width="120">
-            <template #default="scope">
-              <span>
-                {{ formatDateStr(scope.row.create_time) }}
-              </span>
-            </template>
-          </el-table-column>
-          <el-table-column label="更新时间" width="120">
-            <template #default="scope">
-              <span>
-                {{ formatDateStr(scope.row.create_time) }}
-              </span>
-            </template>
-          </el-table-column>
-          <el-table-column label="难度" width="100">
-            <template #default="scope: Scope">
-              <el-tag :color="DifficultyColor[scope.row.difficulty]" style="color: #fff">
-                {{ DifficultyMap[scope.row.difficulty] }}
-              </el-tag>
-            </template>
-          </el-table-column>
-          <el-table-column label="状态" width="80">
-            <template #default="scope: Scope">
-              <el-tag :color="ProblemStatusColor[scope.row.status]" style="color: #fff">
-                {{ ProblemStatusMap[scope.row.status] }}
-              </el-tag>
-            </template>
-          </el-table-column>
-          <el-table-column align="right" width="200">
-            <template #header>
-              <el-input v-model="search" size="small" placeholder="题目ID" />
-            </template>
-            <template #default="scope">
-              <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-              <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-        <br/>
-        <el-pagination
-            v-model:current-page="params.page"
-            v-model:page-size="params.size"
-            :page-sizes="[10, 20, 50, 100]"
-            :size="'small'"
-            :background="true"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="problemPage?.total"
-            @size-change="getList"
-            @current-change="getList"
-        />
-      </el-card>
+        <Problems :admin="true"/>
     </el-main>
   </el-container>
 </template>

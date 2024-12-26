@@ -1,10 +1,10 @@
 <template>
     <ElCard>
-        <ProblemSelect v-model:model-value="paramsSelect" @confirm-clicked="handleQuery" />
+        <ProblemSelect :admin="admin" v-model:model-value="paramsSelect" @confirm-clicked="handleQuery" />
     </ElCard>
     <br />
     <ElCard>
-        <ProblemList :problems="problems" />
+        <ProblemList :admin="admin" :problems="problems" />
         <br />
         <ElPagination class="pagination" v-model:current-page="paramsPage.page" v-model:page-size="paramsPage.size"
             :page-sizes="[10, 20, 50, 100]" :size="'small'" :background="true"
@@ -18,6 +18,13 @@ import { onMounted, ref } from 'vue';
 import type { Page } from '@/types/misc';
 import type { ProblemInfo, ProblemParams } from '@/types/Problem';
 import { getProblemListApi } from '@/apis/problem';
+
+
+const props = withDefaults(defineProps<{
+    admin?: boolean;
+}>(), {
+    admin: false
+});
 
 const { execute } = getProblemListApi();
 const paramsSelect = ref<ProblemParams>();
@@ -45,13 +52,12 @@ const handleQuery = async () => {
     }).then((res) => {
         problems.value = res.value?.problems || [];
         problemPage.value = res.value;
-        console.log(problemPage.value)
     });
 }
 </script>
 
 <style scoped>
-.pagination{
+.pagination {
     display: flex;
     width: 100%;
 }
