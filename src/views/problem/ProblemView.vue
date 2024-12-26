@@ -7,30 +7,48 @@
         <el-breadcrumb-item>{{ problemInfo?.title }}</el-breadcrumb-item>
       </el-breadcrumb>
     </el-card>
-    <br/>
+    <br />
     <ElRow :gutter="20">
       <ElCol :span="18">
         <ElCard shadow="always">
           <div class="problem-title">
             <h1>{{ problemInfo.id }} {{ problemInfo.title }}</h1>
             <div>
-              <el-icon><View /></el-icon>&nbsp;0
+              <el-icon>
+                <View />
+              </el-icon>&nbsp;0
               <el-divider direction="vertical"></el-divider>
-              <el-icon><StarFilled /></el-icon>&nbsp;0
+              <el-icon>
+                <StarFilled />
+              </el-icon>&nbsp;0
               <el-divider direction="vertical"></el-divider>
-              <el-icon><Share /></el-icon>&nbsp;0
+              <el-icon>
+                <Share />
+              </el-icon>&nbsp;0
               <el-divider direction="vertical"></el-divider>
-              <el-icon><Notebook /></el-icon>&nbsp;0
+              <el-icon>
+                <Notebook />
+              </el-icon>&nbsp;0
               <el-divider direction="vertical"></el-divider>
-              <el-icon><List /></el-icon>&nbsp;0
+              <el-icon>
+                <List />
+              </el-icon>&nbsp;0
               <el-divider direction="vertical"></el-divider>
-              <el-icon><Checked /></el-icon>&nbsp;0
+              <el-icon>
+                <Checked />
+              </el-icon>&nbsp;0
               <el-divider direction="vertical"></el-divider>
-              <el-icon><Failed /></el-icon>&nbsp;0
+              <el-icon>
+                <Failed />
+              </el-icon>&nbsp;0
               <el-divider direction="vertical"></el-divider>
-              <el-icon><Timer/></el-icon>&nbsp;{{ formatDateStr(problemInfo?.create_time ?? "") }}
+              <el-icon>
+                <Timer />
+              </el-icon>&nbsp;{{ formatDateStr(problemInfo?.create_time ?? "") }}
               <el-divider direction="vertical"></el-divider>
-              <el-icon><Stopwatch /></el-icon>&nbsp;{{ formatDateStr(problemInfo?.update_time ?? "") }}
+              <el-icon>
+                <Stopwatch />
+              </el-icon>&nbsp;{{ formatDateStr(problemInfo?.update_time ?? "") }}
               <el-divider direction="vertical"></el-divider>
             </div>
             <el-divider></el-divider>
@@ -62,7 +80,7 @@
             <div v-html="renderMarkAndLaTeX(problemInfo.hint || '')"></div>
           </div>
         </ElCard>
-        <br/>
+        <br />
         <el-card>
           <CodeRun :problem="problemId" :input_text="problemInfo.sample_input" />
         </el-card>
@@ -90,17 +108,23 @@
               <span>{{ problemInfo.memory_limit ?? 0 / 1024 }} MB</span>
             </div>
             <div class="problem-info-item custom-font-size">
+              <div class="problem-info-item-title">
               <h4 class="weight">标签</h4>
-              <el-tag>tag</el-tag>&nbsp;
-              <el-tag>tag</el-tag>&nbsp;
-              <el-tag>tag</el-tag>&nbsp;
-              <el-tag>tag</el-tag>&nbsp;
+              <ElButton style="margin-top: 20px;margin-left: 10px;" size="small" @click="toggleTagsVisibility" :icon="tagsFlag ? 'View' : 'Hide'" />
+            </div>
+              <ProblemTag v-if="tagsFlag" :tags="tags" />
             </div>
           </div>
           <div>
-            <el-button><el-icon><View /></el-icon>&nbsp;0</el-button>
-            <el-button><el-icon><StarFilled /></el-icon>&nbsp;0</el-button>
-            <el-button><el-icon><Share /></el-icon>&nbsp;0</el-button>
+            <el-button><el-icon>
+                <View />
+              </el-icon>&nbsp;0</el-button>
+            <el-button><el-icon>
+                <StarFilled />
+              </el-icon>&nbsp;0</el-button>
+            <el-button><el-icon>
+                <Share />
+              </el-icon>&nbsp;0</el-button>
           </div>
         </ElCard>
         <ElCard shadow="always" style="margin-top: 20px;">
@@ -120,14 +144,14 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import {Difficulty, DifficultyColor, type ProblemInfo, type Solution, type Tag} from "@/types/Problem";
+import { Difficulty, DifficultyColor, type ProblemInfo, type Solution, type Tag } from "@/types/Problem";
 import { useRouteParams } from "@vueuse/router";
 import { getProblemApi } from "@/apis/problem";
 import { userStore } from "@/stores/user";
 import { renderMarkAndLaTeX } from "@/utils/renderMarkAndLaTeX";
 import { DifficultyMap } from "@/types/Problem";
-import {formatDateStr} from "@/utils/date";
-import {Notebook, StarFilled} from "@element-plus/icons-vue";
+import { formatDateStr } from "@/utils/date";
+import { Notebook, StarFilled } from "@element-plus/icons-vue";
 
 const { token } = userStore();
 
@@ -137,16 +161,24 @@ const { state, execute } = getProblemApi();
 
 const problemInfo = ref<ProblemInfo>({} as ProblemInfo);
 
+const tagsFlag = ref<boolean>(false);
+const tags = ref<Tag[]>([]);
+
+const toggleTagsVisibility = () => {
+  tagsFlag.value = !tagsFlag.value;
+};
+
 onMounted(async () => {
-    await execute({
-        headers: {
-            Authorization: `Bearer ${token.value}`,
-        },
-        id: problemId.value,
-    });
-    if (state.value) {
-        problemInfo.value = state.value.problem;
-    }
+  await execute({
+    headers: {
+      Authorization: `Bearer ${token.value}`,
+    },
+    id: problemId.value,
+  });
+  if (state.value) {
+    problemInfo.value = state.value.problem;
+    tags.value = state.value?.tags || [];
+  }
 });
 </script>
 
@@ -187,5 +219,8 @@ onMounted(async () => {
 
 .custom-font-size {
   font-size: 17px;
+}
+.problem-info-item-title{
+  display: flex;
 }
 </style>
