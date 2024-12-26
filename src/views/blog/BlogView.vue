@@ -37,40 +37,38 @@ onMounted(async () => {
     <br/>
     <el-card>
       <h1>{{ blog?.title }}</h1>
-      <span>
-          <el-icon><UserFilled/></el-icon>&nbsp;{{ blog?.user_id }}
-          <el-divider direction="vertical"></el-divider>
-          <el-icon><View /></el-icon>&nbsp;0
-          <el-divider direction="vertical"></el-divider>
-          <el-icon><StarFilled /></el-icon>&nbsp;0
-          <el-divider direction="vertical"></el-divider>
-          <el-icon><Comment /></el-icon>&nbsp;0
-          <el-divider direction="vertical"></el-divider>
-          <el-icon><Share /></el-icon>&nbsp;0
-          <el-divider direction="vertical"></el-divider>
-          <el-icon><Timer/></el-icon>&nbsp;{{ formatDateStr(blog?.create_time ?? "") }}
-          <el-divider direction="vertical"></el-divider>
-          <el-icon><Stopwatch /></el-icon>&nbsp;{{ formatDateStr(blog?.update_time ?? "") }}
-          <el-divider direction="vertical"></el-divider>
-      </span>
+      <div>
+        <el-icon><UserFilled/></el-icon>&nbsp;{{ blog?.user_id }}
+        <el-divider direction="vertical"></el-divider>
+        <el-icon><View /></el-icon>&nbsp;0
+        <el-divider direction="vertical"></el-divider>
+        <el-icon><StarFilled /></el-icon>&nbsp;0
+        <el-divider direction="vertical"></el-divider>
+        <el-icon><Comment /></el-icon>&nbsp;0
+        <el-divider direction="vertical"></el-divider>
+        <el-icon><Share /></el-icon>&nbsp;0
+        <el-divider direction="vertical"></el-divider>
+        <el-icon><Timer/></el-icon>&nbsp;{{ formatDateStr(blog?.create_time ?? "") }}
+        <el-divider direction="vertical"></el-divider>
+        <el-icon><Stopwatch /></el-icon>&nbsp;{{ formatDateStr(blog?.update_time ?? "") }}
+        <el-divider direction="vertical"></el-divider>
+      </div>
       <br/><br/>
-      <span>
+      <div>
         <el-tag>tag</el-tag>&nbsp;
         <el-tag>tag</el-tag>&nbsp;
         <el-tag>tag</el-tag>&nbsp;
         <el-tag>tag</el-tag>&nbsp;
         <el-tag>tag</el-tag>&nbsp;
-      </span>
+      </div>
       <el-divider></el-divider>
-      <p>
-        {{ blog?.content }}
-      </p>
+      <div v-html="renderMarkAndLaTeX(blog?.content ?? '')"></div>
       <el-divider></el-divider>
-      <span>
+      <div>
         <el-button><el-icon><View /></el-icon>&nbsp;0</el-button>
         <el-button><el-icon><StarFilled /></el-icon>&nbsp;0</el-button>
         <el-button><el-icon><Share /></el-icon>&nbsp;0</el-button>
-      </span>
+      </div>
     </el-card>
     <br/>
     <el-card>
