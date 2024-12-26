@@ -37,19 +37,19 @@ const menuLinks = computed(() => {
         },
         {
             name: '题库',
-            to: '/problems'
+            to: '/problem'
         },
         {
             name: '题单',
-            to: '/collections'
+            to: '/collection'
         },
         {
             name: '比赛',
-            to: '/contests'
+            to: '/contest'
         },
         {
             name: '博客',
-            to: '/blogs'
+            to: '/blog'
         },
     ];
     let links = [
