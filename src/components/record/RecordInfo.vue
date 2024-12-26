@@ -10,9 +10,7 @@
                         状态
                     </div>
                 </template>
-                <span :style="{ color: JudgeStatusColor[result.status as JudegeStatusMap] }">{{
-                    JudgeStatusAbbr[result.status as JudegeStatusMap]
-                  }}</span>
+                <RecordTag :status="result?.status || 0" />
             </el-descriptions-item>
             <el-descriptions-item>
                 <template #label>
@@ -52,9 +50,7 @@
             <ElTableColumn prop="testcase_id" label="测试点" width="80" />
             <ElTableColumn prop="status" label="状态" width="100">
                 <template #default="scope">
-                    <span :style="{ color: JudgeStatusColor[scope.row.status as JudegeStatusMap] }">{{
-                        JudgeStatusAbbr[scope.row.status as JudegeStatusMap]
-                      }}</span>
+                    <RecordTag :status="scope.row.status" />
                 </template>
             </ElTableColumn>
             <ElTableColumn prop="time" label="时间" width="100">
@@ -69,7 +65,7 @@
             </ElTableColumn>
             <ElTableColumn prop="status" label="信息">
                 <template #default="scope">
-                  {{ JudgeStatusMap[scope.row.status as JudegeStatusMap] }}
+                    {{ JudgeStatusMap[scope.row.status as JudgeStatus] }}
                 </template>
             </ElTableColumn>
         </ElTable>
@@ -79,9 +75,9 @@
 <script setup lang="ts">
 import { userStore } from '@/stores/user';
 import { getRecordInfo } from '@/apis/record';
-import type { Submission, Judgement } from '@/types/Record';
+import type { Judgement } from '@/types/Record';
 import { ref, watch } from 'vue';
-import { JudegeStatusMap, JudgeStatusAbbr, JudgeStatusColor, JudgeStatusMap } from '@/types/Judge';
+import { JudgeStatusMap, type JudgeStatus } from '@/types/Judge';
 import { ElTableColumn } from 'element-plus';
 
 const { execute, state } = getRecordInfo();
