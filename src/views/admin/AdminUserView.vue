@@ -71,12 +71,12 @@ onMounted (() => {
           <el-table-column label="ID" prop="id" width="80" sortable/>
           <el-table-column label="头像" width="80">
             <template #default="scope">
-              <Avatar :info="scope.row.id" />
+              <Avatar :src="scope.row.avatar" />
             </template>
           </el-table-column>
           <el-table-column label="用户名">
             <template #default="scope">
-              <router-link :to="'/user/' + scope.row.user_id">
+              <router-link :to="'/user/' + scope.row.id">
                 {{ scope.row.username }}
               </router-link>
             </template>
