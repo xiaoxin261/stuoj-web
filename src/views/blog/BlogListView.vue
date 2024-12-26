@@ -104,25 +104,28 @@ const blogForm = ref({
                   <b>{{ blog.title }}</b><br/>
                 </span>
               <br/>
-              <span>
-                  <el-icon><UserFilled/></el-icon>&nbsp;{{ blog.user_id }}
-                  <el-divider direction="vertical"></el-divider>
-                  <el-icon><Timer/></el-icon>&nbsp;{{ formatDateStr(blog.create_time) }}
-                  <el-divider direction="vertical"></el-divider>
-                  <el-icon><Stopwatch /></el-icon>&nbsp;{{ formatDateStr(blog.update_time) }}
-                </span>
-              <br/><br/>
-              {{ blog.content }}
-              <br/><br/>
-              <span>
-                  <el-icon><View /></el-icon>&nbsp;0
-                  <el-divider direction="vertical"></el-divider>
-                  <el-icon><StarFilled /></el-icon>&nbsp;0
-                  <el-divider direction="vertical"></el-divider>
-                  <el-icon><Comment /></el-icon>&nbsp;0
-                  <el-divider direction="vertical"></el-divider>
-                  <el-icon><Share /></el-icon>&nbsp;0
-                </span>
+              <div>
+                <el-icon><UserFilled/></el-icon>&nbsp;{{ blog.user_id }}
+                <el-divider direction="vertical"></el-divider>
+                <el-icon><View /></el-icon>&nbsp;0
+                <el-divider direction="vertical"></el-divider>
+                <el-icon><StarFilled /></el-icon>&nbsp;0
+                <el-divider direction="vertical"></el-divider>
+                <el-icon><Comment /></el-icon>&nbsp;0
+                <el-divider direction="vertical"></el-divider>
+                <el-icon><Share /></el-icon>&nbsp;0
+                <el-divider direction="vertical"></el-divider>
+                <el-icon><Timer/></el-icon>&nbsp;{{ formatDateStr(blog.create_time) }}
+                <el-divider direction="vertical"></el-divider>
+                <el-icon><Stopwatch /></el-icon>&nbsp;{{ formatDateStr(blog.update_time) }}
+              </div>
+              <br/>
+              <div>
+                <el-tag>tag</el-tag>&nbsp;
+                <el-tag>tag</el-tag>&nbsp;
+                <el-tag>tag</el-tag>&nbsp;
+                <el-tag>tag</el-tag>&nbsp;
+              </div>
             </el-card>
           </router-link>
           <br/>
