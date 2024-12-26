@@ -8,7 +8,7 @@ export const getProblemListApi = useDefineApi<
     },
     Page<"problems", ProblemInfo>
 >({
-    url: "/problem",
+    url: "/problem/",
     method: "get"
 });
 
