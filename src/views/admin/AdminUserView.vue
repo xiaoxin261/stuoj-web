@@ -7,6 +7,7 @@ import type { UserInfo } from '@/types/User';
 import type { Page } from '@/types/misc';
 import {userStore} from "@/stores/user";
 import {BlogStatusColor, BlogStatusMap} from "@/types/Blog";
+import UserRoleTag from '../user/UserRoleTag.vue';
 
 interface Scope {
   row: {
@@ -91,9 +92,7 @@ onMounted (() => {
           </el-table-column>
           <el-table-column label="角色" width="80">
             <template #default="scope: Scope">
-              <el-tag :color="UserRoleColor[scope.row.role]" style="color: #fff">
-                {{ UserRoleMap[scope.row.role] }}
-              </el-tag>
+              <UserRoleTag :role="scope.row.role" />
             </template>
           </el-table-column>
           <el-table-column align="right" width="300">

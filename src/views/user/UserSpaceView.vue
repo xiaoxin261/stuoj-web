@@ -7,7 +7,7 @@
                 </ElCol>
                 <ElCol :span="3">
                     <div class="username">{{ info?.username }}</div>
-                    <div class="signature">{{ signature }}}</div>
+                    <div class="signature">{{ signature }}</div>
                 </ElCol>
             </ElRow>
         </ElContainer>
@@ -21,7 +21,7 @@
                         </div>
                         <div class="info-item">
                             <span class="info-label">角色：</span>
-                            <span class="info-value">{{ info ? RoleMap[info?.role] : '未知' }}</span>
+                            <UserRoleTag :role="info?.role || ROLE.User" />
                         </div>
                         <div class="info-item">
                             <span class="info-label">创建时间：</span>
@@ -39,7 +39,8 @@ import { onBeforeMount, ref, watchEffect } from "vue";
 import { useRouteParams } from "@vueuse/router";
 import { userStore } from "@/stores/user";
 import { GetUserInfo } from "@/apis/user";
-import type { UserInfo } from "@/types/User";
+import { ROLE, type UserInfo } from "@/types/User";
+import UserRoleTag from "./UserRoleTag.vue";
 
 const { info: info_, id } = userStore();
 const { execute } = GetUserInfo();
@@ -53,12 +54,14 @@ const updateInfo = async () => {
     const userIdNum = Number(userId.value);
     if (userIdNum === id.value) {
         info = info_;
+        signature.value = info.value?.signature;
     } else {
         const state = await execute({
             id: userId.value,
         });
         if (state.value) {
             info.value = state.value;
+            signature.value = state.value.signature;
         }
     }
 };
