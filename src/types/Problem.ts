@@ -1,11 +1,11 @@
 export interface ProblemInfo {
     create_time?: string;
     description: string;
-    difficulty?: Difficulty;
+    difficulty: Difficulty;
     hint: string;
     id?: number;
     input: string;
-    memory_limit?: number;
+    memory_limit: number;
     output: string;
     sample_input: string;
     sample_output: string;
