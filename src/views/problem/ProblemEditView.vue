@@ -53,8 +53,11 @@
       <div style="display: flex; justify-content: space-between; gap:20px;">
         <ElCard class="box-card" style="width: 50%;">
           <div style="display: flex; flex-direction: column; gap:10px">
-            <ProblemDifficultySelect v-model:model-value="problem.difficulty" style="width: 40%;" />
-            <ProblemStatusSelect v-model:model-value="problem.status" style="width: 40%;" />
+            <div style="display: flex; justify-content: space-between;">
+              <ProblemDifficultySelect v-model:model-value="problem.difficulty" style="width: 40%;" />
+              <ProblemStatusSelect v-model:model-value="problem.status" style="width: 40%;" />
+            </div>
+            <ElDivider/>
             <ProblemTag tags-size="default" layout="vertical" :remove-flag="true" v-model:tags="tags" />
             <div style="display: flex; justify-content: flex-end;">
               <ElButton type="primary" @click="handleUpdateTag">更新标签</ElButton>
