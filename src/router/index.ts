@@ -87,42 +87,6 @@ const router = createRouter({
       },
     },
     {
-      path:'/ai/problem',
-      name:'ai-problem',
-      component: () => import('../views/ai/AiProblemView.vue'),
-      meta:{
-        permission: ROLE.Visitor,
-        title: 'AI 生成题目 - STUOJ',
-      },
-    },
-    {
-      path:'/ai/testcase',
-      name:'ai-testcase',
-      component: () => import('../views/ai/AiTestcaseView.vue'),
-      meta:{
-        permission: ROLE.Visitor,
-        title: 'AI 生成测试用例 - STUOJ',
-      },
-    },
-    {
-      path:'/ai/solution',
-      name:'ai-solution',
-      component: () => import('../views/ai/AiSolutionView.vue'),
-      meta:{
-        permission: ROLE.Visitor,
-        title: 'AI 生成题解 - STUOJ',
-      },
-    },
-    {
-      path:'/ai/translate',
-      name:'ai-testcase',
-      component: () => import('../views/ai/AiTranslateView.vue'),
-      meta:{
-        permission: ROLE.Visitor,
-        title: 'AI 翻译题目 - STUOJ',
-      },
-    },
-    {
       path: '/blog',
       name: 'blog-list',
         component: () => import('@/views/blog/BlogListView.vue'),
