@@ -45,8 +45,6 @@ const blogForm = ref({
 
 <template>
   <div class="container-main">
-    <h1>博客</h1>
-    <el-divider></el-divider>
     <el-row :gutter="20">
       <el-col :span="6">
         <el-card style="margin-bottom: 20px">

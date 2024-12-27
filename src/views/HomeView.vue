@@ -11,7 +11,11 @@
           <el-button type="success">签到题</el-button>
         </el-card>
         <el-card style="margin-bottom: 20px">
-          <strong>题目传送门</strong><br/><br/>
+          <template #header>
+            <div class="card-header">
+              <strong>题目传送门</strong>
+            </div>
+          </template>
           <el-form :v-model="gotoForm">
             <el-form-item>
               <el-input v-model="gotoForm.problemId" placeholder="题目 ID" clearable/>
@@ -21,14 +25,62 @@
             </el-form-item>
           </el-form>
         </el-card>
+        <el-card style="margin-bottom: 20px">
+          <template #header>
+            <div class="card-header">
+              <strong>网站公告</strong>
+            </div>
+          </template>
+          <div>
+            <ul>
+              <li>1. 今天天气真好</li>
+              <li>2. 今天天气真好</li>
+              <li>3. 今天天气真好</li>
+              <li>4. 今天天气真坏</li>
+              <li>5. 今天天气真好</li>
+            </ul>
+          </div>
+        </el-card>
       </el-col>
       <el-col :span="18">
-        <el-card>
+        <el-card style="margin-bottom: 20px">
           <el-carousel height="100" motion-blur>
             <el-carousel-item v-for="item in 4" :key="item">
               <h3 class="small justify-center" text="2xl">{{ item }}</h3>
             </el-carousel-item>
           </el-carousel>
+        </el-card>
+        <el-card style="margin-bottom: 20px">
+          <template #header>
+            <div class="card-header">
+              <strong>好题推荐</strong>
+            </div>
+          </template>
+          推荐题目...
+        </el-card>
+        <el-card style="margin-bottom: 20px">
+          <template #header>
+            <div class="card-header">
+              <strong>精选题单</strong>
+            </div>
+          </template>
+          推荐题单...
+        </el-card>
+        <el-card style="margin-bottom: 20px">
+          <template #header>
+            <div class="card-header">
+              <strong>近期比赛</strong>
+            </div>
+          </template>
+          推荐比赛...
+        </el-card>
+        <el-card style="margin-bottom: 20px">
+          <template #header>
+            <div class="card-header">
+              <strong>优秀博客</strong>
+            </div>
+          </template>
+          推荐博客...
         </el-card>
       </el-col>
     </el-row>
