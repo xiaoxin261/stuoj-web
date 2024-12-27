@@ -26,7 +26,7 @@
     </el-table-column>
     <el-table-column v-if="tagFlag" label="标签" width="300">
       <template #default="scope">
-        <ProblemTag :tags="scope.row.tags" />
+        <ProblemTagShow :tags="scope.row.tags" />
       </template>
     </el-table-column>
     <el-table-column v-if="timeFlag" label="创建时间" width="120">
@@ -73,7 +73,7 @@ import { DifficultyMap, DifficultyColor } from '@/types/Problem';
 import { formatDateStr } from "@/utils/date";
 import { getProblemApi } from '@/apis/problem';
 import router from '@/router';
-import ProblemTag from './ProblemTag.vue';
+import ProblemTagShow from './ProblemTagShow.vue';
 
 const { execute } = getProblemApi();
 
