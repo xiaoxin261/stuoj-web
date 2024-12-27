@@ -13,7 +13,9 @@ export const problemGenerateApi = useDefineApi<
 
 export const problemTranslateApi = useDefineApi<
     {
-        data: ProblemInfo
+        data: ProblemInfo & {
+            target_lang: string;
+        }
     },
     ProblemInfo
 >({
