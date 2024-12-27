@@ -4,6 +4,10 @@
         <ElMain class="main-content">
             <RouterView />
         </ElMain>
+      <el-divider />
+      <el-footer>
+        <FooterBar />
+      </el-footer>
     </ElContainer>
 </template>
 
