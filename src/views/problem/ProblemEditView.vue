@@ -128,7 +128,7 @@
         <CodeRun v-if="debugFlag" :problem="problemId ?? ''" />
       </ElCard>
     </ElCol>
-    <ElCol v-if="workingArea.includes('neko-acm')" :span="12">
+    <ElCol v-if="workingArea.includes('NekoAcm🐱🐾')" :span="12">
     </ElCol>
   </ElRow>
 </template>
@@ -145,7 +145,7 @@ import ProblemSolutionTable from '@/components/problem/ProblemSolutionTable.vue'
 import { isNumber } from 'element-plus/es/utils/types.mjs';
 import router from '@/router';
 
-const workingAreas = ['题面', '数据', 'neko-acm'];
+const workingAreas = ['题面', '数据', 'NekoAcm🐱🐾'];
 const workingArea = ref(['题面', '数据'])
 
 const { execute: getProblemExecute } = getProblemApi();
