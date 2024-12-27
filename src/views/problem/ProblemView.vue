@@ -113,7 +113,7 @@
                 <ElButton style="margin-top: 20px;margin-left: 10px;" size="small" @click="toggleTagsVisibility"
                   :icon="tagsFlag ? 'View' : 'Hide'" />
               </div>
-              <ProblemTag v-if="tagsFlag" :tags="tags" />
+              <ProblemTagShow v-if="tagsFlag" :tags="tags" />
             </div>
           </div>
           <div>

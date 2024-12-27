@@ -1,5 +1,5 @@
 <template>
-    <ElButton plain @click="showDialog()">
+    <ElButton style="width: 60px;" plain @click="showDialog()">
         标签
     </ElButton>
     <ElDialog v-model="tagDialogVisible">
@@ -34,21 +34,18 @@ import { onMounted, ref } from 'vue';
 import { getProblemTagsApi } from '@/apis/problem';
 import type { Tag } from '@/types/Problem';
 
-const props = defineProps({
-    modelValue: {
-        type: Array<number>,
-        default: null,
-    },
-});
+const props = defineProps<{
+    tags: Tag[];
+}>();
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:tags']);
 
 interface TemTag {
     checked: boolean;
     data: Tag;
 }
 
-const tags = ref<number[]>(props.modelValue);
+const tags = ref<Tag[]>(props.tags);
 const tagDialogVisible = ref(false);
 let wsTags = ref<TemTag[]>([]);
 let savedWsTags: TemTag[] | null = null; // 用于保存wsTags状态的变量
@@ -66,7 +63,15 @@ onMounted(async () => {
 })
 
 const showDialog = () => {
+    tags.value = props.tags;
     if (savedWsTags === null) {
+        wsTags.value = wsTags.value.map(tag => ({ ...tag, checked: false }));
+        tags.value.forEach(tag => {
+            const index = wsTags.value.findIndex(wsTag => wsTag.data.id === tag.id);
+            if (index !== -1) {
+                wsTags.value[index].checked = true;
+            }
+        });
         savedWsTags = JSON.parse(JSON.stringify(wsTags.value));
     }
     tagDialogVisible.value = true;
@@ -74,8 +79,8 @@ const showDialog = () => {
 
 const handleConfirm = () => {
     tagDialogVisible.value = false;
-    tags.value = wsTags.value.filter(tag => tag.checked).map(({ data }) => data.id);
-    emit('update:modelValue', tags.value);
+    tags.value = wsTags.value.filter(tag => tag.checked).map(tag => tag.data);
+    emit('update:tags', tags.value);
     savedWsTags = null; // 确认后清空保存的状态
 };
 
@@ -88,6 +93,7 @@ const handleCancel = () => {
 };
 
 const reset = () => {
+    tags.value = [];
     wsTags.value = wsTags.value.map(tag => ({ ...tag, checked: false }));
 };
 
@@ -103,10 +109,12 @@ defineExpose({
 <style scoped>
 .my-header {
     display: flex;
-    justify-content: flex-end; /* 将内容推到右侧 */
+    justify-content: flex-end;
+    /* 将内容推到右侧 */
 }
 
 .reset-button {
-    margin-left: auto; /* 确保按钮靠右 */
+    margin-left: auto;
+    /* 确保按钮靠右 */
 }
 </style>

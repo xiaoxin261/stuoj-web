@@ -50,10 +50,15 @@
       </ElCard>
     </ElCol>
     <ElCol :span="12">
-      <div style="display: flex; justify-content: space-between; gap: 20px;">
-        <ElCard class="box-card" style="width: 50%; height: 75px;">
-          <ProblemDifficultySelect v-model:model-value="problem.difficulty" style="margin-right: 20%; width: 60%;" />
-          <ProblemTagSelect v-model:model-value="problem.tags" />
+      <div style="display: flex; justify-content: space-between; gap:20px;">
+        <ElCard class="box-card" style="width: 50%;">
+          <div style="display: flex; flex-direction: column; gap:10px">
+            <ProblemDifficultySelect v-model:model-value="problem.difficulty" style="width: 40%;" />
+            <ProblemTag tags-size="default" layout="vertical" :remove-flag="true" v-model:tags="tags" />
+            <div style="display: flex; justify-content: flex-end;">
+              <ElButton type="primary" @click="handleUpdateTag">更新标签</ElButton>
+            </div>
+          </div>
         </ElCard>
         <ElCard class="box-card" style="width: 50%;">
           <TestTable v-model:testcase="testcase" v-bind:problem-id="problem.id" ref="testTableRef" />
@@ -79,8 +84,8 @@
 <script setup lang="ts">
 import { onBeforeMount, ref, h } from 'vue';
 import { ElLink, ElNotification, ElRow } from 'element-plus';
-import type { ProblemInfo, Testcase, Global } from '@/types/Problem';
-import { getProblemApi, uploadProblemApi, updateProblemApi } from '@/apis/problem';
+import type { ProblemInfo, Testcase, Global, Tag } from '@/types/Problem';
+import { getProblemApi, uploadProblemApi, updateProblemApi, problemRemoveTagApi, problemAddTagApi } from '@/apis/problem';
 import { useRoute } from 'vue-router';
 import TestTable from '@/components/problem/TestTable.vue';
 import TestcaseEdit from '@/components/problem/TestCaseEdit.vue';
@@ -92,6 +97,8 @@ const { token } = userStore();
 const { execute: getProblemExecute } = getProblemApi();
 const { execute: updateProblemExecute } = updateProblemApi();
 const { execute: uploadProblemExecute } = uploadProblemApi();
+const { execute: problemRemoveTagExecute } = problemRemoveTagApi();
+const { execute: problemAddTagExecute } = problemAddTagApi();
 const problem = ref<ProblemInfo>({
   title: '',
   description: '',
@@ -100,7 +107,8 @@ const problem = ref<ProblemInfo>({
   sample_input: '',
   sample_output: '',
   hint: '',
-  tags: [],
+  difficulty: 0,
+  memory_limit: 0,
 });
 
 const testTableRef = ref<InstanceType<typeof TestTable> | null>(null);
@@ -111,6 +119,9 @@ const global = ref<Global>({
 const route = useRoute();
 let problemId = ref<number | null>(null);
 
+const tags = ref<Tag[]>([]);
+const oldTags = ref<Tag[]>([]);
+
 onBeforeMount(async () => {
   const idParam = route.query.id;
   if (typeof idParam === 'string') {
@@ -120,8 +131,11 @@ onBeforeMount(async () => {
       await getProblemExecute({
         id: problemId.value
       }).then((res) => {
-        if (res.value)
+        if (res.value) {
           problem.value = res.value.problem;
+          oldTags.value = res.value.tags || [];
+          tags.value = oldTags.value;
+        }
       });
       if (testTableRef.value) {
         testTableRef.value.refreshTestcases();
@@ -142,6 +156,43 @@ const debugFlag = ref(false);
 
 const handleDebugFlag = () => {
   debugFlag.value = !debugFlag.value;
+};
+
+const handleUpdateTag = async () => {
+  if (problemId.value) {
+    const tagsToRemove = oldTags.value.filter(oldTag => !tags.value.some(tag => tag.id === oldTag.id));
+    const tagsToAdd = tags.value.filter(tag => !oldTags.value.some(oldTag => oldTag.id === tag.id));
+
+    for (const tag of tagsToRemove) {
+      await problemRemoveTagExecute({
+        headers: {
+          Authorization: `Bearer ${token.value}`
+        },
+        data: {
+          problem_id: problemId.value,
+          tag_id: tag.id
+        }
+      });
+    }
+
+    for (const tag of tagsToAdd) {
+      await problemAddTagExecute({
+        headers: {
+          Authorization: `Bearer ${token.value}`
+        },
+        data: {
+          problem_id: problemId.value,
+          tag_id: tag.id
+        }
+      });
+    }
+
+    oldTags.value = [...tags.value];
+    ElNotification.success({
+      title: '标签更新成功',
+      message: '标签已成功更新'
+    });
+  }
 };
 
 const handleUpload = async () => {

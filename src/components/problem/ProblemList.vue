@@ -3,8 +3,9 @@
     <ElCheckbox v-model="tagFlag" label="标签" />
     <ElCheckbox v-model="timeFlag" label="时间" />
   </div>
-  <el-table :data="problems" style="width: 100%" stripe>
-    <el-table-column label="状态" width="80px">
+  <el-table :data="problems" style="width: 100%" @selection-change="handleSelectionChange" stripe>
+    <el-table-column v-if="admin" type="selection" width="55" />
+    <el-table-column v-if="!admin" label="状态" width="80px">
       <template #default="scope: Scope">
         <span v-if="scope.row.id % 3 == 0"><el-icon>
             <SemiSelect />
@@ -25,7 +26,7 @@
     </el-table-column>
     <el-table-column v-if="tagFlag" label="标签" width="300">
       <template #default="scope">
-        <ProblemTag :tags="scope.row.tags" />
+        <ProblemTagShow :tags="scope.row.tags" />
       </template>
     </el-table-column>
     <el-table-column v-if="timeFlag" label="创建时间" width="120">
@@ -72,7 +73,7 @@ import { DifficultyMap, DifficultyColor } from '@/types/Problem';
 import { formatDateStr } from "@/utils/date";
 import { getProblemApi } from '@/apis/problem';
 import router from '@/router';
-import ProblemTag from './ProblemTag.vue';
+import ProblemTagShow from './ProblemTagShow.vue';
 
 const { execute } = getProblemApi();
 
@@ -86,6 +87,11 @@ const props = withDefaults(defineProps<{
 const tagReady = ref(false);
 const tagFlag = ref(false);
 const timeFlag = ref(false);
+
+const selections = ref<ProblemInfo[]>([]);
+const handleSelectionChange = (val: ProblemInfo[]) => {
+  selections.value = val;
+};
 
 watchEffect(() => {
   if (tagReady.value) return;
