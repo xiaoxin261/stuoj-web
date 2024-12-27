@@ -1,7 +1,28 @@
 <template>
   <div class="container-main">
-    <el-row>
-      <el-col :span="24">
+    <el-row :gutter="20">
+      <el-col :span="6">
+        <el-card style="margin-bottom: 20px; text-align: center">
+          <strong>{{ slot }}好，{{ isLogin ? info.username : "访客" }}</strong><br/>
+          <span style="font-size: 16px">
+            {{ year }} / {{ month }}
+          </span><br/>
+          <span style="font-size: 72px">{{ day }}</span><br/>
+          <el-button type="success">签到题</el-button>
+        </el-card>
+        <el-card style="margin-bottom: 20px">
+          <strong>题目传送门</strong><br/><br/>
+          <el-form :v-model="gotoForm">
+            <el-form-item>
+              <el-input v-model="gotoForm.problemId" placeholder="题目 ID" clearable/>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="gotoProblem">传送</el-button>
+            </el-form-item>
+          </el-form>
+        </el-card>
+      </el-col>
+      <el-col :span="18">
         <el-card>
           <el-carousel height="100" motion-blur>
             <el-carousel-item v-for="item in 4" :key="item">
@@ -15,10 +36,33 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import {onMounted, ref} from 'vue';
+import router from "@/router";
+import { userStore } from "@/stores/user";
+
+const info = ref(userStore().info)
+const isLogin = ref(userStore().isLogin);
+
 
 onMounted(() => {
 });
+
+const date = new Date();
+const year = date.getFullYear();
+const month = date.getMonth() + 1;
+const day = date.getDate();
+const hour = date.getHours();
+const slot = hour < 12 ? '早上' : hour < 18 ? '下午' : '晚上';
+
+const gotoForm = ref({
+  problemId: ""
+});
+
+const gotoProblem = () => {
+  if (gotoForm.value.problemId) {
+    router.push(`/problem/${gotoForm.value.problemId}`);
+  }
+}
 </script>
 
 <style>
