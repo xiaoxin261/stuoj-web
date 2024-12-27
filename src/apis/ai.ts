@@ -1,19 +1,20 @@
 import { useDefineApi } from "@/stores/useDefineApi"
 import type { Tag } from "src/types/Problem";
-import type {  ProblemInfo } from "src/types/Problem";
+import type { ProblemInfo } from "src/types/Problem";
+
 export const aiApi = useDefineApi<
     {
         data: {
-            title:string;
-            description:string;
-            input?:string;
-            output?:string;
-            Sample_input?:string;
-            Sample_output?:string;
-            Hint?:string;
-            Solution?:string;
-            Tags?:string[];
-            
+            title: string;
+            description: string;
+            input?: string;
+            output?: string;
+            Sample_input?: string;
+            Sample_output?: string;
+            Hint?: string;
+            Solution?: string;
+            Tags?: string[];
+
         };
     },
     ProblemInfo
@@ -26,7 +27,7 @@ export const aiApi = useDefineApi<
 export const codeTestApi = useDefineApi<
     {
         data: {
-            sorce_code:string;
+            sorce_code: string;
             Stdin: string;
             language_id: number;
         };
@@ -56,7 +57,7 @@ export const problemInfoApi = useDefineApi<
     method: "GET"
 });
 
-export const  problemTagApi= useDefineApi<
+export const problemTagApi = useDefineApi<
     {
 
     },

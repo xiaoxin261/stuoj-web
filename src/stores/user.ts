@@ -32,11 +32,7 @@ export const userStore = createGlobalState(() => {
     if (!isLogin.value)
       return;
     const state = await getIdExecute(
-      {
-        headers: {
-          Authorization: `Bearer ${token.value}`
-        }
-      }
+      {}
     )
     if (state.value) {
       id.value = state.value;
@@ -57,9 +53,6 @@ export const userStore = createGlobalState(() => {
         return;
       }
       const state = await execute({
-        headers: {
-          Authorization: `Bearer ${token.value}`
-        },
         id: id.value
       });
       if (state.value) {

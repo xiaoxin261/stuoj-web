@@ -58,7 +58,7 @@ interface TemTestcase {
 const props = withDefaults(defineProps<{
     testcase?: Testcase,
     problemId?: number,
-}>(),{
+}>(), {
     testcase: () => ({
         id: 0,
         serial: 0,
@@ -76,9 +76,6 @@ const refreshTestcases = async () => {
     testcases.value = [];
     if (props.problemId !== undefined && props.problemId !== 0) {
         await getProblemExecute({
-            headers: {
-                Authorization: `Bearer ${token.value}`,
-            },
             id: props.problemId,
         }).then((res) => {
             if (res.value?.testcases) {
@@ -98,9 +95,6 @@ const reset = async (id: number) => {
     const index = testcases.value.findIndex((testcase) => testcase.data.id === id);
     if (index !== -1) {
         await getTestcaseExecute({
-            headers: {
-                Authorization: `Bearer ${token.value}`,
-            },
             id: id,
         }).then((res) => {
             if (res.value) {
@@ -142,23 +136,17 @@ const uploadTestcase = async () => {
         if (testcase.deleted) {
             if (testcase.data.id != undefined && testcase.data.id !== 0) {
                 await deleteTestcaseExecute({
-                    headers: {
-                        Authorization: `Bearer ${token.value}`,
-                    }, id: testcase.data.id
+                    id: testcase.data.id
                 });
             }
         } else if (testcase.checked) {
             if (testcase.data.id !== 0) {
                 await updateTestcaseExecute({
-                    headers: {
-                        Authorization: `Bearer ${token.value}`,
-                    }, data: testcase.data
+                    data: testcase.data
                 });
             } else {
                 await uploadTestcaseExecute({
-                    headers: {
-                        Authorization: `Bearer ${token.value}`,
-                    }, data: testcase.data
+                    data: testcase.data
                 });
             }
         }
@@ -191,10 +179,11 @@ defineExpose({
 </script>
 
 <style scoped>
-.button-group{
+.button-group {
     display: flex;
     justify-content: space-between;
 }
+
 .test-case-table {
     display: flex;
     flex-direction: column;

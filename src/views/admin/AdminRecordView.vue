@@ -28,9 +28,6 @@ const { token } = userStore();
 
 const getList = async () => {
   await execute({
-    headers: {
-      Authorization: `Bearer ${token.value}`
-    },
     params: {
       ...params.value,
     }
