@@ -7,7 +7,7 @@
             <ProblemDifficultySelect v-model="parmas.difficulty" ref="difficultySelectRef" />
         </el-form-item>
         <el-form-item label-width="auto">
-            <ProblemTagSelect v-model="tags" ref="problemTagSelectRef" />
+            <ProblemTag layout="horizontal" :remove-flag="true" v-model:tags="tags" ref="problemTagRef" />
         </el-form-item>
         <el-form-item>
             <el-button @click="handleReset">重置</el-button>
@@ -18,8 +18,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import type { ProblemParams } from '@/types/Problem';
-import ProblemTagSelect from '@/components/problem/ProblemTagSelect.vue';
+import type { ProblemParams, Tag } from '@/types/Problem';
+import ProblemTag from '@/components/problem/ProblemTag.vue';
 import ProblemDifficultySelect from '@/components/problem/ProblemDifficultySelect.vue';
 
 const props = withDefaults(defineProps<{
@@ -30,24 +30,24 @@ const props = withDefaults(defineProps<{
     admin: false,
 });
 
-const tags = ref<number[]>([]);
+const tags = ref<Tag[]>([]);
 
 const emit = defineEmits(['update:modelValue', 'confirmClicked']);
 const parmas = ref<ProblemParams>(props.modelValue);
 
-const problemTagSelectRef = ref<InstanceType<typeof ProblemTagSelect> | null>(null);
+const problemTagRef = ref<InstanceType<typeof ProblemTag> | null>(null);
 const difficultySelectRef = ref<InstanceType<typeof ProblemDifficultySelect> | null>(null);
 const handleReset = () => {
     if (difficultySelectRef.value)
         difficultySelectRef.value.reset();
 
-    if (problemTagSelectRef.value)
-        problemTagSelectRef.value.resetAndConfirm();
+    if (problemTagRef.value)
+        problemTagRef.value.reset();
     parmas.value.title = '';
     emit('update:modelValue', parmas.value);
 };
 const handleConfirm = () => {
-    parmas.value.tag =tags.value.join(',');
+    parmas.value.tag = tags.value.map(tag => tag.id).join(',');
     emit('update:modelValue', parmas.value);
     emit('confirmClicked');
 };

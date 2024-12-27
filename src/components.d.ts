@@ -64,6 +64,7 @@ declare module 'vue' {
     ProblemSelect: typeof import('./components/problem/ProblemSelect.vue')['default']
     ProblemTag: typeof import('./components/problem/ProblemTag.vue')['default']
     ProblemTagSelect: typeof import('./components/problem/ProblemTagSelect.vue')['default']
+    ProblemTagShow: typeof import('./components/problem/ProblemTagShow.vue')['default']
     RecordInfo: typeof import('./components/record/RecordInfo.vue')['default']
     RecordTag: typeof import('./components/record/RecordTag.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
