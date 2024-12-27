@@ -37,7 +37,6 @@
 import { ref, watch } from 'vue';
 import { getTestcaseApi, uploadTestcaseApi, updateTestcaseApi, deleteTestcaseApi, getProblemApi } from '@/apis/problem';
 import type { Testcase } from '@/types/Problem';
-import { userStore } from '@/stores/user';
 import { ElMessage, ElTableColumn, ElTag } from 'element-plus';
 import { CircleCloseFilled, Warning, CircleCheck, Upload } from '@element-plus/icons-vue';
 
@@ -46,8 +45,6 @@ const { execute: getTestcaseExecute } = getTestcaseApi();
 const { execute: uploadTestcaseExecute } = uploadTestcaseApi();
 const { execute: updateTestcaseExecute } = updateTestcaseApi();
 const { execute: deleteTestcaseExecute } = deleteTestcaseApi();
-
-const { token } = userStore();
 
 interface TemTestcase {
     checked: boolean;
