@@ -1,6 +1,13 @@
 <template>
+  <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+    <el-checkbox-group v-model="workingArea">
+      <el-checkbox-button v-for="area in workingAreas" :key="area" :value="area">
+        {{ area }}
+      </el-checkbox-button>
+    </el-checkbox-group>
+  </div>
   <ElRow :gutter="20">
-    <ElCol :span="12">
+    <ElCol v-if="workingArea.includes('题面')" :span="12">
       <ElCard class="box-card">
         <div class="section">
           <h2>题目</h2>
@@ -49,7 +56,7 @@
         <ElButton v-if="isNumber(problemId)" type="primary" @click="handleUpdate">更新</ElButton>
       </ElCard>
     </ElCol>
-    <ElCol :span="12">
+    <ElCol v-if="workingArea.includes('数据')" :span="12">
       <div style="display: flex; justify-content: space-between; gap:20px;">
         <ElCard class="box-card" style="width: 50%;">
           <div style="display: flex; flex-direction: column; gap:10px">
@@ -75,13 +82,13 @@
           </ElTabs>
         </ElCard>
       </div>
-      <ElCard v-if="activeName==='testcase'" style="margin-top: 10px;">
+      <ElCard v-if="activeName === 'testcase'" style="margin-top: 10px;">
         <TestcaseEdit v-model:testcase="testcase" />
       </ElCard>
-      <ElCard v-if="activeName==='testcase'" style="margin-top: 10px;">
+      <ElCard v-if="activeName === 'testcase'" style="margin-top: 10px;">
         <DataMake v-bind:global="global" />
       </ElCard>
-      <ElCard v-if="activeName==='solution'" style="margin-top: 10px;">
+      <ElCard v-if="activeName === 'solution'" style="margin-top: 10px;">
         <ProblemSolutionEdit v-model:solution="solution" />
       </ElCard>
       <ElCard style="margin-top: 10px;">
@@ -98,13 +105,16 @@
 <script setup lang="ts">
 import { onBeforeMount, ref, h } from 'vue';
 import { ElLink, ElNotification, ElRow, ElTabPane, type TabPaneName } from 'element-plus';
-import { type ProblemInfo, type Testcase, type Global, type Tag,type Solution } from '@/types/Problem';
+import { type ProblemInfo, type Testcase, type Global, type Tag, type Solution } from '@/types/Problem';
 import { getProblemApi, uploadProblemApi, updateProblemApi, problemRemoveTagApi, problemAddTagApi } from '@/apis/problem';
 import { useRoute } from 'vue-router';
 import TestTable from '@/components/problem/TestTable.vue';
 import TestcaseEdit from '@/components/problem/TestCaseEdit.vue';
 import ProblemSolutionTable from '@/components/problem/ProblemSolutionTable.vue';
 import { isNumber } from 'element-plus/es/utils/types.mjs';
+
+const workingAreas=['题面', '数据', 'neko-acm'];
+const workingArea=ref(['题面', '数据'])
 
 const { execute: getProblemExecute } = getProblemApi();
 const { execute: updateProblemExecute } = updateProblemApi();
@@ -126,7 +136,7 @@ const problem = ref<ProblemInfo>({
 const testTableRef = ref<InstanceType<typeof TestTable> | null>(null);
 const solutionTableRef = ref<InstanceType<typeof ProblemSolutionTable> | null>(null);
 const testcase = ref<Testcase>();
-const solution=ref<Solution>();
+const solution = ref<Solution>();
 const global = ref<Global>({
   rows: []
 });
@@ -138,7 +148,7 @@ const oldTags = ref<Tag[]>([]);
 
 const activeName = ref<string>('testcase');
 
-const handleTabChange= (name: TabPaneName) => {
+const handleTabChange = (name: TabPaneName) => {
 };
 
 onBeforeMount(async () => {
