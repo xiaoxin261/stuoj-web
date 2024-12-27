@@ -5,12 +5,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, defineEmits, watch } from 'vue';
-import { Difficulty, DifficultyMap } from '@/types/Problem';
+import { ref, defineProps, defineEmits, watch, type PropType } from 'vue';
+import { DifficultyMap } from '@/types/Problem';
 const props = defineProps({
     modelValue: {
-        type: [Number],
-        default: null,
+        type: Number as PropType<number | undefined>,
+        default: undefined,
     },
 });
 
@@ -38,7 +38,7 @@ watch(() => props.modelValue, (newValue) => {
     selectedValue.value = newValue;
 });
 const reset = () => {
-    selectedValue.value = 0;
+    selectedValue.value = undefined;
     emit('update:modelValue', null);
 };
 defineExpose({

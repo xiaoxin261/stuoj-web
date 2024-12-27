@@ -6,10 +6,10 @@
 
 <script setup lang="ts">
 import { ProblemStatusMap } from '@/types/Problem';
-import { ref, defineProps, defineEmits, watch } from 'vue';
+import { ref, defineProps, defineEmits, watch, type PropType } from 'vue';
 const props = defineProps({
     modelValue: {
-        type: [Number],
+        type: Number as PropType<number | undefined>,
         default: null,
     },
 });
@@ -36,5 +36,13 @@ const handleSelectChange = (value: number) => {
 
 watch(() => props.modelValue, (newValue) => {
     selectedValue.value = newValue;
+});
+
+const reset = () => {
+    selectedValue.value = undefined;
+    emit('update:modelValue', null);
+};
+defineExpose({
+    reset,
 });
 </script>

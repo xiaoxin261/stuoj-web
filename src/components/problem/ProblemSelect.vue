@@ -7,7 +7,7 @@
             <ProblemDifficultySelect v-model="parmas.difficulty" ref="difficultySelectRef" />
         </el-form-item>
         <el-form-item v-if="admin" label="状态" label-position="right">
-            <ProblemStatusSelect v-model="parmas.status" />
+            <ProblemStatusSelect v-model="parmas.status" ref="statusSelectRef" />
         </el-form-item>
         <el-form-item label-width="auto">
             <ProblemTag layout="horizontal" :remove-flag="true" v-model:tags="tags" ref="problemTagRef" />
@@ -24,6 +24,7 @@ import { ref } from 'vue';
 import type { ProblemParams, Tag } from '@/types/Problem';
 import ProblemTag from '@/components/problem/ProblemTag.vue';
 import ProblemDifficultySelect from '@/components/problem/ProblemDifficultySelect.vue';
+import ProblemStatusSelect from '@/components/problem/ProblemStatusSelect.vue';
 
 const props = withDefaults(defineProps<{
     modelValue?: ProblemParams;
@@ -40,12 +41,16 @@ const parmas = ref<ProblemParams>(props.modelValue);
 
 const problemTagRef = ref<InstanceType<typeof ProblemTag> | null>(null);
 const difficultySelectRef = ref<InstanceType<typeof ProblemDifficultySelect> | null>(null);
+const statusSelectRef = ref<InstanceType<typeof ProblemStatusSelect> | null>(null);
 const handleReset = () => {
     if (difficultySelectRef.value)
         difficultySelectRef.value.reset();
 
     if (problemTagRef.value)
         problemTagRef.value.reset();
+
+    if (statusSelectRef.value)
+        statusSelectRef.value.reset();
     parmas.value.title = '';
     emit('update:modelValue', parmas.value);
 };
