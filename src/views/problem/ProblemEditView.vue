@@ -57,7 +57,7 @@
               <ProblemDifficultySelect v-model:model-value="problem.difficulty" style="width: 40%;" />
               <ProblemStatusSelect v-model:model-value="problem.status" style="width: 40%;" />
             </div>
-            <ElDivider/>
+            <ElDivider />
             <ProblemTag tags-size="default" layout="vertical" :remove-flag="true" v-model:tags="tags" />
             <div style="display: flex; justify-content: flex-end;">
               <ElButton type="primary" @click="handleUpdateTag">更新标签</ElButton>
@@ -65,14 +65,24 @@
           </div>
         </ElCard>
         <ElCard class="box-card" style="width: 50%;">
-          <TestTable v-model:testcase="testcase" v-bind:problem-id="problem.id" ref="testTableRef" />
+          <ElTabs v-model="activeName" @tab-change="handleTabChange">
+            <ElTabPane label="测试数据" name="testcase">
+              <TestTable v-model:testcase="testcase" v-bind:problem-id="problem.id" ref="testTableRef" />
+            </ElTabPane>
+            <ElTabPane label="题解" name="solution">
+              <ProblemSolutionTable v-model:solution="solution" v-bind:problem-id="problem.id" ref="solutionTableRef" />
+            </ElTabPane>
+          </ElTabs>
         </ElCard>
       </div>
-      <ElCard style="margin-top: 10px;">
+      <ElCard v-if="activeName==='testcase'" style="margin-top: 10px;">
         <TestcaseEdit v-model:testcase="testcase" />
       </ElCard>
-      <ElCard style="margin-top: 10px;">
+      <ElCard v-if="activeName==='testcase'" style="margin-top: 10px;">
         <DataMake v-bind:global="global" />
+      </ElCard>
+      <ElCard v-if="activeName==='solution'" style="margin-top: 10px;">
+        <ProblemSolutionEdit v-model:solution="solution" />
       </ElCard>
       <ElCard style="margin-top: 10px;">
         <div class="debug-title">
@@ -87,16 +97,14 @@
 
 <script setup lang="ts">
 import { onBeforeMount, ref, h } from 'vue';
-import { ElLink, ElNotification, ElRow } from 'element-plus';
-import type { ProblemInfo, Testcase, Global, Tag } from '@/types/Problem';
+import { ElLink, ElNotification, ElRow, ElTabPane, type TabPaneName } from 'element-plus';
+import { type ProblemInfo, type Testcase, type Global, type Tag,type Solution } from '@/types/Problem';
 import { getProblemApi, uploadProblemApi, updateProblemApi, problemRemoveTagApi, problemAddTagApi } from '@/apis/problem';
 import { useRoute } from 'vue-router';
 import TestTable from '@/components/problem/TestTable.vue';
 import TestcaseEdit from '@/components/problem/TestCaseEdit.vue';
+import ProblemSolutionTable from '@/components/problem/ProblemSolutionTable.vue';
 import { isNumber } from 'element-plus/es/utils/types.mjs';
-import { userStore } from '@/stores/user';
-
-const { token } = userStore();
 
 const { execute: getProblemExecute } = getProblemApi();
 const { execute: updateProblemExecute } = updateProblemApi();
@@ -116,7 +124,9 @@ const problem = ref<ProblemInfo>({
 });
 
 const testTableRef = ref<InstanceType<typeof TestTable> | null>(null);
+const solutionTableRef = ref<InstanceType<typeof ProblemSolutionTable> | null>(null);
 const testcase = ref<Testcase>();
+const solution=ref<Solution>();
 const global = ref<Global>({
   rows: []
 });
@@ -125,6 +135,11 @@ let problemId = ref<number | null>(null);
 
 const tags = ref<Tag[]>([]);
 const oldTags = ref<Tag[]>([]);
+
+const activeName = ref<string>('testcase');
+
+const handleTabChange= (name: TabPaneName) => {
+};
 
 onBeforeMount(async () => {
   const idParam = route.query.id;
@@ -143,6 +158,9 @@ onBeforeMount(async () => {
       });
       if (testTableRef.value) {
         testTableRef.value.refreshTestcases();
+      }
+      if (solutionTableRef.value) {
+        solutionTableRef.value.refreshSolutions();
       }
     }
   } else {
