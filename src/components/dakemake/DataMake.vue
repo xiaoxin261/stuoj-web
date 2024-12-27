@@ -65,9 +65,6 @@ watchEffect(() => {
 
 const handleGenerate = () => {
     execute({
-        headers: {
-            Authorization: `Bearer ${token.value}`,
-        },
         data: global.value
     }).then((res) => {
         if (res.value) {

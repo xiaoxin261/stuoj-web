@@ -6,6 +6,9 @@
         <el-form-item label="难度" label-position="right">
             <ProblemDifficultySelect v-model="parmas.difficulty" ref="difficultySelectRef" />
         </el-form-item>
+        <el-form-item v-if="admin" label="状态" label-position="right">
+            <ProblemStatusSelect v-model="parmas.status" />
+        </el-form-item>
         <el-form-item label-width="auto">
             <ProblemTag layout="horizontal" :remove-flag="true" v-model:tags="tags" ref="problemTagRef" />
         </el-form-item>

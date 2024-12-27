@@ -171,9 +171,6 @@ const toggleTagsVisibility = () => {
 
 onMounted(async () => {
   await execute({
-    headers: {
-      Authorization: `Bearer ${token.value}`,
-    },
     id: problemId.value,
   });
   if (state.value) {
