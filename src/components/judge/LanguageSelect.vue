@@ -7,7 +7,7 @@
 <script setup lang="ts">
 import { GetLanguages } from '@/apis/judge';
 import type { Language } from '@/types/Judge';
-import {  onMounted, ref } from 'vue';
+import {  onMounted, ref, watchEffect } from 'vue';
 
 const { execute, state } = GetLanguages();
 const options = ref<Language[]>([]);
@@ -32,5 +32,9 @@ const handleSelectChange = (value: number) => {
     selectedValue.value = value;
     emit('update:modelValue', value);
 };
+
+watchEffect(() => {
+    selectedValue.value = props.modelValue;
+});
 
 </script>
