@@ -51,18 +51,47 @@
           </ElInput>
         </div>
       </ElCard>
-      <ElCard style="margin-top: 10px; display: flex; justify-content: flex-end;">
-        <ElButton type="primary" @click="handleUpload">创建</ElButton>
-        <ElButton v-if="isNumber(problemId)" type="primary" @click="handleUpdate">更新</ElButton>
-      </ElCard>
     </ElCol>
     <ElCol v-if="workingArea.includes('数据')" :span="12">
       <div style="display: flex; justify-content: space-between; gap:20px;">
         <ElCard class="box-card" style="width: 50%;">
           <div style="display: flex; flex-direction: column; gap:10px">
+            <div style="display: flex; justify-content: flex-start; gap:10px;">
+              <ElText size="large" tag="b">题目ID</ElText>
+              <ElInput v-model="problemId" :disabled="true" style="width: 40%;" />
+              <router-link v-if="problemId" type="primary" :to="'/problem/' + problemId">跳转到该题</router-link>
+            </div>
+            <div style="display: flex; justify-content: flex-start; gap:10px;">
+              <ElText size="large" tag="b">时间限制</ElText>
+              <ElInputNumber v-model="problem.time_limit" label="时间限制" :precision="2" :min="0" :max="10000" :step="0.5">
+                <template #suffix>
+                  <span>s</span>
+                </template>
+              </ElInputNumber>
+            </div>
+            <div style="display: flex; justify-content: flex-start; gap:10px;">
+              <ElText size="large" tag="b">内存限制</ElText>
+              <ElInputNumber v-model="memoryLimitMB" label="内存限制" :min="0" :max="1000000" :step="10">
+                <template #suffix>
+                  <span>MB</span>
+                </template>
+              </ElInputNumber>
+            </div>
+            <div style="display: flex; justify-content: flex-start; gap:10px;">
+              <ElText size="large" tag="b">来源</ElText>
+              <ElInput v-model="problem.source" style="width: 40%;" />
+            </div>
             <div style="display: flex; justify-content: space-between;">
               <ProblemDifficultySelect v-model:model-value="problem.difficulty" style="width: 40%;" />
               <ProblemStatusSelect v-model:model-value="problem.status" style="width: 40%;" />
+            </div>
+            <div style="margin-top: 10px; display: flex; justify-content: flex-end;">
+              <ElTooltip content="创建为新题">
+                <ElButton type="primary" @click="handleUpload">创建</ElButton>
+              </ElTooltip>
+              <ElTooltip content="更新该题">
+                <ElButton v-if="isNumber(problemId)" type="primary" @click="handleUpdate">更新</ElButton>
+              </ElTooltip>
             </div>
             <ElDivider />
             <ProblemTag tags-size="default" layout="vertical" :remove-flag="true" v-model:tags="tags" />
@@ -99,12 +128,14 @@
         <CodeRun v-if="debugFlag" :problem="problemId ?? ''" />
       </ElCard>
     </ElCol>
+    <ElCol v-if="workingArea.includes('neko-acm')" :span="12">
+    </ElCol>
   </ElRow>
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, ref, h } from 'vue';
-import { ElLink, ElNotification, ElRow, ElTabPane, type TabPaneName } from 'element-plus';
+import { onBeforeMount, ref, h, computed } from 'vue';
+import { ElInputNumber, ElLink, ElNotification, ElRow, ElTabPane, type TabPaneName } from 'element-plus';
 import { type ProblemInfo, type Testcase, type Global, type Tag, type Solution } from '@/types/Problem';
 import { getProblemApi, uploadProblemApi, updateProblemApi, problemRemoveTagApi, problemAddTagApi } from '@/apis/problem';
 import { useRoute } from 'vue-router';
@@ -112,9 +143,10 @@ import TestTable from '@/components/problem/TestTable.vue';
 import TestcaseEdit from '@/components/problem/TestCaseEdit.vue';
 import ProblemSolutionTable from '@/components/problem/ProblemSolutionTable.vue';
 import { isNumber } from 'element-plus/es/utils/types.mjs';
+import router from '@/router';
 
-const workingAreas=['题面', '数据', 'neko-acm'];
-const workingArea=ref(['题面', '数据'])
+const workingAreas = ['题面', '数据', 'neko-acm'];
+const workingArea = ref(['题面', '数据'])
 
 const { execute: getProblemExecute } = getProblemApi();
 const { execute: updateProblemExecute } = updateProblemApi();
@@ -131,6 +163,15 @@ const problem = ref<ProblemInfo>({
   hint: '',
   difficulty: 0,
   memory_limit: 0,
+});
+
+const memoryLimitMB = computed({
+  get: () => {
+    return (problem.value?.memory_limit ?? 0) / 1024;
+  },
+  set: (value) => {
+    problem.value.memory_limit = value * 1024;
+  }
 });
 
 const testTableRef = ref<InstanceType<typeof TestTable> | null>(null);
@@ -227,6 +268,7 @@ const handleUpload = async () => {
   }).then((res) => {
     if (res.value) {
       problemId.value = res.value;
+      router.push(`/problem/edit?id=${problemId.value}`);
       ElNotification.success({
         title: '创建成功',
         message: h(ElLink, {
@@ -240,6 +282,14 @@ const handleUpload = async () => {
 }
 
 const handleUpdate = async () => {
+  if (problemId.value === null) {
+    ElNotification.error({
+      title: '更新失败',
+      message: '请先保存题目'
+    });
+    return;
+  };
+  problem.value.id = problemId.value;
   updateProblemExecute({
     data: problem.value
   }).then(() => {
