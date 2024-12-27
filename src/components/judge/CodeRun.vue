@@ -80,9 +80,6 @@ const handleDebug = async () => {
         recordInfoRef.value.clear(); // 清空子组件内容
     }
     await testExcute({
-        headers: {
-            Authorization: `Bearer ${token.value}`
-        },
         data: {
             language_id: language_id.value,
             source_code: code_text.value,
@@ -115,9 +112,6 @@ const handleSubmit = async () => {
     }
     if (problem_id != undefined)
         await submitExcute({
-            headers: {
-                Authorization: `Bearer ${token.value}`
-            },
             data: {
                 language_id: language_id.value,
                 source_code: code_text.value,

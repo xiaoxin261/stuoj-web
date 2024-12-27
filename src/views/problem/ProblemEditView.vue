@@ -54,6 +54,7 @@
         <ElCard class="box-card" style="width: 50%;">
           <div style="display: flex; flex-direction: column; gap:10px">
             <ProblemDifficultySelect v-model:model-value="problem.difficulty" style="width: 40%;" />
+            <ProblemStatusSelect v-model:model-value="problem.status" style="width: 40%;" />
             <ProblemTag tags-size="default" layout="vertical" :remove-flag="true" v-model:tags="tags" />
             <div style="display: flex; justify-content: flex-end;">
               <ElButton type="primary" @click="handleUpdateTag">更新标签</ElButton>
@@ -165,9 +166,6 @@ const handleUpdateTag = async () => {
 
     for (const tag of tagsToRemove) {
       await problemRemoveTagExecute({
-        headers: {
-          Authorization: `Bearer ${token.value}`
-        },
         data: {
           problem_id: problemId.value,
           tag_id: tag.id
@@ -177,9 +175,6 @@ const handleUpdateTag = async () => {
 
     for (const tag of tagsToAdd) {
       await problemAddTagExecute({
-        headers: {
-          Authorization: `Bearer ${token.value}`
-        },
         data: {
           problem_id: problemId.value,
           tag_id: tag.id
@@ -197,9 +192,6 @@ const handleUpdateTag = async () => {
 
 const handleUpload = async () => {
   uploadProblemExecute({
-    headers: {
-      Authorization: `Bearer ${token.value}`
-    },
     data: problem.value
   }).then((res) => {
     if (res.value) {
@@ -218,9 +210,6 @@ const handleUpload = async () => {
 
 const handleUpdate = async () => {
   updateProblemExecute({
-    headers: {
-      Authorization: `Bearer ${token.value}`
-    },
     data: problem.value
   }).then(() => {
     ElNotification.success({

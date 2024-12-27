@@ -38,6 +38,11 @@ instance.interceptors.response.use(function (response) {
 });
 
 const _req = async <T>(config: AxiosRequestConfig): Promise<ApiResponse<T> | undefined> => {
+  const { token } = userStore();
+  config.headers = {
+    ...config.headers,
+    Authorization: `Bearer ${token.value}`
+  };
   const result = await instance(config);
   let realData: ApiResponse<T>;
   if (!result.data)

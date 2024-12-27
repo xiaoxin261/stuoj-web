@@ -147,9 +147,6 @@ const submitForm = async () => {
   // 控制台输出用户填写的文本区域和选择的算法标签
 
   await submitInfo({
-    headers: {
-      Authorization: `Bearer ${token.value}`
-    },
     data: {
       title: req.value.title,
       description: req.value.description,
