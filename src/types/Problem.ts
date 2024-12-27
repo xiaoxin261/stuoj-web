@@ -5,10 +5,10 @@ export interface ProblemInfo {
     hint: string;
     id?: number;
     input: string;
-    memory_limit: number;
+    memory_limit?: number;
     output: string;
-    sample_input: string;
-    sample_output: string;
+    sample_input?: string;
+    sample_output?: string;
     source?: string;
     status?: number;
     time_limit?: number;
