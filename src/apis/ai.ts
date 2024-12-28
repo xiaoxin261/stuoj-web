@@ -38,7 +38,11 @@ export const testcaseGenerateApi = useDefineApi<
 
 export const solutionGenerateApi = useDefineApi<
     {
-        data: ProblemInfo
+        data: ProblemInfo & {
+            solution: string;
+            language: string;
+            tags: string[];
+        }
     },
     {
         language: string;
