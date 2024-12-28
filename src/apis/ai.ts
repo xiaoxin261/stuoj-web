@@ -3,7 +3,9 @@ import type { ProblemInfo, Testcase } from "src/types/Problem";
 
 export const problemGenerateApi = useDefineApi<
     {
-        data: ProblemInfo
+        data: ProblemInfo & {
+            tags: string[]
+        }
     },
     ProblemInfo
 >({
