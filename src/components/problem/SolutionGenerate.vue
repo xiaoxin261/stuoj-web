@@ -62,8 +62,7 @@ const generate = async () => {
         language.value = res.value?.language || '';
         source_code.value = res.value?.source_code || '';
         explanation.value = res.value?.explanation || '';
-    });
-    loading.value = false;
+    }).finally(() => { loading.value = false; });
 }
 
 </script>

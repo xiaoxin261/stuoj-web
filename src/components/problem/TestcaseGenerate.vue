@@ -60,8 +60,7 @@ const generate = async () => {
             testcase.value = res.value;
         input_explanation.value = res.value?.input_explanation || '';
         output_explanation.value = res.value?.output_explanation || '';
-    });
-    loading.value = false;
+    }).finally(() => { loading.value = false; });
 }
 
 
