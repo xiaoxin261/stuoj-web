@@ -6,7 +6,6 @@
         </div>
         <ElTable :data="testcases" style="width: 100%;" @current-change="handleCurrentChange" highlight-current-row
             stripe>
-            <ElTableColumn label="ID" prop="data.id" width="60" />
             <ElTableColumn label="编号" prop="data.serial" />
             <ElTableColumn label="脏位" prop="checked" width="65">
                 <template #default="scope">

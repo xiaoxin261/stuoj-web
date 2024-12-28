@@ -12,7 +12,7 @@
         <div class="section">
           <div class="title">
             <h2>题目</h2>
-            <ElButton v-if="isNumber(problemId)" type="info" :icon="Refresh" @click="reset">重置</ElButton>
+            <ElButton v-if="problemId!==0" type="info" :icon="Refresh" @click="reset">重置</ElButton>
           </div>
           <ElInput v-model="problem.title"></ElInput>
         </div>
@@ -93,7 +93,7 @@
                 <ElButton type="primary" @click="handleUpload">创建</ElButton>
               </ElTooltip>
               <ElTooltip content="更新该题">
-                <ElButton v-if="isNumber(problemId)" type="primary" @click="handleUpdate">更新</ElButton>
+                <ElButton v-if="problemId!==0" type="primary" @click="handleUpdate">更新</ElButton>
               </ElTooltip>
             </div>
             <ElDivider />
@@ -106,10 +106,10 @@
         <ElCard class="box-card" style="width: 50%;">
           <ElTabs v-model="activeName">
             <ElTabPane label="测试数据" name="testcase">
-              <TestTable v-model:testcase="testcase" v-bind:problem-id="problem.id" ref="testTableRef" />
+              <TestTable v-model:testcase="testcase" v-bind:problem-id="problemId" ref="testTableRef" />
             </ElTabPane>
             <ElTabPane label="题解" name="solution">
-              <ProblemSolutionTable v-model:solution="solution" v-bind:problem-id="problem.id" ref="solutionTableRef" />
+              <ProblemSolutionTable v-model:solution="solution" v-bind:problem-id="problemId" ref="solutionTableRef" />
             </ElTabPane>
           </ElTabs>
         </ElCard>
@@ -202,7 +202,7 @@ const global = ref<Global>({
   rows: []
 });
 const route = useRoute();
-let problemId = ref<number | null>(null);
+let problemId = ref<number>(0);
 
 const tags = ref<Tag[]>([]);
 const oldTags = ref<Tag[]>([]);

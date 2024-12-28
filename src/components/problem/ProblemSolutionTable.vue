@@ -5,7 +5,6 @@
             <ElButton type="primary" @click="addSolution" icon="CirclePlus">添加题解</ElButton>
         </div>
         <ElTable :data="solutions" style="width: 100%;" @current-change="handleCurrentChange" highlight-current-row stripe>
-            <ElTableColumn prop="data.id" label="ID" width="60"></ElTableColumn>
             <ElTableColumn label="语言">
                 <template #default="scope">
                     <ElTooltip :content="languages.find((lang: Language) => lang.id === scope.row.data.language_id)?.name || 'Unknown'">
