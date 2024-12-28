@@ -17,7 +17,7 @@ export const getBlogListApi = useDefineApi<
     },
     Page<"blogs", BlogInfo>
 >({
-    url: "/blog",
+    url: "/blog/",
     method: "get"
 });
 
