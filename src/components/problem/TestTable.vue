@@ -21,7 +21,7 @@
                 </template>
             </ElTableColumn>
             <ElTableColumn label="重置" width="60" #default="scope">
-                <ElButton type="danger" :icon="CircleCloseFilled" @click="reset(scope.row.data.id)"
+                <ElButton v-if="scope.row.data.id !== 0" type="danger" :icon="CircleCloseFilled" @click="reset(scope.row.data.id)"
                     style="width: 90%; height: 90%;" />
             </ElTableColumn>
             <ElTableColumn label="删除" width="60" #default="scope">
@@ -103,7 +103,7 @@ const reset = async (id: number) => {
 };
 
 const addTestcase = async () => {
-    const maxSerial = Math.max(0, ...testcases.value.map(tc => tc.data.serial));
+    const maxSerial = Math.max(0, ...testcases.value.map(tc => tc.data.serial ?? 0));
     const newTestcase: TemTestcase = {
         checked: true,
         deleted: false,
