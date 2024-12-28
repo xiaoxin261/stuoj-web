@@ -29,12 +29,13 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { testcaseGenerateApi } from '@/apis/ai';
-import { type ProblemInfo, type Testcase } from "@/types/Problem";
+import { type ProblemInfo, type Tag, type Testcase } from "@/types/Problem";
 
 const { execute } = testcaseGenerateApi();
 
 const props = defineProps<{
     problem: ProblemInfo;
+    tags:Tag[];
 }>();
 
 const loading = ref(false);
@@ -50,7 +51,10 @@ const output_explanation = ref<string>('');
 const generate = async () => {
     loading.value = true;
     await execute({
-        data: props.problem
+        data: {
+            ...props.problem,
+            tags: props.tags.map(tag => tag.name),
+        }
     }).then(res => {
         if (res.value)
             testcase.value = res.value;
