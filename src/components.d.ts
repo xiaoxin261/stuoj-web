@@ -77,6 +77,7 @@ declare module 'vue' {
     RecordTag: typeof import('./components/record/RecordTag.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SolutionGenerate: typeof import('./components/problem/SolutionGenerate.vue')['default']
     TestCaseEdit: typeof import('./components/problem/TestCaseEdit.vue')['default']
     TestcaseGenerate: typeof import('./components/problem/TestcaseGenerate.vue')['default']
     TestTable: typeof import('./components/problem/TestTable.vue')['default']
