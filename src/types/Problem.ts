@@ -34,8 +34,8 @@ export interface Solution {
 
 export interface Testcase {
     id?: number;
-    problem_id: number;
-    serial: number;
+    problem_id?: number;
+    serial?: number;
     test_input: string;
     test_output: string;
     [property: string]: any;
