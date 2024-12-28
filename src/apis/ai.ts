@@ -25,7 +25,9 @@ export const problemTranslateApi = useDefineApi<
 
 export const testcaseGenerateApi = useDefineApi<
     {
-        data: ProblemInfo
+        data: ProblemInfo & {
+            tags: string[]
+        }
     },
     Testcase & {
         input_explanation: string;
