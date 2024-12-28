@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch, watchEffect } from 'vue';
 import { ElMessage, ElTableColumn, ElTag } from 'element-plus';
 import { CircleCloseFilled, Warning, CircleCheck, Upload } from '@element-plus/icons-vue';
 import type { Solution } from '@/types/Problem';
@@ -150,7 +150,10 @@ const uploadSolution = async () => {
                 });
             } else {
                 await uploadSolutionExecute({
-                    data: solution.data
+                    data: {
+                        ...solution.data,
+                        problem_id: props.problemId,
+                    }
                 });
             }
         }
@@ -174,6 +177,12 @@ watch(() => props.solution, (newSolution) => {
             });
         }
     }
+});
+
+watchEffect(() => {
+    solutions.value.forEach(solutions => {
+        solutions.data.problem_id = props.problemId ?? 0;
+    });
 });
 
 defineExpose({

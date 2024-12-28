@@ -12,7 +12,7 @@
         <div class="section">
           <div class="title">
             <h2>题目</h2>
-            <ElButton v-if="problemId!==0" type="info" :icon="Refresh" @click="reset">重置</ElButton>
+            <ElButton v-if="problemId !== 0" type="info" :icon="Refresh" @click="reset">重置</ElButton>
           </div>
           <ElInput v-model="problem.title"></ElInput>
         </div>
@@ -93,7 +93,7 @@
                 <ElButton type="primary" @click="handleUpload">创建</ElButton>
               </ElTooltip>
               <ElTooltip content="更新该题">
-                <ElButton v-if="problemId!==0" type="primary" @click="handleUpdate">更新</ElButton>
+                <ElButton v-if="problemId !== 0" type="primary" @click="handleUpdate">更新</ElButton>
               </ElTooltip>
             </div>
             <ElDivider />
@@ -106,7 +106,7 @@
         <ElCard class="box-card" style="width: 50%;">
           <ElTabs v-model="activeName">
             <ElTabPane label="测试数据" name="testcase">
-              <TestTable v-model:testcase="testcase" v-bind:problem-id="problemId" ref="testTableRef" />
+              <TestcaseTable v-model:testcase="testcase" v-bind:problem-id="problemId" ref="testTableRef" />
             </ElTabPane>
             <ElTabPane label="题解" name="solution">
               <ProblemSolutionTable v-model:solution="solution" v-bind:problem-id="problemId" ref="solutionTableRef" />
@@ -158,10 +158,9 @@ import { ElInputNumber, ElLink, ElNotification, ElRow, ElTabPane } from 'element
 import { type ProblemInfo, type Testcase, type Global, type Tag, type Solution } from '@/types/Problem';
 import { getProblemApi, uploadProblemApi, updateProblemApi, problemRemoveTagApi, problemAddTagApi } from '@/apis/problem';
 import { useRoute } from 'vue-router';
-import TestTable from '@/components/problem/TestTable.vue';
-import TestcaseEdit from '@/components/problem/TestCaseEdit.vue';
+import TestcaseTable from '@/components/problem/TestcaseTable.vue';
+import TestcaseEdit from '@/components/problem/TestcaseEdit.vue';
 import ProblemSolutionTable from '@/components/problem/ProblemSolutionTable.vue';
-import { isNumber } from 'element-plus/es/utils/types.mjs';
 import router from '@/router';
 import { Refresh } from '@element-plus/icons-vue';
 
@@ -182,7 +181,8 @@ const problem = ref<ProblemInfo>({
   sample_output: '',
   hint: '',
   difficulty: 0,
-  memory_limit: 0,
+  memory_limit: 131072,
+  time_limit: 1,
 });
 
 const memoryLimitMB = computed({
@@ -194,7 +194,7 @@ const memoryLimitMB = computed({
   }
 });
 
-const testTableRef = ref<InstanceType<typeof TestTable> | null>(null);
+const testTableRef = ref<InstanceType<typeof TestcaseTable> | null>(null);
 const solutionTableRef = ref<InstanceType<typeof ProblemSolutionTable> | null>(null);
 const testcase = ref<Testcase>();
 const solution = ref<Solution>();
