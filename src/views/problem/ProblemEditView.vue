@@ -154,7 +154,7 @@
 
 <script setup lang="ts">
 import { onBeforeMount, ref, h, computed } from 'vue';
-import { ElInputNumber, ElLink, ElNotification, ElRow, ElTabPane, type TabPaneName } from 'element-plus';
+import { ElInputNumber, ElLink, ElNotification, ElRow, ElTabPane } from 'element-plus';
 import { type ProblemInfo, type Testcase, type Global, type Tag, type Solution } from '@/types/Problem';
 import { getProblemApi, uploadProblemApi, updateProblemApi, problemRemoveTagApi, problemAddTagApi } from '@/apis/problem';
 import { useRoute } from 'vue-router';
@@ -216,7 +216,7 @@ const reset = async () => {
       message: '请先保存题目'
     });
     return;
-  };
+  }
   await getProblemExecute({
     id: problemId.value
   }).then(async (res) => {
@@ -316,7 +316,7 @@ const handleUpdate = async () => {
       message: '请先保存题目'
     });
     return;
-  };
+  }
   problem.value.id = problemId.value;
   updateProblemExecute({
     data: problem.value
