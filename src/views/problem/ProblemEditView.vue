@@ -165,7 +165,7 @@ import { isNumber } from 'element-plus/es/utils/types.mjs';
 import router from '@/router';
 import { Refresh } from '@element-plus/icons-vue';
 
-const workingAreas = ['题面', '数据', 'NekoAcm🐱🐾'];
+const workingAreas = ['题面', '数据', 'NekoACM🐱🐾'];
 const workingArea = ref(['题面', '数据'])
 
 const { execute: getProblemExecute } = getProblemApi();
