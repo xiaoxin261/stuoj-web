@@ -154,7 +154,7 @@
 
 <script setup lang="ts">
 import { onBeforeMount, ref, h, computed } from 'vue';
-import { ElInputNumber, ElLink, ElNotification, ElRow, ElTabPane, type TabPaneName } from 'element-plus';
+import { ElInputNumber, ElLink, ElNotification, ElRow, ElTabPane } from 'element-plus';
 import { type ProblemInfo, type Testcase, type Global, type Tag, type Solution } from '@/types/Problem';
 import { getProblemApi, uploadProblemApi, updateProblemApi, problemRemoveTagApi, problemAddTagApi } from '@/apis/problem';
 import { useRoute } from 'vue-router';
@@ -336,8 +336,8 @@ const handleUpdate = async () => {
 
 <style scoped>
 .title {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .debug-title {
