@@ -3,7 +3,9 @@ import type { ProblemInfo, Testcase } from "src/types/Problem";
 
 export const problemGenerateApi = useDefineApi<
     {
-        data: ProblemInfo
+        data: ProblemInfo & {
+            tags: string[]
+        }
     },
     ProblemInfo
 >({
@@ -13,7 +15,9 @@ export const problemGenerateApi = useDefineApi<
 
 export const problemTranslateApi = useDefineApi<
     {
-        data: ProblemInfo
+        data: ProblemInfo & {
+            target_lang: string;
+        }
     },
     ProblemInfo
 >({
@@ -23,7 +27,9 @@ export const problemTranslateApi = useDefineApi<
 
 export const testcaseGenerateApi = useDefineApi<
     {
-        data: ProblemInfo
+        data: ProblemInfo & {
+            tags: string[]
+        }
     },
     Testcase & {
         input_explanation: string;
@@ -36,7 +42,11 @@ export const testcaseGenerateApi = useDefineApi<
 
 export const solutionGenerateApi = useDefineApi<
     {
-        data: ProblemInfo
+        data: ProblemInfo & {
+            solution: string;
+            language: string;
+            tags: string[];
+        }
     },
     {
         language: string;
