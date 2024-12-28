@@ -7,10 +7,13 @@
     </el-checkbox-group>
   </div>
   <ElRow :gutter="20">
-    <ElCol v-if="workingArea.includes('题面')" :span="12">
+    <ElCol v-show="workingArea.includes('题面')" :span="12">
       <ElCard class="box-card">
         <div class="section">
-          <h2>题目</h2>
+          <div class="title">
+            <h2>题目</h2>
+            <ElButton v-if="isNumber(problemId)" type="info" :icon="Refresh" @click="reset">重置</ElButton>
+          </div>
           <ElInput v-model="problem.title"></ElInput>
         </div>
         <div class="section">
@@ -52,14 +55,14 @@
         </div>
       </ElCard>
     </ElCol>
-    <ElCol v-if="workingArea.includes('数据')" :span="12">
+    <ElCol v-show="workingArea.includes('数据')" :span="12">
       <div style="display: flex; justify-content: space-between; gap:20px;">
         <ElCard class="box-card" style="width: 50%;">
           <div style="display: flex; flex-direction: column; gap:10px">
             <div style="display: flex; justify-content: flex-start; gap:10px;">
               <ElText size="large" tag="b">题目ID</ElText>
               <ElInput v-model="problemId" :disabled="true" style="width: 40%;" />
-              <router-link v-if="problemId" type="primary" :to="'/problem/' + problemId">跳转到该题</router-link>
+              <router-link v-show="problemId" type="primary" :to="'/problem/' + problemId">跳转到该题</router-link>
             </div>
             <div style="display: flex; justify-content: flex-start; gap:10px;">
               <ElText size="large" tag="b">时间限制</ElText>
@@ -101,7 +104,7 @@
           </div>
         </ElCard>
         <ElCard class="box-card" style="width: 50%;">
-          <ElTabs v-model="activeName" @tab-change="handleTabChange">
+          <ElTabs v-model="activeName">
             <ElTabPane label="测试数据" name="testcase">
               <TestTable v-model:testcase="testcase" v-bind:problem-id="problem.id" ref="testTableRef" />
             </ElTabPane>
@@ -111,13 +114,13 @@
           </ElTabs>
         </ElCard>
       </div>
-      <ElCard v-if="activeName === 'testcase'" style="margin-top: 10px;">
+      <ElCard v-show="activeName === 'testcase'" style="margin-top: 10px;">
         <TestcaseEdit v-model:testcase="testcase" />
       </ElCard>
-      <ElCard v-if="activeName === 'testcase'" style="margin-top: 10px;">
+      <ElCard v-show="activeName === 'testcase'" style="margin-top: 10px;">
         <DataMake v-bind:global="global" />
       </ElCard>
-      <ElCard v-if="activeName === 'solution'" style="margin-top: 10px;">
+      <ElCard v-show="activeName === 'solution'" style="margin-top: 10px;">
         <ProblemSolutionEdit v-model:solution="solution" />
       </ElCard>
       <ElCard style="margin-top: 10px;">
@@ -125,10 +128,26 @@
           <h4>调试器</h4>
           <ElButton type="primary" @click="handleDebugFlag">{{ debugFlag ? '收起' : '展开' }}</ElButton>
         </div>
-        <CodeRun v-if="debugFlag" :problem="problemId ?? ''" />
+        <CodeRun v-show="debugFlag" v-bind:problem="problemId ?? ''" />
       </ElCard>
     </ElCol>
-    <ElCol v-if="workingArea.includes('NekoAcm🐱🐾')" :span="12">
+    <ElCol v-show="workingArea.includes('NekoAcm🐱🐾')" :span="12">
+      <ElCard>
+        <ElTabs>
+          <ElTabPane label="生成题目">
+            <ProblemGenerate v-model:problem="problem" v-model:tags="tags" />
+          </ElTabPane>
+          <ElTabPane label="翻译题目">
+            <ProblemTranslate v-model:problem="problem" />
+          </ElTabPane>
+          <ElTabPane label="生成测试用例">
+            <TestcaseGenerate v-model:problem="problem" v-model:tags="tags" />
+          </ElTabPane>
+          <ElTabPane label="生成题解">
+            <SolutionGenerate v-model:problem="problem" v-model:tags="tags" />
+          </ElTabPane>
+        </ElTabs>
+      </ElCard>
     </ElCol>
   </ElRow>
 </template>
@@ -144,6 +163,7 @@ import TestcaseEdit from '@/components/problem/TestCaseEdit.vue';
 import ProblemSolutionTable from '@/components/problem/ProblemSolutionTable.vue';
 import { isNumber } from 'element-plus/es/utils/types.mjs';
 import router from '@/router';
+import { Refresh } from '@element-plus/icons-vue';
 
 const workingAreas = ['题面', '数据', 'NekoAcm🐱🐾'];
 const workingArea = ref(['题面', '数据'])
@@ -189,8 +209,24 @@ const oldTags = ref<Tag[]>([]);
 
 const activeName = ref<string>('testcase');
 
-const handleTabChange = (name: TabPaneName) => {
-};
+const reset = async () => {
+  if (problemId.value === null) {
+    ElNotification.error({
+      title: '更新失败',
+      message: '请先保存题目'
+    });
+    return;
+  };
+  await getProblemExecute({
+    id: problemId.value
+  }).then(async (res) => {
+    if (res.value) {
+      problem.value = res.value.problem;
+      oldTags.value = res.value.tags || [];
+      tags.value = oldTags.value;
+    }
+  });
+}
 
 onBeforeMount(async () => {
   const idParam = route.query.id;
@@ -198,15 +234,7 @@ onBeforeMount(async () => {
     const match = idParam.match(/\d+/);
     if (match) {
       problemId.value = parseInt(match[0], 10);
-      await getProblemExecute({
-        id: problemId.value
-      }).then((res) => {
-        if (res.value) {
-          problem.value = res.value.problem;
-          oldTags.value = res.value.tags || [];
-          tags.value = oldTags.value;
-        }
-      });
+      await reset();
       if (testTableRef.value) {
         testTableRef.value.refreshTestcases();
       }
@@ -307,6 +335,11 @@ const handleUpdate = async () => {
 </script>
 
 <style scoped>
+.title {
+    display: flex;
+    justify-content: space-between;
+}
+
 .debug-title {
   display: flex;
   justify-content: space-between;
