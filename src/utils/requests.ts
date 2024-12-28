@@ -8,7 +8,7 @@ import type { AxiosRequestConfig2 } from "@/stores/useDefineApi"
 
 const instance = axios.create({
   baseURL: '/api',
-  timeout: 1000 * 10,
+  timeout: 1000 * 60,
 });
 
 
