@@ -62,10 +62,6 @@ onMounted (() => {
         </el-col>
         <el-col :span="20" style="text-align: right">
           <el-button type="primary" @click="handleCreate">创建题目</el-button>
-          <el-button type=""><router-link to="/fps">导入 FPS 题目</router-link></el-button>
-          <el-button type=""><router-link to="/ai/problem">AI 生成题目</router-link></el-button>
-          <el-button type=""><router-link to="/ai/problem">AI 生成测试用例</router-link></el-button>
-          <el-button type=""><router-link to="/ai/problem">AI 生成题解</router-link></el-button>
         </el-col>
       </el-row>
       <el-divider></el-divider>
