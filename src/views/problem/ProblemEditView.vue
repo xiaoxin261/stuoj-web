@@ -131,7 +131,7 @@
         <CodeRun v-show="debugFlag" v-bind:problem="problemId ?? ''" />
       </ElCard>
     </ElCol>
-    <ElCol v-show="workingArea.includes('NekoAcm🐱🐾')" :span="12">
+    <ElCol v-show="workingArea.includes('NekoACM🐱🐾')" :span="12">
       <ElCard>
         <ElTabs>
           <ElTabPane label="生成题目">
