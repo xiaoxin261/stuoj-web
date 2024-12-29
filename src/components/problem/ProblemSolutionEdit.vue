@@ -14,7 +14,7 @@
             <LanguageSelect v-model:lang="language" />
         </ElFormItem>
         <ElFormItem label="代码" label-position="right">
-            <ElInput v-model="localSolution.source_code" type="textarea" />
+            <ElInput v-model="localSolution.source_code" type="textarea" :autosize="{ minRows: 10, maxRows: 20 }" />
         </ElFormItem>
         <ElFormItem>
             <ElButton type="primary" @click="handleSubmit">提交</ElButton>

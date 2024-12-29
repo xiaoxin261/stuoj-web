@@ -81,8 +81,7 @@ const translate = async () => {
             ...problem.value,
             ...res.value,
         }
-    });
-    loading.value = false;
+    }).finally(() => { loading.value = false; });
 }
 </script>
 
