@@ -27,5 +27,6 @@ const handleRemove = (id: number) => {
 <style scoped>
 .el-tag {
     margin-right: 5px;
+    margin-bottom: 5px;
 }
 </style>

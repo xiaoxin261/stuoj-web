@@ -5,7 +5,6 @@
             <ElButton type="primary" @click="addSolution" icon="CirclePlus">添加题解</ElButton>
         </div>
         <ElTable :data="solutions" style="width: 100%;" @current-change="handleCurrentChange" highlight-current-row stripe>
-            <ElTableColumn prop="data.id" label="ID" width="60"></ElTableColumn>
             <ElTableColumn label="语言">
                 <template #default="scope">
                     <ElTooltip :content="languages.find((lang: Language) => lang.id === scope.row.data.language_id)?.name || 'Unknown'">
@@ -25,8 +24,8 @@
                     </ElTag>
                 </template>
             </ElTableColumn>
-            <ElTableColumn label="重置" width="60" #default="scope">
-                <ElButton type="danger" :icon="CircleCloseFilled" @click="reset(scope.row.data.id)"
+            <ElTableColumn  label="重置" width="60" #default="scope">
+                <ElButton v-if="scope.row.data.id !== 0"  type="danger" :icon="CircleCloseFilled" @click="reset(scope.row.data.id)"
                     style="width: 90%; height: 90%;" />
             </ElTableColumn>
             <ElTableColumn label="删除" width="60" #default="scope">
@@ -38,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch, watchEffect } from 'vue';
 import { ElMessage, ElTableColumn, ElTag } from 'element-plus';
 import { CircleCloseFilled, Warning, CircleCheck, Upload } from '@element-plus/icons-vue';
 import type { Solution } from '@/types/Problem';
@@ -151,7 +150,10 @@ const uploadSolution = async () => {
                 });
             } else {
                 await uploadSolutionExecute({
-                    data: solution.data
+                    data: {
+                        ...solution.data,
+                        problem_id: props.problemId,
+                    }
                 });
             }
         }
@@ -175,6 +177,12 @@ watch(() => props.solution, (newSolution) => {
             });
         }
     }
+});
+
+watchEffect(() => {
+    solutions.value.forEach(solutions => {
+        solutions.data.problem_id = props.problemId ?? 0;
+    });
 });
 
 defineExpose({

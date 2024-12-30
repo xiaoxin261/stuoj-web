@@ -13,8 +13,8 @@
                 </el-button>
             </div>
         </template>
-        <div class="flex gap-2">
-            <ElCheckTag v-for="tag in wsTags" :key="tag.data.id" v-model:checked="tag.checked" :label="tag.data.name">
+        <div>
+            <ElCheckTag class="tag-select" v-for="tag in wsTags" :key="tag.data.id" v-model:checked="tag.checked" :label="tag.data.name">
                 {{ tag.data.name }}
             </ElCheckTag>
         </div>
@@ -116,5 +116,9 @@ defineExpose({
 .reset-button {
     margin-left: auto;
     /* 确保按钮靠右 */
+}
+.tag-select{
+    margin-left: 5px;
+    margin-bottom: 5px;
 }
 </style>

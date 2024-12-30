@@ -2,19 +2,15 @@
     <div class="value-input">
         <div class="input-container">
             <div class="number-input">
+                <ElText style="width: 30px;">min</ElText>
                 <ElInputNumber v-model="min" :step="1" size="small">
-                    <template #prefix>
-                        <span>min</span>
-                    </template>
                 </ElInputNumber>
                 <ElSwitch v-model="minIdFlag" width="50" size="small" inline-prompt active-text="id"
                     inactive-text="value" />
             </div>
             <div class="number-input">
+                <ElText style="width: 30px;">max</ElText>
                 <ElInputNumber v-model="max" :step="1" size="small">
-                    <template #prefix>
-                        <span>max</span>
-                    </template>
                 </ElInputNumber>
                 <ElSwitch v-model="maxIdFlag" width="50" size="small" inline-prompt active-text="id"
                     inactive-text="value" />

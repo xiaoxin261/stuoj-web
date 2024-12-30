@@ -5,16 +5,12 @@
             <ElInput v-model="solution" type="textarea" :autosize="{ minRows: 5, maxRows: 10 }"></ElInput>
         </div>
         <div class="section">
-            <h2>草拟题解语言</h2>
-            <ElInput v-model="language" />
-        </div>
-        <div class="section">
             <h2>草拟题解代码</h2>
-            <ElInput v-model="source_code" type="textarea" :autosize="{ minRows: 5, maxRows: 10 }" />
+            <ElInput v-model="source_code" readonly type="textarea" :autosize="{ minRows: 5, maxRows: 10 }" />
         </div>
         <div class="section">
             <h2>解题思路</h2>
-            <ElInput v-model="explanation" type="textarea" :autosize="{ minRows: 5, maxRows: 10 }" />
+            <ElInput v-model="explanation" readonly type="textarea" :autosize="{ minRows: 5, maxRows: 10 }" />
         </div>
         <div class="button">
             <ElText size="large" tag="b">目标语言</ElText>
@@ -62,8 +58,7 @@ const generate = async () => {
         language.value = res.value?.language || '';
         source_code.value = res.value?.source_code || '';
         explanation.value = res.value?.explanation || '';
-    });
-    loading.value = false;
+    }).finally(() => { loading.value = false; });
 }
 
 </script>

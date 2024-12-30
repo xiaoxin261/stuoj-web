@@ -2,22 +2,22 @@
     <ElContainer v-loading="loading" style="display: flex;flex-direction: column;">
         <div class="section">
             <h2 class="section-title">输入</h2>
-            <ElInput v-model="testcase.test_input" type="textarea" resize="none"
+            <ElInput v-model="testcase.test_input" readonly type="textarea" resize="none"
                 :autosize="{ minRows: 5, maxRows: 10 }" />
         </div>
         <div class="section">
             <h2 class="section-title">输入解释</h2>
-            <ElInput v-model="input_explanation" type="textarea" resize="none"
+            <ElInput v-model="input_explanation" readonly type="textarea" resize="none"
                 :autosize="{ minRows: 5, maxRows: 10 }" />
         </div>
         <div class="section">
             <h2 class="section-title">输出</h2>
-            <ElInput v-model="testcase.test_output" type="textarea" resize="none"
+            <ElInput v-model="testcase.test_output" readonly type="textarea" resize="none"
                 :autosize="{ minRows: 5, maxRows: 10 }" />
         </div>
         <div class="section">
             <h2 class="section-title">输出解释</h2>
-            <ElInput v-model="output_explanation" type="textarea" resize="none"
+            <ElInput v-model="output_explanation" readonly type="textarea" resize="none"
                 :autosize="{ minRows: 5, maxRows: 10 }" />
         </div>
         <div class="button">
@@ -60,8 +60,7 @@ const generate = async () => {
             testcase.value = res.value;
         input_explanation.value = res.value?.input_explanation || '';
         output_explanation.value = res.value?.output_explanation || '';
-    });
-    loading.value = false;
+    }).finally(() => { loading.value = false; });
 }
 
 

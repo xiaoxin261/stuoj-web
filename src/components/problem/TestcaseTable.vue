@@ -6,7 +6,6 @@
         </div>
         <ElTable :data="testcases" style="width: 100%;" @current-change="handleCurrentChange" highlight-current-row
             stripe>
-            <ElTableColumn label="ID" prop="data.id" width="60" />
             <ElTableColumn label="编号" prop="data.serial" />
             <ElTableColumn label="脏位" prop="checked" width="65">
                 <template #default="scope">
@@ -21,8 +20,8 @@
                 </template>
             </ElTableColumn>
             <ElTableColumn label="重置" width="60" #default="scope">
-                <ElButton type="danger" :icon="CircleCloseFilled" @click="reset(scope.row.data.id)"
-                    style="width: 90%; height: 90%;" />
+                <ElButton v-if="scope.row.data.id !== 0" type="danger" :icon="CircleCloseFilled"
+                    @click="reset(scope.row.data.id)" style="width: 90%; height: 90%;" />
             </ElTableColumn>
             <ElTableColumn label="删除" width="60" #default="scope">
                 <ElCheckbox v-model="scope.row.deleted" size="large" />
@@ -34,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, watchEffect } from 'vue';
 import { getTestcaseApi, uploadTestcaseApi, updateTestcaseApi, deleteTestcaseApi, getProblemApi } from '@/apis/problem';
 import type { Testcase } from '@/types/Problem';
 import { ElMessage, ElTableColumn, ElTag } from 'element-plus';
@@ -103,7 +102,7 @@ const reset = async (id: number) => {
 };
 
 const addTestcase = async () => {
-    const maxSerial = Math.max(0, ...testcases.value.map(tc => tc.data.serial));
+    const maxSerial = Math.max(0, ...testcases.value.map(tc => tc.data.serial ?? 0));
     const newTestcase: TemTestcase = {
         checked: true,
         deleted: false,
@@ -143,7 +142,10 @@ const uploadTestcase = async () => {
                 });
             } else {
                 await uploadTestcaseExecute({
-                    data: testcase.data
+                    data: {
+                        ...testcase.data,
+                        problem_id: props.problemId ?? 0
+                    }
                 });
             }
         }
@@ -152,9 +154,8 @@ const uploadTestcase = async () => {
 };
 
 watch(() => props.testcase, (newTestcase) => {
-    console.log('watch testcase', newTestcase);
     if (newTestcase) {
-        const index = testcases.value.findIndex(tc => tc.data.id === newTestcase.id);
+        const index = testcases.value.findIndex(tc => tc.data.serial === newTestcase.serial);
         if (index !== -1) {
             if (JSON.stringify(testcases.value[index].data) !== JSON.stringify(newTestcase)) {
                 testcases.value[index].data = newTestcase;
@@ -168,6 +169,12 @@ watch(() => props.testcase, (newTestcase) => {
             });
         }
     }
+});
+
+watchEffect(() => {
+    testcases.value.forEach(testcase => {
+        testcase.data.problem_id = props.problemId ?? 0;
+    });
 });
 
 defineExpose({

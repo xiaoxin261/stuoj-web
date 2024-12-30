@@ -2,7 +2,7 @@
     <div class="data-make-row">
         <div class="row-operation">
             <ElInputNumber v-model="row.row_size_id" controls-position="right" size="small" class="number-input">
-                <template #prepend>
+                <template #prefix>
                     <span>sizeID</span>
                 </template>
             </ElInputNumber>
