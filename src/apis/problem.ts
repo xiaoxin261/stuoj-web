@@ -191,13 +191,16 @@ export const getProblemHistoryApi = useDefineApi<
 
 export const uploadFPSApi = useDefineApi<
     {
-
+        headers: {
+            "Content-Type": "multipart/form-data"
+        },
+        data: FormData
     },
     {
         problem: FpsProblemInfo
-        solution: FpsSolution[]
+        solutions: FpsSolution[]
         testcases: FpsTestcase[]
-    }
+    }[]
 >({
     url: "/admin/problem/fps",
     method: "post"
