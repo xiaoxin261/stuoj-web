@@ -105,7 +105,7 @@
             </div>
             <div class="problem-info-item custom-font-size">
               <h4 class="weight">内存限制</h4>
-              <span>{{ problemInfo.memory_limit / 1024 }} MB</span>
+              <span>{{ (problemInfo.memory_limit ?? 0) / 1024 }} MB</span>
             </div>
             <div class="problem-info-item custom-font-size">
               <div class="problem-info-item-title">
