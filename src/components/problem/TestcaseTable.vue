@@ -34,10 +34,11 @@
 
 <script setup lang="ts">
 import { ref, watch, watchEffect } from 'vue';
+import { CircleCloseFilled, Warning, CircleCheck, Upload } from '@element-plus/icons-vue';
+import { ElMessage, ElTableColumn, ElTag } from 'element-plus';
 import { getTestcaseApi, uploadTestcaseApi, updateTestcaseApi, deleteTestcaseApi, getProblemApi } from '@/apis/problem';
 import type { Testcase } from '@/types/Problem';
-import { ElMessage, ElTableColumn, ElTag } from 'element-plus';
-import { CircleCloseFilled, Warning, CircleCheck, Upload } from '@element-plus/icons-vue';
+import { generateRandomHash } from '@/utils/hash';
 
 const { execute: getProblemExecute } = getProblemApi();
 const { execute: getTestcaseExecute } = getTestcaseApi();
@@ -61,6 +62,7 @@ const props = withDefaults(defineProps<{
         problem_id: 0,
         test_input: '',
         test_output: '',
+        hash: generateRandomHash(),
     }),
     problemId: 0,
 });
@@ -70,31 +72,43 @@ const testcases = ref<TemTestcase[]>([]);
 
 const refreshTestcases = async () => {
     testcases.value = [];
-    if (props.problemId !== undefined && props.problemId !== 0) {
-        await getProblemExecute({
-            id: props.problemId,
-        }).then((res) => {
-            if (res.value?.testcases) {
-                testcases.value = res.value.testcases.map((testcase: Testcase) => {
-                    return {
-                        checked: false,
-                        deleted: false,
-                        data: testcase,
-                    };
-                });
-            }
-        });
+    if (props.problemId === 0) {
+        ElMessage.error('请先上传题目');
+        return;
     }
+    await getProblemExecute({
+        id: props.problemId,
+    }).then((res) => {
+        if (res.value?.testcases) {
+            testcases.value = res.value.testcases.map((testcase: Testcase) => {
+                return {
+                    checked: false,
+                    deleted: false,
+                    data: {
+                        ...testcase,
+                        hash: generateRandomHash(),
+                    },
+                };
+            });
+        }
+    });
 };
 
 const reset = async (id: number) => {
+    if (props.problemId === 0) {
+        ElMessage.error('请先上传题目');
+        return;
+    }
     const index = testcases.value.findIndex((testcase) => testcase.data.id === id);
     if (index !== -1) {
         await getTestcaseExecute({
             id: id,
         }).then((res) => {
             if (res.value) {
-                testcases.value[index].data = res.value;
+                testcases.value[index].data = {
+                    ...res.value,
+                    hash: generateRandomHash(),
+                };
             }
         });
         testcases.value[index].checked = false;
@@ -112,6 +126,7 @@ const addTestcase = async () => {
             serial: maxSerial + 1,
             test_input: '',
             test_output: '',
+            hash: generateRandomHash(),
         }
     };
     testcases.value.push(newTestcase);
@@ -136,7 +151,7 @@ const uploadTestcase = async () => {
                 });
             }
         } else if (testcase.checked) {
-            if (testcase.data.id !== 0) {
+            if (testcase.data.id !== 0 && testcase.data.id !== undefined) {
                 await updateTestcaseExecute({
                     data: testcase.data
                 });
@@ -155,7 +170,7 @@ const uploadTestcase = async () => {
 
 watch(() => props.testcase, (newTestcase) => {
     if (newTestcase) {
-        const index = testcases.value.findIndex(tc => tc.data.serial === newTestcase.serial);
+        const index = testcases.value.findIndex(tc => tc.data.hash === newTestcase.hash);
         if (index !== -1) {
             if (JSON.stringify(testcases.value[index].data) !== JSON.stringify(newTestcase)) {
                 testcases.value[index].data = newTestcase;
@@ -177,8 +192,23 @@ watchEffect(() => {
     });
 });
 
+const addExistingTestcase = async (testcase: Testcase) => {
+    const maxSerial = Math.max(0, ...testcases.value.map(tc => tc.data.serial ?? 0));
+    testcases.value.push({
+        checked: true,
+        deleted: false,
+        data: {
+            hash: generateRandomHash(),
+            ...testcase,
+            serial: maxSerial + 1,
+        }
+    });
+    console.log('addExistingTestcase', testcase);
+};
+
 defineExpose({
     refreshTestcases,
+    addExistingTestcase,
 })
 </script>
 
