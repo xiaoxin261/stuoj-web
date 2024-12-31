@@ -12,7 +12,10 @@
         <div class="section">
           <div class="title">
             <h2>题目</h2>
-            <ElButton v-if="problemId !== 0" type="info" :icon="Refresh" @click="reset">重置</ElButton>
+            <div>
+              <FPSImport @import-fps="handleImportFPS"  />
+              <ElButton v-if="problemId !== 0" type="info" :icon="Refresh" @click="reset" style="margin-left: 10px;" >重置</ElButton>
+            </div>
           </div>
           <ElInput v-model="problem.title"></ElInput>
         </div>
@@ -329,6 +332,17 @@ const handleUpdate = async () => {
         type: 'primary'
       }, '点击前往查看')
     })
+  });
+};
+
+const handleImportFPS = (data: { problem: ProblemInfo, solutions: Solution[], testcases: Testcase[] }) => {
+  problem.value = data.problem;
+  data.solutions.forEach(solution => {
+    solutionTableRef.value?.addExistingSolution(solution);
+  });
+  data.testcases.forEach(testcase => {
+    testTableRef.value?.addExistingTestcase(testcase);
+    console.log(testcase);
   });
 };
 
