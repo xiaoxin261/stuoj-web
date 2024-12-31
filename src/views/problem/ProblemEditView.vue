@@ -52,7 +52,7 @@
           </div>
         </div>
         <div class="section">
-          <h2>说明和提示</h2>
+          <h2>提示</h2>
           <ElInput v-model="problem.hint" type="textarea" resize="none" :autosize="{ minRows: 2, maxRows: 6 }">
           </ElInput>
         </div>
