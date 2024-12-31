@@ -4,11 +4,14 @@
             <ElButton type="info" @click="refreshSolutions" icon="Refresh" style="width: 80px;">刷新</ElButton>
             <ElButton type="primary" @click="addSolution" icon="CirclePlus">添加题解</ElButton>
         </div>
-        <ElTable :data="solutions" style="width: 100%;" @current-change="handleCurrentChange" highlight-current-row stripe>
+        <ElTable :data="solutions" style="width: 100%;" @current-change="handleCurrentChange" highlight-current-row
+            stripe>
             <ElTableColumn label="语言">
                 <template #default="scope">
-                    <ElTooltip :content="languages.find((lang: Language) => lang.id === scope.row.data.language_id)?.name || 'Unknown'">
-                        <span class="ellipsis">{{ languages.find((lang: Language) => lang.id === scope.row.data.language_id)?.name || 'Unknown' }}</span>
+                    <ElTooltip
+                        :content="languages.find((lang: Language) => lang.id === scope.row.data.language_id)?.name || 'Unknown'">
+                        <span class="ellipsis">{{ languages.find((lang: Language) => lang.id ===
+                            scope.row.data.language_id)?.name || 'Unknown' }}</span>
                     </ElTooltip>
                 </template>
             </ElTableColumn>
@@ -24,15 +27,16 @@
                     </ElTag>
                 </template>
             </ElTableColumn>
-            <ElTableColumn  label="重置" width="60" #default="scope">
-                <ElButton v-if="scope.row.data.id !== 0"  type="danger" :icon="CircleCloseFilled" @click="reset(scope.row.data.id)"
-                    style="width: 90%; height: 90%;" />
+            <ElTableColumn label="重置" width="60" #default="scope">
+                <ElButton v-if="scope.row.data.id !== 0" type="danger" :icon="CircleCloseFilled"
+                    @click="reset(scope.row.data.id)" style="width: 90%; height: 90%;" />
             </ElTableColumn>
             <ElTableColumn label="删除" width="60" #default="scope">
                 <ElCheckbox v-model="scope.row.deleted" size="large" />
             </ElTableColumn>
         </ElTable>
-        <ElButton type="primary" @click="uploadSolution" :icon="Upload" style="width: 100px; margin-top: 10px;">更新</ElButton>
+        <ElButton type="primary" @click="uploadSolution" :icon="Upload" style="width: 100px; margin-top: 10px;">更新
+        </ElButton>
     </div>
 </template>
 
@@ -44,6 +48,7 @@ import type { Solution } from '@/types/Problem';
 import { getSolutionApi, uploadSolutionApi, updateSolutionApi, deleteSolutionApi, getProblemApi } from '@/apis/problem';
 import { GetLanguages } from '@/apis/judge';
 import type { Language } from '@/types/Judge';
+import { generateRandomHash } from '@/utils/hash';
 
 const props = withDefaults(defineProps<{
     solution?: Solution,
@@ -89,7 +94,10 @@ const refreshSolutions = async () => {
                     return {
                         checked: false,
                         deleted: false,
-                        data: solution,
+                        data: {
+                            ...solution,
+                            hash: generateRandomHash(),
+                        },
                     };
                 });
             }
@@ -106,6 +114,7 @@ const addSolution = async () => {
             problem_id: props.problemId ?? 0,
             language_id: 1,
             source_code: '',
+            hash: generateRandomHash(),
         }
     };
     solutions.value.push(newSolution);
@@ -124,7 +133,10 @@ const reset = async (id: number) => {
             id: id,
         }).then((res) => {
             if (res.value) {
-                solutions.value[index].data = res.value;
+                solutions.value[index].data = {
+                    ...res.value,
+                    hash: generateRandomHash(),
+                };
             }
         });
         solutions.value[index].checked = false;
@@ -144,7 +156,7 @@ const uploadSolution = async () => {
                 });
             }
         } else if (solution.checked) {
-            if (solution.data.id !== 0) {
+            if (solution.data.id !== 0 && solution.data.id !== undefined) {
                 await updateSolutionExecute({
                     data: solution.data
                 });
@@ -163,7 +175,7 @@ const uploadSolution = async () => {
 
 watch(() => props.solution, (newSolution) => {
     if (newSolution) {
-        const index = solutions.value.findIndex(sol => sol.data.id === newSolution.id);
+        const index = solutions.value.findIndex(sol => sol.data.hash === newSolution.hash);
         if (index !== -1) {
             if (JSON.stringify(solutions.value[index].data) !== JSON.stringify(newSolution)) {
                 solutions.value[index].data = newSolution;
@@ -173,7 +185,10 @@ watch(() => props.solution, (newSolution) => {
             solutions.value.push({
                 checked: true,
                 deleted: false,
-                data: newSolution
+                data: {
+                    ...newSolution,
+                    hash: generateRandomHash(),
+                }
             });
         }
     }
@@ -185,8 +200,20 @@ watchEffect(() => {
     });
 });
 
+const addExistingSolution = (solution: Solution) => {
+    solutions.value.push({
+        checked: true,
+        deleted: false,
+        data: {
+            hash: generateRandomHash(),
+            ...solution,
+        },
+    });
+};
+
 defineExpose({
     refreshSolutions,
+    addExistingSolution,
 })
 </script>
 
