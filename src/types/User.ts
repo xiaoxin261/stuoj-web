@@ -38,6 +38,7 @@ export interface RegisterReq{
     username: string;
     email: string;
     password: string;
+    verify_code: string;
 }
 
 export interface UserParams {

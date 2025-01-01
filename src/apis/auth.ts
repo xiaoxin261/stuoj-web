@@ -19,6 +19,7 @@ export const RegisterApi = useDefineApi<
             username: string;
             email: string;
             password: string;
+            verify_code: string;
         };
     },
     string
@@ -27,3 +28,14 @@ export const RegisterApi = useDefineApi<
     method: "POST"
 });
 
+export const SendVerificationCodeApi = useDefineApi<
+    {
+        data: {
+            email: string;
+        };
+    },
+    string
+>({
+    url: "/email/send",
+    method: "POST"
+});
