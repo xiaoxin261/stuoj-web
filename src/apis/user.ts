@@ -1,10 +1,10 @@
 import { useDefineApi } from "@/stores/useDefineApi"
-import type {UserInfo, UserParams} from "@/types/User";
-import type {Page} from "@/types/misc";
+import type { UserInfo, UserParams } from "@/types/User";
+import type { Page } from "@/types/misc";
 
 export const getUserListApi = useDefineApi<
     {
-        params:UserParams;
+        params: UserParams;
     },
     Page<"users", UserInfo>
 >({
@@ -25,9 +25,11 @@ export const GetUserInfo = useDefineApi<
 export const ModifyUserInfo = useDefineApi<
     {
         id: number;
-        username?: string;
-        email?: string;
-        signature?: string;
+        data: {
+            username: string;
+            email: string;
+            signature: string;
+        }
     },
     null
 >({
@@ -57,7 +59,10 @@ export const UploadAvatar = useDefineApi<
 export const ModifyPassword = useDefineApi<
     {
         id: number;
-        password: string;
+        data: {
+            password: string;
+            verify_code: string;
+        }
     },
     null
 >({
