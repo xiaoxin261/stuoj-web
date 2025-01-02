@@ -58,8 +58,8 @@ export const UploadAvatar = useDefineApi<
 
 export const ModifyPassword = useDefineApi<
     {
-        id: number;
         data: {
+            email: string;
             password: string;
             verify_code: string;
         }
