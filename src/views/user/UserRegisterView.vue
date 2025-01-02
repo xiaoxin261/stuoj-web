@@ -47,7 +47,6 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue';
 import { RegisterApi, SendVerificationCodeApi } from '@/apis/auth';
-import type { RegisterReq } from '@/types/User';
 import { ElNotification, type FormInstance, type FormRules } from 'element-plus';
 import router from '@/router';
 
