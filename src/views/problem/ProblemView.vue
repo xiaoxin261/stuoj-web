@@ -148,12 +148,9 @@ import { onMounted, ref } from "vue";
 import { Difficulty, DifficultyColor, type ProblemInfo, type Solution, type Tag } from "@/types/Problem";
 import { useRouteParams } from "@vueuse/router";
 import { getProblemApi } from "@/apis/problem";
-import { userStore } from "@/stores/user";
 import { DifficultyMap } from "@/types/Problem";
 import { formatDateStr } from "@/utils/date";
 import { Notebook, StarFilled } from "@element-plus/icons-vue";
-
-const { token } = userStore();
 
 const problemId = useRouteParams<number>("id");
 
