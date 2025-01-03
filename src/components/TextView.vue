@@ -1,5 +1,5 @@
 <template>
-    <div v-html="renderedMarkdown" :style="customStyle"></div>
+    <div v-html="renderedMarkdown" :style="customStyle" class="markdown-content-container"></div>
 </template>
 
 <script setup lang="ts">
@@ -27,3 +27,17 @@ watch(() => props.content, async (newContent) => {
     renderedMarkdown.value = await renderMarkAndLaTeX(newContent);
 });
 </script>
+
+<!-- 去除scoped，否则markdown样式无法生效 -->
+<style>
+.markdown-content-container {
+    max-width: 100%;
+    overflow: auto;
+}
+
+.markdown-content-container img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+</style>
