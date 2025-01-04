@@ -34,9 +34,9 @@ export const renderMarkDown = (text: string) => {
         },
         { regex: /(?<!\\)\[(.*?)\]\((.*?)\)/gim, replacement: '<a href="$2">$1</a>' },
         { regex: /(?<!\\)  $/gim, replacement: '<br />' },
-        { regex: /(?<!\\)- (.*$)/gim, replacement: '<ul><li>$1</li></ul>' },
         { regex: /(?<!\\)~~(.+?)~~/gim, replacement: '<s>$1</s>' },
-        { regex: /(?<!\\)(\d+)\. (.*$)/gim, replacement: '<ol start="$1"><li>$2</li></ol>' },
+        { regex: /(?<!\\)- (.*$)/gim, replacement: '<ul><li>$1</li></ul>' },
+        { regex: /(?<!\\)(\d+)\. (.*$)/gim, replacement: '<ol><li>$2</li></ol>' },
         { regex: /(?<!\\)\*\*\*(.+?)\*\*\*/gim, replacement: '<strong><em>$1</em></strong>' },
         { regex: /(?<!\\)^___(.+?)___$/gim, replacement: '<strong><em>$1</em></strong>' },
         { regex: /(?<!\\)\*\*(.+?)\*\*/gim, replacement: '<strong>$1</strong>' },
@@ -60,7 +60,13 @@ export const renderMarkDown = (text: string) => {
     });
 
     // 修复跨行分为多段引用的问题
-    html = html.replace(/<\/blockquote>\s*<blockquote>/gim, '<br />');
+    html = html.replace(/<\/blockquote>\s*<blockquote>/gim, '');
+
+    // 修复无序列表跨行变为多段的问题
+    html = html.replace(/<\/ul>\s*<ul>/gim, '');
+
+    // 修复有序列表跨行变为多段的问题
+    html = html.replace(/<\/ol>\s*<ol>/gim, '');
 
     // 去除用于转义的反斜杠字符，除非该反斜杠前有反斜杠
     html = html.replace(/\\(?!\\)/g, '');
