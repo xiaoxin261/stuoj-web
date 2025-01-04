@@ -342,7 +342,6 @@ const handleImportFPS = (data: { problem: ProblemInfo, solutions: Solution[], te
   });
   data.testcases.forEach(testcase => {
     testTableRef.value?.addExistingTestcase(testcase);
-    console.log(testcase);
   });
 };
 

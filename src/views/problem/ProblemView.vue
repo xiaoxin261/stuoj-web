@@ -55,15 +55,15 @@
           </div>
           <div class="problem-content custom-font-size">
             <h3 class="weight">描述</h3>
-            <div v-html="renderMarkAndLaTeX(problemInfo.description || '')"></div>
+            <TextView :content="problemInfo.description" />
           </div>
           <div class="problem-input custom-font-size">
             <h3 class="weight">输入格式</h3>
-            <div v-html="renderMarkAndLaTeX(problemInfo.input || '')"></div>
+            <TextView :content="problemInfo.input" />
           </div>
           <div class="problem-output custom-font-size">
             <h3 class="weight">输出格式</h3>
-            <div v-html="renderMarkAndLaTeX(problemInfo.output || '')"></div>
+            <TextView :content="problemInfo.output" />
           </div>
           <div class="problem-sample custom-font-size">
             <h3 class="weight">输入样例</h3>
@@ -71,13 +71,13 @@
               {{ problemInfo.sample_input }}
             </div>
             <h3 class="weight">输出样例</h3>
-            <div class="problem-sample-output sample-box custom-font-size">
+            <div class="problem-sample-output sample-box">
               {{ problemInfo.sample_output }}
             </div>
           </div>
           <div class="problem-hint custom-font-size">
             <h3 class="weight">提示</h3>
-            <div v-html="renderMarkAndLaTeX(problemInfo.hint || '')"></div>
+            <TextView :content="problemInfo.hint" />
           </div>
         </ElCard>
         <br />
@@ -148,13 +148,9 @@ import { onMounted, ref } from "vue";
 import { Difficulty, DifficultyColor, type ProblemInfo, type Solution, type Tag } from "@/types/Problem";
 import { useRouteParams } from "@vueuse/router";
 import { getProblemApi } from "@/apis/problem";
-import { userStore } from "@/stores/user";
-import { renderMarkAndLaTeX } from "@/utils/renderMarkAndLaTeX";
 import { DifficultyMap } from "@/types/Problem";
 import { formatDateStr } from "@/utils/date";
 import { Notebook, StarFilled } from "@element-plus/icons-vue";
-
-const { token } = userStore();
 
 const problemId = useRouteParams<number>("id");
 
