@@ -3,7 +3,9 @@ import { Album } from "@/types/misc";
 
 export const uploadImageApi = useDefineApi<
     {
-        album: Album;
+        params: {
+            role: Album;
+        };
         data: FormData;
     },
     string
