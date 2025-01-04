@@ -65,7 +65,5 @@ export const renderMarkDown = (text: string) => {
     // 去除用于转义的反斜杠字符，除非该反斜杠前有反斜杠
     html = html.replace(/\\(?!\\)/g, '');
 
-    console.log(html);
-
     return html.trim();
 }
