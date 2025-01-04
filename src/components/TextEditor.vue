@@ -509,7 +509,6 @@ const uploadImage = async () => {
         const width = match[3];
         const height = match[4];
         const align = match[5];
-        console.log(localUrl);
         const response = await fetch(localUrl);
         const blob = await response.blob();
         const formData = new FormData();
