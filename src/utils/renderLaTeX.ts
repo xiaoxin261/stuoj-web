@@ -9,7 +9,7 @@ export const renderLaTeX = (text: string): string => {
         }
 
         // 更严格的正则表达式匹配完整的公式块
-        const regex = /\$(?!\$)([\s\S]*?)\$(?!\$)/g;
+        const regex = /(?<!\\)\$(?!\$)([\s\S]*?)\$(?!\$)/g;
         let match;
         let result = text;
 
