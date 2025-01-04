@@ -33,7 +33,7 @@ export const renderMarkDown = (text: string) => {
             }
         },
         { regex: /(?<!\\)\[(.*?)\]\((.*?)\)/gim, replacement: '<a href="$2">$1</a>' },
-        { regex: /(?<!\\)  $/gim, replacement: '<br />' },
+        // { regex: /(?<!\\)  $/gim, replacement: '<br />' },
         { regex: /(?<!\\)~~(.+?)~~/gim, replacement: '<s>$1</s>' },
         { regex: /(?<!\\)- (.*$)/gim, replacement: '<ul><li>$1</li></ul>' },
         { regex: /(?<!\\)(\d+)\. (.*$)/gim, replacement: '<ol><li>$2</li></ol>' },
