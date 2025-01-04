@@ -33,6 +33,7 @@ watch(() => props.content, async (newContent) => {
 .markdown-content-container {
     max-width: 100%;
     overflow: auto;
+    white-space: pre-wrap;
 }
 
 .markdown-content-container img {
