@@ -6,7 +6,7 @@ export const renderMarkDown = (text: string) => {
 
     const rules: Rule[] = [
         {
-            regex: /(?<!\\)^\>+ (.*)/gim, replacement: (match: string, p1: string) => {
+            regex: /(?<!\\)^\>+(.*)/gim, replacement: (match: string, p1: string) => {
                 const matchResult = match.match(/^\>+/);
                 const level = matchResult ? matchResult[0].length : 0;
                 return `<blockquote>${'<blockquote>'.repeat(level - 1)}<p>${p1.trim()}</p>${'</blockquote>'.repeat(level - 1)}</blockquote>`;
@@ -18,7 +18,6 @@ export const renderMarkDown = (text: string) => {
         { regex: /(?<!\\)### (.*$)/gim, replacement: '<h3>$1</h3>' },
         { regex: /(?<!\\)## (.*$)/gim, replacement: '<h2>$1</h2>' },
         { regex: /(?<!\\)# (.*$)/gim, replacement: '<h1>$1</h1>' },
-        { regex: /(?<!\\)~~(.*?)~~/gim, replacement: '<s>$1</s>' },
         { regex: /(?<!\\)---/gim, replacement: '<hr />' },
         {
             regex: /(?<!\\)\!\[(.*?)\]\((.*?)(?: \s*=\s*(\d*)?x?(\d*))?(?: \s*:(left|right|center))?\)/gim, replacement: (match: string, alt: string, src?: string, width?: string, height?: string, align?: string) => {
@@ -36,6 +35,7 @@ export const renderMarkDown = (text: string) => {
         { regex: /(?<!\\)\[(.*?)\]\((.*?)\)/gim, replacement: '<a href="$2">$1</a>' },
         { regex: /(?<!\\)  $/gim, replacement: '<br />' },
         { regex: /(?<!\\)- (.*$)/gim, replacement: '<ul><li>$1</li></ul>' },
+        { regex: /(?<!\\)~~(.+?)~~/gim, replacement: '<s>$1</s>' },
         { regex: /(?<!\\)(\d+)\. (.*$)/gim, replacement: '<ol start="$1"><li>$2</li></ol>' },
         { regex: /(?<!\\)\*\*\*(.+?)\*\*\*/gim, replacement: '<strong><em>$1</em></strong>' },
         { regex: /(?<!\\)^___(.+?)___$/gim, replacement: '<strong><em>$1</em></strong>' },
