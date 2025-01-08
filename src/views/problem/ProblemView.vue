@@ -3,7 +3,7 @@
     <el-card>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/problem' }">题单</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/problem' }">题库</el-breadcrumb-item>
         <el-breadcrumb-item>{{ problemInfo?.title }}</el-breadcrumb-item>
       </el-breadcrumb>
     </el-card>
