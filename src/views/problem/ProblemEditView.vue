@@ -134,7 +134,7 @@
         <CodeRun v-show="debugFlag" v-bind:problem="problemId ?? ''" />
       </ElCard>
     </ElCol>
-    <ElCol v-show="workingArea.includes('NekoACM🐱🐾')" :span="12">
+    <ElCol v-show="workingArea.includes('NekoACM')" :span="12">
       <ElCard>
         <ElTabs>
           <ElTabPane label="生成题目">
@@ -167,7 +167,7 @@ import ProblemSolutionTable from '@/components/problem/ProblemSolutionTable.vue'
 import router from '@/router';
 import { Refresh } from '@element-plus/icons-vue';
 
-const workingAreas = ['题面', '数据', 'NekoACM🐱🐾'];
+const workingAreas = ['题面', '数据', 'NekoACM'];
 const workingArea = ref(['题面', '数据'])
 
 const { execute: getProblemExecute } = getProblemApi();
