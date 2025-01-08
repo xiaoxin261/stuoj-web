@@ -22,6 +22,7 @@
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="gotoProblem">传送</el-button>
+              <el-button @click="gotoRandomProblem">随机传送</el-button>
             </el-form-item>
           </el-form>
         </el-card>
