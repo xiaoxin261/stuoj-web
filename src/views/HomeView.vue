@@ -29,7 +29,7 @@
         <el-card style="margin-bottom: 20px">
           <template #header>
             <div class="card-header">
-              <strong>网站公告</strong>
+              <strong>网站公告板</strong>
             </div>
           </template>
           <div>
