@@ -25,7 +25,7 @@ export const userStore = createGlobalState(() => {
     id: 0,
     role: Role.Visitor,
     update_time: "",
-    username: "未登录",
+    username: "访客",
     signature: "",
   });
 

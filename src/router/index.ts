@@ -198,7 +198,7 @@ const router = createRouter({
 
 router.beforeEach(async (to: any, from: any, next) => {
   const { info } = userStore();
-  const permission = info.value?.role ?? -1;
+  const permission = info.value?.role ?? 0;
   if (to.meta.permission > permission) {
     next("/403");
   }
