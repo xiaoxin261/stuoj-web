@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { userStore } from '@/stores/user';
-import { ROLE } from '@/types/User';
+import { Role } from '@/types/User';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -10,7 +10,7 @@ const router = createRouter({
       name: 'home',
       component: () => import('../views/HomeView.vue'),
       meta: {
-        permission: ROLE.Visitor,
+        permission: Role.Visitor,
         title: 'STUOJ',
       },
     },
@@ -19,7 +19,7 @@ const router = createRouter({
       name: 'about',
       component: () => import('../views/AboutView.vue'),
       meta: {
-        permission: ROLE.Visitor,
+        permission: Role.Visitor,
         title: '关于 - STUOJ',
       },
     },
@@ -28,7 +28,7 @@ const router = createRouter({
       name: 'user-login',
       component: () => import('../views/user/UserLoginView.vue'),
       meta:{
-        permission: ROLE.Visitor,
+        permission: Role.Visitor,
         title: '登录 - STUOJ',
       },
     },
@@ -37,7 +37,7 @@ const router = createRouter({
       name: 'user-register',
       component: () => import('../views/user/UserRegisterView.vue'),
       meta:{
-        permission: ROLE.Visitor,
+        permission: Role.Visitor,
         title: '注册 - STUOJ',
       },
     },
@@ -46,7 +46,7 @@ const router = createRouter({
       name: 'user-forgot',
       component: () => import('../views/user/UserForgotView.vue'),
       meta:{
-        permission: ROLE.Visitor,
+        permission: Role.Visitor,
         title: '找回密码 - STUOJ',
       },
     },
@@ -55,7 +55,7 @@ const router = createRouter({
       name:'user',
       component: () => import('../views/user/UserSpaceView.vue'),
       meta:{
-        permission: ROLE.Visitor,
+        permission: Role.Visitor,
         title: '个人空间 - STUOJ',
       },
     },
@@ -64,7 +64,7 @@ const router = createRouter({
       name: 'problem-list',
       component: () => import('../views/problem/ProblemListView.vue'),
       meta: {
-        permission: ROLE.Visitor,
+        permission: Role.Visitor,
         title: '题库 - STUOJ',
       },
     },
@@ -73,7 +73,7 @@ const router = createRouter({
       name:'problem-edit',
       component: () => import('../views/problem/ProblemEditView.vue'),
       meta:{
-        permission: ROLE.Visitor,
+        permission: Role.Visitor,
         title: '编辑题目 - STUOJ',
       },
     },
@@ -82,7 +82,7 @@ const router = createRouter({
       name: 'problem',
       component: () => import('../views/problem/ProblemView.vue'),
       meta: {
-        permission: ROLE.Visitor,
+        permission: Role.Visitor,
         title: '题目 - STUOJ',
       },
     },
@@ -91,7 +91,7 @@ const router = createRouter({
       name: 'blog-list',
         component: () => import('@/views/blog/BlogListView.vue'),
         meta:{
-            permission: ROLE.Visitor,
+            permission: Role.Visitor,
             title: '博客 - STUOJ',
         }
     },
@@ -100,7 +100,7 @@ const router = createRouter({
       name: 'blog',
       component: () => import('@/views/blog/BlogView.vue'),
       meta:{
-        permission: ROLE.Visitor,
+        permission: Role.Visitor,
         title: '博客 - STUOJ',
       }
     },
@@ -110,7 +110,7 @@ const router = createRouter({
       component: () => import('@/views/admin/AdminView.vue'),
       meta: {
         title: '管理面板 - STUOJ',
-        permission: ROLE.Admin,
+        permission: Role.Admin,
       },
     },
     {
@@ -118,7 +118,7 @@ const router = createRouter({
       component: () => import('@/views/admin/AdminUserView.vue'),
       meta: {
         title: '用户管理 - STUOJ',
-        permission: ROLE.Admin,
+        permission: Role.Admin,
       }
     },
     {
@@ -126,7 +126,7 @@ const router = createRouter({
       component: () => import('@/views/admin/AdminProblemView.vue'),
       meta: {
         title: '题目管理 - STUOJ',
-        permission: ROLE.Admin,
+        permission: Role.Admin,
       }
     },
     {
@@ -134,7 +134,7 @@ const router = createRouter({
       component: () => import('@/views/admin/AdminTagView.vue'),
       meta: {
         title: '标签管理 - STUOJ',
-        permission: ROLE.Admin,
+        permission: Role.Admin,
       }
     },
     {
@@ -142,7 +142,7 @@ const router = createRouter({
       component: () => import('@/views/admin/AdminCollectionView.vue'),
       meta: {
         title: '题单管理 - STUOJ',
-        permission: ROLE.Admin,
+        permission: Role.Admin,
       }
     },
     {
@@ -150,7 +150,7 @@ const router = createRouter({
       component: () => import('@/views/admin/AdminRecordView.vue'),
       meta: {
         title: '记录管理 - STUOJ',
-        permission: ROLE.Admin,
+        permission: Role.Admin,
       }
     },
     {
@@ -158,7 +158,7 @@ const router = createRouter({
       component: () => import('@/views/admin/AdminBlogView.vue'),
       meta: {
         title: '博客管理 - STUOJ',
-        permission: ROLE.Admin,
+        permission: Role.Admin,
       }
     },
     {
@@ -166,7 +166,7 @@ const router = createRouter({
       component: () => import('@/views/admin/AdminCommentView.vue'),
       meta: {
         title: '评论管理 - STUOJ',
-        permission: ROLE.Admin,
+        permission: Role.Admin,
       }
     },
     {
@@ -174,7 +174,7 @@ const router = createRouter({
       component: () => import('@/views/admin/AdminReportView.vue'),
       meta: {
         title: '处理举报 - STUOJ',
-        permission: ROLE.Admin,
+        permission: Role.Admin,
       }
     },
     {
@@ -182,7 +182,7 @@ const router = createRouter({
       component: () => import('@/views/admin/AdminStatisticsView.vue'),
       meta: {
         title: '系统设置 - STUOJ',
-        permission: ROLE.Admin,
+        permission: Role.Admin,
       }
     },
     {
@@ -190,7 +190,7 @@ const router = createRouter({
       component: () => import('@/views/admin/AdminSystemView.vue'),
       meta: {
         title: '系统设置 - STUOJ',
-        permission: ROLE.Admin,
+        permission: Role.Admin,
       }
     }
   ],

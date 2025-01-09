@@ -21,7 +21,7 @@
                         </div>
                         <div class="info-item">
                             <span class="info-label">角色：</span>
-                            <UserRoleTag :role="info?.role || ROLE.User" />
+                            <UserRoleTag :role="info?.role || Role.User" />
                         </div>
                         <div class="info-item">
                             <span class="info-label">创建时间：</span>
@@ -39,7 +39,7 @@ import { onBeforeMount, ref, watchEffect } from "vue";
 import { useRouteParams } from "@vueuse/router";
 import { userStore } from "@/stores/user";
 import { GetUserInfo } from "@/apis/user";
-import { ROLE, type UserInfo } from "@/types/User";
+import { Role, type UserInfo } from "@/types/User";
 import UserRoleTag from "./UserRoleTag.vue";
 
 const { info: info_, id } = userStore();

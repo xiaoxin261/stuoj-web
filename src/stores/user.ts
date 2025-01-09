@@ -1,5 +1,5 @@
 import { computed, ref, watchEffect } from "vue";
-import { ROLE, type UserInfo } from "@/types/User";
+import { Role, type UserInfo } from "@/types/User";
 import { GetUserInfo, GetId } from "@/apis/user";
 import { createGlobalState, useStorage } from "@vueuse/core";
 
@@ -23,7 +23,7 @@ export const userStore = createGlobalState(() => {
     create_time: "",
     email: "",
     id: 0,
-    role: ROLE.Visitor,
+    role: Role.Visitor,
     update_time: "",
     username: "未登录",
     signature: "",

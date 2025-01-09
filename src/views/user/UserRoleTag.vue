@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { ROLE, UserRoleColor, UserRoleMap } from "@/types/User";
+import { Role, UserRoleColor, UserRoleMap } from "@/types/User";
 
-const props = defineProps<{ role: ROLE }>();
+const props = defineProps<{ role: Role }>();
 </script>
