@@ -17,21 +17,15 @@ export interface UserInfo {
 
 export enum Role {
     Visitor = 0,
-    Banned = 1,
-    Muted = 2,
-    User = 3,
-    Vip = 4,
-    Editor = 5,
-    Admin = 6,
-    Root = 7,
+    User = 1,
+    Editor = 2,
+    Admin = 3,
+    Root = 4,
 }
 
 export const UserRoleMap = {
     [Role.Visitor]: "访客",
-    [Role.Banned]: "封禁",
-    [Role.Muted]: "禁言",
     [Role.User]: "用户",
-    [Role.Vip]: "会员",
     [Role.Editor]: "编辑",
     [Role.Admin]: "管理",
     [Role.Root]: "站长",
@@ -39,10 +33,7 @@ export const UserRoleMap = {
 
 export const UserRoleColor = {
     [Role.Visitor]: Colors.gray9,
-    [Role.Banned]: Colors.black,
-    [Role.Muted]: Colors.gray4,
     [Role.User]: Colors.blue,
-    [Role.Vip]: Colors.purple,
     [Role.Editor]: Colors.green,
     [Role.Admin]: Colors.yellow,
     [Role.Root]: Colors.red,

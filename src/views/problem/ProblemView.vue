@@ -91,7 +91,7 @@
             <h3>题目信息</h3>
             <div class="problem-info-item">
               <h4 class="weight">来源</h4>
-              <el-tag>{{ problemInfo.source }}</el-tag>
+              <span>{{ problemInfo.source }}</span>
             </div>
             <div class="problem-info-item">
               <h4 class="weight">难度</h4>
