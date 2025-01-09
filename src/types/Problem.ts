@@ -116,24 +116,33 @@ export interface FpsSolution {
 }
 
 export enum ProblemStatus {
-    invalid = 0,
-    public = 1,
+    invalid = 1,
     editing = 2,
     debugging = 3,
+    hidden = 4,
+    contest = 5,
+    vip = 6,
+    public = 7,
 }
 
 export const ProblemStatusMap = {
     [ProblemStatus.invalid]: "作废",
-    [ProblemStatus.public]: "公开",
     [ProblemStatus.editing]: "出题",
     [ProblemStatus.debugging]: "调试",
+    [ProblemStatus.hidden]: "隐藏",
+    [ProblemStatus.contest]: "比赛",
+    [ProblemStatus.vip]: "会员",
+    [ProblemStatus.public]: "公开",
 }
 
 export const ProblemStatusColor = {
-    [ProblemStatus.invalid]: "#F56C6C",
-    [ProblemStatus.public]: "#67C23A",
-    [ProblemStatus.editing]: "#999999",
+    [ProblemStatus.invalid]: "#000000",
+    [ProblemStatus.editing]: "#E6A23C",
     [ProblemStatus.debugging]: "#409EFF",
+    [ProblemStatus.hidden]: "#999999",
+    [ProblemStatus.contest]: "#F56C6C",
+    [ProblemStatus.vip]: "#9D3DCF",
+    [ProblemStatus.public]: "#67C23A",
 }
 
 export enum Difficulty {
