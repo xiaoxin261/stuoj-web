@@ -1,3 +1,5 @@
+import {Colors} from "@/types/Colors";
+
 export interface ProblemInfo {
     create_time?: string;
     description: string;
@@ -136,13 +138,13 @@ export const ProblemStatusMap = {
 }
 
 export const ProblemStatusColor = {
-    [ProblemStatus.invalid]: "#000000",
-    [ProblemStatus.editing]: "#E6A23C",
-    [ProblemStatus.debugging]: "#409EFF",
-    [ProblemStatus.hidden]: "#999999",
-    [ProblemStatus.contest]: "#F56C6C",
-    [ProblemStatus.vip]: "#9D3DCF",
-    [ProblemStatus.public]: "#67C23A",
+    [ProblemStatus.invalid]: Colors.black,
+    [ProblemStatus.editing]: Colors.yellow,
+    [ProblemStatus.debugging]: Colors.blue,
+    [ProblemStatus.hidden]: Colors.gray9,
+    [ProblemStatus.contest]: Colors.red,
+    [ProblemStatus.vip]: Colors.purple,
+    [ProblemStatus.public]: Colors.green,
 }
 
 export enum Difficulty {
@@ -166,13 +168,13 @@ export const DifficultyMap = {
 }
 
 export const DifficultyColor = {
-    [Difficulty.U]: "#999999",
-    [Difficulty.E]: "#E6A23C",
-    [Difficulty.D]: "#67C23A",
-    [Difficulty.C]: "#409EFF",
-    [Difficulty.B]: "#F56C6C",
-    [Difficulty.A]: "#9D3DCF",
-    [Difficulty.S]: "#000000",
+    [Difficulty.U]: Colors.gray9,
+    [Difficulty.E]: Colors.yellow,
+    [Difficulty.D]: Colors.green,
+    [Difficulty.C]: Colors.blue,
+    [Difficulty.B]: Colors.red,
+    [Difficulty.A]: Colors.purple,
+    [Difficulty.S]: Colors.black,
 }
 
 export interface ProblemParams {

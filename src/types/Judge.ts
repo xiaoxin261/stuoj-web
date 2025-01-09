@@ -1,3 +1,5 @@
+import {Colors} from "@/types/Colors";
+
 export interface Language {
     id: number;
     name: string;
@@ -57,21 +59,20 @@ export const JudgeStatusAbbr = {
     [JudgeStatus.InternalError]: "IE",
     [JudgeStatus.ExecFormatError]: "EFE"
 }
-
 export const JudgeStatusColor = {
-    [JudgeStatus.Unknown]: "#000000",
-    [JudgeStatus.InQueue]: "#66CCFF",
-    [JudgeStatus.Processing]: "#409EFF",
-    [JudgeStatus.Accepted]: "#67C23A",
-    [JudgeStatus.WrongAnswer]: "#F56C6C",
-    [JudgeStatus.TimeLimitExceeded]: "#999999",
-    [JudgeStatus.CompilationError]: "#E6A23C",
-    [JudgeStatus.RuntimeErrorSIGSEGV]: "#9D3DCF",
-    [JudgeStatus.RuntimeErrorSIGXFSZ]: "#9D3DCF",
-    [JudgeStatus.RuntimeErrorSIGFPE]: "#9D3DCF",
-    [JudgeStatus.RuntimeErrorSIGABRT]: "#9D3DCF",
-    [JudgeStatus.RuntimeErrorNZEC]: "#9D3DCF",
-    [JudgeStatus.RuntimeErrorOther]: "#9D3DCF",
-    [JudgeStatus.InternalError]: "#000000",
-    [JudgeStatus.ExecFormatError]: "#9D3DCF"
+    [JudgeStatus.Unknown]: Colors.black,
+    [JudgeStatus.InQueue]: Colors.lightblue,
+    [JudgeStatus.Processing]: Colors.blue,
+    [JudgeStatus.Accepted]: Colors.green,
+    [JudgeStatus.WrongAnswer]: Colors.red,
+    [JudgeStatus.TimeLimitExceeded]: Colors.gray9,
+    [JudgeStatus.CompilationError]: Colors.yellow,
+    [JudgeStatus.RuntimeErrorSIGSEGV]: Colors.purple,
+    [JudgeStatus.RuntimeErrorSIGXFSZ]: Colors.purple,
+    [JudgeStatus.RuntimeErrorSIGFPE]: Colors.purple,
+    [JudgeStatus.RuntimeErrorSIGABRT]: Colors.purple,
+    [JudgeStatus.RuntimeErrorNZEC]: Colors.purple,
+    [JudgeStatus.RuntimeErrorOther]: Colors.purple,
+    [JudgeStatus.InternalError]: Colors.black,
+    [JudgeStatus.ExecFormatError]: Colors.black,
 }

@@ -1,3 +1,5 @@
+import {Colors} from "@/types/Colors";
+
 export interface BlogInfo {
     content?: string;
     create_time: string;
@@ -27,9 +29,9 @@ export const BlogStatusMap = {
 }
 
 export const BlogStatusColor = {
-    [BlogStatus.Banned]: "#E6A23C",
-    [BlogStatus.Public]: "#67C23A",
-    [BlogStatus.Draft]: "#999999",
-    [BlogStatus.Review]: "#409EFF",
-    [BlogStatus.Notice]: "#9D3DCF",
+    [BlogStatus.Banned]: Colors.yellow,
+    [BlogStatus.Public]: Colors.green,
+    [BlogStatus.Draft]: Colors.gray9,
+    [BlogStatus.Review]: Colors.blue,
+    [BlogStatus.Notice]: Colors.purple,
 }
