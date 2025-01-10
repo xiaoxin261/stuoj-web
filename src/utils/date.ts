@@ -5,23 +5,61 @@ export function formatDate(date: Date): string {
     return `${year}-${month}-${day}`;
 }
 
-export function formatDataTimeStr(time: string) {
+export function formatDataTimeStr(time: string | undefined) {
     if (!time || time === '') {
         return '0000-00-00 00:00:00';
     }
-    return new Date(time).toLocaleString();
+
+    try {
+        const date = new Date(time);
+        if (isNaN(date.getTime())) {
+            // 如果时间字符串无效，返回默认值
+            return '0000-00-00 00:00:00';
+        }
+
+        // 使用固定格式输出时间字符串
+        const timestr = date.toISOString().slice(0, 19).replace('T', ' ');
+        return timestr;
+    } catch (error) {
+        // 捕获任何可能的异常并返回默认值
+        return '0000-00-00 00:00:00';
+    }
 }
 
-export function formatTimeStr(time: string) {
+export function formatTimeStr(time: string | undefined) {
     if (!time || time === '') {
         return '00:00:00';
     }
-    return new Date(time).toLocaleTimeString();
+    try {
+        const date = new Date(time);
+        if (isNaN(date.getTime())) {
+            // 如果时间字符串无效，返回默认值
+            return '00:00:00';
+        }
+        return date.toLocaleTimeString();
+    } catch (error) {
+        // 捕获任何可能的异常并返回默认值
+        return '00:00:00';
+    }
 }
 
-export function formatDateStr(time: string) {
+export function formatDateStr(time: string | undefined) {
     if (!time || time === '') {
         return '0000-00-00';
     }
-    return new Date(time).toLocaleDateString();
+    try {
+        const date = new Date(time);
+        if (isNaN(date.getTime())) {
+            // 如果时间字符串无效，返回默认值
+            return '0000-00-00';
+        }
+        return date.toLocaleDateString();
+    } catch (error) {
+        // 捕获任何可能的异常并返回默认值
+        return '0000-00-00';
+    }
+}
+
+export const futureDate = (time: Date) => {
+    return time.getTime() > Date.now()
 }
