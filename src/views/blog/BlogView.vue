@@ -3,10 +3,9 @@ import { onMounted, ref } from "vue";
 import type { BlogInfo } from "@/types/Blog";
 import { useRouteParams } from "@vueuse/router";
 import { getBlogApi } from "@/apis/blog";
-import type { ApiResponse } from "@/types/ApiResponse";
-import { BlogStatusMap } from "@/types/Blog";
 import { StarFilled } from "@element-plus/icons-vue";
 import { formatDataTimeStr } from "../../utils/date";
+import router from "@/router";
 
 const blogId = useRouteParams<number>("id");
 
@@ -26,6 +25,7 @@ onMounted(async () => {
 const commentForm = ref({
   content: ""
 });
+
 </script>
 
 <template>

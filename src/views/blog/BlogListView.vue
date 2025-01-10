@@ -6,6 +6,7 @@ import { formatDateStr } from "@/utils/date";
 import type { BlogInfo } from '@/types/Blog';
 import { Album, type Page } from '@/types/misc';
 import TextEditor from '@/components/TextEditor.vue';
+import router from "@/router";
 
 interface BlogParams {
   page: number
@@ -59,6 +60,9 @@ const onSubmit = async () => {
 
 }
 
+const handleEdit = () => {
+  router.push("/blog/edit");
+}
 </script>
 
 <template>
@@ -66,7 +70,11 @@ const onSubmit = async () => {
     <el-row :gutter="20">
       <el-col :span="6">
         <el-card style="margin-bottom: 20px">
-          <strong>搜索博客</strong><br /><br />
+          <template #header>
+            <div class="card-header">
+              <strong>搜索博客</strong>
+            </div>
+          </template>
           <el-form>
             <el-form-item>
               <el-input type="text" placeholder="博客标题" clearable />
@@ -77,7 +85,11 @@ const onSubmit = async () => {
           </el-form>
         </el-card>
         <el-card style="margin-bottom: 20px">
-          <strong>博客热榜</strong><br /><br />
+          <template #header>
+            <div class="card-header">
+              <strong>博客热榜</strong>
+            </div>
+          </template>
           <ul>
             <li>1. 今天天气真好</li>
             <li>2. 今天天气真好</li>
@@ -87,7 +99,11 @@ const onSubmit = async () => {
           </ul>
         </el-card>
         <el-card style="margin-bottom: 20px">
-          <strong>标签分类</strong><br /><br />
+          <template #header>
+            <div class="card-header">
+              <strong>标签分类</strong>
+            </div>
+          </template>
           <el-tag>tag</el-tag>&nbsp;
           <el-tag>tag</el-tag>&nbsp;
           <el-tag>tag</el-tag>&nbsp;
@@ -96,16 +112,21 @@ const onSubmit = async () => {
       </el-col>
       <el-col :span="18">
         <el-card>
-          <strong>快速发表</strong><br /><br />
+          <template #header>
+            <div class="card-header">
+              <strong>快速发布</strong>
+            </div>
+          </template>
           <el-form :model="blogForm">
             <el-form-item>
               <el-input v-model="blogForm.title" placeholder="标题" clearable />
             </el-form-item>
             <el-form-item>
-              <TextEditor v-model:text="text" :album="Album.blog" placeholder="分享一些有趣的事吧..." ref="textEditorRef" />
+              <TextEditor v-model:text="text" :album="Album.blog" placeholder="分享一些有趣的事吧..." ref="textEditorRef"/>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="onSubmit">快速发布</el-button>
+              <el-button @click="handleEdit">编辑器</el-button>
             </el-form-item>
           </el-form>
         </el-card>
@@ -162,9 +183,9 @@ const onSubmit = async () => {
         </div>
         <br />
         <el-pagination v-model:current-page="params.page" v-model:page-size="params.size"
-          :page-sizes="[10, 20, 50, 100]" :size="'small'" :background="true"
-          layout="total, sizes, prev, pager, next, jumper" :total="blogPage?.total" @size-change="getList"
-          @current-change="getList" />
+                       :page-sizes="[10, 20, 50, 100]" :size="'small'" :background="true"
+                       layout="total, sizes, prev, pager, next, jumper" :total="blogPage?.total" @size-change="getList"
+                       @current-change="getList" />
       </el-col>
     </el-row>
   </div>
