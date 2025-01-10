@@ -1,135 +1,135 @@
 <template>
-    <div class="toolbar">
-        <div class="toolbar-section">
-            <ElTooltip content="增大一级" placement="top">
-                <ElButton class="toolbar-button" text size="default" @click="increaseFontSize">
-                    <strong>H+</strong>
-                </ElButton>
-            </ElTooltip>
-            <ElTooltip content="减小一级" placement="top">
-                <ElButton class="toolbar-button" text size="default" @click="decreaseFontSize">
-                    <strong>H-</strong>
-                </ElButton>
-            </ElTooltip>
-            <ElTooltip content="加粗" placement="top">
-                <ElButton class="toolbar-button" text size="default" @mousedown.prevent="toggleBold">
-                    <strong>
-                        B
-                    </strong>
-                </ElButton>
-            </ElTooltip>
-            <ElTooltip content="斜体" placement="top">
-                <ElButton class="toolbar-button" text size="default" @mousedown.prevent="toggleItalic">
-                    <i>I</i>
-                </ElButton>
-            </ElTooltip>
-            <ElTooltip content="下划线" placement="top">
-                <ElButton class="toolbar-button" text size="default" @mousedown.prevent="toggleUnderline">
-                    <u>U</u>
-                </ElButton>
-            </ElTooltip>
-            <ElTooltip content="删除线" placement="top">
-                <ElButton class="toolbar-button" text size="default" @mousedown.prevent="toggleStrikethrough">
-                    <s>S</s>
-                </ElButton>
-            </ElTooltip>
-            <ElTooltip content="引用" placement="top">
-                <ElButton class="toolbar-button" text size="default" @click="toggleQuote">
-                    <strong>“</strong>
-                </ElButton>
-            </ElTooltip>
-            <ElTooltip content="有序列表" placement="top">
-                <ElButton class="toolbar-button" text size="default" @click="toggleOrderedList">
-                    <strong>1. #</strong>
-                </ElButton>
-            </ElTooltip>
-            <ElTooltip content="无序列表" placement="top">
-                <ElButton class="toolbar-button" text size="default" @click="toggleUnorderedList">
-                    <strong>- #</strong>
-                </ElButton>
-            </ElTooltip>
-            <ElTooltip content="代码块" placement="top">
-                <ElButton class="toolbar-button" text size="default" @click="toggleCodeBlock">
-                    <strong>>_</strong>
-                </ElButton>
-            </ElTooltip>
-            <ElTooltip content="数学公式" placement="top">
-                <ElButton class="toolbar-button" text size="default" @click="toggleMath">
-                    <strong>∑</strong>
-                </ElButton>
-            </ElTooltip>
-            <ElTooltip content="水平线" placement="top">
-                <ElButton class="toolbar-button" text size="default" @click="toggleHorizontalRule">
-                    <strong>- - -</strong>
-                </ElButton>
-            </ElTooltip>
+  <div class="toolbar">
+    <div class="toolbar-section">
+      <ElTooltip content="增大一级" placement="top">
+        <ElButton class="toolbar-button" text size="default" @click="increaseFontSize">
+          <strong>H+</strong>
+        </ElButton>
+      </ElTooltip>
+      <ElTooltip content="减小一级" placement="top">
+        <ElButton class="toolbar-button" text size="default" @click="decreaseFontSize">
+          <strong>H-</strong>
+        </ElButton>
+      </ElTooltip>
+      <ElTooltip content="加粗" placement="top">
+        <ElButton class="toolbar-button" text size="default" @mousedown.prevent="toggleBold">
+          <strong>
+            B
+          </strong>
+        </ElButton>
+      </ElTooltip>
+      <ElTooltip content="斜体" placement="top">
+        <ElButton class="toolbar-button" text size="default" @mousedown.prevent="toggleItalic">
+          <i>I</i>
+        </ElButton>
+      </ElTooltip>
+      <ElTooltip content="下划线" placement="top">
+        <ElButton class="toolbar-button" text size="default" @mousedown.prevent="toggleUnderline">
+          <u>U</u>
+        </ElButton>
+      </ElTooltip>
+      <ElTooltip content="删除线" placement="top">
+        <ElButton class="toolbar-button" text size="default" @mousedown.prevent="toggleStrikethrough">
+          <s>S</s>
+        </ElButton>
+      </ElTooltip>
+      <ElTooltip content="引用" placement="top">
+        <ElButton class="toolbar-button" text size="default" @click="toggleQuote">
+          <strong>“</strong>
+        </ElButton>
+      </ElTooltip>
+      <ElTooltip content="有序列表" placement="top">
+        <ElButton class="toolbar-button" text size="default" @click="toggleOrderedList">
+          <strong>1. #</strong>
+        </ElButton>
+      </ElTooltip>
+      <ElTooltip content="无序列表" placement="top">
+        <ElButton class="toolbar-button" text size="default" @click="toggleUnorderedList">
+          <strong>- #</strong>
+        </ElButton>
+      </ElTooltip>
+      <ElTooltip content="代码块" placement="top">
+        <ElButton class="toolbar-button" text size="default" @click="toggleCodeBlock">
+          <strong>>_</strong>
+        </ElButton>
+      </ElTooltip>
+      <ElTooltip content="数学公式" placement="top">
+        <ElButton class="toolbar-button" text size="default" @click="toggleMath">
+          <strong>∑</strong>
+        </ElButton>
+      </ElTooltip>
+      <ElTooltip content="水平线" placement="top">
+        <ElButton class="toolbar-button" text size="default" @click="toggleHorizontalRule">
+          <strong>- - -</strong>
+        </ElButton>
+      </ElTooltip>
 
-        </div>
-        <div class="toolbar-divider" />
-        <div class="toolbar-section">
-            <ElTooltip content="插入链接" placement="top">
-                <ElButton class="toolbar-button" text size="default" :icon="Link" @click="insertLink" />
-            </ElTooltip>
-            <ElTooltip content="插入图片链接" placement="top">
-                <ElButton class="toolbar-button" text size="default" :icon="PictureFilled" @click="insertImageLink" />
-            </ElTooltip>
-            <ElTooltip content="插入图片" placement="top">
-                <ElButton class="toolbar-button" text size="default" :icon="Picture" @click="selectImage" />
-            </ElTooltip>
-        </div>
-        <div class="toolbar-divider" />
-        <div class="toolbar-section right-aligned">
-            <ElTooltip content="撤回" placement="top">
-                <ElButton class="toolbar-button" text size="default" @click="undo">
-                    <strong>↩</strong>
-                </ElButton>
-            </ElTooltip>
-            <ElTooltip content="编辑区" placement="top">
-                <ElButton text class="toolbar-button" :class="{ 'selected': checkboxGroup.includes('editorShow') }"
-                    @click="toggleCheckbox('editorShow')" :icon="Edit" />
-            </ElTooltip>
-            <ElTooltip content="预览区" placement="top">
-                <ElButton text class="toolbar-button" :class="{ 'selected': checkboxGroup.includes('previewShow') }"
-                    @click="toggleCheckbox('previewShow')" :icon="Tickets" />
-            </ElTooltip>
-        </div>
     </div>
-    <div class="text-editor">
-        <ElInput v-show="editorShow" v-model="text" type="textarea" :placeholder="placeholder" :rows="22" resize="none"
-            class="editor" inputStyle="border: none;" @keydown.enter="handleEnterKey" @keydown="handleKeyDown" />
-        <div v-show="previewShow" class="preview-container">
-            <TextView v-model:content="text" :fontSize="fontSize" :letterSpacing="letterSpacing"
+    <div class="toolbar-divider" />
+    <div class="toolbar-section">
+      <ElTooltip content="插入链接" placement="top">
+        <ElButton class="toolbar-button" text size="default" :icon="Link" @click="insertLink" />
+      </ElTooltip>
+      <ElTooltip content="插入图片链接" placement="top">
+        <ElButton class="toolbar-button" text size="default" :icon="PictureFilled" @click="insertImageLink" />
+      </ElTooltip>
+      <ElTooltip content="插入图片" placement="top">
+        <ElButton class="toolbar-button" text size="default" :icon="Picture" @click="selectImage" />
+      </ElTooltip>
+    </div>
+    <div class="toolbar-divider" />
+    <div class="toolbar-section right-aligned">
+      <ElTooltip content="撤回" placement="top">
+        <ElButton class="toolbar-button" text size="default" @click="undo">
+          <strong>↩</strong>
+        </ElButton>
+      </ElTooltip>
+      <ElTooltip content="编辑区" placement="top">
+        <ElButton text class="toolbar-button" :class="{ 'selected': checkboxGroup.includes('editorShow') }"
+                  @click="toggleCheckbox('editorShow')" :icon="Edit" />
+      </ElTooltip>
+      <ElTooltip content="预览区" placement="top">
+        <ElButton text class="toolbar-button" :class="{ 'selected': checkboxGroup.includes('previewShow') }"
+                  @click="toggleCheckbox('previewShow')" :icon="Tickets" />
+      </ElTooltip>
+    </div>
+  </div>
+  <div class="text-editor">
+    <ElInput v-show="editorShow" v-model="text" type="textarea" :placeholder="placeholder" :rows="10" resize="none"
+             class="editor" inputStyle="border: none;" @keydown.enter="handleEnterKey" @keydown="handleKeyDown" />
+    <div v-show="previewShow" class="preview-container">
+      <TextView v-model:content="text" :fontSize="fontSize" :letterSpacing="letterSpacing"
                 :lineHeight="lineHeight" class="preview" />
-        </div>
     </div>
-    <ElDialog v-model="dialogVisible" title="插入图片链接">
-        <ElForm>
-            <ElFormItem label="图片名称">
-                <ElInput v-model="imageName" class="form-item-input" />
-            </ElFormItem>
-            <ElFormItem label="图片链接">
-                <ElInput v-model="imageUrl" class="form-item-input" />
-            </ElFormItem>
-        </ElForm>
-        <template #footer>
-            <ElButton @click="dialogVisible = false">取消</ElButton>
-            <ElButton type="primary" @click="confirmInsertImageLink">确定</ElButton>
-        </template>
-    </ElDialog>
-    <ElDialog v-model="linkDialogVisible" title="插入链接">
-        <ElForm>
-            <ElFormItem label="链接文本">
-                <ElInput v-model="linkText" class="form-item-input" />
-            </ElFormItem>
-            <ElFormItem label="链接地址">
-                <ElInput v-model="linkUrl" class="form-item-input" />
-            </ElFormItem>
-        </ElForm>
-        <template #footer>
-            <ElButton @click="linkDialogVisible = false">取消</ElButton>
-            <ElButton type="primary" @click="confirmInsertLink">确定</ElButton>
-        </template>
-    </ElDialog>
+  </div>
+  <ElDialog v-model="dialogVisible" title="插入图片链接">
+    <ElForm>
+      <ElFormItem label="图片名称">
+        <ElInput v-model="imageName" class="form-item-input" />
+      </ElFormItem>
+      <ElFormItem label="图片链接">
+        <ElInput v-model="imageUrl" class="form-item-input" />
+      </ElFormItem>
+    </ElForm>
+    <template #footer>
+      <ElButton @click="dialogVisible = false">取消</ElButton>
+      <ElButton type="primary" @click="confirmInsertImageLink">确定</ElButton>
+    </template>
+  </ElDialog>
+  <ElDialog v-model="linkDialogVisible" title="插入链接">
+    <ElForm>
+      <ElFormItem label="链接文本">
+        <ElInput v-model="linkText" class="form-item-input" />
+      </ElFormItem>
+      <ElFormItem label="链接地址">
+        <ElInput v-model="linkUrl" class="form-item-input" />
+      </ElFormItem>
+    </ElForm>
+    <template #footer>
+      <ElButton @click="linkDialogVisible = false">取消</ElButton>
+      <ElButton type="primary" @click="confirmInsertLink">确定</ElButton>
+    </template>
+  </ElDialog>
 </template>
 
 <script setup lang="ts">
@@ -142,17 +142,17 @@ import { ElTooltip, ElDialog, ElForm, ElFormItem, ElInput, ElButton, ElNotificat
 const { execute } = uploadImageApi();
 
 const props = withDefaults(defineProps<{
-    text: string;
-    album: Album;
-    placeholder?: string;
-    fontSize?: string;
-    letterSpacing?: string;
-    lineHeight?: string;
+  text: string;
+  album: Album;
+  placeholder?: string;
+  fontSize?: string;
+  letterSpacing?: string;
+  lineHeight?: string;
 }>(), {
-    placeholder: '',
-    fontSize: '16px',
-    letterSpacing: 'normal',
-    lineHeight: 'normal'
+  placeholder: '',
+  fontSize: '16px',
+  letterSpacing: 'normal',
+  lineHeight: 'normal'
 });
 
 const editorShow = ref(true);
@@ -175,439 +175,439 @@ const history = ref<string[]>([]);
 const historyIndex = ref(-1);
 
 const saveHistory = () => {
-    if (historyIndex.value < history.value.length - 1) {
-        history.value.splice(historyIndex.value + 1);
-    }
-    history.value.push(text.value);
-    historyIndex.value++;
+  if (historyIndex.value < history.value.length - 1) {
+    history.value.splice(historyIndex.value + 1);
+  }
+  history.value.push(text.value);
+  historyIndex.value++;
 };
 
 const undo = () => {
-    if (historyIndex.value > 0) {
-        historyIndex.value--;
-        text.value = history.value[historyIndex.value];
-    }
+  if (historyIndex.value > 0) {
+    historyIndex.value--;
+    text.value = history.value[historyIndex.value];
+  }
 };
 
 const toggleCheckbox = (checkbox: string) => {
-    const index = checkboxGroup.value.indexOf(checkbox);
-    if (index === -1) {
-        checkboxGroup.value.push(checkbox);
-    } else {
-        checkboxGroup.value.splice(index, 1);
-    }
-    if (checkbox === 'editorShow') {
-        editorShow.value = !editorShow.value;
-    } else if (checkbox === 'previewShow') {
-        previewShow.value = !previewShow.value;
-    }
+  const index = checkboxGroup.value.indexOf(checkbox);
+  if (index === -1) {
+    checkboxGroup.value.push(checkbox);
+  } else {
+    checkboxGroup.value.splice(index, 1);
+  }
+  if (checkbox === 'editorShow') {
+    editorShow.value = !editorShow.value;
+  } else if (checkbox === 'previewShow') {
+    previewShow.value = !previewShow.value;
+  }
 };
 
 const insertImageLink = () => {
-    dialogVisible.value = true;
+  dialogVisible.value = true;
 };
 
 const confirmInsertImageLink = () => {
-    if (imageUrl.value) {
-        text.value += `![${imageName.value}](${imageUrl.value})`;
-    }
-    dialogVisible.value = false;
-    imageName.value = '';
-    imageUrl.value = '';
+  if (imageUrl.value) {
+    text.value += `![${imageName.value}](${imageUrl.value})`;
+  }
+  dialogVisible.value = false;
+  imageName.value = '';
+  imageUrl.value = '';
 };
 
 const insertLink = () => {
-    linkDialogVisible.value = true;
+  linkDialogVisible.value = true;
 };
 
 const confirmInsertLink = () => {
-    if (linkUrl.value) {
-        text.value += `[${linkText.value}](${linkUrl.value})`;
-    }
-    linkDialogVisible.value = false;
-    linkText.value = '';
-    linkUrl.value = '';
+  if (linkUrl.value) {
+    text.value += `[${linkText.value}](${linkUrl.value})`;
+  }
+  linkDialogVisible.value = false;
+  linkText.value = '';
+  linkUrl.value = '';
 };
 
 const selectImage = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
-    input.onchange = (event: Event) => {
-        const file = (event.target as HTMLInputElement).files?.[0];
-        if (file) {
-            const imageUrl = URL.createObjectURL(file);
-            const fileName = file.name;
-            text.value += `![${fileName}](${imageUrl})`;
-        }
-    };
-    input.click();
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.onchange = (event: Event) => {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      const fileName = file.name;
+      text.value += `![${fileName}](${imageUrl})`;
+    }
+  };
+  input.click();
 };
 
 const handleEnterKey = (event: Event | KeyboardEvent) => {
-    const textarea = event.target as HTMLTextAreaElement;
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const value = textarea.value;
-    const beforeCursor = value.substring(0, start);
-    const afterCursor = value.substring(end);
-    const currentLineStart = beforeCursor.lastIndexOf('\n') + 1;
-    const currentLine = beforeCursor.substring(currentLineStart);
-    let newText = '\n';
-    if (currentLine.trim().startsWith('- ')) {
-        newText = '\n- ';
-    } else if (/^\d+\.\s/.test(currentLine.trim())) {
-        const match = currentLine.trim().match(/^(\d+)\.\s/);
-        if (match) {
-            const number = parseInt(match[1], 10) + 1;
-            newText = `\n${number}. `;
-        }
+  const textarea = event.target as HTMLTextAreaElement;
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const value = textarea.value;
+  const beforeCursor = value.substring(0, start);
+  const afterCursor = value.substring(end);
+  const currentLineStart = beforeCursor.lastIndexOf('\n') + 1;
+  const currentLine = beforeCursor.substring(currentLineStart);
+  let newText = '\n';
+  if (currentLine.trim().startsWith('- ')) {
+    newText = '\n- ';
+  } else if (/^\d+\.\s/.test(currentLine.trim())) {
+    const match = currentLine.trim().match(/^(\d+)\.\s/);
+    if (match) {
+      const number = parseInt(match[1], 10) + 1;
+      newText = `\n${number}. `;
     }
-    textarea.value = beforeCursor + newText + afterCursor;
-    textarea.selectionStart = textarea.selectionEnd = start + newText.length;
-    event.preventDefault();
+  }
+  textarea.value = beforeCursor + newText + afterCursor;
+  textarea.selectionStart = textarea.selectionEnd = start + newText.length;
+  event.preventDefault();
 };
 
 const toggleBold = (event: MouseEvent) => {
-    event.preventDefault();
-    const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
-    if (!textarea) return;
+  event.preventDefault();
+  const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
+  if (!textarea) return;
 
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const selectedText = textarea.value.substring(start, end);
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const selectedText = textarea.value.substring(start, end);
 
-    const boldText = `**${selectedText}**`;
-    textarea.setRangeText(boldText, start, end, 'end');
-    text.value = textarea.value;
-    textarea.setSelectionRange(start + 2, start + 2 + selectedText.length);
-    textarea.focus();
+  const boldText = `**${selectedText}**`;
+  textarea.setRangeText(boldText, start, end, 'end');
+  text.value = textarea.value;
+  textarea.setSelectionRange(start + 2, start + 2 + selectedText.length);
+  textarea.focus();
 };
 
 const toggleItalic = (event: MouseEvent) => {
-    event.preventDefault();
-    const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
-    if (!textarea) return;
+  event.preventDefault();
+  const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
+  if (!textarea) return;
 
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const selectedText = textarea.value.substring(start, end);
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const selectedText = textarea.value.substring(start, end);
 
-    const italicText = `*${selectedText}*`;
-    textarea.setRangeText(italicText, start, end, 'end');
-    text.value = textarea.value;
-    textarea.setSelectionRange(start + 1, start + 1 + selectedText.length);
-    textarea.focus();
+  const italicText = `*${selectedText}*`;
+  textarea.setRangeText(italicText, start, end, 'end');
+  text.value = textarea.value;
+  textarea.setSelectionRange(start + 1, start + 1 + selectedText.length);
+  textarea.focus();
 };
 
 const toggleUnderline = (event: MouseEvent) => {
-    event.preventDefault();
-    const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
-    if (!textarea) return;
+  event.preventDefault();
+  const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
+  if (!textarea) return;
 
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const selectedText = textarea.value.substring(start, end);
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const selectedText = textarea.value.substring(start, end);
 
-    const underlineText = `<u>${selectedText}</u>`;
-    textarea.setRangeText(underlineText, start, end, 'end');
-    text.value = textarea.value;
-    textarea.setSelectionRange(start + 3, start + 3 + selectedText.length);
-    textarea.focus();
+  const underlineText = `<u>${selectedText}</u>`;
+  textarea.setRangeText(underlineText, start, end, 'end');
+  text.value = textarea.value;
+  textarea.setSelectionRange(start + 3, start + 3 + selectedText.length);
+  textarea.focus();
 };
 
 const toggleStrikethrough = (event: MouseEvent) => {
-    event.preventDefault();
-    const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
-    if (!textarea) return;
+  event.preventDefault();
+  const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
+  if (!textarea) return;
 
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const selectedText = textarea.value.substring(start, end);
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const selectedText = textarea.value.substring(start, end);
 
-    const strikethroughText = `~~${selectedText}~~`;
-    textarea.setRangeText(strikethroughText, start, end, 'end');
-    text.value = textarea.value;
-    textarea.setSelectionRange(start + 2, start + 2 + selectedText.length);
-    textarea.focus();
+  const strikethroughText = `~~${selectedText}~~`;
+  textarea.setRangeText(strikethroughText, start, end, 'end');
+  text.value = textarea.value;
+  textarea.setSelectionRange(start + 2, start + 2 + selectedText.length);
+  textarea.focus();
 };
 
 const toggleQuote = () => {
-    const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
-    if (!textarea) return;
+  const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
+  if (!textarea) return;
 
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const value = textarea.value;
-    const beforeCursor = value.substring(0, start);
-    const afterCursor = value.substring(end);
-    const currentLineStart = beforeCursor.lastIndexOf('\n') + 1;
-    const currentLine = beforeCursor.substring(currentLineStart);
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const value = textarea.value;
+  const beforeCursor = value.substring(0, start);
+  const afterCursor = value.substring(end);
+  const currentLineStart = beforeCursor.lastIndexOf('\n') + 1;
+  const currentLine = beforeCursor.substring(currentLineStart);
 
-    const quoteText = `>${currentLine.replace(/\n/g, '\n> ')}`;
-    textarea.value = beforeCursor.substring(0, currentLineStart) + quoteText + afterCursor;
-    textarea.selectionStart = textarea.selectionEnd = start + 1;
-    text.value = textarea.value;
-    textarea.focus();
+  const quoteText = `>${currentLine.replace(/\n/g, '\n> ')}`;
+  textarea.value = beforeCursor.substring(0, currentLineStart) + quoteText + afterCursor;
+  textarea.selectionStart = textarea.selectionEnd = start + 1;
+  text.value = textarea.value;
+  textarea.focus();
 };
 
 const toggleOrderedList = () => {
-    const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
-    if (!textarea) return;
+  const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
+  if (!textarea) return;
 
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const selectedText = textarea.value.substring(start, end);
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const selectedText = textarea.value.substring(start, end);
 
-    const orderedListText = selectedText.split('\n').map((line, index) => `${index + 1}. ${line}`).join('\n');
-    textarea.setRangeText(orderedListText, start, end, 'end');
-    text.value = textarea.value;
-    textarea.setSelectionRange(start + 3, start + 3 + orderedListText.length);
-    textarea.focus();
+  const orderedListText = selectedText.split('\n').map((line, index) => `${index + 1}. ${line}`).join('\n');
+  textarea.setRangeText(orderedListText, start, end, 'end');
+  text.value = textarea.value;
+  textarea.setSelectionRange(start + 3, start + 3 + orderedListText.length);
+  textarea.focus();
 };
 
 const toggleUnorderedList = () => {
-    const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
-    if (!textarea) return;
+  const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
+  if (!textarea) return;
 
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const selectedText = textarea.value.substring(start, end);
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const selectedText = textarea.value.substring(start, end);
 
-    const unorderedListText = selectedText.split('\n').map(line => `- ${line}`).join('\n');
-    textarea.setRangeText(unorderedListText, start, end, 'end');
-    text.value = textarea.value;
-    textarea.setSelectionRange(start + 2, start + 2 + unorderedListText.length);
-    textarea.focus();
+  const unorderedListText = selectedText.split('\n').map(line => `- ${line}`).join('\n');
+  textarea.setRangeText(unorderedListText, start, end, 'end');
+  text.value = textarea.value;
+  textarea.setSelectionRange(start + 2, start + 2 + unorderedListText.length);
+  textarea.focus();
 };
 
 const toggleCodeBlock = () => {
-    const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
-    if (!textarea) return;
+  const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
+  if (!textarea) return;
 
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const selectedText = textarea.value.substring(start, end);
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const selectedText = textarea.value.substring(start, end);
 
-    const codeBlockText = `\`\`${selectedText}\`\``;
-    textarea.setRangeText(codeBlockText, start, end, 'end');
-    text.value = textarea.value;
-    textarea.setSelectionRange(start + 2, start + 2 + selectedText.length);
-    textarea.focus();
+  const codeBlockText = `\`\`${selectedText}\`\``;
+  textarea.setRangeText(codeBlockText, start, end, 'end');
+  text.value = textarea.value;
+  textarea.setSelectionRange(start + 2, start + 2 + selectedText.length);
+  textarea.focus();
 };
 
 const toggleMath = () => {
-    const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
-    if (!textarea) return;
+  const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
+  if (!textarea) return;
 
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const selectedText = textarea.value.substring(start, end);
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const selectedText = textarea.value.substring(start, end);
 
-    const mathText = `$${selectedText}$`;
-    textarea.setRangeText(mathText, start, end, 'end');
-    text.value = textarea.value;
-    textarea.setSelectionRange(start + 1, start + 1 + selectedText.length);
-    textarea.focus();
+  const mathText = `$${selectedText}$`;
+  textarea.setRangeText(mathText, start, end, 'end');
+  text.value = textarea.value;
+  textarea.setSelectionRange(start + 1, start + 1 + selectedText.length);
+  textarea.focus();
 };
 
 const increaseFontSize = () => {
-    const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
-    if (!textarea) return;
+  const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
+  if (!textarea) return;
 
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const value = textarea.value;
-    const beforeCursor = value.substring(0, start);
-    const afterCursor = value.substring(end);
-    const currentLineStart = beforeCursor.lastIndexOf('\n') + 1;
-    const currentLineEnd = value.indexOf('\n', start);
-    const currentLine = value.substring(currentLineStart, currentLineEnd === -1 ? value.length : currentLineEnd);
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const value = textarea.value;
+  const beforeCursor = value.substring(0, start);
+  const afterCursor = value.substring(end);
+  const currentLineStart = beforeCursor.lastIndexOf('\n') + 1;
+  const currentLineEnd = value.indexOf('\n', start);
+  const currentLine = value.substring(currentLineStart, currentLineEnd === -1 ? value.length : currentLineEnd);
 
-    let newLine = currentLine;
-    if (/^#{1,6} /.test(currentLine)) {
-        const match = currentLine.match(/^(#{1,6}) /);
-        if (match) {
-            const hashes = match[1].length;
-            if (hashes > 1) {
-                newLine = `${'#'.repeat(hashes - 1)} ${currentLine.substring(hashes + 1).trim()}`;
-            }
-        }
-    } else {
-        newLine = `###### ${currentLine.trim()}`;
+  let newLine = currentLine;
+  if (/^#{1,6} /.test(currentLine)) {
+    const match = currentLine.match(/^(#{1,6}) /);
+    if (match) {
+      const hashes = match[1].length;
+      if (hashes > 1) {
+        newLine = `${'#'.repeat(hashes - 1)} ${currentLine.substring(hashes + 1).trim()}`;
+      }
     }
+  } else {
+    newLine = `###### ${currentLine.trim()}`;
+  }
 
-    textarea.value = beforeCursor.substring(0, currentLineStart) + newLine + afterCursor.substring(currentLineEnd === -1 ? value.length : currentLineEnd);
-    textarea.selectionStart = textarea.selectionEnd = start + (newLine.length - currentLine.length);
-    text.value = textarea.value;
-    textarea.focus();
+  textarea.value = beforeCursor.substring(0, currentLineStart) + newLine + afterCursor.substring(currentLineEnd === -1 ? value.length : currentLineEnd);
+  textarea.selectionStart = textarea.selectionEnd = start + (newLine.length - currentLine.length);
+  text.value = textarea.value;
+  textarea.focus();
 };
 
 const decreaseFontSize = () => {
-    const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
-    if (!textarea) return;
+  const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
+  if (!textarea) return;
 
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const value = textarea.value;
-    const beforeCursor = value.substring(0, start);
-    const afterCursor = value.substring(end);
-    const currentLineStart = beforeCursor.lastIndexOf('\n') + 1;
-    const currentLineEnd = value.indexOf('\n', start);
-    const currentLine = value.substring(currentLineStart, currentLineEnd === -1 ? value.length : currentLineEnd);
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const value = textarea.value;
+  const beforeCursor = value.substring(0, start);
+  const afterCursor = value.substring(end);
+  const currentLineStart = beforeCursor.lastIndexOf('\n') + 1;
+  const currentLineEnd = value.indexOf('\n', start);
+  const currentLine = value.substring(currentLineStart, currentLineEnd === -1 ? value.length : currentLineEnd);
 
-    let newLine = currentLine;
-    if (/^#{1,6} /.test(currentLine)) {
-        const match = currentLine.match(/^(#{1,6}) /);
-        if (match) {
-            const hashes = match[1].length;
-            if (hashes < 6) {
-                newLine = `${'#'.repeat(hashes + 1)} ${currentLine.substring(hashes + 1).trim()}`;
-            } else {
-                newLine = currentLine.substring(hashes + 1).trim();
-            }
-        }
+  let newLine = currentLine;
+  if (/^#{1,6} /.test(currentLine)) {
+    const match = currentLine.match(/^(#{1,6}) /);
+    if (match) {
+      const hashes = match[1].length;
+      if (hashes < 6) {
+        newLine = `${'#'.repeat(hashes + 1)} ${currentLine.substring(hashes + 1).trim()}`;
+      } else {
+        newLine = currentLine.substring(hashes + 1).trim();
+      }
     }
+  }
 
-    textarea.value = beforeCursor.substring(0, currentLineStart) + newLine + afterCursor.substring(currentLineEnd === -1 ? value.length : currentLineEnd);
-    textarea.selectionStart = textarea.selectionEnd = start + (newLine.length - currentLine.length);
-    text.value = textarea.value;
-    textarea.focus();
+  textarea.value = beforeCursor.substring(0, currentLineStart) + newLine + afterCursor.substring(currentLineEnd === -1 ? value.length : currentLineEnd);
+  textarea.selectionStart = textarea.selectionEnd = start + (newLine.length - currentLine.length);
+  text.value = textarea.value;
+  textarea.focus();
 };
 
 const toggleHorizontalRule = () => {
-    const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
-    if (!textarea) return;
+  const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
+  if (!textarea) return;
 
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const value = textarea.value;
-    const beforeCursor = value.substring(0, start);
-    const afterCursor = value.substring(end);
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const value = textarea.value;
+  const beforeCursor = value.substring(0, start);
+  const afterCursor = value.substring(end);
 
-    const horizontalRule = '\n---\n';
-    textarea.value = beforeCursor + horizontalRule + afterCursor;
-    textarea.selectionStart = textarea.selectionEnd = start + horizontalRule.length;
-    text.value = textarea.value;
-    textarea.focus();
+  const horizontalRule = '\n---\n';
+  textarea.value = beforeCursor + horizontalRule + afterCursor;
+  textarea.selectionStart = textarea.selectionEnd = start + horizontalRule.length;
+  text.value = textarea.value;
+  textarea.focus();
 };
 
 const handleKeyDown = (event: Event | KeyboardEvent) => {
-    if (!(event instanceof KeyboardEvent)) return;
-    if (event.ctrlKey && event.key === 'z') {
-        event.preventDefault();
-        undo();
-    }
+  if (!(event instanceof KeyboardEvent)) return;
+  if (event.ctrlKey && event.key === 'z') {
+    event.preventDefault();
+    undo();
+  }
 };
 
 const uploadImage = async () => {
-    const localImageRegex = /!\[(.*?)\]\((blob:[^) ]+)(?: \s*=\s*(\d*)?x?(\d*))?(?: \s*:(left|right|center))?\)/g;
-    const matches = text.value.matchAll(localImageRegex);
-    for (const match of matches) {
-        const imageName = match[1];
-        const localUrl = match[2];
-        const width = match[3];
-        const height = match[4];
-        const align = match[5];
-        const response = await fetch(localUrl);
-        const blob = await response.blob();
-        const formData = new FormData();
-        formData.append('file', blob, imageName);
-        await execute({
-            params: {
-                role: props.album
-            },
-            data: formData
-        }).then((res) => {
-            const serverUrl = res.value;
-            if (typeof serverUrl === 'string') {
-                let replacement = `![${imageName}](${serverUrl}`;
-                if (width || height) replacement += ` =${width || ''}x${height || ''}`;
-                if (align) replacement += ` :${align}`;
-                replacement += ')';
-                text.value = text.value.replace(match[0], replacement);
-            } else {
-                ElNotification({
-                    title: '上传图片失败',
-                    type: 'error'
-                });
-            }
-        }).catch(() => {
-            ElNotification({
-                title: '上传图片失败',
-                type: 'error'
-            });
+  const localImageRegex = /!\[(.*?)\]\((blob:[^) ]+)(?: \s*=\s*(\d*)?x?(\d*))?(?: \s*:(left|right|center))?\)/g;
+  const matches = text.value.matchAll(localImageRegex);
+  for (const match of matches) {
+    const imageName = match[1];
+    const localUrl = match[2];
+    const width = match[3];
+    const height = match[4];
+    const align = match[5];
+    const response = await fetch(localUrl);
+    const blob = await response.blob();
+    const formData = new FormData();
+    formData.append('file', blob, imageName);
+    await execute({
+      params: {
+        role: props.album
+      },
+      data: formData
+    }).then((res) => {
+      const serverUrl = res.value;
+      if (typeof serverUrl === 'string') {
+        let replacement = `![${imageName}](${serverUrl}`;
+        if (width || height) replacement += ` =${width || ''}x${height || ''}`;
+        if (align) replacement += ` :${align}`;
+        replacement += ')';
+        text.value = text.value.replace(match[0], replacement);
+      } else {
+        ElNotification({
+          title: '上传图片失败',
+          type: 'error'
         });
-    }
+      }
+    }).catch(() => {
+      ElNotification({
+        title: '上传图片失败',
+        type: 'error'
+      });
+    });
+  }
 };
 
 defineExpose({
-    uploadImage,
+  uploadImage,
 })
 
 watch(() => text.value, () => {
-    saveHistory();
-    emit('update:text', text.value);
+  saveHistory();
+  emit('update:text', text.value);
 });
 
 </script>
 
 <style scoped>
 .toolbar {
-    display: flex;
-    justify-content: flex-start;
-    border: 1px solid #ebeef5;
-    width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  border: 1px solid #ebeef5;
+  width: 100%;
 }
 
 .toolbar .toolbar-section {
-    display: flex;
+  display: flex;
 }
 
 .right-aligned {
-    margin-left: auto;
+  margin-left: auto;
 }
 
 .toolbar-divider {
-    width: 1px;
-    background-color: #ebeef5;
-    margin: 0 10px;
+  width: 1px;
+  background-color: #ebeef5;
+  margin: 0 10px;
 }
 
 .toolbar-button {
-    margin-right: 5px;
-    margin-left: 5px;
-    width: 30px;
+  margin-right: 5px;
+  margin-left: 5px;
+  width: 30px;
 }
 
 .text-editor {
-    display: flex;
-    flex-direction: row;
-    height: 472px;
-    width: 100%;
+  display: flex;
+  flex-direction: row;
+  height: auto;
+  width: 100%;
 }
 
 .editor,
 .preview-container {
-    flex: 1;
-    border: 1px solid #ebeef5;
+  flex: 1;
+  border: 1px solid #ebeef5;
 }
 
 .preview-container {
-    overflow-y: auto;
-    max-width: 100%;
+  overflow-y: auto;
+  max-width: 100%;
 }
 
 .preview {
-    height: 100%;
-    word-wrap: break-word;
+  height: 100%;
+  word-wrap: break-word;
 }
 
 .selected {
-    background-color: #d3d3d3;
+  background-color: #d3d3d3;
 }
 
 .form-item-input {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 </style>
