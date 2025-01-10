@@ -1,6 +1,6 @@
 <template>
     <ElCard>
-        <ProblemSelect :admin="admin" v-model:model-value="paramsSelect" @confirm-clicked="handleQuery" />
+        <ProblemSelect :admin="admin" v-model:params="paramsSelect" @confirm-clicked="handleQuery" />
     </ElCard>
     <br />
     <ElCard>
