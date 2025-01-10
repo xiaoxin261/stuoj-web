@@ -1,33 +1,44 @@
 <template>
-    <ElSelect v-model="selectedValue.id" @change="handleSelectChange">
+    <ElSelect v-model="selectedId" @change="handleSelectChange">
         <ElOption v-for="item in options" :key="item.id" :label="item.name" :value="item.id">{{ item.name }}</ElOption>
     </ElSelect>
 </template>
 
 <script setup lang="ts">
-import { GetLanguages } from '@/apis/judge';
 import type { Language } from '@/types/Judge';
-import {  onMounted, ref, watchEffect } from 'vue';
+import { onBeforeMount, ref, watchEffect, type PropType } from 'vue';
+import { langStore } from '@/stores/language';
 
-const { execute, state } = GetLanguages();
+const { getLanguages } = langStore();
 const options = ref<Language[]>([]);
 
-const props = defineProps<{
-    lang: Language;
-}>();
+const props = defineProps({
+    lang: {
+        type: Object as PropType<Language>,
+        default: () => ({
+            id: 0,
+            name: '请选择语言',
+        }),
+    },
+    id: {
+        type: Number as PropType<number>,
+        default: 0,
+    },
+});
+
+const selectedId = ref(props.id);
 
 const selectedValue = ref(props.lang);
 
-onMounted(async () => {
-    await execute();
-    if (state.value) {
-        options.value = state.value;
-    }
+
+onBeforeMount(async () => {
+    options.value = (await getLanguages()).value;
 });
-const emit = defineEmits(['update:lang']);
+const emit = defineEmits(['update:lang', 'update:id']);
 const handleSelectChange = (value: number) => {
     selectedValue.value = options.value.find((item) => item.id === value) as Language;
     emit('update:lang', selectedValue.value);
+    emit('update:id', value);
 };
 
 watchEffect(() => {
