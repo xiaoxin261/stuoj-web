@@ -11,7 +11,7 @@
             <ElInput v-model="localSolution.problem_id" disabled />
         </ElFormItem>
         <ElFormItem label="语言" label-position="right">
-            <LanguageSelect v-model:lang="language" />
+            <LanguageSelect v-model:id="localSolution.language_id" />
         </ElFormItem>
         <ElFormItem label="代码" label-position="right">
             <ElInput v-model="localSolution.source_code" type="textarea" :autosize="{ minRows: 10, maxRows: 20 }" />
@@ -25,8 +25,7 @@
 
 <script setup lang="ts">
 import type { Solution } from '@/types/Problem';
-import type { Language } from '@/types/Judge';
-import { ref, watch, computed } from 'vue';
+import { ref, watch } from 'vue';
 
 const props = withDefaults(defineProps<{
     solution?: Solution,
@@ -45,22 +44,13 @@ const unfold = () => {
     unfoldFlag.value = !unfoldFlag.value;
 };
 
-const language = computed({
-    get: () => ({
-        id: localSolution.value.language_id,
-        name: '',
-    }),
-    set: (newLang: Language) => {
-        localSolution.value.language_id = newLang.id;
-    },
-});
-
 const emit = defineEmits(['update:solution']);
 
 const localSolution = ref<Solution>({ ...props.solution });
 
 const handleSubmit = async () => {
     emit('update:solution', localSolution.value);
+    console.log(localSolution.value);
 };
 
 const handleReset = () => {
