@@ -1,8 +1,14 @@
 <template>
     <ElContainer v-loading="loading" style="display: flex;flex-direction: column;">
+      <div class="section">
+        <el-alert type="info">
+          输入标签，点击生成按钮，将自动生成题目。
+        </el-alert>
+      </div>
+      <br/>
         <div class="section">
             <div class="title">
-                <h2>题目</h2>
+                <h2>题目（可选）</h2>
                 <ElButtonGroup>
                     <ElButton type="primary" :icon="DArrowLeft" @click="insert">插入到题面</ElButton>
                     <ElButton type="info" @click="reset">从题面获取
@@ -15,7 +21,7 @@
             <ElInput v-model="problem.title"></ElInput>
         </div>
         <div class="section">
-            <h2>题目描述</h2>
+            <h2>题目描述（可选）</h2>
             <ElInput v-model="problem.description" type="textarea" resize="none"
                 :autosize="{ minRows: 5, maxRows: 10 }">
             </ElInput>
@@ -33,17 +39,17 @@
             </div>
         </div>
         <div class="section">
-            <h2>输入格式</h2>
+            <h2>输入格式（可选）</h2>
             <ElInput v-model="problem.input" type="textarea" resize="none" :autosize="{ minRows: 4, maxRows: 6 }">
             </ElInput>
         </div>
         <div class="section">
-            <h2>输出格式</h2>
+            <h2>输出格式（可选）</h2>
             <ElInput v-model="problem.output" type="textarea" resize="none" :autosize="{ minRows: 4, maxRows: 6 }">
             </ElInput>
         </div>
         <div class="section">
-            <h2>输入输出样例</h2>
+            <h2>输入输出样例（可选）</h2>
             <div class="example">
                 <div class="example-input">
                     <h3>输入</h3>
@@ -60,7 +66,7 @@
             </div>
         </div>
         <div class="section">
-            <h2>说明和提示</h2>
+            <h2>提示（可选）</h2>
             <ElInput v-model="problem.hint" type="textarea" resize="none" :autosize="{ minRows: 2, maxRows: 6 }">
             </ElInput>
         </div>
