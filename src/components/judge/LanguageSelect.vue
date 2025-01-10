@@ -1,6 +1,6 @@
 <template>
     <ElSelect v-model="selectedId" @change="handleSelectChange">
-        <ElOption v-for="item in options" :key="item.id" :label="item.name" :value="item.id">{{ item.name }}</ElOption>
+        <ElOption v-for="item in options" :key="item.id" :label="item.name" :value="item.id" :disabled="item.disabled">{{ item.name }}</ElOption>
     </ElSelect>
 </template>
 
