@@ -18,7 +18,7 @@ export function formatDataTimeStr(time: string | undefined) {
         }
 
         // 使用固定格式输出时间字符串
-        const timestr = date.toISOString().slice(0, 19).replace('T', ' ');
+        const timestr = date.toLocaleString().replace(/\//g, '-');
         return timestr;
     } catch (error) {
         // 捕获任何可能的异常并返回默认值
@@ -36,7 +36,7 @@ export function formatTimeStr(time: string | undefined) {
             // 如果时间字符串无效，返回默认值
             return '00:00:00';
         }
-        return date.toLocaleTimeString();
+        return date.toLocaleTimeString().replace(/\//g, '-');
     } catch (error) {
         // 捕获任何可能的异常并返回默认值
         return '00:00:00';
@@ -53,7 +53,7 @@ export function formatDateStr(time: string | undefined) {
             // 如果时间字符串无效，返回默认值
             return '0000-00-00';
         }
-        return date.toLocaleDateString();
+        return date.toLocaleDateString().replace(/\//g, '-');
     } catch (error) {
         // 捕获任何可能的异常并返回默认值
         return '0000-00-00';
