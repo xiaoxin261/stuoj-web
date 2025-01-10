@@ -57,7 +57,7 @@
               <strong>好题推荐</strong>
             </div>
           </template>
-          推荐题目...
+          <EmptyPage></EmptyPage>
         </el-card>
         <el-card style="margin-bottom: 20px">
           <template #header>
@@ -65,7 +65,7 @@
               <strong>精选题单</strong>
             </div>
           </template>
-          推荐题单...
+          <EmptyPage></EmptyPage>
         </el-card>
         <el-card style="margin-bottom: 20px">
           <template #header>
@@ -73,7 +73,7 @@
               <strong>近期比赛</strong>
             </div>
           </template>
-          推荐比赛...
+          <EmptyPage></EmptyPage>
         </el-card>
         <el-card style="margin-bottom: 20px">
           <template #header>
@@ -81,7 +81,7 @@
               <strong>优秀博客</strong>
             </div>
           </template>
-          推荐博客...
+          <EmptyPage></EmptyPage>
         </el-card>
       </el-col>
     </el-row>

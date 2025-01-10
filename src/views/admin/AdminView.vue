@@ -17,6 +17,7 @@
         </el-col>
       </el-row>
       <el-divider></el-divider>
+      <EmptyPage></EmptyPage>
     </el-main>
   </el-container>
 </template>

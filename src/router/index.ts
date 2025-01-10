@@ -87,6 +87,24 @@ const router = createRouter({
       },
     },
     {
+      path: '/collection',
+      name: 'collection',
+      component: () => import('../views/collection/CollectionListView.vue'),
+      meta: {
+        permission: Role.Visitor,
+        title: '题单 - STUOJ',
+      },
+    },
+    {
+      path: '/contest',
+      name: 'contest',
+      component: () => import('../views/contest/ContestListView.vue'),
+      meta: {
+        permission: Role.Visitor,
+        title: '比赛 - STUOJ',
+      },
+    },
+    {
       path: '/blog',
       name: 'blog-list',
         component: () => import('@/views/blog/BlogListView.vue'),

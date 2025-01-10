@@ -10,6 +10,7 @@
     <el-main>
       <h1>评论管理</h1>
       <el-divider/>
+      <EmptyPage></EmptyPage>
     </el-main>
   </el-container>
 </template>
