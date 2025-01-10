@@ -1,9 +1,9 @@
 <template>
     <CodeEditor v-model="code_text" :mode="mode" :theme="theme" :options="options" />
     <div class="button-container">
-        <LanguageSelect v-model:lang="language" style="width: 50%; margin-right: 2%;" />
-        <ElButton class="debug-button" @click="handleDebug" :disabled="language.id === 0">调试</ElButton>
-        <ElButton v-if="props.problem" class="submit-button" type="primary" @click="handleSubmit"  :disabled="language.id === 0">提交</ElButton>
+        <LanguageSelect v-model:id="languageId" style="width: 50%; margin-right: 2%;" />
+        <ElButton class="debug-button" @click="handleDebug" :disabled="languageId === 0">调试</ElButton>
+        <ElButton v-if="props.problem" class="submit-button" type="primary" @click="handleSubmit"  :disabled="languageId === 0">提交</ElButton>
     </div>
     <div class="result-container" v-if="resultFlag">
         <ElContainer class="result-container-content">
@@ -54,7 +54,7 @@ const props = withDefaults(defineProps<{
     input_text: '',
 });
 
-const language = ref<Language>({ id: 0, name: "请选择语言" });
+const languageId = ref(0);
 const code_text = ref("");
 const debug_input = ref(props.input_text);
 const debug_output = ref("");
@@ -80,7 +80,7 @@ const handleDebug = async () => {
     }
     await testExcute({
         data: {
-            language_id: language.value.id,
+            language_id: languageId.value,
             source_code: code_text.value,
             stdin: debug_input.value,
         }
@@ -112,7 +112,7 @@ const handleSubmit = async () => {
     if (problem_id != undefined)
         await submitExcute({
             data: {
-                language_id: language.value.id,
+                language_id: languageId.value,
                 source_code: code_text.value,
                 problem_id: problem_id,
             }
