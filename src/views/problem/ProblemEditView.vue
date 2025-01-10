@@ -137,11 +137,14 @@
     <ElCol v-show="workingArea.includes('NekoACM')" :span="12">
       <ElCard>
         <ElTabs>
-          <ElTabPane label="生成题目">
-            <ProblemGenerate v-model:problem="problem" v-model:tags="tags" />
+          <ElTabPane label="解析题目">
+            <ProblemParse v-model:problem="problem" v-model:tags="tags" />
           </ElTabPane>
           <ElTabPane label="翻译题目">
             <ProblemTranslate v-model:problem="problem" />
+          </ElTabPane>
+          <ElTabPane label="生成题目">
+            <ProblemGenerate v-model:problem="problem" v-model:tags="tags" />
           </ElTabPane>
           <ElTabPane label="生成测试用例">
             <TestcaseGenerate v-model:problem="problem" v-model:tags="tags" />
@@ -166,6 +169,7 @@ import TestcaseEdit from '@/components/problem/TestcaseEdit.vue';
 import ProblemSolutionTable from '@/components/problem/ProblemSolutionTable.vue';
 import router from '@/router';
 import { Refresh } from '@element-plus/icons-vue';
+import ProblemParse from "@/components/problem/ProblemParse.vue";
 
 const workingAreas = ['题面', '数据', 'NekoACM'];
 const workingArea = ref(['题面', '数据'])

@@ -9,7 +9,19 @@ export const problemGenerateApi = useDefineApi<
     },
     ProblemInfo
 >({
-    url: "/admin/problem/generate",
+    url: "/ai/problem/generate",
+    method: "POST"
+});
+
+export const problemParseApi = useDefineApi<
+    {
+        data: {
+            data: string;
+        }
+    },
+    ProblemInfo
+>({
+    url: "/ai/problem/parse",
     method: "POST"
 });
 
@@ -21,7 +33,7 @@ export const problemTranslateApi = useDefineApi<
     },
     ProblemInfo
 >({
-    url: "/admin/problem/translate",
+    url: "/ai/problem/translate",
     method: "POST"
 });
 
@@ -36,7 +48,7 @@ export const testcaseGenerateApi = useDefineApi<
         output_explanation: string;
     }
 >({
-    url: "/admin/testcase/generate",
+    url: "/ai/testcase/generate",
     method: "POST"
 });
 
@@ -54,6 +66,6 @@ export const solutionGenerateApi = useDefineApi<
         explanation: string;
     }
 >({
-    url: "/admin/solution/generate",
+    url: "/ai/solution/generate",
     method: "POST"
 });

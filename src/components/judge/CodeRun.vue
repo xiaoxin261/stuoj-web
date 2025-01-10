@@ -2,8 +2,8 @@
     <CodeEditor v-model="code_text" :mode="mode" :theme="theme" :options="options" />
     <div class="button-container">
         <LanguageSelect v-model:lang="language" style="width: 50%; margin-right: 2%;" />
-        <ElButton class="debug-button" @click="handleDebug">调试</ElButton>
-        <ElButton v-if="props.problem" class="submit-button" type="primary" @click="handleSubmit">提交</ElButton>
+        <ElButton class="debug-button" @click="handleDebug" :disabled="language.id === 0">调试</ElButton>
+        <ElButton v-if="props.problem" class="submit-button" type="primary" @click="handleSubmit"  :disabled="language.id === 0">提交</ElButton>
     </div>
     <div class="result-container" v-if="resultFlag">
         <ElContainer class="result-container-content">
@@ -54,7 +54,7 @@ const props = withDefaults(defineProps<{
     input_text: '',
 });
 
-const language = ref<Language>({ id: 1, name: "C" });
+const language = ref<Language>({ id: 0, name: "请选择语言" });
 const code_text = ref("");
 const debug_input = ref(props.input_text);
 const debug_output = ref("");
@@ -106,8 +106,8 @@ const handleSubmit = async () => {
         if (match) {
             problem_id = parseInt(match[0], 10);
         }
-    } else if (typeof props.problem === 'number') {
-        problem_id = props.problem;
+    } else {
+      problem_id = props.problem;
     }
     if (problem_id != undefined)
         await submitExcute({

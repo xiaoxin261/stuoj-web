@@ -1,5 +1,10 @@
 <template>
     <ElContainer v-loading="loading" style="display: flex;flex-direction: column;">
+      <div class="section">
+        <el-alert type="info">
+          点击生成按钮，将自动生成测试用例。
+        </el-alert>
+      </div>
         <div class="section">
             <h2 class="section-title">输入</h2>
             <ElInput v-model="testcase.test_input" readonly type="textarea" resize="none"
