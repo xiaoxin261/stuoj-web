@@ -8,7 +8,7 @@
 import { ProblemStatusMap } from '@/types/Problem';
 import { ref, defineProps, defineEmits, watch, type PropType } from 'vue';
 const props = defineProps({
-    modelValue: {
+    status: {
         type: Number as PropType<number | undefined>,
         default: null,
     },
@@ -25,22 +25,22 @@ const generateOptions = (): { value: number; label: string }[] => {
 
 const options = generateOptions();
 
-const selectedValue = ref(props.modelValue);
+const selectedValue = ref(props.status);
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:status']);
 
 const handleSelectChange = (value: number) => {
     selectedValue.value = value;
-    emit('update:modelValue', value);
+    emit('update:status', value);
 };
 
-watch(() => props.modelValue, (newValue) => {
+watch(() => props.status, (newValue) => {
     selectedValue.value = newValue;
 });
 
 const reset = () => {
     selectedValue.value = undefined;
-    emit('update:modelValue', null);
+    emit('update:status', null);
 };
 defineExpose({
     reset,

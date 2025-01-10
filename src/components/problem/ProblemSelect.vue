@@ -4,10 +4,10 @@
             <el-input v-model="parmas.title" />
         </el-form-item>
         <el-form-item label="难度" label-position="right">
-            <ProblemDifficultySelect v-model="parmas.difficulty" ref="difficultySelectRef" />
+            <ProblemDifficultySelect v-model:difficulty="parmas.difficulty" ref="difficultySelectRef" />
         </el-form-item>
         <el-form-item v-if="admin" label="状态" label-position="right">
-            <ProblemStatusSelect v-model="parmas.status" ref="statusSelectRef" />
+            <ProblemStatusSelect v-model:status="parmas.status" ref="statusSelectRef" />
         </el-form-item>
         <el-form-item label-width="auto">
             <ProblemTag layout="horizontal" :remove-flag="true" v-model:tags="tags" ref="problemTagRef" />
@@ -27,17 +27,17 @@ import ProblemDifficultySelect from '@/components/problem/ProblemDifficultySelec
 import ProblemStatusSelect from '@/components/problem/ProblemStatusSelect.vue';
 
 const props = withDefaults(defineProps<{
-    modelValue?: ProblemParams;
+    params?: ProblemParams;
     admin?: boolean;
 }>(), {
-    modelValue: () => ({ page: 1, size: 20 }),
+    params: () => ({ page: 1, size: 20 }),
     admin: false,
 });
 
 const tags = ref<Tag[]>([]);
 
-const emit = defineEmits(['update:modelValue', 'confirmClicked']);
-const parmas = ref<ProblemParams>(props.modelValue);
+const emit = defineEmits(['update:params', 'confirmClicked']);
+const parmas = ref<ProblemParams>(props.params);
 
 const problemTagRef = ref<InstanceType<typeof ProblemTag> | null>(null);
 const difficultySelectRef = ref<InstanceType<typeof ProblemDifficultySelect> | null>(null);
@@ -52,11 +52,11 @@ const handleReset = () => {
     if (statusSelectRef.value)
         statusSelectRef.value.reset();
     parmas.value.title = '';
-    emit('update:modelValue', parmas.value);
+    emit('update:params', parmas.value);
 };
 const handleConfirm = () => {
     parmas.value.tag = tags.value.map(tag => tag.id).join(',');
-    emit('update:modelValue', parmas.value);
+    emit('update:params', parmas.value);
     emit('confirmClicked');
 };
 </script>

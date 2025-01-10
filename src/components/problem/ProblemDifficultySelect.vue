@@ -8,7 +8,7 @@
 import { ref, defineProps, defineEmits, watch, type PropType } from 'vue';
 import { DifficultyMap } from '@/types/Problem';
 const props = defineProps({
-    modelValue: {
+    difficulty: {
         type: Number as PropType<number | undefined>,
         default: undefined,
     },
@@ -25,21 +25,21 @@ const generateOptions = (): { value: number; label: string }[] => {
 
 const options = generateOptions();
 
-const selectedValue = ref(props.modelValue);
+const selectedValue = ref(props.difficulty);
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:difficulty']);
 
 const handleSelectChange = (value: number) => {
     selectedValue.value = value;
-    emit('update:modelValue', value);
+    emit('update:difficulty', value);
 };
 
-watch(() => props.modelValue, (newValue) => {
+watch(() => props.difficulty, (newValue) => {
     selectedValue.value = newValue;
 });
 const reset = () => {
     selectedValue.value = undefined;
-    emit('update:modelValue', null);
+    emit('update:difficulty', selectedValue.value);
 };
 defineExpose({
     reset,
