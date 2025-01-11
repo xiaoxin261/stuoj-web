@@ -8,7 +8,7 @@ export const getUserListApi = useDefineApi<
     },
     Page<"users", UserInfo>
 >({
-    url: "/admin/user",
+    url: "/user",
     method: "get"
 });
 
