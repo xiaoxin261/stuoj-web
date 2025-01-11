@@ -1,6 +1,7 @@
 <template>
-    <ElSelect v-model="selectedId" @change="handleSelectChange" :clearable="clearable" placeholder="请选择语言">
-        <ElOption v-for="item in options" :key="item.id" :label="item.name" :value="item.id" :disabled="item.disabled">{{ item.name }}</ElOption>
+    <ElSelect v-model="selectedId" @change="handleSelectChange" :clearable="clearable" :placeholder="placeholder">
+        <ElOption v-for="item in options" :key="item.id" :label="item.name" :value="item.id" :disabled="item.disabled">
+            {{ item.name }}</ElOption>
     </ElSelect>
 </template>
 
@@ -25,6 +26,10 @@ const props = defineProps({
         type: Boolean as PropType<boolean>,
         default: false,
     },
+    placeholder: {
+        type: String as PropType<string>,
+        default: '请选择语言'
+    }
 });
 
 const selectedId = ref(props.id);
