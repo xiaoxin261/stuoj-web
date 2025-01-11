@@ -46,44 +46,20 @@
                 {{ result.memory ?? 0 }}kb
             </el-descriptions-item>
         </ElDescriptions>
-        <ElTable :data="judge_result" border class="judge-result" stripe>
-            <ElTableColumn prop="testcase_id" label="测试点" width="80" />
-            <ElTableColumn prop="status" label="状态" width="100">
-                <template #default="scope">
-                    <RecordTag :status="scope.row.status" />
-                </template>
-            </ElTableColumn>
-            <ElTableColumn prop="time" label="时间" width="100">
-                <template #default="scope">
-                    {{ scope.row.time }}s
-                </template>
-            </ElTableColumn>
-            <ElTableColumn prop="memory" label="内存" width="100">
-                <template #default="scope">
-                    {{ scope.row.memory }}kb
-                </template>
-            </ElTableColumn>
-            <ElTableColumn prop="status" label="信息">
-                <template #default="scope">
-                    {{ JudgeStatusMap[scope.row.status as JudgeStatus] }}
-                </template>
-            </ElTableColumn>
-        </ElTable>
+        <JudgementsTable :judge_result="judge_result" />
     </div>
 </template>
 
 <script setup lang="ts">
 import { userStore } from '@/stores/user';
 import { getRecordInfo } from '@/apis/record';
-import type { Judgement } from '@/types/Record';
+import type { Judgement, Submission } from '@/types/Record';
 import { ref, watch } from 'vue';
-import { JudgeStatusMap, type JudgeStatus } from '@/types/Judge';
-import { ElTableColumn } from 'element-plus';
 
 const { execute, state } = getRecordInfo();
 const show = ref(false);
 let judge_result: Judgement[];
-let result: Judgement;
+let result: Submission;
 
 const { token } = userStore();
 
@@ -112,7 +88,7 @@ const fetchData = async () => {
 const clear = () => {
     show.value = false;
     judge_result = [];
-    result = {} as Judgement;
+    result = {} as Submission;
 };
 
 defineExpose({
@@ -131,14 +107,5 @@ watch(() => props.id, fetchData);
 .cell-item {
     display: flex;
     align-items: center;
-}
-
-.judge-result {
-    width: 100%;
-    margin-top: 10px;
-}
-
-.judge-result>.ElTableColumn {
-    width: 100%;
 }
 </style>
