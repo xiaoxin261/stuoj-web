@@ -1,5 +1,5 @@
 <template>
-    <ElSelect v-model="selectedId" @change="handleSelectChange">
+    <ElSelect v-model="selectedId" @change="handleSelectChange" :clearable="clearable" placeholder="请选择语言">
         <ElOption v-for="item in options" :key="item.id" :label="item.name" :value="item.id" :disabled="item.disabled">{{ item.name }}</ElOption>
     </ElSelect>
 </template>
@@ -15,14 +15,15 @@ const options = ref<Language[]>([]);
 const props = defineProps({
     lang: {
         type: Object as PropType<Language>,
-        default: () => ({
-            id: 0,
-            name: '请选择语言',
-        }),
+        default: null,
     },
     id: {
         type: Number as PropType<number>,
-        default: 0,
+        default: null,
+    },
+    clearable: {
+        type: Boolean as PropType<boolean>,
+        default: false,
     },
 });
 
