@@ -41,7 +41,7 @@ export const uploadProblemApi = useDefineApi<
     },
     number
 >({
-    url: "/admin/problem",
+    url: "/problem",
     method: "post"
 })
 
@@ -51,7 +51,7 @@ export const updateProblemApi = useDefineApi<
     },
     null
 >({
-    url: "/admin/problem",
+    url: "/problem",
     method: "put"
 })
 
@@ -61,7 +61,7 @@ export const deleteProblemApi = useDefineApi<
     },
     null
 >({
-    url: "/admin/problem",
+    url: "/problem",
     method: "delete"
 })
 
@@ -74,7 +74,7 @@ export const problemAddTagApi = useDefineApi<
     },
     null
 >({
-    url: "/admin/problem/tag",
+    url: "/problem/tag",
     method: "post"
 })
 
@@ -87,7 +87,7 @@ export const problemRemoveTagApi = useDefineApi<
     },
     null
 >({
-    url: "/admin/problem/tag",
+    url: "/problem/tag",
     method: "delete"
 })
 
@@ -97,7 +97,7 @@ export const getTestcaseApi = useDefineApi<
     },
     Testcase
 >({
-    url: "/admin/testcase",
+    url: "/testcase",
     method: "get"
 })
 
@@ -107,7 +107,7 @@ export const uploadTestcaseApi = useDefineApi<
     },
     number
 >({
-    url: "/admin/testcase",
+    url: "/testcase",
     method: "post"
 })
 
@@ -117,7 +117,7 @@ export const updateTestcaseApi = useDefineApi<
     },
     null
 >({
-    url: "/admin/testcase",
+    url: "/testcase",
     method: "put"
 })
 
@@ -127,7 +127,7 @@ export const deleteTestcaseApi = useDefineApi<
     },
     null
 >({
-    url: "/admin/testcase",
+    url: "/testcase",
     method: "delete"
 })
 
@@ -135,7 +135,7 @@ export const datamakeApi = useDefineApi<
     { data: Global },
     string
 >({
-    url: "/admin/testcase/datamake",
+    url: "/testcase/datamake",
     method: "post"
 })
 
@@ -145,7 +145,7 @@ export const getSolutionApi = useDefineApi<
     },
     Solution
 >({
-    url: "/admin/solution",
+    url: "/solution",
     method: "get"
 })
 
@@ -155,7 +155,7 @@ export const uploadSolutionApi = useDefineApi<
     },
     number
 >({
-    url: "/admin/solution",
+    url: "/solution",
     method: "post"
 })
 
@@ -165,7 +165,7 @@ export const updateSolutionApi = useDefineApi<
     },
     null
 >({
-    url: "/admin/solution",
+    url: "/solution",
     method: "put"
 })
 
@@ -175,7 +175,7 @@ export const deleteSolutionApi = useDefineApi<
     },
     null
 >({
-    url: "/admin/solution",
+    url: "/solution",
     method: "delete"
 })
 
@@ -202,6 +202,6 @@ export const uploadFPSApi = useDefineApi<
         testcases: FpsTestcase[]
     }[]
 >({
-    url: "/admin/problem/fps",
+    url: "/problem/fps",
     method: "post"
 })
