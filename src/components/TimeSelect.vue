@@ -1,8 +1,8 @@
 <template>
     <ElDatePicker v-model="timeC" type="date" :placeholder="placeholder"
-        :disabled-date="props.future ? () => false : futureDate" />
+        :disabled-date="props.future ? () => false : futureDate" clearable />
     <ElTimePicker :style="{ marginLeft: props.margin }" v-model="timeC" type="time" :placeholder="placeholder"
-        :disabled-date="props.future ? () => false : futureDate" />
+        :disabled-date="props.future ? () => false : futureDate" clearable />
 </template>
 
 <script setup lang="ts">
