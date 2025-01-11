@@ -50,19 +50,16 @@ const localSolution = ref<Solution>({ ...props.solution });
 
 const handleSubmit = async () => {
     emit('update:solution', localSolution.value);
-    console.log(localSolution.value);
 };
 
 const handleReset = () => {
     if (props.solution)
         localSolution.value = { ...props.solution };
-    console.log(localSolution.value);
 };
 
 watch(props, () => {
     if (props.solution)
         localSolution.value = { ...props.solution };
-    console.log(localSolution.value);
 });
 </script>
 
