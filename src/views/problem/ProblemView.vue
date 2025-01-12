@@ -59,11 +59,11 @@
           </div>
           <div class="problem-input custom-font-size">
             <h3 class="weight">输入格式</h3>
-            <TextView :content="problemInfo.input" />
+            <TextView :content="problemInfo.input ?? ''" />
           </div>
           <div class="problem-output custom-font-size">
             <h3 class="weight">输出格式</h3>
-            <TextView :content="problemInfo.output" />
+            <TextView :content="problemInfo.output ?? ''" />
           </div>
           <div class="problem-sample custom-font-size">
             <h3 class="weight">输入样例</h3>
@@ -77,7 +77,7 @@
           </div>
           <div class="problem-hint custom-font-size">
             <h3 class="weight">提示</h3>
-            <TextView :content="problemInfo.hint" />
+            <TextView :content="problemInfo.hint ?? ''" />
           </div>
         </ElCard>
         <br />
@@ -126,6 +126,7 @@
             <el-button><el-icon>
                 <Share />
               </el-icon>&nbsp;0</el-button>
+            <a :href="`/record?problem=${problemInfo.id}`">&nbsp;提交记录</a>
           </div>
         </ElCard>
         <ElCard shadow="always" style="margin-top: 20px;">
