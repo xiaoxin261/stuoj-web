@@ -45,11 +45,22 @@ export const renderMarkDown = (text: string) => {
         { regex: /(?<!\\)^_(.+?)_$/gim, replacement: '<em>$1</em>' },
         { regex: /(?<!\\)__\*(.+?)\*__/gim, replacement: '<strong><em>$1</em></strong>' },
         { regex: /(?<!\\)\*\*_(.+?)_\*\*/gim, replacement: '<strong><em>$1</em></strong>' },
+        { regex: /(?<!\\)```([\s\S]*?)```/gim, replacement: '<pre><code>$1</code></pre>' },
         { regex: /(?<!\\)``([\s\S]*?)``/gim, replacement: '<code>$1</code>' },
         { regex: /(?<!\\)<((https?:\/\/[^\s]+))>/gim, replacement: '<a href="$1">$1</a>' },
         { regex: /(?<!\\)<([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})>/gim, replacement: '<a href="mailto:$1">$1</a>' },
     ];
 
+    // 提取并替换代码块，使用占位符
+    const codeBlocks: string[] = [];
+    text = text.replace(/(?<!\\)```([\s\S]*?)```/gim, (match, p1) => {
+        codeBlocks.push(p1);
+        return `CODE_BLOCK_${codeBlocks.length - 1}`;
+    });
+    text = text.replace(/(?<!\\)``([\s\S]*?)``/gim, (match, p1) => {
+        codeBlocks.push(p1);
+        return `CODE_ROW_${codeBlocks.length - 1}`;
+    });
     let html = text;
     rules.forEach(rule => {
         if (typeof rule.replacement === 'string') {
@@ -68,8 +79,20 @@ export const renderMarkDown = (text: string) => {
     // 修复有序列表跨行变为多段的问题
     html = html.replace(/<\/ol>\s*<ol>/gim, '');
 
+    html=html.replace(/\\</,'&lt;');
+
     // 去除用于转义的反斜杠字符，除非该反斜杠前有反斜杠
     html = html.replace(/\\(?!\\)/g, '');
 
+    // 恢复代码块
+    html = html.replace(/CODE_BLOCK_(\d+)/g, (match, p1) => {
+        return `<pre><code>${codeBlocks[parseInt(p1)].replace(/</g, '&lt;')}</code></pre>`;
+    });
+    
+    html = html.replace(/CODE_ROW_(\d+)/g, (match, p1) => {
+        return `<code>${codeBlocks[parseInt(p1)].replace(/</g, '&lt;')}</code>`;
+    });
+
+    
     return html.trim();
 }
