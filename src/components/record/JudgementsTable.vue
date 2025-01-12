@@ -18,19 +18,19 @@
         </ElTableColumn>
         <ElTableColumn prop="status" label="信息">
             <template #default="scope">
-                {{ JudgeStatusMap[scope.row.status as JudgeStatus] }}
+                {{ scope.row.compile_output || scope.row.stderr || JudgeStatusMap[scope.row.status as JudgeStatus] }}
             </template>
         </ElTableColumn>
     </ElTable>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, type PropType } from 'vue';
+import { onMounted, ref, watchEffect, type PropType } from 'vue';
 import type { Judgement } from '@/types/Record';
 import { JudgeStatusMap, type JudgeStatus } from '@/types/Judge';
-import { getRecordInfo } from '@/apis/record';
+import { getRecordInfoApi } from '@/apis/record';
 
-const { execute } = getRecordInfo();
+const { execute } = getRecordInfoApi();
 
 const props = defineProps({
     judge_result: {
@@ -47,7 +47,7 @@ const judge_result = ref<Judgement[]>(props.judge_result);
 
 onMounted(async () => {
     if (props.id) {
-        const res = await execute({
+        await execute({
             id: props.id
         }).then((res) => {
             if (!res.value) {
@@ -58,7 +58,9 @@ onMounted(async () => {
     };
 });
 
-
+watchEffect(() => {
+    judge_result.value = props.judge_result;
+});
 
 </script>
 
