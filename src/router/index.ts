@@ -27,7 +27,7 @@ const router = createRouter({
       path: '/user/login',
       name: 'user-login',
       component: () => import('../views/user/UserLoginView.vue'),
-      meta:{
+      meta: {
         permission: Role.Visitor,
         title: '登录 - STUOJ',
       },
@@ -36,7 +36,7 @@ const router = createRouter({
       path: '/user/register',
       name: 'user-register',
       component: () => import('../views/user/UserRegisterView.vue'),
-      meta:{
+      meta: {
         permission: Role.Visitor,
         title: '注册 - STUOJ',
       },
@@ -45,16 +45,16 @@ const router = createRouter({
       path: '/user/forgot',
       name: 'user-forgot',
       component: () => import('../views/user/UserForgotView.vue'),
-      meta:{
+      meta: {
         permission: Role.Visitor,
         title: '找回密码 - STUOJ',
       },
     },
     {
-      path:'/user/:id',
-      name:'user',
+      path: '/user/:id',
+      name: 'user',
       component: () => import('../views/user/UserSpaceView.vue'),
-      meta:{
+      meta: {
         permission: Role.Visitor,
         title: '个人空间 - STUOJ',
       },
@@ -69,10 +69,10 @@ const router = createRouter({
       },
     },
     {
-      path:'/problem/edit',
-      name:'problem-edit',
+      path: '/problem/edit',
+      name: 'problem-edit',
       component: () => import('../views/problem/ProblemEditView.vue'),
-      meta:{
+      meta: {
         permission: Role.Visitor,
         title: '编辑题目 - STUOJ',
       },
@@ -105,13 +105,31 @@ const router = createRouter({
       },
     },
     {
+      path: '/record',
+      name: 'record',
+      component: () => import('../views/record/RecordListView.vue'),
+      meta: {
+        permission: Role.Visitor,
+        title: '评测记录 - STUOJ',
+      },
+    },
+    {
+      path: '/record/:id',
+      name: 'record-detail',
+      component: () => import('../views/record/RecordView.vue'),
+      meta: {
+        permission: Role.Visitor,
+        title: '评测记录 - STUOJ',
+      },
+    },
+    {
       path: '/blog',
       name: 'blog-list',
-        component: () => import('@/views/blog/BlogListView.vue'),
-        meta:{
-            permission: Role.Visitor,
-            title: '博客 - STUOJ',
-        }
+      component: () => import('@/views/blog/BlogListView.vue'),
+      meta: {
+        permission: Role.Visitor,
+        title: '博客 - STUOJ',
+      }
     },
     {
       path:'/blog/edit',
@@ -126,7 +144,7 @@ const router = createRouter({
       path: '/blog/:id',
       name: 'blog',
       component: () => import('@/views/blog/BlogView.vue'),
-      meta:{
+      meta: {
         permission: Role.Visitor,
         title: '博客 - STUOJ',
       }
