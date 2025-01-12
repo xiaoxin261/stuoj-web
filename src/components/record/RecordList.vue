@@ -9,7 +9,8 @@
         </ElTableColumn>
         <ElTableColumn label="用户" width="150">
             <template #default="scope">
-                <AvatarInfo :user-id="scope.row.user.id" name :name-size="16" @click="handelUserClick(scope.row.user)" />
+                <AvatarInfo :user-id="scope.row.user.id" name :name-size="16"
+                    @click="handelUserClick(scope.row.user)" />
             </template>
         </ElTableColumn>
         <ElTableColumn label="分数" width="100">
@@ -53,6 +54,11 @@
                 {{ formatDataTimeStr(scope.row.create_time) }}
             </template>
         </ElTableColumn>
+        <ElTableColumn v-if="admin" align="right" width="60">
+            <template #default="scope">
+                <el-button size="small" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
+            </template>
+        </ElTableColumn>
     </ElTable>
 </template>
 
@@ -64,13 +70,24 @@ import router from '@/router';
 import { langStore } from '@/stores/language';
 import type { Language } from '@/types/Judge';
 import { formatDataTimeStr } from '@/utils/date';
+import { deleteRecordApi } from '@/apis/record';
+import { ElNotification } from 'element-plus';
+
+
+const { execute } = deleteRecordApi();
 
 const { getLanguages } = langStore();
+
+const emit = defineEmits(['delete']);
 
 const props = defineProps({
     submissions: {
         type: Array as PropType<Submission[]>,
         default: () => []
+    },
+    admin: {
+        type: Boolean,
+        default: false
     }
 });
 
@@ -82,7 +99,6 @@ onMounted(async () => {
             languages.value = res.value;
         }
     });
-
 });
 
 const handelUserClick = (user: UserInfo) => {
@@ -94,6 +110,18 @@ const certinfoKey = ref(0);
 watch(() => props.submissions, () => {
     certinfoKey.value++
 });
+
+const handleDelete = (id: number) => {
+    execute({
+        id: id
+    }).then(() => {
+        emit('delete');
+        ElNotification.success({
+            title: '删除成功',
+            type: 'success'
+        });
+    });
+};
 
 </script>
 

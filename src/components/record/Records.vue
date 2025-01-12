@@ -4,7 +4,7 @@
     </ElCard>
     <br />
     <ElCard>
-        <RecordList v-model:submissions="submissions" />
+        <RecordList :admin="admin" v-model:submissions="submissions" @delete="handleQuery" />
         <br />
         <ElPagination class="pagination" v-model:current-page="paramsPage.page" v-model:page-size="paramsPage.size"
             :page-sizes="[10, 20, 50, 100]" :size="'small'" :background="true"
@@ -46,7 +46,7 @@ const params = ref<RecordParams>({
 
 const route = useRoute();
 onBeforeMount(() => {
-    const user =route.query.user;
+    const user = route.query.user;
     const problem = route.query.problem;
     if (typeof user === 'string') {
         paramsSelect.value.user = parseInt(user, 10);
