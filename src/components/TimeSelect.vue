@@ -33,4 +33,14 @@ const timeC = computed({
         emit('update:time', time.value);
     }
 });
+
+const reset = () => {
+    time.value = undefined;
+    emit('update:time', time.value);
+};
+
+defineExpose({
+    reset,
+});
+
 </script>
