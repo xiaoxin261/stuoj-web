@@ -31,7 +31,7 @@ export const getProblemTagsApi = useDefineApi<
     {},
     Tag[]
 >({
-    url: "/problem/tag",
+    url: "/tag",
     method: "get"
 });
 
