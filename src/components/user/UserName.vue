@@ -1,6 +1,7 @@
 <template>
-    <a class="color-none" href="#">
-        <span class="user-name" :style="{ fontSize: props.size + 'px', color: userColor }" @click="handelUserClick">{{ user_info.username }}</span>
+    <a class="color-none" :href="`/user/${user_info.id}`">
+        <span class="user-name" :style="{ fontSize: props.size + 'px', color: userColor }">{{ user_info.username
+            }}</span>
     </a>
 </template>
 
@@ -8,7 +9,6 @@
 import { onMounted, ref, type PropType } from 'vue';
 import type { UserInfo } from '@/types/User';
 import { GetUserInfo } from '@/apis/user';
-import router from '@/router';
 import { UserRoleColor } from '@/types/User';
 
 const { execute } = GetUserInfo();
@@ -22,7 +22,7 @@ const props = defineProps({
         type: Number,
         default: 0
     },
-    size:{
+    size: {
         type: Number,
         default: 16
     }
@@ -42,10 +42,6 @@ onMounted(async () => {
         });
     }
 });
-
-const handelUserClick = () => {
-    router.push(`/user/${user_info.value.id}`);
-};
 </script>
 
 <style scoped>
