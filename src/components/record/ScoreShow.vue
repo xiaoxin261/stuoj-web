@@ -6,11 +6,11 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, type PropType } from 'vue';
+import { onMounted, ref, watchEffect, type PropType } from 'vue';
 import { JudgeStatusColor, JudgeStatus } from '@/types/Judge';
-import { getRecordInfoAPI } from '@/apis/record';
+import { getRecordInfoApi } from '@/apis/record';
 
-const { execute } = getRecordInfoAPI();
+const { execute } = getRecordInfoApi();
 
 const props = defineProps({
     score: {
@@ -52,12 +52,19 @@ onMounted(async () => {
     color.value = JudgeStatusColor[status.value];
 });
 
+watchEffect(() => {
+    score.value = props.score;
+    status.value = props.status;
+    color.value = JudgeStatusColor[status.value];
+});
+
 </script>
 
 <style scoped>
 .scorp {
     font-weight: bold;
 }
+
 div {
     width: 40px;
     display: flex;
