@@ -52,11 +52,11 @@
 
 <script setup lang="ts">
 import { userStore } from '@/stores/user';
-import { getRecordInfo } from '@/apis/record';
+import { getRecordInfoApi } from '@/apis/record';
 import type { Judgement, Submission } from '@/types/Record';
 import { ref, watch } from 'vue';
 
-const { execute, state } = getRecordInfo();
+const { execute, state } = getRecordInfoApi();
 const show = ref(false);
 let judge_result: Judgement[];
 let result: Submission;
