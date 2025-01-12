@@ -55,7 +55,7 @@
           </div>
           <div class="problem-content custom-font-size">
             <h3 class="weight">描述</h3>
-            <TextView :content="problemInfo.description" />
+            <TextView :content="problemInfo.description ?? ''" />
           </div>
           <div class="problem-input custom-font-size">
             <h3 class="weight">输入格式</h3>
