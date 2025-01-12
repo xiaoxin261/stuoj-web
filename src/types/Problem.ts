@@ -2,13 +2,13 @@ import {Colors} from "@/types/Colors";
 
 export interface ProblemInfo {
     create_time?: string;
-    description: string;
+    description?: string;
     difficulty: Difficulty;
-    hint: string;
+    hint?: string;
     id?: number;
-    input: string;
+    input?: string;
     memory_limit?: number;
-    output: string;
+    output?: string;
     sample_input?: string;
     sample_output?: string;
     source?: string;
