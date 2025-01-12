@@ -24,3 +24,13 @@ export const getRecordInfoApi = useDefineApi<
     url: "/record",
     method: "get"
 })
+
+export const deleteRecordApi = useDefineApi<
+    {
+        id: number
+    },
+    {}
+>({
+    url: "/record",
+    method: "delete"
+})
