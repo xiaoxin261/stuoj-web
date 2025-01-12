@@ -1,26 +1,29 @@
 <template>
-    <el-popover :width="300"
-        popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;">
-        <template #reference>
-            <Avatar :src="info?.avatar" @click="handelClick" />
-        </template>
-        <template #default>
-            <div>
-                <ElContainer direction="vertical">
-                    <div class="UserNameText">{{ info?.username }}</div>
-                    <ElContainer style="justify-content: center;">
-                        <ToUserSettingButton v-if="info_.avatar >= 2 || id === userId" />
-                        <el-divider direction="vertical" style="height: 30px;" />
-                        <LogoutButton v-if="id == userId" />
+    <div class="avatar-info">
+        <el-popover :width="300"
+            popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;">
+            <template #reference>
+                <Avatar :src="info?.avatar" :size="size" @click="handelClick" />
+            </template>
+            <template #default>
+                <div>
+                    <ElContainer direction="vertical">
+                        <div class="UserNameText">{{ info?.username }}</div>
+                        <ElContainer style="justify-content: center;">
+                            <ToUserSettingButton v-if="info_.avatar >= 2 || id === userId" />
+                            <el-divider direction="vertical" style="height: 30px;" />
+                            <LogoutButton v-if="id == userId" />
+                        </ElContainer>
                     </ElContainer>
-                </ElContainer>
-            </div>
-        </template>
-    </el-popover>
+                </div>
+            </template>
+        </el-popover>
+        <UserName v-if="name" :user="info" :size="nameSize" />
+    </div>
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, onMounted, ref } from 'vue';
+import { onBeforeMount, ref } from 'vue';
 import { userStore } from '@/stores/user';
 import { GetUserInfo } from '@/apis/user';
 import type { UserInfo } from '@/types/User';
@@ -30,8 +33,16 @@ const { id, isLogin, info: info_ } = userStore();
 
 const props = withDefaults(defineProps<{
     userId?: number;
+    size?: number;
+    name?: boolean;
+    nameSize?: number;
+    popover?: boolean;
 }>(), {
     userId: 0,
+    size: 40,
+    name: false,
+    nameSize: 16,
+    popover: true
 });
 
 let info = ref<UserInfo>(
@@ -72,7 +83,13 @@ const handelClick = () => {
 
 </script>
 
-<style>
+<style scoped>
+.avatar-info {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
 .UserNameText {
     display: flex;
     justify-content: center;
