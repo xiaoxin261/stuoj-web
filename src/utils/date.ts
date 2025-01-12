@@ -19,7 +19,9 @@ export function formatDataTimeStr(time: string | undefined) {
 
         // 使用固定格式输出时间字符串
         const timestr = date.toLocaleString().replace(/\//g, '-');
-        return timestr;
+        const [datePart, timePart] = timestr.split(' ');
+        const [year, month, day] = datePart.split('-').map(part => part.padStart(2, '0'));
+        return `${year}-${month}-${day} ${timePart}`;
     } catch (error) {
         // 捕获任何可能的异常并返回默认值
         return '';
@@ -53,7 +55,9 @@ export function formatDateStr(time: string | undefined) {
             // 如果时间字符串无效，返回默认值
             return '';
         }
-        return date.toLocaleDateString().replace(/\//g, '-');
+        const dateStr = date.toLocaleDateString().replace(/\//g, '-');
+        const [year, month, day] = dateStr.split('-').map(part => part.padStart(2, '0'));
+        return `${year}-${month}-${day}`;
     } catch (error) {
         // 捕获任何可能的异常并返回默认值
         return '';
