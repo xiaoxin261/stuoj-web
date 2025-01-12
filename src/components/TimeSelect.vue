@@ -1,8 +1,8 @@
 <template>
     <ElDatePicker v-model="timeC" type="date" :placeholder="placeholder"
-        :disabled-date="props.future ? () => false : futureDate" />
+        :disabled-date="props.future ? () => false : futureDate" clearable />
     <ElTimePicker :style="{ marginLeft: props.margin }" v-model="timeC" type="time" :placeholder="placeholder"
-        :disabled-date="props.future ? () => false : futureDate" />
+        :disabled-date="props.future ? () => false : futureDate" clearable />
 </template>
 
 <script setup lang="ts">
@@ -33,4 +33,14 @@ const timeC = computed({
         emit('update:time', time.value);
     }
 });
+
+const reset = () => {
+    time.value = undefined;
+    emit('update:time', time.value);
+};
+
+defineExpose({
+    reset,
+});
+
 </script>

@@ -9,8 +9,8 @@ export interface UserInfo {
     email?: string;
     id: number;
     role: Role;
-    signature: string;
-    update_time: string;
+    signature?: string;
+    update_time?: string;
     username: string;
     [property: string]: any;
 }

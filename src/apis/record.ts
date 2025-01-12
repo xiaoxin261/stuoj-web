@@ -1,27 +1,18 @@
 import { useDefineApi } from "@/stores/useDefineApi"
 import type { Page } from "@/types/misc";
-import type { Judgement, Submission } from "@/types/Record"
+import type { Judgement, RecordParams, Submission } from "@/types/Record"
 
 export const getRecordListApi = useDefineApi<
     {
-        params: {
-            "end-time"?: string;
-            language?: number;
-            page?: number;
-            problem?: number;
-            size?: number;
-            "start-time"?: string;
-            status?: number;
-            user?: number;
-        }
+        params: RecordParams;
     },
     Page<"submissions", Submission>
 >({
-    url: "/record",
+    url: "/record/",
     method: "get"
 })
 
-export const getRecordInfo = useDefineApi<
+export const getRecordInfoApi = useDefineApi<
     {
         id: number
     },
@@ -32,4 +23,14 @@ export const getRecordInfo = useDefineApi<
 >({
     url: "/record",
     method: "get"
+})
+
+export const deleteRecordApi = useDefineApi<
+    {
+        id: number
+    },
+    {}
+>({
+    url: "/record",
+    method: "delete"
 })

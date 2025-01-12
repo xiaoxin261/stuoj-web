@@ -19,3 +19,19 @@ a:active {
     text-decoration: none;
 }
 
+.color-none {
+    color: unset;
+}
+
+.ellipsis {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.title{
+    font-size: 1.8rem;
+    font-weight: 600;
+}

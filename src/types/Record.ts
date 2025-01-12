@@ -1,4 +1,6 @@
+import type { UserInfo } from "./User";
 import type { JudgeStatus } from "./Judge";
+import type { ProblemInfo } from "./Problem";
 
 export interface Submission {
     create_time: string;
@@ -6,13 +8,13 @@ export interface Submission {
     language_id: number;
     length: number;
     memory?: number;
-    problem_id: number;
+    problem: ProblemInfo;
     score?: number;
     source_code?: string;
     status: JudgeStatus;
     time?: number;
     update_time: string;
-    user_id: number;
+    user: UserInfo;
     [property: string]: any;
 }
 
@@ -29,4 +31,15 @@ export interface Judgement {
     testcase_id?: number;
     time?: number;
     [property: string]: any;
+}
+
+export interface RecordParams {
+    page: number;
+    size?: number;
+    "end-time"?: string;
+    language?: number;
+    problem?: number;
+    "start-time"?: string;
+    status?: JudgeStatus;
+    user?: number;
 }
