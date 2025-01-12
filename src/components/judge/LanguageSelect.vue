@@ -1,5 +1,6 @@
 <template>
-    <ElSelect v-model="selectedId" @change="handleSelectChange" :clearable="clearable" :placeholder="placeholder">
+    <ElSelect v-model="selectedId" @change="handleSelectChange" :clearable="clearable" :placeholder="placeholder"
+        ref="selectRef">
         <ElOption v-for="item in options" :key="item.id" :label="item.name" :value="item.id" :disabled="item.disabled">
             {{ item.name }}</ElOption>
     </ElSelect>
@@ -9,6 +10,7 @@
 import type { Language } from '@/types/Judge';
 import { onBeforeMount, ref, watchEffect, type PropType } from 'vue';
 import { langStore } from '@/stores/language';
+import { ElSelect } from 'element-plus';
 
 const { getLanguages } = langStore();
 const options = ref<Language[]>([]);
@@ -36,6 +38,7 @@ const selectedId = ref(props.id);
 
 const selectedValue = ref(props.lang);
 
+const selectRef = ref<InstanceType<typeof ElSelect>>();
 
 onBeforeMount(async () => {
     options.value = (await getLanguages()).value;
@@ -49,6 +52,19 @@ const handleSelectChange = (value: number) => {
 
 watchEffect(() => {
     selectedValue.value = props.lang;
+});
+
+
+const reset = () => {
+    if (selectRef.value) {
+        selectRef.value.handleClearClick(new Event('clear'));
+    }
+    emit('update:id', selectedId.value);
+    emit('update:lang', selectedValue.value);
+};
+
+defineExpose({
+    reset,
 });
 
 </script>
