@@ -1,15 +1,15 @@
 <template>
-    <a class="color-none" href="#">
-        <span class="problem-name" :style="{ fontSize: props.size + 'px', color: problemColor }" @click="handleProblemClick">{{ problem_info.title }}</span>
+    <a class="color-none" :href="`/problem/${problem_info.id}`">
+        <span class="problem-name" :style="{ fontSize: props.size + 'px', color: problemColor }">{{ problem_info.title
+            }}</span>
     </a>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref, type PropType } from 'vue';
-import type { Difficulty, ProblemInfo } from '@/types/Problem';
+import type { ProblemInfo } from '@/types/Problem';
 import { getProblemApi } from '@/apis/problem';
-import router from '@/router';
-import { DifficultyColor, ProblemStatusColor } from '@/types/Problem';
+import { DifficultyColor } from '@/types/Problem';
 
 const { execute } = getProblemApi();
 
@@ -22,7 +22,7 @@ const props = defineProps({
         type: Number,
         default: 0
     },
-    size:{
+    size: {
         type: Number,
         default: 16
     }
@@ -42,10 +42,6 @@ onMounted(async () => {
         });
     }
 });
-
-const handleProblemClick = () => {
-    router.push(`/problem/${problem_info.value.id}`);
-};
 </script>
 
 <style scoped>
