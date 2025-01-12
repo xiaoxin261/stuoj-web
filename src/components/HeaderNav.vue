@@ -40,6 +40,10 @@ const menuLinks = computed(() => {
             to: '/problem'
         },
         {
+            name: '记录',
+            to: '/record'
+        },
+        {
             name: '题单',
             to: '/collection'
         },
