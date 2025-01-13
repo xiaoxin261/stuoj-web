@@ -52,7 +52,7 @@
     </ElTableColumn>
     <ElTableColumn label="提交时间" width="150">
       <template #default="scope">
-        {{ formatDataTimeStr(scope.row.create_time) }}
+        {{ formatDateTimeStr(scope.row.create_time) }}
       </template>
     </ElTableColumn>
     <ElTableColumn v-if="admin" align="right" width="60">
@@ -70,7 +70,7 @@ import type { UserInfo } from '@/types/User';
 import router from '@/router';
 import { langStore } from '@/stores/language';
 import type { Language } from '@/types/Judge';
-import { formatDataTimeStr } from '@/utils/date';
+import { formatDateTimeStr } from '@/utils/date';
 import { deleteRecordApi } from '@/apis/record';
 import { ElNotification } from 'element-plus';
 

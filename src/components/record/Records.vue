@@ -50,10 +50,10 @@ onBeforeMount(() => {
     const problem = route.query.problem;
     if (typeof user === 'string') {
         paramsSelect.value.user = parseInt(user, 10);
-    };
+    }
     if (typeof problem === 'string') {
         paramsSelect.value.problem = parseInt(problem, 10);
-    };
+    }
 });
 
 const submissions = ref<Submission[]>([]);

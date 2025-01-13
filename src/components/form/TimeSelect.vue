@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { formatDataTimeStr } from '@/utils/date';
+import { formatDateTimeStr } from '@/utils/date';
 import { futureDate } from '@/utils/date';
 
 const props = withDefaults(defineProps<{
@@ -29,7 +29,7 @@ const timeC = computed({
         return time.value;
     },
     set: (value: string) => {
-        time.value = formatDataTimeStr(value);
+        time.value = formatDateTimeStr(value);
         emit('update:time', time.value);
     }
 });
