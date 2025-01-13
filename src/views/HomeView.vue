@@ -78,10 +78,10 @@
         <el-card style="margin-bottom: 20px">
           <template #header>
             <div class="card-header">
-              <strong>优秀博客</strong>
+              <strong>博客推荐</strong>
             </div>
           </template>
-          <EmptyPage></EmptyPage>
+          <BlogRecommend/>
         </el-card>
       </el-col>
     </el-row>
@@ -93,6 +93,7 @@ import {onMounted, ref} from 'vue';
 import router from "@/router";
 import { userStore } from "@/stores/user";
 import ProblemRecommend from "@/components/problem/ProblemRecommend.vue";
+import BlogRecommend from "@/components/blog/BlogRecommend.vue";
 
 const info = ref(userStore().info)
 const isLogin = ref(userStore().isLogin);

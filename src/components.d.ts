@@ -11,6 +11,7 @@ declare module 'vue' {
     Avatar: typeof import('./components/user/Avatar.vue')['default']
     AvatarCropper: typeof import('./components/user/AvatarCropper.vue')['default']
     AvatarInfo: typeof import('./components/user/AvatarInfo.vue')['default']
+    BlogRecommend: typeof import('./components/blog/BlogRecommend.vue')['default']
     Blogs: typeof import('./components/blog/Blogs.vue')['default']
     CodeEditor: typeof import('./components/judge/CodeEditor.vue')['default']
     CodeRun: typeof import('./components/judge/CodeRun.vue')['default']
