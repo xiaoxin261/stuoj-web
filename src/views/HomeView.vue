@@ -61,9 +61,9 @@
       </el-col>
       <el-col :span="18">
         <el-card style="margin-bottom: 20px">
-          <el-carousel height="100" motion-blur>
-            <el-carousel-item v-for="item in 4" :key="item">
-              <h3 class="small justify-center" text="2xl">{{ item }}</h3>
+          <el-carousel height="250px" type="card" class="carousel">
+            <el-carousel-item v-for="(image, index) in (banners)" :key="index">
+              <img :src="image" alt="banner" class="banner-img"/>
             </el-carousel-item>
           </el-carousel>
         </el-card>
@@ -76,7 +76,7 @@
           <ProblemRecommend/>
         </el-card>
         <el-card style="margin-bottom: 20px">
-          <template #header>
+          <template #heade6>
             <div class="card-header">
               <strong>博客推荐</strong>
             </div>
@@ -94,10 +94,14 @@ import router from "@/router";
 import { userStore } from "@/stores/user";
 import ProblemRecommend from "@/components/problem/ProblemRecommend.vue";
 import BlogRecommend from "@/components/blog/BlogRecommend.vue";
+import Banner1 from "@/assets/images/banner/stuoj.jpg";
+import Banner2 from "@/assets/images/banner/acm-icpc.jpg";
+import Banner3 from "@/assets/images/banner/jf.jpg";
+
+const banners = ref([Banner1, Banner2, Banner3]);
 
 const info = ref(userStore().info)
 const isLogin = ref(userStore().isLogin);
-
 
 onMounted(() => {
 });
@@ -121,7 +125,12 @@ const gotoProblem = () => {
 </script>
 
 <style>
-.demonstration {
+.banner-img {
+  width: 100%;
+  height: 100%;
+}
+
+/*.demonstration {
   color: var(--el-text-color-secondary);
 }
 
@@ -139,5 +148,5 @@ const gotoProblem = () => {
 
 .el-carousel__item:nth-child(2n + 1) {
   background-color: #d3dce6;
-}
+}*/
 </style>
