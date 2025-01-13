@@ -51,8 +51,8 @@
               </el-icon>&nbsp;{{ formatDateStr(problemInfo?.update_time ?? "") }}
               <el-divider direction="vertical"></el-divider>
             </div>
-            <el-divider></el-divider>
           </div>
+          <el-divider></el-divider>
           <div class="problem-content custom-font-size">
             <h3 class="weight">描述</h3>
             <TextView :content="problemInfo.description ?? ''" />

@@ -1,12 +1,23 @@
 <script setup lang="ts">
-
+import {Flag} from "@element-plus/icons-vue";
+import {ref} from "vue";
+const isCollapse = ref(false)
 </script>
 
 <template>
   <el-menu
       default-active="1"
+      :collapse="isCollapse"
       router
   >
+<!--
+    <el-menu-item>
+      <el-switch
+          v-model="isCollapse"
+          size="small"
+      />
+    </el-menu-item>
+-->
     <el-menu-item index="/admin">
       <el-icon>
         <HomeFilled/>
@@ -31,17 +42,23 @@
       </el-icon>
       <span>标签管理</span>
     </el-menu-item>
+    <el-menu-item index="/admin/record">
+      <el-icon>
+        <el-icon><List /></el-icon>
+      </el-icon>
+      <span>记录管理</span>
+    </el-menu-item>
     <el-menu-item index="/admin/collection">
       <el-icon>
         <el-icon><Collection /></el-icon>
       </el-icon>
       <span>题单管理</span>
     </el-menu-item>
-    <el-menu-item index="/admin/record">
+    <el-menu-item index="/admin/contest">
       <el-icon>
-        <el-icon><List /></el-icon>
+        <el-icon><Flag /></el-icon>
       </el-icon>
-      <span>记录管理</span>
+      <span>比赛管理</span>
     </el-menu-item>
     <el-menu-item index="/admin/blog">
       <el-icon>

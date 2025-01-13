@@ -10,6 +10,7 @@
 import { JudgeStatusMap,JudgeStatusColor,JudgeStatusAbbr, JudgeStatus } from '@/types/Judge';
 
 const props = defineProps<{
-    status: JudgeStatus
+  status: JudgeStatus
+  score?: number
 }>();
 </script>

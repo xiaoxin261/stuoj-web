@@ -7,7 +7,9 @@
       <AdminMenu></AdminMenu>
     </el-aside>
     <el-main>
-      <div class="title">记录管理</div>
+      <el-col :span="4">
+        <strong>题目管理</strong>
+      </el-col>
       <el-divider></el-divider>
       <Records :admin="true" />
     </el-main>

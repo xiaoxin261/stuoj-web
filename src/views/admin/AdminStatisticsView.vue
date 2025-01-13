@@ -8,7 +8,9 @@
       <AdminMenu></AdminMenu>
     </el-aside>
     <el-main>
-      <h1>统计信息</h1>
+      <el-col :span="4">
+        <strong>统计信息</strong>
+      </el-col>
       <el-divider/>
       <EmptyPage></EmptyPage>
     </el-main>

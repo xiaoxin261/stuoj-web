@@ -5,7 +5,7 @@ import { BlogStatusMap, BlogStatusColor, BlogStatus } from '@/types/Blog';
 import { formatDateStr } from "@/utils/date";
 import type { BlogInfo } from '@/types/Blog';
 import { Album, type Page } from '@/types/misc';
-import TextEditor from '@/components/TextEditor.vue';
+import TextEditor from '@/components/text/TextEditor.vue';
 import router from "@/router";
 
 interface BlogParams {

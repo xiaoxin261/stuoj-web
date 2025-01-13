@@ -1,14 +1,14 @@
 <template>
-    <HeaderNav />
-    <ElContainer class="app-container">
-        <ElMain class="main-content">
-            <RouterView />
-        </ElMain>
-      <el-divider />
-      <el-footer>
-        <FooterBar />
-      </el-footer>
-    </ElContainer>
+  <HeaderNav />
+  <ElContainer class="app-container">
+    <ElMain class="main-content">
+      <RouterView />
+    </ElMain>
+    <el-divider />
+    <el-footer>
+      <FooterBar />
+    </el-footer>
+  </ElContainer>
 </template>
 
 <script setup lang="ts">
@@ -35,7 +35,7 @@
 }
 
 .router-view {
-    width: 100%; /* 确保 RouterView 的宽度为 100% */
-    /* 添加其他必要的样式 */
+  width: 100%; /* 确保 RouterView 的宽度为 100% */
+  /* 添加其他必要的样式 */
 }
 </style>

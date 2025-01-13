@@ -191,6 +191,14 @@ const router = createRouter({
       }
     },
     {
+      path: '/admin/contest',
+      component: () => import('@/views/admin/AdminContestView.vue'),
+      meta: {
+        title: '比赛管理 - STUOJ',
+        permission: Role.Admin,
+      }
+    },
+    {
       path: '/admin/record',
       component: () => import('@/views/admin/AdminRecordView.vue'),
       meta: {

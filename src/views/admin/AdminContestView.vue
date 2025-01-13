@@ -8,9 +8,7 @@
       <AdminMenu></AdminMenu>
     </el-aside>
     <el-main>
-      <el-col :span="4">
-        <strong>举报管理</strong>
-      </el-col>
+      <h1>比赛管理</h1>
       <el-divider/>
       <EmptyPage></EmptyPage>
     </el-main>

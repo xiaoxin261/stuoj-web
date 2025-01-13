@@ -8,7 +8,9 @@
       <AdminMenu></AdminMenu>
     </el-aside>
     <el-main>
-      <h1>评论管理</h1>
+      <el-col :span="4">
+        <strong>评论管理</strong>
+      </el-col>
       <el-divider/>
       <EmptyPage></EmptyPage>
     </el-main>
