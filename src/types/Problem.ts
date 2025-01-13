@@ -123,9 +123,7 @@ export enum ProblemStatus {
     editing = 2,
     debugging = 3,
     hidden = 4,
-    contest = 5,
-    vip = 6,
-    public = 7,
+    public = 5,
 }
 
 export const ProblemStatusMap = {
@@ -133,18 +131,14 @@ export const ProblemStatusMap = {
     [ProblemStatus.editing]: "出题",
     [ProblemStatus.debugging]: "调试",
     [ProblemStatus.hidden]: "隐藏",
-    [ProblemStatus.contest]: "比赛",
-    [ProblemStatus.vip]: "会员",
     [ProblemStatus.public]: "公开",
 }
 
 export const ProblemStatusColor = {
     [ProblemStatus.invalid]: Colors.black,
     [ProblemStatus.editing]: Colors.yellow,
-    [ProblemStatus.debugging]: Colors.blue,
+    [ProblemStatus.debugging]: Colors.red,
     [ProblemStatus.hidden]: Colors.gray9,
-    [ProblemStatus.contest]: Colors.red,
-    [ProblemStatus.vip]: Colors.purple,
     [ProblemStatus.public]: Colors.green,
 }
 
