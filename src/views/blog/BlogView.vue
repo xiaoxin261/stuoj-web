@@ -4,7 +4,7 @@ import type { BlogInfo } from "@/types/Blog";
 import { useRouteParams } from "@vueuse/router";
 import { getBlogApi } from "@/apis/blog";
 import { StarFilled } from "@element-plus/icons-vue";
-import { formatDataTimeStr } from "../../utils/date";
+import { formatDateTimeStr } from "../../utils/date";
 import router from "@/router";
 
 const blogId = useRouteParams<number>("id");
@@ -63,11 +63,11 @@ const commentForm = ref({
         <el-divider direction="vertical"></el-divider>
         <el-icon>
           <Timer />
-        </el-icon>&nbsp;{{ formatDataTimeStr(blog?.create_time ?? "") }}
+        </el-icon>&nbsp;{{ formatDateTimeStr(blog?.create_time ?? "") }}
         <el-divider direction="vertical"></el-divider>
         <el-icon>
           <Stopwatch />
-        </el-icon>&nbsp;{{ formatDataTimeStr(blog?.update_time ?? "") }}
+        </el-icon>&nbsp;{{ formatDateTimeStr(blog?.update_time ?? "") }}
         <el-divider direction="vertical"></el-divider>
       </div>
       <br />

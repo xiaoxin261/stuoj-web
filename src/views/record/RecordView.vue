@@ -53,7 +53,7 @@
               <span>{{ record?.memory }} KB</span>
             </div>
             <div class="record-info-item">提交时间
-              <span>{{ formatDataTimeStr(record?.create_time) }}</span>
+              <span>{{ formatDateTimeStr(record?.create_time) }}</span>
             </div>
           </div>
         </el-card>
@@ -68,7 +68,7 @@ import { onBeforeMount, ref } from 'vue';
 import type { Judgement, Submission } from '@/types/Record';
 import { langStore } from '@/stores/language';
 import type { Language } from '@/types/Judge';
-import {formatDataTimeStr, formatDateStr} from '@/utils/date';
+import {formatDateTimeStr, formatDateStr} from '@/utils/date';
 import { JudgeStatus } from '@/types/Judge';
 import {Difficulty, DifficultyColor, DifficultyMap} from "@/types/Problem";
 import {Notebook, StarFilled} from "@element-plus/icons-vue";

@@ -7,7 +7,7 @@ import type { UserInfo } from '@/types/User';
 import type { Page } from '@/types/misc';
 import {userStore} from "@/stores/user";
 import {BlogStatusColor, BlogStatusMap} from "@/types/Blog";
-import UserRoleTag from '../user/UserRoleTag.vue';
+import UserRoleTag from '../../components/user/UserRoleTag.vue';
 
 interface Scope {
   row: {

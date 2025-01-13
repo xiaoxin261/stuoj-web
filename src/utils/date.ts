@@ -5,7 +5,7 @@ export function formatDate(date: Date): string {
     return `${year}-${month}-${day}`;
 }
 
-export function formatDataTimeStr(time: string | undefined) {
+export function formatDateTimeStr(time: string | undefined) {
     if (!time || time === '') {
         return '';
     }

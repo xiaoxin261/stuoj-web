@@ -6,7 +6,7 @@
       router
   >
     <div class="logo">
-      <img src="@/assets/appIcons/icon.png" alt="Logo"/>
+      <img src="@/assets/images/logo/icon.png" alt="Logo"/>
       <div class="logo-text">
         <span style="font-weight: bolder">STUOJ</span>
         <span style="font-size: 12px;">stuoj.com</span>

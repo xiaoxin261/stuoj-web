@@ -42,23 +42,6 @@
             </ul>
           </div>
         </el-card>
-      </el-col>
-      <el-col :span="18">
-        <el-card style="margin-bottom: 20px">
-          <el-carousel height="100" motion-blur>
-            <el-carousel-item v-for="item in 4" :key="item">
-              <h3 class="small justify-center" text="2xl">{{ item }}</h3>
-            </el-carousel-item>
-          </el-carousel>
-        </el-card>
-        <el-card style="margin-bottom: 20px">
-          <template #header>
-            <div class="card-header">
-              <strong>好题推荐</strong>
-            </div>
-          </template>
-          <EmptyPage></EmptyPage>
-        </el-card>
         <el-card style="margin-bottom: 20px">
           <template #header>
             <div class="card-header">
@@ -75,13 +58,30 @@
           </template>
           <EmptyPage></EmptyPage>
         </el-card>
+      </el-col>
+      <el-col :span="18">
+        <el-card style="margin-bottom: 20px">
+          <el-carousel height="250px" type="card" class="carousel">
+            <el-carousel-item v-for="(image, index) in (banners)" :key="index">
+              <img :src="image" alt="banner" class="banner-img"/>
+            </el-carousel-item>
+          </el-carousel>
+        </el-card>
         <el-card style="margin-bottom: 20px">
           <template #header>
             <div class="card-header">
-              <strong>优秀博客</strong>
+              <strong>题目推荐</strong>
             </div>
           </template>
-          <EmptyPage></EmptyPage>
+          <ProblemRecommend/>
+        </el-card>
+        <el-card style="margin-bottom: 20px">
+          <template #heade6>
+            <div class="card-header">
+              <strong>博客推荐</strong>
+            </div>
+          </template>
+          <BlogRecommend/>
         </el-card>
       </el-col>
     </el-row>
@@ -92,10 +92,16 @@
 import {onMounted, ref} from 'vue';
 import router from "@/router";
 import { userStore } from "@/stores/user";
+import ProblemRecommend from "@/components/problem/ProblemRecommend.vue";
+import BlogRecommend from "@/components/blog/BlogRecommend.vue";
+import Banner1 from "@/assets/images/banner/stuoj.jpg";
+import Banner2 from "@/assets/images/banner/acm-icpc.jpg";
+import Banner3 from "@/assets/images/banner/jf.jpg";
+
+const banners = ref([Banner1, Banner2, Banner3]);
 
 const info = ref(userStore().info)
 const isLogin = ref(userStore().isLogin);
-
 
 onMounted(() => {
 });
@@ -119,7 +125,12 @@ const gotoProblem = () => {
 </script>
 
 <style>
-.demonstration {
+.banner-img {
+  width: 100%;
+  height: 100%;
+}
+
+/*.demonstration {
   color: var(--el-text-color-secondary);
 }
 
@@ -137,5 +148,5 @@ const gotoProblem = () => {
 
 .el-carousel__item:nth-child(2n + 1) {
   background-color: #d3dce6;
-}
+}*/
 </style>

@@ -1,37 +1,99 @@
 <template>
-    <div class="space-div">
-        <ElContainer class="background">
-            <ElRow :gutter="20" style="width: 100%; height: 30%;">
-                <ElCol :span="2" class="avatar-container">
-                    <Avatar class="avatar" :size="100" :src="info?.avatar" />
-                </ElCol>
-                <ElCol :span="3">
-                    <div class="username">{{ info?.username }}</div>
-                    <div class="signature">{{ signature }}</div>
-                </ElCol>
-            </ElRow>
-        </ElContainer>
-        <ElRow>
-            <ElCol :span="18">
-                <ElCard class="card" shadow="always">
-                    <div class="user-info">
-                        <div class="info-item">
-                            <span class="info-label">邮箱：</span>
-                            <span class="info-value">{{ info?.email }}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">角色：</span>
-                            <UserRoleTag :role="info?.role || Role.User" />
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">创建时间：</span>
-                            <span class="info-value">{{ info?.create_time }}</span>
-                        </div>
-                    </div>
-                </ElCard>
-            </ElCol>
-        </ElRow>
-    </div>
+  <div class="container-main">
+    <el-card>
+      <el-row>
+        <el-col :span="24">
+          <el-breadcrumb separator="/">
+            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>用户</el-breadcrumb-item>
+            <el-breadcrumb-item>{{ info?.username }}</el-breadcrumb-item>
+          </el-breadcrumb>
+        </el-col>
+      </el-row>
+    </el-card>
+    <br/>
+    <el-card>
+      <div class="space-header">
+        <Avatar class="avatar" :size="50" :src="info?.avatar" />
+        <div class="basic-info">
+          <strong>{{ info?.username }}</strong>
+          <div>{{ signature }}</div>
+        </div>
+        <div class="user-statistic">
+          <div class="statistic-item">
+            <span class="statistic-label">提交</span>
+            <span class="statistic-value">?</span>
+          </div>
+          <div class="statistic-item">
+            <span class="statistic-label">AC</span>
+            <span class="statistic-value">?</span>
+          </div>
+          <div class="statistic-item">
+            <span class="statistic-label">博客</span>
+            <span class="statistic-value">?</span>
+          </div>
+          <div class="statistic-item">
+            <span class="statistic-label">题单</span>
+            <span class="statistic-value">?</span>
+          </div>
+          <div class="statistic-item">
+            <span class="statistic-label">比赛</span>
+            <span class="statistic-value">?</span>
+          </div>
+        </div>
+      </div>
+    </el-card>
+    <el-tabs type="border-card">
+      <el-tab-pane label="主页">
+        <el-row :gutter="20">
+          <el-col :span="16">
+            <el-card>
+              <EmptyPage></EmptyPage>
+            </el-card>
+          </el-col>
+          <el-col :span="8">
+            <el-card>
+              <div class="user-info">
+                <div class="user-info-item">
+                  <span class="info-label">ID</span>
+                  <span class="info-value">{{ info?.id }}</span>
+                </div>
+                <div class="user-info-item">
+                  <span class="info-label">邮箱</span>
+                  <span class="info-value">{{ info?.email }}</span>
+                </div>
+                <div class="user-info-item">
+                  <span class="info-label">角色</span>
+                  <UserRoleTag :role="info?.role || Role.User" />
+                </div>
+                <div class="user-info-item">
+                  <span class="info-label">注册时间</span>
+                  <span class="info-value">{{ formatDateTimeStr(info?.create_time) }}</span>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+        </el-row>
+      </el-tab-pane>
+      <el-tab-pane label="博客">
+        <UserBlog :userId="userId"></UserBlog>
+      </el-tab-pane>
+      <el-tab-pane label="记录">
+        <UserRecord :userId="userId" />
+      </el-tab-pane>
+      <el-tab-pane label="题单">
+        <UserCollection :userId="userId" />
+      </el-tab-pane>
+      <el-tab-pane label="比赛">
+        <UserContest :userId="userId" />
+      </el-tab-pane>
+    </el-tabs>
+    <ElRow>
+      <ElCol :span="18">
+
+      </ElCol>
+    </ElRow>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -40,7 +102,9 @@ import { useRouteParams } from "@vueuse/router";
 import { userStore } from "@/stores/user";
 import { GetUserInfo } from "@/apis/user";
 import { Role, type UserInfo } from "@/types/User";
-import UserRoleTag from "./UserRoleTag.vue";
+import UserRoleTag from "../../components/user/UserRoleTag.vue";
+import {formatDateTimeStr} from "@/utils/date";
+import UserBlog from "@/components/user/UserBlog.vue";
 
 const { info: info_, id } = userStore();
 const { execute } = GetUserInfo();
@@ -51,89 +115,69 @@ const userId = useRouteParams<number>("id");
 
 const signature = ref<string>();
 const updateInfo = async () => {
-    const userIdNum = Number(userId.value);
-    if (userIdNum === id.value) {
-        info = info_;
-        signature.value = info.value?.signature;
-    } else {
-        const state = await execute({
-            id: userId.value,
-        });
-        if (state.value) {
-            info.value = state.value;
-            signature.value = state.value.signature;
-        }
+  const userIdNum = Number(userId.value);
+  if (userIdNum === id.value) {
+    info = info_;
+    signature.value = info.value?.signature;
+  } else {
+    const state = await execute({
+      id: userId.value,
+    });
+    if (state.value) {
+      info.value = state.value;
+      signature.value = state.value.signature;
     }
+  }
 };
 
 watchEffect(() => {
-    updateInfo();
+  updateInfo();
 });
 
 onBeforeMount(async () => {
-    await updateInfo();
+  await updateInfo();
 });
 
 </script>
 
 <style scoped>
-.space-div {
-    justify-content: center;
-    width: 100%;
-    height: 100vh;
-    flex-direction: column;
+
+.space-header {
+  display: flex;
+  align-items: center;
+  text-align: left;
 }
 
-.avatar {
-    margin-top: 12px;
+.basic-info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  justify-content: space-between;
 }
 
-.background {
-    display: flex;
-    background-color: #EEE;
-    margin-top: 5vh;
-    height: 250px;
-    align-items: flex-end;
-    justify-content: flex-end;
+.user-statistic {
+  display: flex;
+  margin-left: auto;
 }
 
-.username {
-    font-size: 40px;
-    margin-top: 15px;
-    margin-left: 15px;
-    text-align: left;
-}
-
-.signature {
-    font-size: 26px;
-    margin-left: 15px;
-    text-align: left;
-}
-
-.card {
-    margin-top: 50px;
+.statistic-item {
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+  text-align: center;
 }
 
 .user-info {
-    display: flex;
-    flex-direction: column;
-    padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.info-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.info-label {
-    font-weight: bold;
-    font-size: 18px;
-    margin-right: 10px;
-}
-
-.info-value {
-    color: #333;
-    font-size: 18px;
+.user-info-item {
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  font-size: 16px;
 }
 </style>
+
