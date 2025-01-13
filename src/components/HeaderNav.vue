@@ -24,28 +24,24 @@
 <script setup lang="ts">
 import { computed, ref, watchEffect } from 'vue';
 import { userStore } from '@/stores/user';
-import { Collection, Flag, FolderOpened, HomeFilled, List, Notebook, Reading, Setting } from "@element-plus/icons-vue";
+import { Collection, Flag, FolderOpened, HomeFilled, List, Notebook, Setting } from "@element-plus/icons-vue";
 import { Role } from "@/types/User";
 
-const { info, isLogin, id } = userStore();
+const { info } = userStore();
 const username = ref(info?.value?.username || '未登录')
 
 const menuLinks = computed(() => {
   const basicLinks = [
-    { index: '/', icon: HomeFilled, text: '首页' },
-    { index: '/problem', icon: FolderOpened, text: '题库' },
-    { index: '/record', icon: List, text: '记录' },
-    { index: '/collection', icon: Collection, text: '题单' },
-    { index: '/contest', icon: Flag, text: '比赛' },
-    { index: '/blog', icon: Notebook, text: '博客' },
+    { index: '/', icon: HomeFilled, text: '首页', role: Role.Visitor },
+    { index: '/problem', icon: FolderOpened, text: '题库', role: Role.Visitor },
+    { index: '/record', icon: List, text: '记录', role: Role.Visitor },
+    { index: '/collection', icon: Collection, text: '题单', role: Role.Visitor },
+    { index: '/contest', icon: Flag, text: '比赛', role: Role.Visitor },
+    { index: '/blog', icon: Notebook, text: '博客', role: Role.Visitor },
+    { index: '/admin', icon: Setting, text: '管理', role: Role.Editor },
   ];
-  let links = [
-    ...basicLinks
-  ];
-  if (info.value?.role >= Role.Editor) {
-    links.push({ index: '/admin', icon: Setting, text: '管理' });
-  }
-  return links;
+
+  return basicLinks.filter(link => info.value?.role >= link.role);
 });
 
 watchEffect(() => {
