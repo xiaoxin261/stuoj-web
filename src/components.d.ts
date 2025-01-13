@@ -19,8 +19,6 @@ declare module 'vue' {
     DataMakeRow: typeof import('./components/dakemake/DataMakeRow.vue')['default']
     DataMakeValue: typeof import('./components/dakemake/DataMakeValue.vue')['default']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
-    ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
-    ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
     ElCarousel: typeof import('element-plus/es')['ElCarousel']
@@ -29,6 +27,7 @@ declare module 'vue' {
     ElCol: typeof import('element-plus/es')['ElCol']
     ElContainer: typeof import('element-plus/es')['ElContainer']
     ElDatePicker: typeof import('element-plus/es')['ElDatePicker']
+    ElDialog: typeof import('element-plus/es')['ElDialog']
     ElDivider: typeof import('element-plus/es')['ElDivider']
     ElEmpty: typeof import('element-plus/es')['ElEmpty']
     ElFooter: typeof import('element-plus/es')['ElFooter']
@@ -46,8 +45,6 @@ declare module 'vue' {
     ElSelect: typeof import('element-plus/es')['ElSelect']
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
-    ElTabPane: typeof import('element-plus/es')['ElTabPane']
-    ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTag: typeof import('element-plus/es')['ElTag']
     ElTimePicker: typeof import('element-plus/es')['ElTimePicker']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
@@ -97,6 +94,7 @@ declare module 'vue' {
     UserContest: typeof import('./components/user/UserContest.vue')['default']
     UserEdit: typeof import('./components/user/UserEdit.vue')['default']
     UserName: typeof import('./components/user/UserName.vue')['default']
+    UserRecord: typeof import('./components/user/UserRecord.vue')['default']
     UserRoleTag: typeof import('./components/user/UserRoleTag.vue')['default']
   }
 }
