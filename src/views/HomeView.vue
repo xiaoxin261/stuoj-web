@@ -54,10 +54,10 @@
         <el-card style="margin-bottom: 20px">
           <template #header>
             <div class="card-header">
-              <strong>好题推荐</strong>
+              <strong>题目推荐</strong>
             </div>
           </template>
-          <EmptyPage></EmptyPage>
+          <ProblemRecommend/>
         </el-card>
         <el-card style="margin-bottom: 20px">
           <template #header>
@@ -92,6 +92,7 @@
 import {onMounted, ref} from 'vue';
 import router from "@/router";
 import { userStore } from "@/stores/user";
+import ProblemRecommend from "@/components/problem/ProblemRecommend.vue";
 
 const info = ref(userStore().info)
 const isLogin = ref(userStore().isLogin);

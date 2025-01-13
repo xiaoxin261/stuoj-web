@@ -73,6 +73,7 @@ declare module 'vue' {
     ProblemList: typeof import('./components/problem/ProblemList.vue')['default']
     ProblemName: typeof import('./components/problem/ProblemName.vue')['default']
     ProblemParse: typeof import('./components/problem/ProblemParse.vue')['default']
+    ProblemRecommend: typeof import('./components/problem/ProblemRecommend.vue')['default']
     Problems: typeof import('./components/problem/Problems.vue')['default']
     ProblemSelect: typeof import('./components/problem/ProblemSelect.vue')['default']
     ProblemSolutionEdit: typeof import('./components/problem/ProblemSolutionEdit.vue')['default']
