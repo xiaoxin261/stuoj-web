@@ -1,8 +1,8 @@
 <template>
-    <ElCard>
+    <ElCard v-if="select">
         <RecordSelect v-model:parmas="paramsSelect" @confirm-clicked="handleQuery" />
     </ElCard>
-    <br />
+    <br v-if="select" />
     <ElCard>
         <RecordList :admin="admin" v-model:submissions="submissions" @delete="handleQuery" />
         <br />
@@ -24,13 +24,19 @@ const { execute } = getRecordListApi();
 
 const props = withDefaults(defineProps<{
     admin?: boolean;
+    select?: boolean;
+    userId?: number;
+    problemId?: number,
 }>(), {
-    admin: false
+    admin: false,
+    select: true,
 });
 
 const paramsSelect = ref<RecordParams>({
     page: 1,
     size: 20,
+    user: props.userId?.toString(),
+    problem: props.problemId?.toString(),
 });
 
 const paramsPage = ref<RecordParams>({
