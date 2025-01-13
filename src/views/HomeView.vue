@@ -42,6 +42,22 @@
             </ul>
           </div>
         </el-card>
+        <el-card style="margin-bottom: 20px">
+          <template #header>
+            <div class="card-header">
+              <strong>精选题单</strong>
+            </div>
+          </template>
+          <EmptyPage></EmptyPage>
+        </el-card>
+        <el-card style="margin-bottom: 20px">
+          <template #header>
+            <div class="card-header">
+              <strong>近期比赛</strong>
+            </div>
+          </template>
+          <EmptyPage></EmptyPage>
+        </el-card>
       </el-col>
       <el-col :span="18">
         <el-card style="margin-bottom: 20px">
@@ -58,22 +74,6 @@
             </div>
           </template>
           <ProblemRecommend/>
-        </el-card>
-        <el-card style="margin-bottom: 20px">
-          <template #header>
-            <div class="card-header">
-              <strong>精选题单</strong>
-            </div>
-          </template>
-          <EmptyPage></EmptyPage>
-        </el-card>
-        <el-card style="margin-bottom: 20px">
-          <template #header>
-            <div class="card-header">
-              <strong>近期比赛</strong>
-            </div>
-          </template>
-          <EmptyPage></EmptyPage>
         </el-card>
         <el-card style="margin-bottom: 20px">
           <template #header>
