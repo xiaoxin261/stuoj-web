@@ -1,128 +1,100 @@
 <template>
-    <div class="header-nav">
-        <el-row class="header-nav__row" :gutter="20">
-            <el-col :span="4" class="header-nav__logo">
-                <img src="@/assets/appIcons/icon.png" alt="Logo" class="header-nav__logo-img">
-            </el-col>
-            <el-col :span="16" class="header-nav__menu">
-                <RouterLink v-for="(link, index) in menuLinks" :key="index" :to="link.to" class="nav-link">{{
-                    link.name
-                }}</RouterLink>
-            </el-col>
-            <el-col :span="4" class="header-nav__user">
-                <div class="header-nav__user_avatar">
-                    <AvatarInfo />
-                </div>
-            </el-col>
-        </el-row>
+  <el-menu
+      class="menu"
+      mode="horizontal"
+      :ellipsis="false"
+      router
+  >
+    <div class="logo">
+      <img src="@/assets/appIcons/icon.png" alt="Logo"/>
+      <div class="logo-text">
+        <span style="font-weight: bolder">STUOJ</span>
+        <span style="font-size: 12px;">stuoj.com</span>
+      </div>
     </div>
+      <el-menu-item index="/">
+        <el-icon>
+          <HomeFilled/>
+        </el-icon>
+        <span>首页</span>
+      </el-menu-item>
+      <el-menu-item index="/problem">
+        <el-icon>
+          <el-icon><FolderOpened /></el-icon>
+        </el-icon>
+        <span>题库</span>
+      </el-menu-item>
+      <el-menu-item index="/record">
+        <el-icon>
+          <el-icon><List /></el-icon>
+        </el-icon>
+        <span>记录</span>
+      </el-menu-item>
+      <el-menu-item index="/collection">
+        <el-icon>
+          <el-icon><Collection /></el-icon>
+        </el-icon>
+        <span>题单</span>
+      </el-menu-item>
+      <el-menu-item index="/contest">
+        <el-icon><Flag /></el-icon>
+        <span>比赛</span>
+      </el-menu-item>
+      <el-menu-item index="/blog">
+        <el-icon>
+          <el-icon><Notebook /></el-icon>
+        </el-icon>
+        <span>博客</span>
+      </el-menu-item>
+      <el-menu-item index="/admin" v-if="isLogin && info.role >= Role.Admin">
+        <el-icon><Setting /></el-icon>
+        <span>管理</span>
+      </el-menu-item>
+    <div class="menu-space"><!-- 占位 --></div>
+    <el-menu-item><AvatarInfo /></el-menu-item>
+  </el-menu>
+
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watchEffect } from 'vue';
+import { ref, watchEffect } from 'vue';
 import { userStore } from '@/stores/user';
+import {Collection, Flag, FolderOpened, HomeFilled, List, Notebook, Reading, Setting} from "@element-plus/icons-vue";
+import {Role} from "@/types/User";
 
 const { info, isLogin, id } = userStore();
 const username = ref(info?.value?.username || '未登录')
 
 watchEffect(() => {
-    username.value = info.value?.username || '未登录';
+  username.value = info.value?.username || '未登录';
 });
-
-const menuLinks = computed(() => {
-    const basicLinks = [
-        {
-            name: '首页',
-            to: '/'
-        },
-        {
-            name: '题库',
-            to: '/problem'
-        },
-        {
-            name: '记录',
-            to: '/record'
-        },
-        {
-            name: '题单',
-            to: '/collection'
-        },
-        {
-            name: '比赛',
-            to: '/contest'
-        },
-        {
-            name: '博客',
-            to: '/blog'
-        },
-    ];
-    let links = [
-        ...basicLinks
-    ];
-    if (isLogin.value && (info.value.role >= 2)) {
-        links.push({
-            name: '管理',
-            to: '/admin'
-        });
-    }
-
-    return links;
-});
-
 </script>
 
 <style scoped>
-.header-nav {
-    background-color: #FFFFFF;
-    height: 45px;
-    border-bottom: 1px solid var(--el-border-color);
-    display: flex;
-    flex-direction: column;
+.menu {
+  width: 80%;
+  margin: 0 auto;
 }
 
-.header-nav__logo{
-  height: 100%;
+.logo {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 5px 20px;
 }
 
-.header-nav__logo-img{
-  height: 90%;
-  margin-left: 50%;
+.logo img {
+  width: 80px;
 }
 
-.header-nav__row {
-    height: 100%;
-    width: 100%;
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 10px;
 }
 
-.header-nav__user {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.header-nav__user_avatar {
-    margin-top: 1%;
-    height: 40px;
-    width: 40px;
-    display: flex;
-}
-
-.nav-link {
-    height: 100%;
-    text-decoration: none;
-    /* 移除下划线 */
-    color: #333;
-    /* 设置文字颜色 */
-    padding: 16px 45px;
-    /* 设置内边距 */
-    font-size: 20px;
-    /* 设置字体大小 */
-    /* 你可以在这里添加更多样式 */
-}
-
-.nav-link:hover {
-    color: #007bff;
-    /* 鼠标悬停时的文字颜色 */
-    background-color: #f1f1f1;
-    /* 鼠标悬停时的背景颜色 */
+.menu-space {
+  margin-right: auto;
 }
 </style>

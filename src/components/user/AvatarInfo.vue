@@ -1,48 +1,49 @@
 <template>
-    <div class="avatar-info">
-        <el-popover :width="300"
-            popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;">
-            <template #reference>
-                <Avatar :src="info?.avatar" :size="size" @click="handelClick" />
-            </template>
-            <template #default>
-                <div>
-                    <ElContainer direction="vertical">
-                        <div class="UserNameText">{{ info?.username }}</div>
-                        <ElContainer style="justify-content: center;">
-                            <ToUserSettingButton v-if="info_.avatar >= 2 || id === userId" />
-                            <el-divider direction="vertical" style="height: 30px;" />
-                            <LogoutButton v-if="id == userId" />
-                        </ElContainer>
-                    </ElContainer>
-                </div>
-            </template>
-        </el-popover>
-        <UserName v-if="name" :user="info" :size="nameSize" />
-    </div>
+  <div class="avatar-info">
+    <el-popover :width="300"
+                popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;">
+      <template #reference>
+        <Avatar :src="info?.avatar" :size="size" @click="handelClick" />
+      </template>
+      <template #default>
+        <div>
+          <ElContainer direction="vertical">
+            <div class="UserNameText">{{ info?.username }}</div>
+            <ElContainer style="justify-content: center;">
+              <ToUserSettingButton v-if="info_.role >= Role.Admin || id === userId" />
+              <el-divider direction="vertical" style="height: 30px;" />
+              <LogoutButton v-if="id == userId" />
+            </ElContainer>
+          </ElContainer>
+        </div>
+      </template>
+    </el-popover>
+    <UserName v-if="name" :user="info" :size="nameSize" />
+  </div>
 </template>
 
 <script setup lang="ts">
 import { onBeforeMount, ref } from 'vue';
 import { userStore } from '@/stores/user';
 import { GetUserInfo } from '@/apis/user';
-import type { UserInfo } from '@/types/User';
+import {Role, type UserInfo} from '@/types/User';
 import router from '@/router';
+import {roleTypes} from "element-plus";
 
 const { id, isLogin, info: info_ } = userStore();
 
 const props = withDefaults(defineProps<{
-    userId?: number;
-    size?: number;
-    name?: boolean;
-    nameSize?: number;
-    popover?: boolean;
+  userId?: number;
+  size?: number;
+  name?: boolean;
+  nameSize?: number;
+  popover?: boolean;
 }>(), {
-    userId: 0,
-    size: 40,
-    name: false,
-    nameSize: 16,
-    popover: true
+  userId: 0,
+  size: 40,
+  name: false,
+  nameSize: 16,
+  popover: true
 });
 
 let info = ref<UserInfo>(
@@ -51,51 +52,51 @@ let info = ref<UserInfo>(
 let userId = ref(0);
 
 onBeforeMount(async () => {
-    if (props.userId === 0) {
-        userId = id;
-    } else {
-        userId.value = props.userId;
-    }
-    updateInfo();
+  if (props.userId === 0) {
+    userId = id;
+  } else {
+    userId.value = props.userId;
+  }
+  updateInfo();
 });
 
 const updateInfo = async () => {
-    if (userId.value === id.value) {
-        info = info_;
-    } else {
-        const { state, execute } = GetUserInfo();
-        await execute({
-            id: userId.value,
-        });
-        if (state.value) {
-            info.value = state.value;
-        }
+  if (userId.value === id.value) {
+    info = info_;
+  } else {
+    const { state, execute } = GetUserInfo();
+    await execute({
+      id: userId.value,
+    });
+    if (state.value) {
+      info.value = state.value;
     }
+  }
 };
 
 const handelClick = () => {
-    if (!isLogin.value) {
-        router.push('/user/login');
-    } else {
-        router.push(`/user/${userId.value}`);
-    }
+  if (!isLogin.value) {
+    router.push('/user/login');
+  } else {
+    router.push(`/user/${userId.value}`);
+  }
 }
 
 </script>
 
 <style scoped>
 .avatar-info {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
 }
 
 .UserNameText {
-    display: flex;
-    justify-content: center;
-    font-size: 25px;
-    color: #303133;
-    margin-top: 10px;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  font-size: 25px;
+  color: #303133;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 </style>
