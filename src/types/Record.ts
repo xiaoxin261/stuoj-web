@@ -38,8 +38,8 @@ export interface RecordParams {
     size?: number;
     "end-time"?: string;
     language?: number;
-    problem?: number;
+    problem?: string;
     "start-time"?: string;
     status?: JudgeStatus;
-    user?: number;
+    user?: string;
 }
