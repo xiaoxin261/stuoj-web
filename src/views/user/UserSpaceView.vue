@@ -79,7 +79,7 @@
         <UserBlog :userId="userId"></UserBlog>
       </el-tab-pane>
       <el-tab-pane label="记录">
-        <UserRecord :userId="userId" />
+        <Records :userId="userId" :select="false" />
       </el-tab-pane>
       <el-tab-pane label="题单">
         <UserCollection :userId="userId" />
