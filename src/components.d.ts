@@ -98,8 +98,12 @@ declare module 'vue' {
     TextView: typeof import('./components/text/TextView.vue')['default']
     TimeSelect: typeof import('./components/form/TimeSelect.vue')['default']
     ToUserSettingButton: typeof import('./components/user/ToUserSettingButton.vue')['default']
+    UserBlog: typeof import('./components/user/UserBlog.vue')['default']
+    UserCollection: typeof import('./components/user/UserCollection.vue')['default']
+    UserContest: typeof import('./components/user/UserContest.vue')['default']
     UserEdit: typeof import('./components/user/UserEdit.vue')['default']
     UserName: typeof import('./components/user/UserName.vue')['default']
     UserRecord: typeof import('./components/user/UserRecord.vue')['default']
+    UserRoleTag: typeof import('./components/user/UserRoleTag.vue')['default']
   }
 }

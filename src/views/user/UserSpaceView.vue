@@ -22,23 +22,23 @@
         <div class="user-statistic">
           <div class="statistic-item">
             <span class="statistic-label">提交</span>
-            <span class="statistic-value">0</span>
+            <span class="statistic-value">?</span>
           </div>
           <div class="statistic-item">
             <span class="statistic-label">AC</span>
-            <span class="statistic-value">0</span>
+            <span class="statistic-value">?</span>
           </div>
           <div class="statistic-item">
             <span class="statistic-label">博客</span>
-            <span class="statistic-value">0</span>
+            <span class="statistic-value">?</span>
           </div>
           <div class="statistic-item">
             <span class="statistic-label">题单</span>
-            <span class="statistic-value">0</span>
+            <span class="statistic-value">?</span>
           </div>
           <div class="statistic-item">
             <span class="statistic-label">比赛</span>
-            <span class="statistic-value">0</span>
+            <span class="statistic-value">?</span>
           </div>
         </div>
       </div>
@@ -55,6 +55,10 @@
             <el-card>
               <div class="user-info">
                 <div class="user-info-item">
+                  <span class="info-label">ID</span>
+                  <span class="info-value">{{ info?.id }}</span>
+                </div>
+                <div class="user-info-item">
                   <span class="info-label">邮箱</span>
                   <span class="info-value">{{ info?.email }}</span>
                 </div>
@@ -63,7 +67,7 @@
                   <UserRoleTag :role="info?.role || Role.User" />
                 </div>
                 <div class="user-info-item">
-                  <span class="info-label">创建时间</span>
+                  <span class="info-label">注册时间</span>
                   <span class="info-value">{{ formatDateTimeStr(info?.create_time) }}</span>
                 </div>
               </div>
@@ -72,16 +76,16 @@
         </el-row>
       </el-tab-pane>
       <el-tab-pane label="博客">
-        <EmptyPage />
+        <UserBlog :userId="userId"></UserBlog>
       </el-tab-pane>
       <el-tab-pane label="记录">
         <UserRecord :userId="userId" />
       </el-tab-pane>
       <el-tab-pane label="题单">
-        <EmptyPage />
+        <UserCollection :userId="userId" />
       </el-tab-pane>
       <el-tab-pane label="比赛">
-        <EmptyPage />
+        <UserContest :userId="userId" />
       </el-tab-pane>
     </el-tabs>
     <ElRow>
@@ -98,8 +102,9 @@ import { useRouteParams } from "@vueuse/router";
 import { userStore } from "@/stores/user";
 import { GetUserInfo } from "@/apis/user";
 import { Role, type UserInfo } from "@/types/User";
-import UserRoleTag from "./UserRoleTag.vue";
+import UserRoleTag from "../../components/user/UserRoleTag.vue";
 import {formatDateTimeStr} from "@/utils/date";
+import UserBlog from "@/components/user/UserBlog.vue";
 
 const { info: info_, id } = userStore();
 const { execute } = GetUserInfo();
@@ -162,15 +167,10 @@ onBeforeMount(async () => {
   text-align: center;
 }
 
-.card {
-  margin-top: 50px;
-}
-
 .user-info {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  /* 添加间隙 */
 }
 
 .user-info-item {
