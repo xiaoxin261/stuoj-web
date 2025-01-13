@@ -1,7 +1,7 @@
 <template>
     <ElForm :model="parmas">
         <ElFormItem :inline="true">
-            <ElInput class="form-item-input" v-model="parmas.problem" placeholder="题目ID" clearable />
+            <ElInput class="form-item-input" v-model="parmas.problem" placeholder="题目ID" clearable />&nbsp;
             <ElInput class="form-item-input" v-model="parmas.user" placeholder="用户ID" clearable />
         </ElFormItem>
         <ElFormItem label-position="top">
@@ -10,7 +10,7 @@
             <TimeSelect v-model:time="parmas['end-time']" placeholder="结束时间" margin="1px" ref="endTimeRef" />
         </ElFormItem>
         <ElFormItem label-position="left">
-            <JudgeStatusSelect class="form-item-input" v-model:status="parmas.status" />
+            <JudgeStatusSelect class="form-item-input" v-model:status="parmas.status" />&nbsp;
             <LanguageSelect class="form-item-input" clearable placeholder="编程语言" style="width: 240px;" v-model:id="parmas.language" ref="languageRef" />
         </ElFormItem>
         <el-form-item>

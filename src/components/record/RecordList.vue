@@ -2,7 +2,7 @@
   <ElTable :data="submissions" :key="certinfoKey" style="width: 100%" lazy>
     <ElTableColumn type="expand" width="50">
       <template #default="scope">
-        <div m="4" class="judgements-table-container">
+        <div class="judgements-table-container">
           <JudgementsTable :id="scope.row.id" style="width: 95%;" />
         </div>
       </template>
