@@ -1,4 +1,5 @@
 import {Colors} from "@/types/Colors";
+import type { UserInfo } from "./User";
 
 export interface ProblemInfo {
     create_time?: string;
@@ -79,13 +80,13 @@ export interface ProblemHistory {
     memory_limit: number;
     operation: number;
     output: string;
-    problem_id: number;
+    problem: ProblemInfo;
     sample_input: string;
     sample_output: string;
     source: string;
     time_limit: number;
     title: string;
-    user_id: number;
+    user: UserInfo;
     [property: string]: any;
 }
 

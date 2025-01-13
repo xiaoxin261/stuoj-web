@@ -1,14 +1,16 @@
 import {Colors} from "@/types/Colors";
+import type { ProblemInfo } from "./Problem";
+import type { UserInfo } from "@/types/User";
 
 export interface BlogInfo {
     content?: string;
     create_time: string;
     id: number;
-    problem_id?: number;
+    problem?: ProblemInfo;
     status: number;
     title: string;
     update_time: string;
-    user_id: number;
+    user: UserInfo;
     [property: string]: any;
 }
 
