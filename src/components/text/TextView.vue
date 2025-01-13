@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { ref, watch, defineProps, computed, nextTick } from 'vue';
-import { renderMarkAndLaTeX } from '../utils/renderMarkAndLaTeX';
+import { renderMarkAndLaTeX } from '../../utils/renderMarkAndLaTeX';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/github-dark.css';
 

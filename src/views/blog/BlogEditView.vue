@@ -3,7 +3,7 @@ import { getBlogListApi, createBlogApi } from '@/apis/blog';
 import { onMounted, ref } from "vue";
 import type { BlogInfo } from '@/types/Blog';
 import { Album, type Page } from '@/types/misc';
-import TextEditor from '@/components/TextEditor.vue';
+import TextEditor from '@/components/text/TextEditor.vue';
 
 interface BlogParams {
   page: number

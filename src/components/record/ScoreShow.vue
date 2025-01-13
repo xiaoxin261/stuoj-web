@@ -1,10 +1,13 @@
 <template>
-  <div class="score-show">
+  <div class="score-show" v-if="statusShow">
     <RecordTag v-if="statusShow" :status="status" :score="score" />
     <div class="score-row">
       <el-icon><GoldMedal /></el-icon>
       <span class="ellipsis score" :style="{ fontSize: props.size, color: color }">{{ score }}</span>
     </div>
+  </div>
+  <div v-else>
+    <span class="ellipsis score" :style="{ fontSize: props.size, color: color }">{{ score }}</span>
   </div>
 </template>
 
@@ -47,11 +50,11 @@ onMounted(async () => {
     await execute({ id: props.id }).then((res) => {
       if (!res.value) {
         return;
-      };
+      }
       score.value = res.value.submission.score ?? 0;
       status.value = res.value.submission.status;
     });
-  };
+  }
   color.value = JudgeStatusColor[status.value];
 });
 

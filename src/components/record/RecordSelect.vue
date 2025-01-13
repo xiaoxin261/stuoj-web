@@ -23,7 +23,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { type RecordParams } from '@/types/Record';
-import TimeSelect from '../TimeSelect.vue';
+import TimeSelect from '../form/TimeSelect.vue';
 import LanguageSelect from '../judge/LanguageSelect.vue';
 
 const props = withDefaults(defineProps<{
