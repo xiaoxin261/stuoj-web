@@ -18,6 +18,7 @@
         </div>
       </template>
     </el-popover>
+    &nbsp;
     <UserName v-if="name" :user="info" :size="nameSize" />
   </div>
 </template>

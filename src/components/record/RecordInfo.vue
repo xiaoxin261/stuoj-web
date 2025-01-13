@@ -4,9 +4,7 @@
             <el-descriptions-item>
                 <template #label>
                     <div class="cell-item">
-                        <el-icon>
-                            <Cpu />
-                        </el-icon>
+                        <el-icon><Cpu /></el-icon>
                         状态
                     </div>
                 </template>
@@ -15,9 +13,7 @@
             <el-descriptions-item>
                 <template #label>
                     <div class="cell-item">
-                        <el-icon>
-                            <Coin />
-                        </el-icon>
+                      <el-icon><GoldMedal /></el-icon>
                         分数
                     </div>
                 </template>
@@ -26,9 +22,7 @@
             <el-descriptions-item>
                 <template #label>
                     <div class="cell-item">
-                        <el-icon>
-                            <Timer />
-                        </el-icon>
+                        <el-icon><Timer /></el-icon>
                         耗时
                     </div>
                 </template>
@@ -37,9 +31,7 @@
             <el-descriptions-item>
                 <template #label>
                     <div class="cell-item">
-                        <el-icon>
-                            <PieChart />
-                        </el-icon>
+                      <el-icon><Coin /></el-icon>
                         内存
                     </div>
                 </template>
