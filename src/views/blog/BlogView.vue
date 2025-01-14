@@ -50,10 +50,6 @@ const commentForm = ref({
         </el-icon>&nbsp;?
         <el-divider direction="vertical"></el-divider>
         <el-icon>
-          <StarFilled />
-        </el-icon>&nbsp;?
-        <el-divider direction="vertical"></el-divider>
-        <el-icon>
           <Comment />
         </el-icon>&nbsp;?
         <el-divider direction="vertical"></el-divider>
