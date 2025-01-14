@@ -2,17 +2,19 @@
 import { onMounted, ref } from "vue";
 import { BlogStatus, type BlogInfo } from "@/types/Blog";
 import { useRouteParams } from "@vueuse/router";
-import { getBlogApi } from "@/apis/blog";
+import { getBlogApi, deleteBlogApi } from "@/apis/blog";
 import { formatDateTimeStr } from "../../utils/date";
 import { userStore } from "@/stores/user";
 import { Role } from "@/types/User";
 import router from "@/router";
+import { ElNotification } from "element-plus";
 
 const { info, id } = userStore();
 
 const blogId = useRouteParams<number>("id");
 
 const { state, execute } = getBlogApi();
+const { execute: deleteExecute } = deleteBlogApi();
 
 const blog = ref<BlogInfo>({} as BlogInfo);
 
@@ -32,6 +34,21 @@ const commentForm = ref({
 
 const handleEdit = async () => {
   router.push(`/blog/edit/${blogId.value}`);
+};
+
+const dialogVisible = ref(false);
+
+const handleDelete = async () => {
+  dialogVisible.value = true;
+};
+
+const handleConfirmDelete = async () => {
+  await deleteExecute({
+    id: blogId.value
+  }).then(() => {
+    ElNotification({ type: 'success', message: '删除成功' });
+    router.push("/blog");
+  });
 };
 
 </script>
@@ -72,7 +89,10 @@ const handleEdit = async () => {
         <el-divider direction="vertical"></el-divider>
         <ElButton
           v-if="blog.user && (info.role >= Role.Admin || (blog.user.id === id && blog.status !== BlogStatus.Banned))"
-          type="text" @click="handleEdit()">编辑</ElButton>
+          text @click="handleEdit()">编辑</ElButton>
+        <ElButton
+          v-if="blog.user && (info.role >= Role.Admin || (blog.user.id === id && blog.status !== BlogStatus.Banned))"
+          type="danger" text @click="handleDelete()">删除</ElButton>
       </div>
       <br />
       <div>
@@ -120,6 +140,15 @@ const handleEdit = async () => {
       </div>
     </el-card>
   </div>
+  <ElDialog v-model="dialogVisible" title="确认窗口" width="500">
+    <span>删除后不可恢复</span>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button type="danger" @click="handleConfirmDelete">确定</el-button>
+      </span>
+    </template>
+  </ElDialog>
 </template>
 
 <style scoped></style>
