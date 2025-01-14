@@ -70,14 +70,14 @@ onMounted(() => {
           <el-icon>
             <Timer />
           </el-icon>&nbsp;{{ formatDateStr(blog.update_time) }}
-        </div>
-        <br />
-        <div>
+          <el-divider direction="vertical"></el-divider>
           <el-tag>tag</el-tag>&nbsp;
           <el-tag>tag</el-tag>&nbsp;
           <el-tag>tag</el-tag>&nbsp;
           <el-tag>tag</el-tag>&nbsp;
         </div>
+        <el-divider></el-divider>
+        <span>这是博客摘要</span>
       </el-card>
     </router-link>
     <br />
@@ -89,6 +89,4 @@ onMounted(() => {
                  @current-change="getList" />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
