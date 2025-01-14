@@ -125,7 +125,7 @@
         </ElCard>
         <ElCard shadow="always" style="margin-top: 20px;">
           <template #header>
-            <strong>相关题目</strong>
+            <strong>相关博客</strong>
           </template>
           <div class="problem-info">
             <ul>
