@@ -12,35 +12,31 @@
       <ElCol :span="18">
         <ElCard shadow="always">
           <div class="problem-title">
-            <h1>{{ problemInfo.id }} {{ problemInfo.title }}</h1>
+            <h1>[{{ problemInfo.id }}] {{ problemInfo.title }}</h1>
             <div>
               <el-icon>
                 <View />
-              </el-icon>&nbsp;0
+              </el-icon>&nbsp;?
               <el-divider direction="vertical"></el-divider>
               <el-icon>
                 <StarFilled />
-              </el-icon>&nbsp;0
-              <el-divider direction="vertical"></el-divider>
-              <el-icon>
-                <Share />
-              </el-icon>&nbsp;0
+              </el-icon>&nbsp;?
               <el-divider direction="vertical"></el-divider>
               <el-icon>
                 <Notebook />
-              </el-icon>&nbsp;0
+              </el-icon>&nbsp;?
               <el-divider direction="vertical"></el-divider>
               <el-icon>
                 <List />
-              </el-icon>&nbsp;0
+              </el-icon>&nbsp;?
               <el-divider direction="vertical"></el-divider>
               <el-icon>
                 <Checked />
-              </el-icon>&nbsp;0
+              </el-icon>&nbsp;?
               <el-divider direction="vertical"></el-divider>
               <el-icon>
                 <Failed />
-              </el-icon>&nbsp;0
+              </el-icon>&nbsp;?
               <el-divider direction="vertical"></el-divider>
               <el-icon>
                 <Timer />
@@ -53,19 +49,19 @@
             </div>
           </div>
           <el-divider></el-divider>
-          <div class="problem-content custom-font-size">
+          <div class="problem-content">
             <h3 class="weight">描述</h3>
             <TextView :content="problemInfo.description ?? ''" />
           </div>
-          <div class="problem-input custom-font-size">
+          <div class="problem-input">
             <h3 class="weight">输入格式</h3>
             <TextView :content="problemInfo.input ?? ''" />
           </div>
-          <div class="problem-output custom-font-size">
+          <div class="problem-output">
             <h3 class="weight">输出格式</h3>
             <TextView :content="problemInfo.output ?? ''" />
           </div>
-          <div class="problem-sample custom-font-size">
+          <div class="problem-sample">
             <h3 class="weight">输入样例</h3>
             <div class="problem-sample-input sample-box">
               {{ problemInfo.sample_input }}
@@ -75,7 +71,7 @@
               {{ problemInfo.sample_output }}
             </div>
           </div>
-          <div class="problem-hint custom-font-size">
+          <div class="problem-hint">
             <h3 class="weight">提示</h3>
             <TextView :content="problemInfo.hint ?? ''" />
           </div>
@@ -87,51 +83,51 @@
       </ElCol>
       <ElCol :span="6">
         <ElCard shadow="always">
-          <div class="problem-info custom-font-size">
-            <h3>题目信息</h3>
+          <template #header>
+            <strong>题目信息</strong>
+          </template>
+          <div class="problem-info">
             <div class="problem-info-item">
-              <h4 class="weight">来源</h4>
+              <span>题目来源</span>
               <span>{{ problemInfo.source }}</span>
             </div>
             <div class="problem-info-item">
-              <h4 class="weight">难度</h4>
+              <span>题目难度</span>
               <el-tag :color="DifficultyColor[problemInfo.difficulty as Difficulty]" style="color: white">
                 {{ DifficultyMap[problemInfo.difficulty as Difficulty] }}
               </el-tag>
             </div>
-            <div class="problem-info-item custom-font-size">
-              <h4 class="weight">时间限制</h4>
+            <div class="problem-info-item">
+              <span>时间限制</span>
               <span>{{ problemInfo.time_limit }} s</span>
             </div>
-            <div class="problem-info-item custom-font-size">
-              <h4 class="weight">内存限制</h4>
-              <span>{{ (problemInfo.memory_limit ?? 0) / 1024 }} MB</span>
+            <div class="problem-info-item">
+              <span>内存限制</span>
+              <span>{{ ((problemInfo.memory_limit ?? 0) / 1024).toFixed(2) }} MB</span>
             </div>
-            <div class="problem-info-item custom-font-size">
-              <div class="problem-info-item-title">
-                <h4 class="weight">标签</h4>
-                <ElButton style="margin-top: 20px;margin-left: 10px;" size="small" @click="toggleTagsVisibility"
-                  :icon="tagsFlag ? 'View' : 'Hide'" />
-              </div>
-              <ProblemTagShow v-if="tagsFlag" :tags="tags" />
+            <div class="problem-info-item">
+                <span>题目标签</span>
+                <span><ElButton size="small" @click="toggleTagsVisibility" :icon="tagsFlag ? 'View' : 'Hide'" /></span>
+            </div>
+            <div class="problem-info-item" v-if="tagsFlag">
+              <ProblemTagShow :tags="tags"/>
             </div>
           </div>
+          <br/>
           <div>
-            <el-button><el-icon>
-                <View />
-              </el-icon>&nbsp;0</el-button>
-            <el-button><el-icon>
-                <StarFilled />
-              </el-icon>&nbsp;0</el-button>
-            <el-button><el-icon>
-                <Share />
-              </el-icon>&nbsp;0</el-button>
-            <a :href="`/record?problem=${problemInfo.id}`">&nbsp;提交记录</a>
+            <el-button>
+              <a :href="`/record?problem=${problemInfo.id}`">
+                <el-icon><List /></el-icon>&nbsp;提交记录
+              </a>
+            </el-button>
+            <el-button disabled><el-icon><StarFilled /></el-icon>&nbsp;收藏</el-button>
           </div>
         </ElCard>
         <ElCard shadow="always" style="margin-top: 20px;">
-          <div class="problem-info custom-font-size">
-            <h3>相关博客</h3>
+          <template #header>
+            <strong>相关题目</strong>
+          </template>
+          <div class="problem-info">
             <ul>
               <li>博客1</li>
               <li>博客2</li>
@@ -183,8 +179,7 @@ onMounted(async () => {
 .problem-input,
 .problem-output,
 .problem-sample,
-.problem-hint,
-.problem-info {
+.problem-hint {
   text-align: left;
   margin-bottom: 20px;
 }
@@ -212,11 +207,16 @@ onMounted(async () => {
   /* 底部外边距 */
 }
 
-.custom-font-size {
-  font-size: 17px;
+.problem-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.problem-info-item-title {
+.problem-info-item {
+  justify-content: space-between;
   display: flex;
+  flex-direction: row;
+  font-size: 16px;
 }
 </style>
