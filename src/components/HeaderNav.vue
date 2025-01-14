@@ -1,69 +1,50 @@
 <template>
-  <el-menu
-      class="menu"
-      mode="horizontal"
-      :ellipsis="false"
-      router
-  >
+  <el-menu class="menu" mode="horizontal" :ellipsis="false" router>
     <div class="logo">
-      <img src="@/assets/images/logo/icon.png" alt="Logo"/>
+      <a href="/">
+        <img src="@/assets/images/logo/icon.png" alt="Logo" />
+      </a>
       <div class="logo-text">
         <span style="font-weight: bolder">STUOJ</span>
         <span style="font-size: 12px;">stuoj.com</span>
       </div>
     </div>
-      <el-menu-item index="/">
-        <el-icon>
-          <HomeFilled/>
-        </el-icon>
-        <span>首页</span>
-      </el-menu-item>
-      <el-menu-item index="/problem">
-        <el-icon>
-          <el-icon><FolderOpened /></el-icon>
-        </el-icon>
-        <span>题库</span>
-      </el-menu-item>
-      <el-menu-item index="/record">
-        <el-icon>
-          <el-icon><List /></el-icon>
-        </el-icon>
-        <span>记录</span>
-      </el-menu-item>
-      <el-menu-item index="/collection">
-        <el-icon>
-          <el-icon><Collection /></el-icon>
-        </el-icon>
-        <span>题单</span>
-      </el-menu-item>
-      <el-menu-item index="/contest">
-        <el-icon><Flag /></el-icon>
-        <span>比赛</span>
-      </el-menu-item>
-      <el-menu-item index="/blog">
-        <el-icon>
-          <el-icon><Notebook /></el-icon>
-        </el-icon>
-        <span>博客</span>
-      </el-menu-item>
-      <el-menu-item index="/admin" v-if="isLogin && info.role >= Role.Admin">
-        <el-icon><Setting /></el-icon>
-        <span>管理</span>
-      </el-menu-item>
+    <el-menu-item v-for="link in menuLinks" :key="link.index" :index="link.index">
+      <el-icon>
+        <component :is="link.icon" />
+      </el-icon>
+      <span>{{ link.text }}</span>
+    </el-menu-item>
     <div class="menu-space"><!-- 占位 --></div>
-    <el-menu-item><AvatarInfo /></el-menu-item>
+    <el-menu-item>
+      <AvatarInfo />
+    </el-menu-item>
   </el-menu>
 
 </template>
 
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue';
+import { computed, ref, watchEffect } from 'vue';
 import { userStore } from '@/stores/user';
-import {Collection, Flag, FolderOpened, HomeFilled, List, Notebook, Reading, Setting} from "@element-plus/icons-vue";
-import {Role} from "@/types/User";
+import { Collection, Flag, FolderOpened, HomeFilled, List, Notebook, Setting } from "@element-plus/icons-vue";
+import { Role } from "@/types/User";
 
-const { info, isLogin, id } = userStore();
+const { info } = userStore();
 const username = ref(info?.value?.username || '未登录')
+
+const menuLinks = computed(() => {
+  const basicLinks = [
+    { index: '/', icon: HomeFilled, text: '首页', role: Role.Visitor },
+    { index: '/problem', icon: FolderOpened, text: '题库', role: Role.Visitor },
+    { index: '/record', icon: List, text: '记录', role: Role.Visitor },
+    { index: '/collection', icon: Collection, text: '题单', role: Role.Visitor },
+    { index: '/contest', icon: Flag, text: '比赛', role: Role.Visitor },
+    { index: '/blog', icon: Notebook, text: '博客', role: Role.Visitor },
+    { index: '/admin', icon: Setting, text: '管理', role: Role.Editor },
+  ];
+
+  return basicLinks.filter(link => info.value?.role >= link.role);
+});
 
 watchEffect(() => {
   username.value = info.value?.username || '未登录';

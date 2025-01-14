@@ -155,7 +155,7 @@ const router = createRouter({
       component: () => import('@/views/admin/AdminView.vue'),
       meta: {
         title: '管理面板 - STUOJ',
-        permission: Role.Admin,
+        permission: Role.Editor,
       },
     },
     {
@@ -171,7 +171,7 @@ const router = createRouter({
       component: () => import('@/views/admin/AdminProblemView.vue'),
       meta: {
         title: '题目管理 - STUOJ',
-        permission: Role.Admin,
+        permission: Role.Editor,
       }
     },
     {
@@ -179,7 +179,7 @@ const router = createRouter({
       component: () => import('@/views/admin/AdminTagView.vue'),
       meta: {
         title: '标签管理 - STUOJ',
-        permission: Role.Admin,
+        permission: Role.Editor,
       }
     },
     {
@@ -234,7 +234,7 @@ const router = createRouter({
       path: '/admin/statistics',
       component: () => import('@/views/admin/AdminStatisticsView.vue'),
       meta: {
-        title: '系统设置 - STUOJ',
+        title: '统计信息 - STUOJ',
         permission: Role.Admin,
       }
     },
@@ -243,7 +243,7 @@ const router = createRouter({
       component: () => import('@/views/admin/AdminSystemView.vue'),
       meta: {
         title: '系统设置 - STUOJ',
-        permission: Role.Admin,
+        permission: Role.Root,
       }
     }
   ],
