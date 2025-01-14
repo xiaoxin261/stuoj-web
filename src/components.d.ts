@@ -13,6 +13,7 @@ declare module 'vue' {
     AvatarInfo: typeof import('./components/user/AvatarInfo.vue')['default']
     BlogRecommend: typeof import('./components/blog/BlogRecommend.vue')['default']
     Blogs: typeof import('./components/blog/Blogs.vue')['default']
+    BlogStatusSelect: typeof import('./components/blog/BlogStatusSelect.vue')['default']
     CodeEditor: typeof import('./components/judge/CodeEditor.vue')['default']
     CodeRun: typeof import('./components/judge/CodeRun.vue')['default']
     DataMake: typeof import('./components/dakemake/DataMake.vue')['default']
