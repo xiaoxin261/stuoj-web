@@ -5,6 +5,7 @@ import TextEditor from '@/components/text/TextEditor.vue';
 import router from "@/router";
 import { createBlogApi } from "@/apis/blog";
 import { BlogStatus } from "@/types/Blog";
+import { ElNotification } from "element-plus";
 
 const { execute: createBlogExecute } = createBlogApi();
 
@@ -20,6 +21,9 @@ const onSubmit = async () => {
   await textEditorRef.value?.uploadImage().then(async () => {
     await createBlogExecute({
       data: blogForm.value
+    }).then((res)=>{
+      ElNotification({ type: 'success', message: '发布成功' });
+      router.push(`/blog/${res.value}`);
     });
   });
 }

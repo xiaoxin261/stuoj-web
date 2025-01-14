@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import type { BlogInfo } from "@/types/Blog";
+import { BlogStatus, type BlogInfo } from "@/types/Blog";
 import { useRouteParams } from "@vueuse/router";
 import { getBlogApi } from "@/apis/blog";
-import { StarFilled } from "@element-plus/icons-vue";
 import { formatDateTimeStr } from "../../utils/date";
+import { userStore } from "@/stores/user";
+import { Role } from "@/types/User";
 import router from "@/router";
+
+const { info, id } = userStore();
 
 const blogId = useRouteParams<number>("id");
 
@@ -20,12 +23,16 @@ onMounted(async () => {
   if (state.value) {
     blog.value = state.value
     document.title = `${blog.value.title} - 博客 - STUOJ`;
-  }
+  };
 });
 
 const commentForm = ref({
   content: ""
 });
+
+const handleEdit = async () => {
+  router.push(`/blog/edit/${blogId.value}`);
+};
 
 </script>
 
@@ -40,12 +47,13 @@ const commentForm = ref({
     </el-card>
     <br />
     <el-card>
-      <h1>{{ blog?.title }}</h1>
+      <div style="display: flex; flex-direction: row; justify-content: space-between;">
+        <h1>{{ blog?.title }}</h1>
+        <div>
+          <AvatarInfo v-if="blog.user" :user="blog.user" name />
+        </div>
+      </div>
       <div>
-        <el-icon>
-          <UserFilled />
-        </el-icon>&nbsp;{{ blog?.user_id }}
-        <el-divider direction="vertical"></el-divider>
         <el-icon>
           <View />
         </el-icon>&nbsp;?
@@ -62,6 +70,9 @@ const commentForm = ref({
           <Timer />
         </el-icon>&nbsp;{{ formatDateTimeStr(blog?.update_time ?? "") }}
         <el-divider direction="vertical"></el-divider>
+        <ElButton
+          v-if="blog.user && (info.role >= Role.Admin || (blog.user.id === id && blog.status !== BlogStatus.Banned))"
+          type="text" @click="handleEdit()">编辑</ElButton>
       </div>
       <br />
       <div>
@@ -73,7 +84,7 @@ const commentForm = ref({
       </div>
       <el-divider></el-divider>
       <TextView :content="blog?.content || ''" />
-      <br/>
+      <br />
     </el-card>
     <br />
     <el-card>

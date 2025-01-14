@@ -1,62 +1,89 @@
 <script setup lang="ts">
-import { getBlogListApi, createBlogApi } from '@/apis/blog';
-import { onMounted, ref } from "vue";
-import type { BlogInfo } from '@/types/Blog';
-import { Album, type Page } from '@/types/misc';
+import { createBlogApi, getBlogApi, updateBlogApi } from '@/apis/blog';
+import { computed, onMounted, ref } from "vue";
+import { Album } from '@/types/misc';
 import TextEditor from '@/components/text/TextEditor.vue';
+import { BlogStatus } from '@/types/Blog';
+import { useRouteParams } from '@vueuse/router';
+import router from '@/router';
+import { ElNotification } from 'element-plus';
 
-interface BlogParams {
-  page: number
-  size: number
-}
 
-const text = ref("");
-
-const blogPage = ref<Page<"blogs", BlogInfo>>();
-const blogs = ref<BlogInfo[]>([]);
-const { state, execute: getBlogListExecute } = getBlogListApi();
 const { execute: createBlogExecute } = createBlogApi();
-const params = ref<BlogParams>({
-  page: 1,
-  size: 10
-});
-
-const getList = async () => {
-  await getBlogListExecute({
-    params: {
-      ...params.value,
-    }
-  });
-
-  if (state.value) {
-    blogPage.value = state.value;
-    blogs.value = blogPage.value.blogs;
-  }
-}
-
-onMounted(() => {
-  getList();
-})
-
+const { execute: getBlogExecute } = getBlogApi();
+const { execute: updateBlogExecute } = updateBlogApi();
 const blogForm = ref({
   title: "",
   content: "",
   problem_id: 0,
-})
+  status: BlogStatus.Draft,
+});
 
 const textEditorRef = ref<InstanceType<typeof TextEditor>>();
+
+const problem_id = computed({
+  set: (value: string) => {
+    const parsedValue = parseInt(value, 10);
+    if (!isNaN(parsedValue)) {
+      blogForm.value.problem_id = parsedValue;
+    } else {
+      blogForm.value.problem_id = 0;
+    }
+  },
+  get: () => {
+    return blogForm.value.problem_id !== 0 ? blogForm.value.problem_id.toString() : "";
+  }
+});
+
+const blogId = useRouteParams<string>("id");
+
+onMounted(async () => {
+  if (blogId.value) {
+    await getBlogExecute({
+      id: parseInt(blogId.value, 10),
+    }).then((res) => {
+      if (res.value) {
+        blogForm.value.content = res.value.content ?? "";
+        blogForm.value.title = res.value.title ?? "";
+        blogForm.value.status = res.value.status ?? 0;
+        blogForm.value.problem_id = res.value.problem_id ?? 0;
+      };
+    });
+  };
+});
 
 const onSubmit = async () => {
   await textEditorRef.value?.uploadImage().then(async () => {
     await createBlogExecute({
       data: {
         title: blogForm.value.title,
-        content: text.value,
-        problem_id: blogForm.value.problem_id,
+        content: blogForm.value.content,
+        problem_id: blogForm.value.problem_id === null ? 0 : blogForm.value.problem_id,
+        status: blogForm.value.status,
       }
+    }).then((res) => {
+      ElNotification({ type: 'success', message: '创建成功' });
+      router.push(`/blog/${res.value}`);
     });
   });
-}
+};
+
+const onEdit = async () => {
+  await textEditorRef.value?.uploadImage().then(async () => {
+    await updateBlogExecute({
+      data: {
+        id: parseInt(blogId.value, 10),
+        title: blogForm.value.title,
+        content: blogForm.value.content,
+        problem_id: blogForm.value.problem_id === null ? 0 : blogForm.value.problem_id,
+        status: blogForm.value.status,
+      }
+    }).then(() => {
+      ElNotification({ type: 'success', message: '修改成功' });
+      router.push(`/blog/${blogId.value}`)
+    });
+  });
+};
 
 </script>
 
@@ -68,13 +95,16 @@ const onSubmit = async () => {
           <el-input v-model="blogForm.title" placeholder="标题" clearable />
         </el-form-item>
         <el-form-item label="关联题目">
-          <el-input v-model="blogForm.problem_id" placeholder="关联题目ID" clearable />
+          <el-input v-model="problem_id" placeholder="关联题目ID" clearable />
         </el-form-item>
         <el-form-item>
-          <TextEditor v-model:text="text" :max-row="100" :album="Album.blog" placeholder="分享一些有趣的事吧..." ref="textEditorRef" />
+          <TextEditor v-model:text="blogForm.content" :max-row="100" :album="Album.blog" placeholder="分享一些有趣的事吧..."
+            ref="textEditorRef" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">发布</el-button>
+          <el-button v-if="!blogId" type="primary" @click="onSubmit">发布</el-button>
+          <el-button v-else type="" @click="onEdit">修改</el-button>
+          <BlogStatusSelect style="margin-left: 10px; width: 100px;" v-model:status="blogForm.status" />
         </el-form-item>
       </el-form>
     </el-card>

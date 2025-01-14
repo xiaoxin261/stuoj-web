@@ -132,7 +132,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, ref, watch } from 'vue';
+import { computed, nextTick, ref, watch, watchEffect } from 'vue';
 import type { Album } from '@/types/misc';
 import { uploadImageApi } from '@/apis/image';
 import { Edit, Picture, Tickets, PictureFilled, Link } from '@element-plus/icons-vue';
@@ -552,6 +552,10 @@ defineExpose({
 watch(() => text.value, () => {
   saveHistory();
   emit('update:text', text.value);
+});
+
+watchEffect(() => {
+  text.value = props.text;
 });
 
 const maxPreviewHeight = computed(() => {
