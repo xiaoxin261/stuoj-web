@@ -75,7 +75,7 @@ onMounted(() => {
           <el-tag>tag</el-tag>&nbsp;
         </div>
         <el-divider></el-divider>
-        <span>这是博客摘要</span>
+        <span>{{ blog.content }}</span>
       </el-card>
     </router-link>
     <br />
