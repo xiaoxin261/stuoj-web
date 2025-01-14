@@ -3,24 +3,30 @@ import { onMounted, ref } from "vue";
 import { BlogStatus, type BlogInfo } from "@/types/Blog";
 import { useRouteParams } from "@vueuse/router";
 import { getBlogApi, deleteBlogApi } from "@/apis/blog";
+import { uploadCommentApi } from "@/apis/comment";
 import { formatDateTimeStr } from "../../utils/date";
 import { userStore } from "@/stores/user";
 import { Role } from "@/types/User";
 import router from "@/router";
 import { ElNotification } from "element-plus";
+import Comments from "@/components/comment/Comments.vue";
+
+const commentRef = ref<InstanceType<typeof Comments>>();
 
 const { info, id } = userStore();
 
-const blogId = useRouteParams<number>("id");
+const blogId = useRouteParams<string>("id");
 
 const { state, execute } = getBlogApi();
-const { execute: deleteExecute } = deleteBlogApi();
+const { execute: deleteBlogExecute } = deleteBlogApi();
+const { execute: uploadCommentExecute } = uploadCommentApi();
+
 
 const blog = ref<BlogInfo>({} as BlogInfo);
 
 onMounted(async () => {
   await execute({
-    id: blogId.value,
+    id: parseInt(blogId.value, 10),
   });
   if (state.value) {
     blog.value = state.value
@@ -29,8 +35,19 @@ onMounted(async () => {
 });
 
 const commentForm = ref({
+  blog_id: parseInt(blogId.value, 10),
   content: ""
 });
+
+const onSubmit = async () => {
+  await uploadCommentExecute({
+    data: commentForm.value
+  }).then((res) => {
+    ElNotification({ type: 'success', message: '评论成功' });
+    commentForm.value.content = "";
+    commentRef.value?.handleQuery();
+  });
+};
 
 const handleEdit = async () => {
   router.push(`/blog/edit/${blogId.value}`);
@@ -43,8 +60,8 @@ const handleDelete = async () => {
 };
 
 const handleConfirmDelete = async () => {
-  await deleteExecute({
-    id: blogId.value
+  await deleteBlogExecute({
+    id: parseInt(blogId.value, 10)
   }).then(() => {
     ElNotification({ type: 'success', message: '删除成功' });
     router.push("/blog");
@@ -122,21 +139,7 @@ const handleConfirmDelete = async () => {
       <el-divider></el-divider>
       <strong>评论区</strong><br /><br />
       <div>
-        <el-card style="margin-bottom: 20px">
-          <div>
-            <el-icon>
-              <UserFilled />
-            </el-icon>&nbsp;用户名
-            <el-divider direction="vertical"></el-divider>
-            <el-icon>
-              <Timer />
-            </el-icon>&nbsp;2021-01-01 00:00:00
-          </div>
-          <br />
-          <div>
-            评论内容
-          </div>
-        </el-card>
+        <Comments :blog-id="blog.id" :select="false" ref="commentRef" />
       </div>
     </el-card>
   </div>
