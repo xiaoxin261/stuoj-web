@@ -86,21 +86,20 @@
       </ElTooltip>
       <ElTooltip content="编辑区" placement="top">
         <ElButton text class="toolbar-button" :class="{ 'selected': checkboxGroup.includes('editorShow') }"
-                  @click="toggleCheckbox('editorShow')" :icon="Edit" />
+          @click="toggleCheckbox('editorShow')" :icon="Edit" />
       </ElTooltip>
       <ElTooltip content="预览区" placement="top">
         <ElButton text class="toolbar-button" :class="{ 'selected': checkboxGroup.includes('previewShow') }"
-                  @click="toggleCheckbox('previewShow')" :icon="Tickets" />
+          @click="toggleCheckbox('previewShow')" :icon="Tickets" />
       </ElTooltip>
     </div>
   </div>
   <div class="text-editor">
-    <ElInput v-show="editorShow" v-model="text" type="textarea" :placeholder="placeholder" :rows="10" resize="none"
-             class="editor" inputStyle="border: none;" @keydown.enter="handleEnterKey" @keydown="handleKeyDown" />
-    <div v-show="previewShow" class="preview-container">
-      <TextView v-model:content="text" :fontSize="fontSize" :letterSpacing="letterSpacing"
-                :lineHeight="lineHeight" class="preview" />
-    </div>
+    <ElInput v-show="editorShow" v-model="text" type="textarea" :placeholder="placeholder"
+      :autosize="{ minRows: minRow }" resize="none" class="editor" inputStyle="border: none;"
+      @keydown.enter="handleEnterKey" @keydown="handleKeyDown" />
+    <TextView v-show="previewShow" v-model:content="text" :fontSize="fontSize" :letterSpacing="letterSpacing"
+      :lineHeight="lineHeight" class="preview" />
   </div>
   <ElDialog v-model="dialogVisible" title="插入图片链接">
     <ElForm>
@@ -133,11 +132,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { computed, nextTick, ref, watch } from 'vue';
 import type { Album } from '@/types/misc';
 import { uploadImageApi } from '@/apis/image';
 import { Edit, Picture, Tickets, PictureFilled, Link } from '@element-plus/icons-vue';
 import { ElTooltip, ElDialog, ElForm, ElFormItem, ElInput, ElButton, ElNotification } from 'element-plus';
+
 
 const { execute } = uploadImageApi();
 
@@ -148,11 +148,15 @@ const props = withDefaults(defineProps<{
   fontSize?: string;
   letterSpacing?: string;
   lineHeight?: string;
+  minRow?: number;
+  maxRow?: number
 }>(), {
   placeholder: '',
   fontSize: '16px',
   letterSpacing: 'normal',
-  lineHeight: 'normal'
+  lineHeight: 'normal',
+  minRow: 10,
+  maxRow: 20
 });
 
 const editorShow = ref(true);
@@ -550,6 +554,12 @@ watch(() => text.value, () => {
   emit('update:text', text.value);
 });
 
+const maxPreviewHeight = computed(() => {
+  const fontSizeValue = parseFloat(props.fontSize) || 16; // 默认字体大小为 16px
+  const lineHeightValue = parseFloat(props.lineHeight) || 1.5; // 默认行高为 1.5
+  return `${fontSizeValue * lineHeightValue * (props.maxRow - 2)}px`;
+});
+
 </script>
 
 <style scoped>
@@ -583,24 +593,23 @@ watch(() => text.value, () => {
 .text-editor {
   display: flex;
   flex-direction: row;
-  height: auto;
   width: 100%;
+  max-height: v-bind('maxPreviewHeight');
 }
 
 .editor,
-.preview-container {
+.preview {
   flex: 1;
   border: 1px solid #ebeef5;
 }
 
-.preview-container {
+.editor {
+  min-height: 100%;
   overflow-y: auto;
-  max-width: 100%;
 }
 
 .preview {
-  height: 100%;
-  word-wrap: break-word;
+  overflow-y: auto;
 }
 
 .selected {

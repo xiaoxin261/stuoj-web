@@ -71,7 +71,7 @@ const onSubmit = async () => {
           <el-input v-model="blogForm.problem_id" placeholder="关联题目ID" clearable />
         </el-form-item>
         <el-form-item>
-          <TextEditor v-model:text="text" :album="Album.blog" placeholder="分享一些有趣的事吧..." ref="textEditorRef" />
+          <TextEditor v-model:text="text" :max-row="100" :album="Album.blog" placeholder="分享一些有趣的事吧..." ref="textEditorRef" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">发布</el-button>
