@@ -254,9 +254,12 @@ router.beforeEach(async (to: any, from: any, next) => {
   const permission = info.value?.role ?? 0;
   if (to.meta.permission > permission) {
     next("/403");
+  } else {
+    if (to.meta.title) {
+        document.title = to.meta.title;
+    }
+    next();
   }
-
-  next();
 });
 
 export default router
