@@ -57,26 +57,18 @@ onMounted(() => {
           <el-divider direction="vertical"></el-divider>
           <el-icon>
             <View />
-          </el-icon>&nbsp;0
-          <el-divider direction="vertical"></el-divider>
-          <el-icon>
-            <StarFilled />
-          </el-icon>&nbsp;0
+          </el-icon>&nbsp;?
           <el-divider direction="vertical"></el-divider>
           <el-icon>
             <Comment />
-          </el-icon>&nbsp;0
-          <el-divider direction="vertical"></el-divider>
-          <el-icon>
-            <Share />
-          </el-icon>&nbsp;0
+          </el-icon>&nbsp;?
           <el-divider direction="vertical"></el-divider>
           <el-icon>
             <Timer />
           </el-icon>&nbsp;{{ formatDateStr(blog.create_time) }}
           <el-divider direction="vertical"></el-divider>
           <el-icon>
-            <Stopwatch />
+            <Timer />
           </el-icon>&nbsp;{{ formatDateStr(blog.update_time) }}
         </div>
         <br />

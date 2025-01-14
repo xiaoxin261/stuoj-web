@@ -47,26 +47,22 @@ const commentForm = ref({
         <el-divider direction="vertical"></el-divider>
         <el-icon>
           <View />
-        </el-icon>&nbsp;0
+        </el-icon>&nbsp;?
         <el-divider direction="vertical"></el-divider>
         <el-icon>
           <StarFilled />
-        </el-icon>&nbsp;0
+        </el-icon>&nbsp;?
         <el-divider direction="vertical"></el-divider>
         <el-icon>
           <Comment />
-        </el-icon>&nbsp;0
-        <el-divider direction="vertical"></el-divider>
-        <el-icon>
-          <Share />
-        </el-icon>&nbsp;0
+        </el-icon>&nbsp;?
         <el-divider direction="vertical"></el-divider>
         <el-icon>
           <Timer />
         </el-icon>&nbsp;{{ formatDateTimeStr(blog?.create_time ?? "") }}
         <el-divider direction="vertical"></el-divider>
         <el-icon>
-          <Stopwatch />
+          <Timer />
         </el-icon>&nbsp;{{ formatDateTimeStr(blog?.update_time ?? "") }}
         <el-divider direction="vertical"></el-divider>
       </div>
@@ -80,18 +76,7 @@ const commentForm = ref({
       </div>
       <el-divider></el-divider>
       <TextView :content="blog?.content || ''" />
-      <el-divider></el-divider>
-      <div>
-        <el-button><el-icon>
-            <View />
-          </el-icon>&nbsp;0</el-button>
-        <el-button><el-icon>
-            <StarFilled />
-          </el-icon>&nbsp;0</el-button>
-        <el-button><el-icon>
-            <Share />
-          </el-icon>&nbsp;0</el-button>
-      </div>
+      <br/>
     </el-card>
     <br />
     <el-card>

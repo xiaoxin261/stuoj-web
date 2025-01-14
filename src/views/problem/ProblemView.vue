@@ -43,7 +43,7 @@
               </el-icon>&nbsp;{{ formatDateStr(problemInfo?.create_time ?? "") }}
               <el-divider direction="vertical"></el-divider>
               <el-icon>
-                <Stopwatch />
+                <Timer />
               </el-icon>&nbsp;{{ formatDateStr(problemInfo?.update_time ?? "") }}
               <el-divider direction="vertical"></el-divider>
             </div>
