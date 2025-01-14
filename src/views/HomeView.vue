@@ -8,12 +8,12 @@
             {{ year }} / {{ month }}
           </span><br/>
           <span style="font-size: 72px">{{ day }}</span><br/>
-          <el-button type="success">签到题</el-button>
+          <el-button type="success" disabled>签到题</el-button>
         </el-card>
         <el-card style="margin-bottom: 20px">
           <template #header>
             <div class="card-header">
-              <strong>题目传送门</strong>
+              <strong>题目传送</strong>
             </div>
           </template>
           <el-form :v-model="gotoForm">
@@ -22,14 +22,14 @@
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="gotoProblem">传送</el-button>
-              <el-button @click="gotoRandomProblem">随机传送</el-button>
+              <el-button @click="gotoRandomProblem" disabled>随机传送</el-button>
             </el-form-item>
           </el-form>
         </el-card>
         <el-card style="margin-bottom: 20px">
           <template #header>
             <div class="card-header">
-              <strong>网站公告板</strong>
+              <strong>网站公告</strong>
             </div>
           </template>
           <div>
