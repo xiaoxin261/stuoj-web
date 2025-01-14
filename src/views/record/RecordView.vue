@@ -98,6 +98,7 @@ onBeforeMount(async () => {
     }
     record.value = res.value.submission;
     judgements.value = res.value.judgements;
+    document.title = `${record.value.problem.title} - 记录 ${record.value.id} - STUOJ`;
   });
 });
 </script>
