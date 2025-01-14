@@ -1,17 +1,17 @@
 <template>
-    <ElForm :model="parmas">
+    <ElForm :model="params">
         <ElFormItem :inline="true">
-            <ElInput class="form-item-input" v-model="parmas.problem" placeholder="题目ID" clearable />&nbsp;
-            <ElInput class="form-item-input" v-model="parmas.user" placeholder="用户ID" clearable />
+            <ElInput class="form-item-input" v-model="params.problem" placeholder="题目ID" clearable />&nbsp;
+            <ElInput class="form-item-input" v-model="params.user" placeholder="用户ID" clearable />
         </ElFormItem>
         <ElFormItem label-position="top">
-            <TimeSelect v-model:time="parmas['start-time']" placeholder="开始时间" margin="1px" ref="startTimeRef" />
+            <TimeSelect v-model:time="params['start-time']" placeholder="开始时间" margin="1px" ref="startTimeRef" />
             <span style="margin: 0 10px;">-</span>
-            <TimeSelect v-model:time="parmas['end-time']" placeholder="结束时间" margin="1px" ref="endTimeRef" />
+            <TimeSelect v-model:time="params['end-time']" placeholder="结束时间" margin="1px" ref="endTimeRef" />
         </ElFormItem>
         <ElFormItem label-position="left">
-            <JudgeStatusSelect class="form-item-input" v-model:status="parmas.status" />&nbsp;
-            <LanguageSelect class="form-item-input" clearable placeholder="编程语言" style="width: 240px;" v-model:id="parmas.language" ref="languageRef" />
+            <JudgeStatusSelect class="form-item-input" v-model:status="params.status" />&nbsp;
+            <LanguageSelect class="form-item-input" clearable placeholder="编程语言" style="width: 240px;" v-model:id="params.language" ref="languageRef" />
         </ElFormItem>
         <el-form-item>
             <el-button @click="handleReset">重置</el-button>
@@ -27,31 +27,31 @@ import TimeSelect from '../form/TimeSelect.vue';
 import LanguageSelect from '../judge/LanguageSelect.vue';
 
 const props = withDefaults(defineProps<{
-    parmas: RecordParams
+    params: RecordParams
 }>(), {
-    parmas: () => ({ page: 1, size: 20 })
+    params: () => ({ page: 1, size: 20 })
 });
 
-const parmas = ref<RecordParams>(props.parmas);
-const emit = defineEmits(['update:parmas','confirmClicked']);
+const params = ref<RecordParams>(props.params);
+const emit = defineEmits(['update:params','confirmClicked']);
 
 const startTimeRef = ref<InstanceType<typeof TimeSelect>>();
 const endTimeRef = ref<InstanceType<typeof TimeSelect>>();
 const languageRef = ref<InstanceType<typeof LanguageSelect>>();
 
 const handleReset = () => {
-    parmas.value = {
+    params.value = {
         page: 1,
         size: 20
     };
-    emit('update:parmas', parmas.value);
+    emit('update:params', params.value);
     startTimeRef.value?.reset();
     endTimeRef.value?.reset();
     languageRef.value?.reset();
 };
 
 const handleConfirm = () => {
-    emit('update:parmas', parmas.value);
+    emit('update:params', params.value);
     emit('confirmClicked');
 };
 

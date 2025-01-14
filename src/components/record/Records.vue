@@ -1,6 +1,6 @@
 <template>
     <ElCard v-if="select">
-        <RecordSelect v-model:parmas="paramsSelect" @confirm-clicked="handleQuery" />
+        <RecordSelect v-model:params="paramsSelect" @confirm-clicked="handleQuery" />
     </ElCard>
     <br v-if="select" />
     <ElCard>
