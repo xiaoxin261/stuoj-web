@@ -76,7 +76,7 @@
           <ProblemRecommend/>
         </el-card>
         <el-card style="margin-bottom: 20px">
-          <template #heade6>
+          <template #header>
             <div class="card-header">
               <strong>博客推荐</strong>
             </div>
