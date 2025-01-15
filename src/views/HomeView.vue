@@ -29,22 +29,6 @@
         <el-card style="margin-bottom: 20px">
           <template #header>
             <div class="card-header">
-              <strong>网站公告</strong>
-            </div>
-          </template>
-          <div>
-            <ul>
-              <li>1. 今天天气真好</li>
-              <li>2. 今天天气真好</li>
-              <li>3. 今天天气真好</li>
-              <li>4. 今天天气真坏</li>
-              <li>5. 今天天气真好</li>
-            </ul>
-          </div>
-        </el-card>
-        <el-card style="margin-bottom: 20px">
-          <template #header>
-            <div class="card-header">
               <strong>精选题单</strong>
             </div>
           </template>
@@ -66,6 +50,14 @@
               <img :src="image" alt="banner" class="banner-img"/>
             </el-carousel-item>
           </el-carousel>
+        </el-card>
+        <el-card style="margin-bottom: 20px">
+          <template #header>
+            <div class="card-header">
+              <strong>公告栏</strong>
+            </div>
+          </template>
+          <Blogs :select="false" :params="blogParams" />
         </el-card>
         <el-card style="margin-bottom: 20px">
           <template #header>
@@ -97,6 +89,8 @@ import BlogRecommend from "@/components/blog/BlogRecommend.vue";
 import Banner1 from "@/assets/images/banner/stuoj.jpg";
 import Banner2 from "@/assets/images/banner/acm-icpc.jpg";
 import Banner3 from "@/assets/images/banner/jf.jpg";
+import { BlogStatus, type BlogParams } from '@/types/Blog';
+import { OrderBy } from '@/types/misc';
 
 const banners = ref([Banner1, Banner2, Banner3]);
 
@@ -121,7 +115,15 @@ const gotoProblem = () => {
   if (gotoForm.value.problemId) {
     router.push(`/problem/${gotoForm.value.problemId}`);
   }
-}
+};
+
+const blogParams = ref<BlogParams>({
+  page: 1,
+  size: 5,
+  status:BlogStatus.Notice,
+  order_by: OrderBy.create_time,
+  order: 'desc',
+});
 </script>
 
 <style>
