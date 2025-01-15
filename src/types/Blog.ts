@@ -1,6 +1,7 @@
 import {Colors} from "@/types/Colors";
 import type { ProblemInfo } from "./Problem";
 import type { UserInfo } from "@/types/User";
+import type { OrderBy } from "./misc";
 
 export interface BlogInfo {
     content?: string;
@@ -43,7 +44,7 @@ export interface BlogParams {
     title?: string,
     status?: number,
     order?: string,
-    order_by?: string,
+    order_by?: OrderBy,
     "start-time"?: string,
     "end-time"?: string
 }
