@@ -1,15 +1,15 @@
 <template>
   <div class="avatar-info">
     <el-popover :width="300"
-                popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;">
+      popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;">
       <template #reference>
         <Avatar :src="info?.avatar" :size="size" @click="handelClick" />
       </template>
       <template #default>
         <div>
           <ElContainer direction="vertical">
-            <div class="UserNameText">{{ info?.username }}</div>
-            <ElContainer style="justify-content: center;">
+            <div class="UserNameText">{{ info.username }}</div>
+            <ElContainer v-if="id == userId" style="justify-content: center;">
               <ToUserSettingButton v-if="info_.role >= Role.Admin || id === userId" />
               <el-divider direction="vertical" style="height: 30px;" />
               <LogoutButton v-if="id == userId" />
@@ -24,41 +24,40 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, ref } from 'vue';
+import { onBeforeMount, onMounted, ref } from 'vue';
 import { userStore } from '@/stores/user';
 import { GetUserInfo } from '@/apis/user';
-import {Role, type UserInfo} from '@/types/User';
+import { Role, type UserInfo } from '@/types/User';
 import router from '@/router';
-import {roleTypes} from "element-plus";
+import { roleTypes } from "element-plus";
 
 const { id, isLogin, info: info_ } = userStore();
 
 const props = withDefaults(defineProps<{
   userId?: number;
+  user?: UserInfo;
   size?: number;
   name?: boolean;
   nameSize?: number;
   popover?: boolean;
 }>(), {
   userId: 0,
+  user: () => ({} as UserInfo),
   size: 40,
   name: false,
   nameSize: 16,
   popover: true
 });
 
-let info = ref<UserInfo>(
-
-);
-let userId = ref(0);
+let info = ref<UserInfo>(props.user);
+let userId = ref(props.userId);
 
 onBeforeMount(async () => {
-  if (props.userId === 0) {
-    userId = id;
-  } else {
-    userId.value = props.userId;
-  }
-  updateInfo();
+  if (!info.value.id) {
+    if (!userId.value)
+      userId.value = id.value;
+    updateInfo();
+  };
 });
 
 const updateInfo = async () => {
@@ -71,8 +70,8 @@ const updateInfo = async () => {
     });
     if (state.value) {
       info.value = state.value;
-    }
-  }
+    };
+  };
 };
 
 const handelClick = () => {

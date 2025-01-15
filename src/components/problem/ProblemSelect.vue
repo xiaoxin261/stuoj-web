@@ -1,13 +1,13 @@
 <template>
-    <ElForm :model="parmas">
+    <ElForm :model="params">
         <el-form-item label="题名" label-position="right">
-            <el-input v-model="parmas.title" />
+            <el-input v-model="params.title" />
         </el-form-item>
         <el-form-item label="难度" label-position="right">
-            <ProblemDifficultySelect v-model:difficulty="parmas.difficulty" ref="difficultySelectRef" />
+            <ProblemDifficultySelect v-model:difficulty="params.difficulty" ref="difficultySelectRef" />
         </el-form-item>
         <el-form-item v-if="admin" label="状态" label-position="right">
-            <ProblemStatusSelect v-model:status="parmas.status" ref="statusSelectRef" />
+            <ProblemStatusSelect v-model:status="params.status" ref="statusSelectRef" />
         </el-form-item>
         <el-form-item label-width="auto">
             <ProblemTag layout="horizontal" :remove-flag="true" v-model:tags="tags" ref="problemTagRef" />
@@ -37,7 +37,7 @@ const props = withDefaults(defineProps<{
 const tags = ref<Tag[]>([]);
 
 const emit = defineEmits(['update:params', 'confirmClicked']);
-const parmas = ref<ProblemParams>(props.params);
+const params = ref<ProblemParams>(props.params);
 
 const problemTagRef = ref<InstanceType<typeof ProblemTag> | null>(null);
 const difficultySelectRef = ref<InstanceType<typeof ProblemDifficultySelect> | null>(null);
@@ -51,12 +51,12 @@ const handleReset = () => {
 
     if (statusSelectRef.value)
         statusSelectRef.value.reset();
-    parmas.value.title = '';
-    emit('update:params', parmas.value);
+    params.value.title = '';
+    emit('update:params', params.value);
 };
 const handleConfirm = () => {
-    parmas.value.tag = tags.value.map(tag => tag.id).join(',');
-    emit('update:params', parmas.value);
+    params.value.tag = tags.value.map(tag => tag.id).join(',');
+    emit('update:params', params.value);
     emit('confirmClicked');
 };
 </script>

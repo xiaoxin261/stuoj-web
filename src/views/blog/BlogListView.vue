@@ -1,5 +1,14 @@
 <script setup lang="ts">
+import type { BlogParams } from '@/types/Blog';
+import { OrderBy } from '@/types/misc';
+import { ref } from 'vue';
 
+const params = ref<BlogParams>({
+  page: 1,
+  size: 10,
+  order_by: OrderBy.create_time,
+  order: 'desc',
+});
 </script>
 
 <template>
@@ -57,7 +66,7 @@
           <FastPost />
         </el-card>
         <el-divider></el-divider>
-        <Blogs/>
+        <Blogs :params="params"/>
       </el-col>
     </el-row>
   </div>

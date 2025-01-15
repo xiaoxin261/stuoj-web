@@ -41,18 +41,22 @@ onMounted(() => {
   <div v-for="blog in blogs" :key="blog.id">
     <router-link :to="'/blog/' + blog.id">
       <el-card class="blogCard">
-              <span>
-                <el-tag :color="BlogStatusColor[blog.status as BlogStatus]" style="color: #ffffff">
-                  {{ BlogStatusMap[blog.status as BlogStatus] }}
-                </el-tag>&nbsp;
-                <b>{{ blog.title }}</b><br />
-              </span>
+        <div style="width: 100%; display: flex; flex-direction: row;">
+          <div style="width: 100%; display: flex; flex-direction: row; justify-content: space-between;">
+            <div>
+              <el-tag :color="BlogStatusColor[blog.status as BlogStatus]" style="color: #ffffff">
+                {{ BlogStatusMap[blog.status as BlogStatus] }}
+              </el-tag>&nbsp;
+              <b>{{ blog.title }}</b>
+            </div>
+            <div style="display: flex; align-items: center;">
+              <AvatarInfo :user="blog.user" name :name-size="16" />
+            </div>
+          </div>
+          <br />
+        </div>
         <br />
         <div>
-          <el-icon>
-            <UserFilled />
-          </el-icon>&nbsp;{{ blog.user_id }}
-          <el-divider direction="vertical"></el-divider>
           <el-icon>
             <View />
           </el-icon>&nbsp;?
@@ -75,16 +79,15 @@ onMounted(() => {
           <el-tag>tag</el-tag>&nbsp;
         </div>
         <el-divider></el-divider>
-        <span>这是博客摘要</span>
+        <span>{{ blog.content }}</span>
       </el-card>
     </router-link>
     <br />
   </div>
   <br />
-  <el-pagination v-model:current-page="params.page" v-model:page-size="params.size"
-                 :page-sizes="[10, 20, 50, 100]" :size="'small'" :background="true"
-                 layout="total, sizes, prev, pager, next, jumper" :total="blogPage?.total" @size-change="getList"
-                 @current-change="getList" />
+  <el-pagination v-model:current-page="params.page" v-model:page-size="params.size" :page-sizes="[10, 20, 50, 100]"
+    :size="'small'" :background="true" layout="total, sizes, prev, pager, next, jumper" :total="blogPage?.total"
+    @size-change="getList" @current-change="getList" />
 </template>
 
 <style scoped></style>

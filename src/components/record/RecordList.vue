@@ -9,7 +9,7 @@
     </ElTableColumn>
     <ElTableColumn label="用户" width="150">
       <template #default="scope">
-        <AvatarInfo :user-id="scope.row.user.id" name :name-size="16"
+        <AvatarInfo :user="scope.row.user" name :name-size="16"
                     @click="handelUserClick(scope.row.user)" />
       </template>
     </ElTableColumn>

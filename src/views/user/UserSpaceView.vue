@@ -11,7 +11,7 @@
         </el-col>
       </el-row>
     </el-card>
-    <br/>
+    <br />
     <el-card>
       <div class="space-header">
         <Avatar class="avatar" :size="50" :src="info?.avatar" />
@@ -76,7 +76,7 @@
         </el-row>
       </el-tab-pane>
       <el-tab-pane label="博客">
-        <UserBlog :userId="userId"></UserBlog>
+        <Blogs :params="blogParams" />
       </el-tab-pane>
       <el-tab-pane label="记录">
         <Records :userId="userId" :select="false" />
@@ -103,8 +103,10 @@ import { userStore } from "@/stores/user";
 import { GetUserInfo } from "@/apis/user";
 import { Role, type UserInfo } from "@/types/User";
 import UserRoleTag from "../../components/user/UserRoleTag.vue";
-import {formatDateTimeStr} from "@/utils/date";
+import { formatDateTimeStr } from "@/utils/date";
 import UserBlog from "@/components/user/UserBlog.vue";
+import { BlogStatus, type BlogParams } from "@/types/Blog";
+import { OrderBy } from "@/types/misc";
 
 const { info: info_, id } = userStore();
 const { execute } = GetUserInfo();
@@ -132,6 +134,15 @@ const updateInfo = async () => {
   }
 };
 
+const blogParams = ref<BlogParams>({
+  page: 1,
+  size: 5,
+  user: userId.value,
+  status: BlogStatus.Public,
+  order_by: OrderBy.create_time,
+  order: 'desc',
+});
+
 watchEffect(() => {
   updateInfo();
 });
@@ -143,7 +154,6 @@ onBeforeMount(async () => {
 </script>
 
 <style scoped>
-
 .space-header {
   display: flex;
   align-items: center;
@@ -182,4 +192,3 @@ onBeforeMount(async () => {
   font-size: 16px;
 }
 </style>
-

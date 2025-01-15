@@ -1,31 +1,72 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import type { BlogInfo } from "@/types/Blog";
+import { BlogStatus, type BlogInfo } from "@/types/Blog";
 import { useRouteParams } from "@vueuse/router";
-import { getBlogApi } from "@/apis/blog";
-import { StarFilled } from "@element-plus/icons-vue";
+import { getBlogApi, deleteBlogApi } from "@/apis/blog";
+import { uploadCommentApi } from "@/apis/comment";
 import { formatDateTimeStr } from "../../utils/date";
+import { userStore } from "@/stores/user";
+import { Role } from "@/types/User";
 import router from "@/router";
+import { ElNotification } from "element-plus";
+import Comments from "@/components/comment/Comments.vue";
 
-const blogId = useRouteParams<number>("id");
+const commentRef = ref<InstanceType<typeof Comments>>();
+
+const { info, id } = userStore();
+
+const blogId = useRouteParams<string>("id");
 
 const { state, execute } = getBlogApi();
+const { execute: deleteBlogExecute } = deleteBlogApi();
+const { execute: uploadCommentExecute } = uploadCommentApi();
+
 
 const blog = ref<BlogInfo>({} as BlogInfo);
 
 onMounted(async () => {
   await execute({
-    id: blogId.value,
+    id: parseInt(blogId.value, 10),
   });
   if (state.value) {
     blog.value = state.value
     document.title = `${blog.value.title} - 博客 - STUOJ`;
-  }
+  };
 });
 
 const commentForm = ref({
+  blog_id: parseInt(blogId.value, 10),
   content: ""
 });
+
+const onSubmit = async () => {
+  await uploadCommentExecute({
+    data: commentForm.value
+  }).then((res) => {
+    ElNotification({ type: 'success', message: '评论成功' });
+    commentForm.value.content = "";
+    commentRef.value?.handleQuery();
+  });
+};
+
+const handleEdit = async () => {
+  router.push(`/blog/edit/${blogId.value}`);
+};
+
+const dialogVisible = ref(false);
+
+const handleDelete = async () => {
+  dialogVisible.value = true;
+};
+
+const handleConfirmDelete = async () => {
+  await deleteBlogExecute({
+    id: parseInt(blogId.value, 10)
+  }).then(() => {
+    ElNotification({ type: 'success', message: '删除成功' });
+    router.push("/blog");
+  });
+};
 
 </script>
 
@@ -40,12 +81,13 @@ const commentForm = ref({
     </el-card>
     <br />
     <el-card>
-      <h1>{{ blog?.title }}</h1>
+      <div style="display: flex; flex-direction: row; justify-content: space-between;">
+        <h1>{{ blog?.title }}</h1>
+        <div>
+          <AvatarInfo v-if="blog.user" :user="blog.user" name />
+        </div>
+      </div>
       <div>
-        <el-icon>
-          <UserFilled />
-        </el-icon>&nbsp;{{ blog?.user_id }}
-        <el-divider direction="vertical"></el-divider>
         <el-icon>
           <View />
         </el-icon>&nbsp;?
@@ -62,6 +104,12 @@ const commentForm = ref({
           <Timer />
         </el-icon>&nbsp;{{ formatDateTimeStr(blog?.update_time ?? "") }}
         <el-divider direction="vertical"></el-divider>
+        <ElButton
+          v-if="blog.user && (info.role >= Role.Admin || (blog.user.id === id && blog.status !== BlogStatus.Banned))"
+          text @click="handleEdit()">编辑</ElButton>
+        <ElButton
+          v-if="blog.user && (info.role >= Role.Admin || (blog.user.id === id && blog.status !== BlogStatus.Banned))"
+          type="danger" text @click="handleDelete()">删除</ElButton>
       </div>
       <br />
       <div>
@@ -73,7 +121,7 @@ const commentForm = ref({
       </div>
       <el-divider></el-divider>
       <TextView :content="blog?.content || ''" />
-      <br/>
+      <br />
     </el-card>
     <br />
     <el-card>
@@ -91,24 +139,19 @@ const commentForm = ref({
       <el-divider></el-divider>
       <strong>评论区</strong><br /><br />
       <div>
-        <el-card style="margin-bottom: 20px">
-          <div>
-            <el-icon>
-              <UserFilled />
-            </el-icon>&nbsp;用户名
-            <el-divider direction="vertical"></el-divider>
-            <el-icon>
-              <Timer />
-            </el-icon>&nbsp;2021-01-01 00:00:00
-          </div>
-          <br />
-          <div>
-            评论内容
-          </div>
-        </el-card>
+        <Comments v-if="blog.id" :blog-id="blog.id" :select="false" ref="commentRef" />
       </div>
     </el-card>
   </div>
+  <ElDialog v-model="dialogVisible" title="确认窗口" width="500">
+    <span>删除后不可恢复</span>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button type="danger" @click="handleConfirmDelete">确定</el-button>
+      </span>
+    </template>
+  </ElDialog>
 </template>
 
 <style scoped></style>

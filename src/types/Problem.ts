@@ -173,10 +173,12 @@ export const DifficultyColor = {
 }
 
 export interface ProblemParams {
-    page: number
-    size: number
-    title?: string
-    difficulty?: number
-    tag?: string
-    status?: number
+    page: number,
+    size: number,
+    title?: string,
+    difficulty?: number,
+    tag?: string,
+    status?: number,
+    order?: string,
+    order_by?: string,
 }

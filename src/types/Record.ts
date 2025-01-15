@@ -34,12 +34,14 @@ export interface Judgement {
 }
 
 export interface RecordParams {
-    page: number;
-    size?: number;
-    "end-time"?: string;
-    language?: number;
-    problem?: string;
-    "start-time"?: string;
-    status?: JudgeStatus;
-    user?: string;
+    page: number,
+    size?: number,
+    "end-time"?: string,
+    language?: number,
+    problem?: string,
+    order?: string,
+    order_by?: string,
+    "start-time"?: string,
+    status?: JudgeStatus,
+    user?: string
 }

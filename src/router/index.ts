@@ -132,6 +132,15 @@ const router = createRouter({
       }
     },
     {
+      path:'/blog/edit/:id',
+      name:'blog-edit-id',
+      component: () => import('../views/blog/BlogEditView.vue'),
+      meta:{
+        permission: Role.User,
+        title: '编辑博客 - STUOJ',
+      },
+    },
+    {
       path:'/blog/edit',
       name:'blog-edit',
       component: () => import('../views/blog/BlogEditView.vue'),
