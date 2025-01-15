@@ -162,7 +162,7 @@
 import { onBeforeMount, ref, h, computed } from 'vue';
 import { ElInputNumber, ElLink, ElNotification, ElRow, ElTabPane } from 'element-plus';
 import { type ProblemInfo, type Testcase, type Global, type Tag, type Solution } from '@/types/Problem';
-import { getProblemApi, uploadProblemApi, updateProblemApi, problemRemoveTagApi, problemAddTagApi } from '@/apis/problem';
+import { getProblemApi, insertProblemApi, updateProblemApi, problemRemoveTagApi, problemAddTagApi } from '@/apis/problem';
 import { useRoute } from 'vue-router';
 import TestcaseTable from '@/components/problem/TestcaseTable.vue';
 import TestcaseEdit from '@/components/problem/TestcaseEdit.vue';
@@ -176,7 +176,7 @@ const workingArea = ref(['题面', '数据'])
 
 const { execute: getProblemExecute } = getProblemApi();
 const { execute: updateProblemExecute } = updateProblemApi();
-const { execute: uploadProblemExecute } = uploadProblemApi();
+const { execute: uploadProblemExecute } = insertProblemApi();
 const { execute: problemRemoveTagExecute } = problemRemoveTagApi();
 const { execute: problemAddTagExecute } = problemAddTagApi();
 const problem = ref<ProblemInfo>({

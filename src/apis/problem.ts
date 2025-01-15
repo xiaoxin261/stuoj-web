@@ -27,15 +27,7 @@ export const getProblemApi = useDefineApi<
     method: "get"
 });
 
-export const getProblemTagsApi = useDefineApi<
-    {},
-    Tag[]
->({
-    url: "/tag",
-    method: "get"
-});
-
-export const uploadProblemApi = useDefineApi<
+export const insertProblemApi = useDefineApi<
     {
         data: ProblemInfo
     },
@@ -43,7 +35,7 @@ export const uploadProblemApi = useDefineApi<
 >({
     url: "/problem",
     method: "post"
-})
+});
 
 export const updateProblemApi = useDefineApi<
     {
@@ -74,7 +66,7 @@ export const problemAddTagApi = useDefineApi<
     },
     null
 >({
-    url: "/tag",
+    url: "/problem/tag",
     method: "post"
 })
 
@@ -87,7 +79,7 @@ export const problemRemoveTagApi = useDefineApi<
     },
     null
 >({
-    url: "/tag",
+    url: "/problem/tag",
     method: "delete"
 })
 

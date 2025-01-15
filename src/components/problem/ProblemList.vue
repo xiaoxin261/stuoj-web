@@ -60,7 +60,7 @@
     <el-table-column v-if="admin" align="right" width="200">
       <template #default="scope">
         <el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
-        <el-button size="small" type="danger" @click="handleDelete(scope.row)">删除</el-button>
+        <el-button size="small" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -71,9 +71,10 @@ import { onMounted, ref, watch, watchEffect } from 'vue';
 import { type ProblemInfo, ProblemStatusMap, ProblemStatusColor } from '@/types/Problem';
 import { DifficultyMap, DifficultyColor } from '@/types/Problem';
 import { formatDateStr } from "@/utils/date";
-import { getProblemApi } from '@/apis/problem';
+import {deleteProblemApi, getProblemApi} from '@/apis/problem';
 import router from '@/router';
 import ProblemTagShow from './ProblemTagShow.vue';
+import {ElNotification} from "element-plus";
 
 const { execute } = getProblemApi();
 
@@ -117,10 +118,6 @@ const handleEdit = async (row: ProblemInfo) => {
   await router.push(`/problem/edit?id=${row.id}`);
 }
 
-const handleDelete = async (row: ProblemInfo) => {
-
-}
-
 interface Scope {
   row: {
     id: number;
@@ -128,4 +125,18 @@ interface Scope {
     status: keyof typeof ProblemStatusMap;
   };
 }
+
+const emit = defineEmits(['update']);
+const { execute: deleteExecute } = deleteProblemApi();
+const handleDelete = (id: number) => {
+  deleteExecute({
+    id: id
+  }).then(() => {
+    emit('update');
+    ElNotification.success({
+      title: '删除成功',
+      type: 'success'
+    });
+  });
+};
 </script>

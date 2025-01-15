@@ -21,9 +21,9 @@ export interface ProblemInfo {
 }
 
 export interface Tag {
-    id: number;
+    id?: number;
     name: string;
-    ProblemTag: null;
+    ProblemTag?: null;
     [property: string]: any;
 }
 
