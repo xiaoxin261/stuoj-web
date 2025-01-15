@@ -8,7 +8,7 @@
     </el-aside>
     <el-main>
       <el-col :span="4">
-        <strong>题目管理</strong>
+        <strong>记录管理</strong>
       </el-col>
       <el-divider></el-divider>
       <Records :admin="true" />

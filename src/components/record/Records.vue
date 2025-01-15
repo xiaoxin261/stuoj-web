@@ -56,10 +56,10 @@ onBeforeMount(() => {
     const problem = route.query.problem;
     if (typeof user === 'string') {
         paramsSelect.value.user = user
-    };
+    }
     if (typeof problem === 'string') {
         paramsSelect.value.problem = problem
-    };
+    }
 });
 
 const submissions = ref<Submission[]>([]);

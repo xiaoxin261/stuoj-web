@@ -2,8 +2,8 @@
 import {onMounted, ref} from "vue";
 import type { Tag } from '@/types/Problem';
 import type { Page } from '@/types/misc';
-import {userStore} from "@/stores/user";
-import {getTagListApi} from "@/apis/tag";
+import {deleteTagApi, getTagListApi} from "@/apis/tag";
+import {ElNotification} from "element-plus";
 
 interface TagParams {
   page: number
@@ -17,7 +17,6 @@ const params = ref<TagParams>({
   page: 1,
   size: 10
 });
-const { token } = userStore();
 
 const getList = async () => {
   await execute({
@@ -36,7 +35,20 @@ onMounted (() => {
   getList();
 })
 
+const emit = defineEmits(['delete']);
+const { execute: deleteExecute } = deleteTagApi();
 
+const handleDelete = (id: number) => {
+  deleteExecute({
+    id: id
+  }).then(() => {
+    emit('delete');
+    ElNotification.success({
+      title: '删除成功',
+      type: 'success'
+    });
+  });
+};
 </script>
 
 <template>
@@ -72,7 +84,7 @@ onMounted (() => {
           <el-table-column align="right" width="300">
             <template #default="scope">
               <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-              <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+              <el-button size="small" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>

@@ -13,3 +13,12 @@ export const getTagListApi = useDefineApi<
     method: "get"
 });
 
+export const deleteTagApi = useDefineApi<
+    {
+        id: number
+    },
+    {}
+>({
+    url: "/tag",
+    method: "delete"
+})
