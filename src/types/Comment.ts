@@ -18,6 +18,8 @@ export interface commentParams{
     user?: number,
     blog?: number,
     status?: number,
+    order?: string,
+    order_by?: string,
     "start-time"?: string,
     "end-time"?: string
 }

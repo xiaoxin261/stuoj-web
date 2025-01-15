@@ -34,3 +34,16 @@ export const BlogStatusColor = {
     [BlogStatus.Draft]: Colors.gray9,
     [BlogStatus.Notice]: Colors.purple,
 }
+
+export interface BlogParams {
+    page: number,
+    size: number,
+    user?: number,
+    problem?: number,
+    title?: string,
+    status?: number,
+    order?: string,
+    order_by?: string,
+    "start-time"?: string,
+    "end-time"?: string
+}

@@ -1,19 +1,10 @@
 import { useDefineApi } from "@/stores/useDefineApi";
-import type { BlogInfo } from "@/types/Blog";
+import type { BlogInfo, BlogParams } from "@/types/Blog";
 import type { Page } from "@/types/misc";
 
 export const getBlogListApi = useDefineApi<
     {
-        params: {
-            page: number,
-            size: number,
-            user?: number,
-            problem?: number,
-            title?: string,
-            status?: number,
-            "start-time"?: string,
-            "end-time"?: string
-        };
+        params: BlogParams;
     },
     Page<"blogs", BlogInfo>
 >({
