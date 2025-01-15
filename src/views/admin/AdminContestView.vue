@@ -8,7 +8,15 @@
       <AdminMenu></AdminMenu>
     </el-aside>
     <el-main>
-      <h1>比赛管理</h1>
+      <el-row justify="space-between">
+        <el-col :span="4">
+          <strong>比赛管理</strong>
+        </el-col>
+        <el-col :span="20" style="text-align: right">
+          <el-button type="primary" @click="" disabled>创建比赛</el-button>
+          <el-button type="danger" @click="" disabled>批量删除</el-button>
+        </el-col>
+      </el-row>
       <el-divider/>
       <EmptyPage></EmptyPage>
     </el-main>

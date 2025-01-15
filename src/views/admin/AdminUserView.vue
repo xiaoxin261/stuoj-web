@@ -59,6 +59,7 @@ onMounted (() => {
         </el-col>
         <el-col :span="20" style="text-align: right">
           <el-button type="primary" @click="handleCreate">创建用户</el-button>
+          <el-button type="danger" @click="" disabled>批量删除</el-button>
         </el-col>
       </el-row>
       <el-divider></el-divider>
