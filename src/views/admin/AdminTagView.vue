@@ -48,13 +48,13 @@ const handleDelete = (id: number) => {
   });
 };
 
+const formLabelWidth = '140px';
 const tag = ref<Tag>({
   id: 0,
   name: '',
 });
 
 const addDialogVisible = ref(false)
-const addFormLabelWidth = '140px'
 
 const { execute: insertExecute } = insertTagApi();
 const handleCreate = () => {
@@ -76,7 +76,6 @@ const submitAdd = () => {
 }
 
 const editDialogVisible = ref(false)
-const editFormLabelWidth = '140px'
 
 const { execute: updateExecute } = updateTagApi();
 const handleEdit = (t: Tag) => {
@@ -154,7 +153,7 @@ const submitEdit = () => {
   </el-container>
   <el-dialog v-model="addDialogVisible" title="创建标签" width="500">
     <el-form :model="tag">
-      <el-form-item label="标签名" :label-width="editFormLabelWidth">
+      <el-form-item label="标签名" :label-width="formLabelWidth">
         <el-input v-model="tag.name" autocomplete="off" />
       </el-form-item>
     </el-form>
@@ -167,10 +166,10 @@ const submitEdit = () => {
   </el-dialog>
   <el-dialog v-model="editDialogVisible" title="修改标签" width="500">
     <el-form :model="tag">
-      <el-form-item label="ID" :label-width="editFormLabelWidth">
+      <el-form-item label="ID" :label-width="formLabelWidth">
         <el-input v-model="tag.id" readonly/>
       </el-form-item>
-      <el-form-item label="标签名" :label-width="editFormLabelWidth">
+      <el-form-item label="标签名" :label-width="formLabelWidth">
         <el-input v-model="tag.name" autocomplete="off" />
       </el-form-item>
     </el-form>
