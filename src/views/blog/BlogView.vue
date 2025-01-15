@@ -139,7 +139,7 @@ const handleConfirmDelete = async () => {
       <el-divider></el-divider>
       <strong>评论区</strong><br /><br />
       <div>
-        <Comments :blog-id="blog.id" :select="false" ref="commentRef" />
+        <Comments v-if="blog.id" :blog-id="blog.id" :select="false" ref="commentRef" />
       </div>
     </el-card>
   </div>
