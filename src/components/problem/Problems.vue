@@ -4,7 +4,7 @@
     </ElCard>
     <br />
     <ElCard>
-        <ProblemList :admin="admin" :problems="problems" />
+        <ProblemList :admin="admin" :problems="problems" @update="handleQuery" />
         <br />
         <ElPagination class="pagination" v-model:current-page="paramsPage.page" v-model:page-size="paramsPage.size"
             :page-sizes="[10, 20, 50, 100]" :size="'small'" :background="true"
@@ -17,7 +17,9 @@
 import { onMounted, ref } from 'vue';
 import type { Page } from '@/types/misc';
 import type { ProblemInfo, ProblemParams } from '@/types/Problem';
-import { getProblemListApi } from '@/apis/problem';
+import {deleteProblemApi, getProblemListApi} from '@/apis/problem';
+import {deleteTagApi} from "@/apis/tag";
+import {ElNotification} from "element-plus";
 
 
 const props = withDefaults(defineProps<{
