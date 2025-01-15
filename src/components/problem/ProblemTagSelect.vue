@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { getProblemTagsApi } from '@/apis/problem';
+import { getAllTagsApi } from '@/apis/problem';
 import type { Tag } from '@/types/Problem';
 
 const props = defineProps<{
@@ -50,7 +50,7 @@ const tagDialogVisible = ref(false);
 let wsTags = ref<TemTag[]>([]);
 let savedWsTags: TemTag[] | null = null; // 用于保存wsTags状态的变量
 
-const { state, execute } = getProblemTagsApi();
+const { state, execute } = getAllTagsApi();
 
 onMounted(async () => {
     await execute();

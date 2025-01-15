@@ -27,7 +27,7 @@ export const getProblemApi = useDefineApi<
     method: "get"
 });
 
-export const getProblemTagsApi = useDefineApi<
+export const getAllTagsApi = useDefineApi<
     {},
     Tag[]
 >({

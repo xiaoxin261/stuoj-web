@@ -1,9 +1,6 @@
 import {Colors} from "@/types/Colors";
 
 export interface UserInfo {
-    /**
-     * 用户头像
-     */
     avatar: string;
     create_time?: string;
     email?: string;

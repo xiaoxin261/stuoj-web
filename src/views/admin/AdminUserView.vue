@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { getUserListApi } from '@/apis/user';
 import {onMounted, ref} from "vue";
-import { UserRoleMap, UserRoleColor } from '@/types/User';
+import { UserRoleMap } from '@/types/User';
 import { formatDateStr } from "@/utils/date";
 import type { UserInfo } from '@/types/User';
 import type { Page } from '@/types/misc';
 import {userStore} from "@/stores/user";
-import {BlogStatusColor, BlogStatusMap} from "@/types/Blog";
 import UserRoleTag from '../../components/user/UserRoleTag.vue';
 
 interface Scope {
@@ -93,9 +92,6 @@ onMounted (() => {
             </template>
           </el-table-column>
           <el-table-column align="right" width="300">
-            <template #header>
-              <el-input v-model="search" size="small" placeholder="用户ID" />
-            </template>
             <template #default="scope">
               <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
               <el-button size="small" type="success" @click="handleSetRole(scope.$index, scope.row)">授权</el-button>
