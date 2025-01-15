@@ -35,7 +35,7 @@ export const getAllTagsApi = useDefineApi<
     method: "get"
 });
 
-export const uploadProblemApi = useDefineApi<
+export const insertProblemApi = useDefineApi<
     {
         data: ProblemInfo
     },
@@ -43,7 +43,7 @@ export const uploadProblemApi = useDefineApi<
 >({
     url: "/problem",
     method: "post"
-})
+});
 
 export const updateProblemApi = useDefineApi<
     {

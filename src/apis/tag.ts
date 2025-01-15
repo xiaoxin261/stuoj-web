@@ -1,5 +1,5 @@
 import {useDefineApi} from "@/stores/useDefineApi";
-import type {Tag} from "@/types/Problem";
+import type {ProblemInfo, Tag} from "@/types/Problem";
 import type {Page} from "@/types/misc";
 import type {TagParams} from "@/types/tag";
 
@@ -22,3 +22,23 @@ export const deleteTagApi = useDefineApi<
     url: "/tag",
     method: "delete"
 })
+
+export const insertTagApi = useDefineApi<
+    {
+        data: Tag
+    },
+    number
+>({
+    url: "/tag",
+    method: "post"
+});
+
+export const updateTagApi = useDefineApi<
+    {
+        data: Tag
+    },
+    null
+>({
+    url: "/tag",
+    method: "put"
+});

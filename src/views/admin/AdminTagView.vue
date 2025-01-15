@@ -2,7 +2,7 @@
 import {onMounted, ref} from "vue";
 import type { Tag } from '@/types/Problem';
 import type { Page } from '@/types/misc';
-import {deleteTagApi, getTagListApi} from "@/apis/tag";
+import {deleteTagApi, getTagListApi, insertTagApi, updateTagApi} from "@/apis/tag";
 import {ElNotification} from "element-plus";
 
 interface TagParams {
@@ -35,20 +35,68 @@ onMounted (() => {
   getList();
 })
 
-const emit = defineEmits(['delete']);
 const { execute: deleteExecute } = deleteTagApi();
-
 const handleDelete = (id: number) => {
   deleteExecute({
     id: id
   }).then(() => {
-    emit('delete');
+    getList();
     ElNotification.success({
       title: '删除成功',
       type: 'success'
     });
   });
 };
+
+const tag = ref<Tag>({
+  id: 0,
+  name: '',
+});
+
+const addDialogVisible = ref(false)
+const addFormLabelWidth = '140px'
+
+const { execute: insertExecute } = insertTagApi();
+const handleCreate = () => {
+  addDialogVisible.value = true
+  tag.value.name = ''
+}
+
+const submitAdd = () => {
+  insertExecute({
+    data: tag.value
+  }).then(() => {
+    getList();
+    ElNotification.success({
+      title: '创建成功',
+      type: 'success'
+    });
+  });
+  addDialogVisible.value = false
+}
+
+const editDialogVisible = ref(false)
+const editFormLabelWidth = '140px'
+
+const { execute: updateExecute } = updateTagApi();
+const handleEdit = (t: Tag) => {
+  editDialogVisible.value = true
+  tag.value.id = t.id
+  tag.value.name = t.name
+}
+
+const submitEdit = () => {
+  updateExecute({
+    data: tag.value
+  }).then(() => {
+    getList();
+    ElNotification.success({
+      title: '修改成功',
+      type: 'success'
+    });
+  });
+  editDialogVisible.value = false
+}
 </script>
 
 <template>
@@ -83,7 +131,7 @@ const handleDelete = (id: number) => {
           </el-table-column>
           <el-table-column align="right" width="300">
             <template #default="scope">
-              <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+              <el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
               <el-button size="small" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
             </template>
           </el-table-column>
@@ -103,6 +151,35 @@ const handleDelete = (id: number) => {
       </el-card>
     </el-main>
   </el-container>
+  <el-dialog v-model="addDialogVisible" title="创建标签" width="500">
+    <el-form :model="tag">
+      <el-form-item label="标签名" :label-width="editFormLabelWidth">
+        <el-input v-model="tag.name" autocomplete="off" />
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="addDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="submitAdd">创建</el-button>
+      </div>
+    </template>
+  </el-dialog>
+  <el-dialog v-model="editDialogVisible" title="修改标签" width="500">
+    <el-form :model="tag">
+      <el-form-item label="ID" :label-width="editFormLabelWidth">
+        <el-input v-model="tag.id" readonly/>
+      </el-form-item>
+      <el-form-item label="标签名" :label-width="editFormLabelWidth">
+        <el-input v-model="tag.name" autocomplete="off" />
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="editDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="submitEdit">修改</el-button>
+      </div>
+    </template>
+  </el-dialog>
 </template>
 
 <style scoped>
