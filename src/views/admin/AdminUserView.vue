@@ -58,7 +58,7 @@ onMounted (() => {
           <strong>用户管理</strong>
         </el-col>
         <el-col :span="20" style="text-align: right">
-          <el-button type="primary" @click="handleCreate">创建用户</el-button>
+          <el-button type="primary" @click="" disabled>创建用户</el-button>
           <el-button type="danger" @click="" disabled>批量删除</el-button>
         </el-col>
       </el-row>
@@ -94,10 +94,10 @@ onMounted (() => {
           </el-table-column>
           <el-table-column align="right" width="300">
             <template #default="scope">
-              <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-              <el-button size="small" type="success" @click="handleSetRole(scope.$index, scope.row)">授权</el-button>
-              <el-button size="small" type="warning" @click="handleBan(scope.$index, scope.row)">封禁</el-button>
-              <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+              <el-button size="small" @click="handleEdit(scope.$index, scope.row)" disabled>编辑</el-button>
+              <el-button size="small" type="success" @click="handleSetRole(scope.$index, scope.row)" disabled>授权</el-button>
+              <el-button size="small" type="warning" @click="handleBan(scope.$index, scope.row)" disabled>封禁</el-button>
+              <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)" disabled>删除</el-button>
             </template>
           </el-table-column>
         </el-table>

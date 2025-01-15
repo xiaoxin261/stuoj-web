@@ -17,7 +17,7 @@ const handleCreate = () => {
           <strong>题目管理</strong>
         </el-col>
         <el-col :span="20" style="text-align: right">
-          <el-button type="primary" @click="" disabled>创建题目</el-button>
+          <el-button type="primary" @click="handleCreate">创建题目</el-button>
           <el-button type="danger" @click="" disabled>批量删除</el-button>
         </el-col>
       </el-row>

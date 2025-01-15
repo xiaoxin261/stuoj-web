@@ -114,14 +114,11 @@ onMounted (() => {
             </template>
           </el-table-column>
           <el-table-column align="right" width="300">
-            <template #header>
-              <el-input v-model="search" size="small" placeholder="博客ID" />
-            </template>
             <template #default="scope">
-              <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-              <el-button size="small" type="primary" @click="handleReview(scope.$index, scope.row)">审核</el-button>
-              <el-button size="small" type="warning" @click="handleBan(scope.$index, scope.row)">屏蔽</el-button>
-              <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+              <el-button size="small" @click="handleEdit(scope.$index, scope.row)" disabled>编辑</el-button>
+              <el-button size="small" type="primary" @click="handleReview(scope.$index, scope.row)" disabled>审核</el-button>
+              <el-button size="small" type="warning" @click="handleBan(scope.$index, scope.row)" disabled>屏蔽</el-button>
+              <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)" disabled>删除</el-button>
             </template>
           </el-table-column>
         </el-table>

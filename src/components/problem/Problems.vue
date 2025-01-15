@@ -17,9 +17,7 @@
 import { onMounted, ref } from 'vue';
 import type { Page } from '@/types/misc';
 import type { ProblemInfo, ProblemParams } from '@/types/Problem';
-import {deleteProblemApi, getProblemListApi} from '@/apis/problem';
-import {deleteTagApi} from "@/apis/tag";
-import {ElNotification} from "element-plus";
+import {getProblemListApi} from '@/apis/problem';
 
 
 const props = withDefaults(defineProps<{
