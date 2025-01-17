@@ -18,7 +18,6 @@ export const getProblemApi = useDefineApi<
     },
     {
         problem: ProblemInfo
-        tags?: Tag[]
         solutions?: Solution[]
         testcases?: Testcase[]
     }

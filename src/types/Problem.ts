@@ -1,4 +1,4 @@
-import {Colors} from "@/types/Colors";
+import { Colors } from "@/types/Colors";
 import type { UserInfo } from "./User";
 
 export interface ProblemInfo {
@@ -17,6 +17,7 @@ export interface ProblemInfo {
     time_limit?: number;
     title: string;
     update_time?: string;
+    tag_ids?: number[];
     [property: string]: any;
 }
 
