@@ -17,11 +17,13 @@
             <ElFormItem v-if="localInfo.role >= Role.Admin" label="角色">
                 <UserRoleSelect v-model="userRole" />
             </ElFormItem>
-            <ElFormItem>
-                <ElButton type="primary" @click="handleCanle">取消</ElButton>
-                <ElButton type="primary" @click="handleConfirm">确定</ElButton>
-            </ElFormItem>
         </ElForm>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="handleCancel">取消</el-button>
+          <el-button type="primary" @click="handleConfirm">修改</el-button>
+        </div>
+      </template>
     </ElDialog>
 </template>
 
@@ -65,7 +67,7 @@ const info_ = ref<UserInfo>({
 
 const userRole = ref(Role.Visitor);
 
-const handleCanle = () => {
+const handleCancel = () => {
     dialogVisible.value = false;
     info_.value = info.value;
 };
