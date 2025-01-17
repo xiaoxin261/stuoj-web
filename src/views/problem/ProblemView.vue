@@ -110,7 +110,7 @@
                 <span><ElButton size="small" @click="toggleTagsVisibility" :icon="tagsFlag ? 'View' : 'Hide'" /></span>
             </div>
             <div class="problem-info-item" v-if="tagsFlag">
-              <ProblemTagShow :tags="tags"/>
+              <ProblemTagShow :tag-ids="problemInfo.tag_ids ?? []"/>
             </div>
           </div>
           <br/>
@@ -193,6 +193,10 @@ onMounted(async () => {
 .problem-sample-output {
   display: block;
   font-size: 13px;
+}
+.problem-output,
+.problem-sample {
+  white-space: pre-wrap;
 }
 
 .sample-box {
