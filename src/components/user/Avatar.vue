@@ -6,6 +6,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import DefaultAvatar from '@/assets/images/avatar/default.png';
 
 const props = withDefaults(defineProps<{
     size?: number
@@ -15,7 +16,7 @@ const props = withDefaults(defineProps<{
 });
 
 const errorHandler = () => true;
-const empty = ref('/src/assets/images/avatar/default.png');
+const empty = ref(DefaultAvatar);
 
 </script>
 
