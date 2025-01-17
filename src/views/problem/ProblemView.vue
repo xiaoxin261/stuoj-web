@@ -156,7 +156,6 @@ const { state, execute } = getProblemApi();
 const problemInfo = ref<ProblemInfo>({} as ProblemInfo);
 
 const tagsFlag = ref<boolean>(false);
-const tags = ref<Tag[]>([]);
 
 const toggleTagsVisibility = () => {
   tagsFlag.value = !tagsFlag.value;
@@ -168,7 +167,6 @@ onMounted(async () => {
   });
   if (state.value) {
     problemInfo.value = state.value.problem;
-    tags.value = state.value?.tags || [];
     document.title = `[${problemInfo.value.id}] ${problemInfo.value.title} - 题目 - STUOJ`;
   }
 });
