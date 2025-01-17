@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<{
 });
 
 const errorHandler = () => true;
-const empty = ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png');
+const empty = ref('/src/assets/images/avatar/default.png');
 
 </script>
 
