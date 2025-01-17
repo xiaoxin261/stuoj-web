@@ -1,10 +1,10 @@
 <template>
     <ElButton class="ToUserSettingButton" type="default" plain @click="dialogVisible = !dialogVisible" :icon="SetUp" />
-    <ElDialog v-model="dialogVisible" title="修改信息" width="500">
+    <ElDialog v-model="dialogVisible" title="修改信息" width="500" append-to-body >
         <div class="avatar-container">
             <AvatarCropper v-model:user="info" />
         </div>
-        <ElForm :model="info_" label-width="80px" style="margin-top: 15px;">
+        <ElForm :model="info_" label-width="80px" style="margin-top: 15px;" >
             <ElFormItem label="用户名">
                 <ElInput v-model="info_.username" />
             </ElFormItem>
@@ -31,7 +31,6 @@ import { SetUp } from "@element-plus/icons-vue"
 import { userStore } from "@/stores/user";
 import { getUserInfoApi, ModifyUserInfo, modifyUserRoleApi } from "@/apis/user";
 import { Role, type UserInfo } from "@/types/User";
-import { ElMessage } from "element-plus";
 
 const { id, info: localInfo } = userStore();
 

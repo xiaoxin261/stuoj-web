@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { getUserListApi } from '@/apis/user';
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 import { UserRoleMap } from '@/types/User';
 import { formatDateStr } from "@/utils/date";
 import type { UserInfo } from '@/types/User';
 import type { Page } from '@/types/misc';
-import {userStore} from "@/stores/user";
+import { userStore } from "@/stores/user";
 import UserRoleTag from '../../components/user/UserRoleTag.vue';
 
 interface Scope {
@@ -40,7 +40,7 @@ const getList = async () => {
   }
 }
 
-onMounted (() => {
+onMounted(() => {
   getList();
 })
 
@@ -66,7 +66,7 @@ onMounted (() => {
       <el-card>
         <el-table :data="users" style="width: 100%" stripe>
           <el-table-column type="selection" :selectable="selectable" width="55" />
-          <el-table-column label="ID" prop="id" width="80" sortable/>
+          <el-table-column label="ID" prop="id" width="80" sortable />
           <el-table-column label="头像" width="80">
             <template #default="scope">
               <Avatar :src="scope.row.avatar" />
@@ -79,7 +79,7 @@ onMounted (() => {
               </router-link>
             </template>
           </el-table-column>
-          <el-table-column label="邮箱" width="200" prop="email" show-overflow-tooltip/>
+          <el-table-column label="邮箱" width="200" prop="email" show-overflow-tooltip />
           <el-table-column label="注册时间" width="120px">
             <template #default="scope">
               <span>
@@ -98,23 +98,14 @@ onMounted (() => {
             </template>
           </el-table-column>
         </el-table>
-        <br/>
-        <el-pagination
-            v-model:current-page="params.page"
-            v-model:page-size="params.size"
-            :page-sizes="[10, 20, 50, 100]"
-            :size="'small'"
-            :background="true"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="userPage?.total"
-            @size-change="getList"
-            @current-change="getList"
-        />
+        <br />
+        <el-pagination v-model:current-page="params.page" v-model:page-size="params.size"
+          :page-sizes="[10, 20, 50, 100]" :size="'small'" :background="true"
+          layout="total, sizes, prev, pager, next, jumper" :total="userPage?.total" @size-change="getList"
+          @current-change="getList" />
       </el-card>
     </el-main>
   </el-container>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
