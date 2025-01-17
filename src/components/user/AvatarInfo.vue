@@ -10,9 +10,7 @@
           <ElContainer direction="vertical">
             <div class="UserNameText">{{ info.username }}</div>
             <ElContainer v-if="id == userId" style="justify-content: center;">
-              <ToUserSettingButton v-if="info_.role >= Role.Admin || id === userId" />
-              <el-divider direction="vertical" style="height: 30px;" />
-              <LogoutButton v-if="id == userId" />
+              <LogoutButton v-if="id !== 0 && id == userId" />
             </ElContainer>
           </ElContainer>
         </div>
@@ -26,7 +24,7 @@
 <script setup lang="ts">
 import { onBeforeMount, onMounted, ref } from 'vue';
 import { userStore } from '@/stores/user';
-import { GetUserInfo } from '@/apis/user';
+import { getUserInfoApi } from '@/apis/user';
 import { Role, type UserInfo } from '@/types/User';
 import router from '@/router';
 import { roleTypes } from "element-plus";
@@ -64,7 +62,7 @@ const updateInfo = async () => {
   if (userId.value === id.value) {
     info = info_;
   } else {
-    const { state, execute } = GetUserInfo();
+    const { state, execute } = getUserInfoApi();
     await execute({
       id: userId.value,
     });

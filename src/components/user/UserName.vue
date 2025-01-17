@@ -8,10 +8,10 @@
 <script setup lang="ts">
 import { onBeforeMount, ref, watchEffect, type PropType } from 'vue';
 import type { UserInfo } from '@/types/User';
-import { GetUserInfo } from '@/apis/user';
+import { getUserInfoApi } from '@/apis/user';
 import { UserRoleColor } from '@/types/User';
 
-const { execute } = GetUserInfo();
+const { execute } = getUserInfoApi();
 
 const props = defineProps({
     user: {
