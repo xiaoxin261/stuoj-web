@@ -1,11 +1,11 @@
 import { computed, ref, watchEffect } from "vue";
 import { Role, type UserInfo } from "@/types/User";
-import { GetUserInfo, GetId } from "@/apis/user";
+import { getUserInfoApi, GetId } from "@/apis/user";
 import { createGlobalState, useStorage } from "@vueuse/core";
 
 export const userStore = createGlobalState(() => {
   const { execute: getIdExecute } = GetId();
-  const { execute } = GetUserInfo();
+  const { execute } = getUserInfoApi();
 
   const token = useStorage("token", "");
 
