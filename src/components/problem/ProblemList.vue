@@ -5,6 +5,7 @@
   </div>
   <el-table :data="problems" style="width: 100%" @selection-change="handleSelectionChange" stripe>
     <el-table-column v-if="admin" type="selection" width="55" />
+<!--
     <el-table-column v-if="!admin" label="状态" width="80px">
       <template #default="scope: Scope">
         <span v-if="scope.row.id % 3 == 0"><el-icon>
@@ -16,6 +17,7 @@
           </el-icon></span>
       </template>
     </el-table-column>
+-->
     <el-table-column label="ID" prop="id" width="80px" sortable />
     <el-table-column label="标题" show-overflow-tooltip>
       <template #default="scope">
