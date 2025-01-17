@@ -1,5 +1,5 @@
 <template>
-    <ElButton class="LogoutButton" type="danger" plain @click="handelLogout" :icon="SwitchButton" />
+    <ElButton class="LogoutButton" type="danger" @click="handelLogout" :icon="SwitchButton">登出</ElButton>
 </template>
 
 <script setup lang="ts">
@@ -22,6 +22,6 @@ const handelLogout = () => {
 <style>
 .LogoutButton {
     height: 30px;
-    width: 30px;
+    width: 60px;
 }
 </style>

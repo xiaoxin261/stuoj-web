@@ -1,14 +1,49 @@
 <template>
-    <ElButton class="ToUserSettingButton" type="default" plain @click="handelToUserSetting" :icon="SetUp" />
+    <ElButton class="ToUserSettingButton" type="default" plain @click="dialogVisible = !dialogVisible" :icon="SetUp" />
+    <ElDialog v-model="dialogVisible" title="修改信息" width="500">
+        <div class="avatar-container">
+            <AvatarCropper v-model:user="info" />
+        </div>
+        <ElForm :model="info" label-width="80px" style="margin-top: 15px;">
+            <ElFormItem label="用户名">
+                <ElInput v-model="info_.username" />
+            </ElFormItem>
+            <ElFormItem label="签名">
+                <ElInput v-model="info_.signature" />
+            </ElFormItem>
+            <ElFormItem label="邮箱">
+                <ElInput v-model="info_.email" disabled />
+            </ElFormItem>
+            <ElFormItem v-if="localInfo.role >= Role.Admin" label="角色">
+                <UserRoleSelect v-model="info_.role" />
+            </ElFormItem>
+            <ElFormItem>
+                <ElButton type="primary" @click="handleCanle">取消</ElButton>
+                <ElButton type="primary" @click="handleConfirm">确定</ElButton>
+            </ElFormItem>
+        </ElForm>
+    </ElDialog>
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, withDefaults } from "vue";
+import { ref, defineProps, withDefaults, watch } from "vue";
 import { SetUp } from "@element-plus/icons-vue"
 import { userStore } from "@/stores/user";
-import router from "@/router";
+import { getUserInfoApi, ModifyUserInfo, modifyUserRoleApi } from "@/apis/user";
+import { Role, type UserInfo } from "@/types/User";
 
-const { id } = userStore();
+const { id, info: localInfo } = userStore();
+
+const { execute: getUserExcute } = getUserInfoApi();
+const { execute: modifyUserInfoExcute } = ModifyUserInfo();
+const { execute: modifyUserRoleExcute } = modifyUserRoleApi();
+
+const info = ref<UserInfo>({
+    avatar: "",
+    id: 0,
+    role: Role.Visitor,
+    username: ""
+});
 
 const props = withDefaults(defineProps<{
     userId?: number;
@@ -16,17 +51,62 @@ const props = withDefaults(defineProps<{
     userId: 0,
 });
 
-let userId = ref(0);
+const dialogVisible = ref(false);
 
-if (props.userId) {
-    userId.value = props.userId;
-} else {
-    userId = id;
+const userId = ref(props.userId);
+
+const info_ = ref();
+
+const handleCanle = () => {
+    dialogVisible.value = false;
+    info_.value = info.value;
+};
+
+const handleConfirm = () => {
+    if (info_.value.role !== info.value.role) {
+        modifyUserRoleExcute({
+            data: {
+                id: info_.value.id,
+                role: info_.value.role
+            }
+        }).then((res) => {
+        });
+    }
+    modifyUserInfoExcute({
+        id: info_.value.id,
+        data: {
+            username: info_.value.username,
+            signature: info_.value.signature,
+            email: info_.value.email,
+        }
+    }).then((res) => {
+        if (!res.value) {
+            return;
+        };
+        info.value = res.value;
+    });
 }
 
-const handelToUserSetting = () => {
-    router.push({ path: `/user/setting/${userId.value}` });
-};
+
+watch(() => dialogVisible.value, async () => {
+    if (info.value.id !== 0) {
+        return;
+    }
+    if (props.userId) {
+        userId.value = props.userId;
+    } else {
+        userId.value = id.value;
+    }
+    await getUserExcute({
+        id: userId.value
+    }).then((res) => {
+        if (!res.value) {
+            return;
+        };
+        info.value = res.value;
+        info_.value = res.value;
+    });
+});
 
 </script>
 
@@ -34,5 +114,12 @@ const handelToUserSetting = () => {
 .ToUserSettingButton {
     height: 30px;
     width: 30px;
+}
+
+.avatar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 </style>

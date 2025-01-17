@@ -1,5 +1,5 @@
 import { useDefineApi } from "@/stores/useDefineApi"
-import type { UserInfo, UserParams } from "@/types/User";
+import type { Role, UserInfo, UserParams } from "@/types/User";
 import type { Page } from "@/types/misc";
 
 export const getUserListApi = useDefineApi<
@@ -8,11 +8,11 @@ export const getUserListApi = useDefineApi<
     },
     Page<"users", UserInfo>
 >({
-    url: "/user",
+    url: "/user/",
     method: "get"
 });
 
-export const GetUserInfo = useDefineApi<
+export const getUserInfoApi = useDefineApi<
     {
         id: number;
     },
@@ -46,9 +46,10 @@ export const GetId = useDefineApi<
     method: "GET"
 });
 
-export const UploadAvatar = useDefineApi<
+export const uploadAvatarApi = useDefineApi<
     {
         id: number;
+        data: FormData;
     },
     null
 >({
@@ -67,5 +68,18 @@ export const ModifyPassword = useDefineApi<
     null
 >({
     url: "/user/password",
+    method: "PUT"
+});
+
+export const modifyUserRoleApi = useDefineApi<
+    {
+        data: {
+            id: number;
+            role: Role;
+        }
+    },
+    null
+>({
+    url: "/user/role",
     method: "PUT"
 });

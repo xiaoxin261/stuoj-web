@@ -20,6 +20,8 @@
           <div>{{ signature }}</div>
         </div>
         <div class="user-statistic">
+
+
           <div class="statistic-item">
             <span class="statistic-label">提交</span>
             <span class="statistic-value">?</span>
@@ -70,6 +72,9 @@
                   <span class="info-label">注册时间</span>
                   <span class="info-value">{{ formatDateTimeStr(info?.create_time) }}</span>
                 </div>
+                <div style="display: flex; justify-content: flex-end;">
+                  <ToUserSettingButton v-show="info_.role >= Role.Admin || id === userId" />
+                </div>
               </div>
             </el-card>
           </el-col>
@@ -100,16 +105,15 @@
 import { onBeforeMount, ref, watchEffect } from "vue";
 import { useRouteParams } from "@vueuse/router";
 import { userStore } from "@/stores/user";
-import { GetUserInfo } from "@/apis/user";
+import { getUserInfoApi } from "@/apis/user";
 import { Role, type UserInfo } from "@/types/User";
 import UserRoleTag from "../../components/user/UserRoleTag.vue";
 import { formatDateTimeStr } from "@/utils/date";
-import UserBlog from "@/components/user/UserBlog.vue";
 import { BlogStatus, type BlogParams } from "@/types/Blog";
 import { OrderBy } from "@/types/misc";
 
 const { info: info_, id } = userStore();
-const { execute } = GetUserInfo();
+const { execute } = getUserInfoApi();
 
 let info = ref<UserInfo>();
 

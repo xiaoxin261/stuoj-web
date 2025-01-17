@@ -94,10 +94,7 @@ onMounted (() => {
           </el-table-column>
           <el-table-column align="right" width="300">
             <template #default="scope">
-              <el-button size="small" @click="handleEdit(scope.$index, scope.row)" disabled>编辑</el-button>
-              <el-button size="small" type="success" @click="handleSetRole(scope.$index, scope.row)" disabled>授权</el-button>
-              <el-button size="small" type="warning" @click="handleBan(scope.$index, scope.row)" disabled>封禁</el-button>
-              <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)" disabled>删除</el-button>
+              <ToUserSettingButton :user-id="scope.row.id" />
             </template>
           </el-table-column>
         </el-table>
