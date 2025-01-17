@@ -4,7 +4,7 @@
         <div class="avatar-container">
             <AvatarCropper v-model:user="info" />
         </div>
-        <ElForm :model="info" label-width="80px" style="margin-top: 15px;">
+        <ElForm :model="info_" label-width="80px" style="margin-top: 15px;">
             <ElFormItem label="用户名">
                 <ElInput v-model="info_.username" />
             </ElFormItem>
@@ -15,7 +15,7 @@
                 <ElInput v-model="info_.email" disabled />
             </ElFormItem>
             <ElFormItem v-if="localInfo.role >= Role.Admin" label="角色">
-                <UserRoleSelect v-model="info_.role" />
+                <UserRoleSelect v-model="userRole" />
             </ElFormItem>
             <ElFormItem>
                 <ElButton type="primary" @click="handleCanle">取消</ElButton>
@@ -31,6 +31,7 @@ import { SetUp } from "@element-plus/icons-vue"
 import { userStore } from "@/stores/user";
 import { getUserInfoApi, ModifyUserInfo, modifyUserRoleApi } from "@/apis/user";
 import { Role, type UserInfo } from "@/types/User";
+import { ElMessage } from "element-plus";
 
 const { id, info: localInfo } = userStore();
 
@@ -55,7 +56,14 @@ const dialogVisible = ref(false);
 
 const userId = ref(props.userId);
 
-const info_ = ref();
+const info_ = ref<UserInfo>({
+    avatar: "",
+    id: 0,
+    role: Role.Visitor,
+    username: ""
+});
+
+const userRole = ref(Role.Visitor);
 
 const handleCanle = () => {
     dialogVisible.value = false;
@@ -63,29 +71,40 @@ const handleCanle = () => {
 };
 
 const handleConfirm = () => {
-    if (info_.value.role !== info.value.role) {
+    if (info.value.id === 0)
+        return;
+    if (userRole.value !== info.value.role) {
         modifyUserRoleExcute({
             data: {
                 id: info_.value.id,
-                role: info_.value.role
+                role: userRole.value
             }
-        }).then((res) => {
         });
-    }
+    };
     modifyUserInfoExcute({
         id: info_.value.id,
         data: {
             username: info_.value.username,
-            signature: info_.value.signature,
-            email: info_.value.email,
+            signature: info_.value.signature || info.value.signature || "",
+            email: info_.value.email || info.value.email || "",
         }
+    }).then((res) => {
+        refresh();
+    });
+};
+
+const refresh = async () => {
+    await getUserExcute({
+        id: userId.value
     }).then((res) => {
         if (!res.value) {
             return;
         };
         info.value = res.value;
+        info_.value = res.value;
+        userRole.value = res.value.role;
     });
-}
+};
 
 
 watch(() => dialogVisible.value, async () => {
@@ -97,15 +116,7 @@ watch(() => dialogVisible.value, async () => {
     } else {
         userId.value = id.value;
     }
-    await getUserExcute({
-        id: userId.value
-    }).then((res) => {
-        if (!res.value) {
-            return;
-        };
-        info.value = res.value;
-        info_.value = res.value;
-    });
+    refresh();
 });
 
 </script>

@@ -26,8 +26,8 @@ const handleSelectChange = (value: Role) => {
 const generateOptions = (): { value: Role; label: string }[] => {
     return Object.entries(UserRoleMap).map(([key, value]) => {
         return { value: Number(key), label: value };
-    });
-};
+    }).filter(options => options.value !== Role.Visitor);
+}
 
 const options = generateOptions();
 
