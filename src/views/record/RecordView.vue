@@ -27,7 +27,7 @@
       </ElCol>
       <ElCol :span="8">
         <el-card>
-          <AvatarInfo :user-id="record?.user.id" :size="50" :name-size="20" name :popover="false" />
+          <AvatarInfo v-if="record" :user-id="record?.user.id" :size="50" :name-size="20" name :popover="false" />
           <br/>
           <div class="record-info">
             <div class="record-info-item">题目
