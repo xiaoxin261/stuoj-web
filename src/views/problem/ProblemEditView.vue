@@ -13,8 +13,9 @@
           <div class="title">
             <h5>题目</h5>
             <div>
-              <FPSImport @import-fps="handleImportFPS"  />
-              <ElButton v-if="problemId !== 0" type="info" :icon="Refresh" @click="reset" style="margin-left: 10px;" >重置</ElButton>
+              <FPSImport @import-fps="handleImportFPS" />
+              <ElButton v-if="problemId !== 0" type="info" :icon="Refresh" @click="reset" style="margin-left: 10px;">重置
+              </ElButton>
             </div>
           </div>
           <ElInput v-model="problem.title"></ElInput>
@@ -100,7 +101,7 @@
               </ElTooltip>
             </div>
             <ElDivider />
-            <ProblemTag tags-size="default" layout="vertical" :remove-flag="true" v-model:tags="tags" />
+            <ProblemTag tags-size="default" layout="vertical" :remove-flag="true" v-model:tag-ids="tagIds" v-model:tags="tags" />
             <div style="display: flex; justify-content: flex-end;">
               <ElButton type="primary" @click="handleUpdateTag">更新标签</ElButton>
             </div>
@@ -211,8 +212,9 @@ const global = ref<Global>({
 const route = useRoute();
 let problemId = ref<number>(0);
 
+const tagIds = ref<number[]>([]);
 const tags = ref<Tag[]>([]);
-const oldTags = ref<Tag[]>([]);
+const oldTagIds = ref<number[]>([]);
 
 const activeName = ref<string>('testcase');
 
@@ -229,8 +231,8 @@ const reset = async () => {
   }).then(async (res) => {
     if (res.value) {
       problem.value = res.value.problem;
-      oldTags.value = res.value.tags || [];
-      tags.value = oldTags.value;
+      oldTagIds.value = res.value.problem.tag_ids || [];
+      tagIds.value = oldTagIds.value;
     }
   });
 }
@@ -268,32 +270,32 @@ const handleDebugFlag = () => {
 
 const handleUpdateTag = async () => {
   if (problemId.value) {
-    const tagsToRemove = oldTags.value.filter(oldTag => !tags.value.some(tag => tag.id === oldTag.id));
-    const tagsToAdd = tags.value.filter(tag => !oldTags.value.some(oldTag => oldTag.id === tag.id));
+    const tagsToRemove = oldTagIds.value.filter(tag => !tags.value.some(newTag => newTag.id === tag));
+    const tagsToAdd = tagIds.value.filter(tag => !oldTagIds.value.includes(tag));
 
     for (const tag of tagsToRemove) {
-      if (tag.id !== undefined) {
+      if (tag !== undefined) {
         await problemRemoveTagExecute({
           data: {
             problem_id: problemId.value,
-            tag_id: tag.id
+            tag_id: tag
           }
         });
       };
     };
 
     for (const tag of tagsToAdd) {
-      if (tag.id !== undefined) {
+      if (tag !== undefined) {
         await problemAddTagExecute({
           data: {
             problem_id: problemId.value,
-            tag_id: tag.id
+            tag_id: tag
           }
         });
       };
     };
 
-    oldTags.value = [...tags.value];
+    oldTagIds.value = [...tagIds.value];
     ElNotification.success({
       title: '标签更新成功',
       message: '标签已成功更新'
