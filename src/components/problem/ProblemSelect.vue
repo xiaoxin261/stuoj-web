@@ -10,7 +10,7 @@
             <ProblemStatusSelect v-model:status="params.status" ref="statusSelectRef" />
         </el-form-item>
         <el-form-item label-width="auto">
-            <ProblemTag layout="horizontal" :remove-flag="true" v-model:tags="tags" ref="problemTagRef" />
+            <ProblemTag layout="horizontal" :remove-flag="true" v-model:tag-ids="tagIds" ref="problemTagRef" />
         </el-form-item>
         <el-form-item>
             <el-button @click="handleReset">重置</el-button>
@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import type { ProblemParams, Tag } from '@/types/Problem';
+import type { ProblemParams } from '@/types/Problem';
 import ProblemTag from '@/components/problem/ProblemTag.vue';
 import ProblemDifficultySelect from '@/components/problem/ProblemDifficultySelect.vue';
 import ProblemStatusSelect from '@/components/problem/ProblemStatusSelect.vue';
@@ -34,7 +34,7 @@ const props = withDefaults(defineProps<{
     admin: false,
 });
 
-const tags = ref<Tag[]>([]);
+const tagIds = ref<number[]>([]);
 
 const emit = defineEmits(['update:params', 'confirmClicked']);
 const params = ref<ProblemParams>(props.params);
@@ -55,7 +55,7 @@ const handleReset = () => {
     emit('update:params', params.value);
 };
 const handleConfirm = () => {
-    params.value.tag = tags.value.map(tag => tag.id).join(',');
+    params.value.tag = tagIds.value.join(',');
     emit('update:params', params.value);
     emit('confirmClicked');
 };

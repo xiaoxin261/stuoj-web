@@ -28,7 +28,7 @@
     </el-table-column>
     <el-table-column v-if="tagFlag" label="标签" width="300">
       <template #default="scope">
-        <ProblemTagShow :tags="scope.row.tags" />
+        <ProblemTagShow :tag-ids="scope.row.tag_ids" />
       </template>
     </el-table-column>
     <el-table-column v-if="timeFlag" label="创建时间" width="120">
@@ -69,16 +69,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch, watchEffect } from 'vue';
+import { ref, watch } from 'vue';
 import { type ProblemInfo, ProblemStatusMap, ProblemStatusColor } from '@/types/Problem';
 import { DifficultyMap, DifficultyColor } from '@/types/Problem';
 import { formatDateStr } from "@/utils/date";
-import {deleteProblemApi, getProblemApi} from '@/apis/problem';
+import { deleteProblemApi } from '@/apis/problem';
 import router from '@/router';
 import ProblemTagShow from './ProblemTagShow.vue';
-import {ElNotification} from "element-plus";
-
-const { execute } = getProblemApi();
+import { ElNotification } from "element-plus";
 
 const props = withDefaults(defineProps<{
   problems: ProblemInfo[];
@@ -95,22 +93,6 @@ const selections = ref<ProblemInfo[]>([]);
 const handleSelectionChange = (val: ProblemInfo[]) => {
   selections.value = val;
 };
-
-watchEffect(() => {
-  if (tagReady.value) return;
-  if (tagFlag.value) {
-    props.problems.forEach(problem => {
-      if (problem.id) {
-        execute({
-          id: problem.id
-        }).then(res => {
-          problem.tags = res.value?.tags || [];
-        });
-      };
-    });
-    tagReady.value = true;
-  }
-});
 
 watch(() => props.problems.map(problem => problem.id), () => {
   tagReady.value = false;

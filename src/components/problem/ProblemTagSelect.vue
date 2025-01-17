@@ -10,20 +10,15 @@
     </template>
     <div style="text-align: center">
       <el-card>
-        <ElCheckTag class="tag-select" v-for="tag in wsTags" :key="tag.data.id" v-model:checked="tag.checked" :label="tag.data.name" type="primary" >
+        <ElCheckTag class="tag-select" v-for="tag in wsTags" :key="tag.data.id" v-model:checked="tag.checked"
+          :label="tag.data.name" type="primary">
           {{ tag.data.name }}
         </ElCheckTag>
         <template #footer>
-          <el-pagination
-              v-model:current-page="params.page"
-              v-model:page-size="params.size"
-              :page-sizes="[10, 20, 50, 100]"
-              :size="'small'"
-              :background="true"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="tagPage?.total"
-              @size-change="getList"
-              @current-change="getList"/>
+          <el-pagination v-model:current-page="params.page" v-model:page-size="params.size"
+            :page-sizes="[10, 20, 50, 100]" :size="'small'" :background="true"
+            layout="total, sizes, prev, pager, next, jumper" :total="tagPage?.total" @size-change="getList"
+            @current-change="getList" />
         </template>
       </el-card>
     </div>
@@ -37,66 +32,72 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onBeforeMount, onMounted, ref } from 'vue';
 import type { Tag } from '@/types/Problem';
-import {getTagListApi} from "@/apis/tag";
-import type {TagParams} from "@/types/tag";
-import type {Page} from "@/types/misc";
+import type { TagParams } from "@/types/tag";
+import type { Page } from "@/types/misc";
+import { problemTagStore } from '@/stores/problemTag';
 
 const props = defineProps<{
-  tags: Tag[];
+  tagIds: number[];
 }>();
 
-const emit = defineEmits(['update:tags']);
+const { getTagList } = problemTagStore();
+
+const emit = defineEmits(['update:tagIds']);
 
 interface TemTag {
   checked: boolean;
   data: Tag;
 }
 
-const tags = ref<Tag[]>(props.tags);
+const tags = computed(() => {
+  // 过滤掉 tagIds 中的 undefined 值
+  const validTagIds = props.tagIds.filter((id): id is number => typeof id === 'number');
+
+  // 过滤掉 wsTags 中 data.id 为 undefined 的项
+  return wsTags.value
+    .filter(tag => typeof tag.data.id === 'number' && validTagIds.includes(tag.data.id))
+    .map(tag => tag.data) || [];
+});
+
 const tagDialogVisible = ref(false);
 let wsTags = ref<TemTag[]>([]);
 let savedWsTags: TemTag[] | null = null; // 用于保存wsTags状态的变量
 
 const tagPage = ref<Page<"tags", Tag>>();
-const { state, execute } = getTagListApi();
 const params = ref<TagParams>({
   page: 1,
   size: 100
 });
 
 const getList = async () => {
-  await execute({
-    params: {
-      ...params.value,
-    }
+  await getTagList().then((res) => {
+    wsTags.value = res.value.map((tag) => {
+      const checked = tags.value.some((t) => t.id === tag.id);
+      return { checked, data: tag };
+    });
   });
-
-  if (state.value) {
-    tagPage.value = state.value;
-    tags.value = tagPage.value.tags;
-    wsTags.value = state.value.tags.map((tag: Tag) => ({
-      checked: false,
-      data: tag
-    }));
-  }
 }
 
-onMounted(async () => {
+onBeforeMount(async () => {
   await getList();
 })
 
 const showDialog = () => {
-  tags.value = props.tags;
   if (savedWsTags === null) {
     wsTags.value = wsTags.value.map(tag => ({ ...tag, checked: false }));
-    tags.value.forEach(tag => {
-      const index = wsTags.value.findIndex(wsTag => wsTag.data.id === tag.id);
-      if (index !== -1) {
-        wsTags.value[index].checked = true;
-      }
-    });
+
+    // 检查 tags.value 是否为空数组
+    if (tags.value.length > 0) {
+      tags.value.forEach(tag => {
+        const index = wsTags.value.findIndex(wsTag => wsTag.data.id === tag.id);
+        if (index !== -1) {
+          wsTags.value[index].checked = true;
+        }
+      });
+    }
+
     savedWsTags = JSON.parse(JSON.stringify(wsTags.value));
   }
   tagDialogVisible.value = true;
@@ -104,9 +105,10 @@ const showDialog = () => {
 
 const handleConfirm = () => {
   tagDialogVisible.value = false;
-  tags.value = wsTags.value.filter(tag => tag.checked).map(tag => tag.data);
-  emit('update:tags', tags.value);
+  const selectedTagIds = wsTags.value.filter(tag => tag.checked).map(tag => tag.data.id);
+  emit('update:tagIds', selectedTagIds);
   savedWsTags = null; // 确认后清空保存的状态
+  console.log(selectedTagIds);
 };
 
 const handleCancel = () => {
@@ -118,7 +120,7 @@ const handleCancel = () => {
 };
 
 const reset = () => {
-  tags.value = [];
+  emit('update:tagIds', []);
   wsTags.value = wsTags.value.map(tag => ({ ...tag, checked: false }));
 };
 
@@ -132,7 +134,7 @@ defineExpose({
 </script>
 
 <style scoped>
-.tag-select{
+.tag-select {
   margin-left: 5px;
   margin-bottom: 5px;
 }
