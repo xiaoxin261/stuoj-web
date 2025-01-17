@@ -33,7 +33,7 @@ export const createBlogApi = useDefineApi<
     },
     number
 >({
-    url: "/blog",
+    url: "/blog/",
     method: "post"
 });
 
@@ -49,7 +49,7 @@ export const updateBlogApi = useDefineApi<
     },
     number
 >({
-    url: "/blog",
+    url: "/blog/",
     method: "put"
 });
 

@@ -8,7 +8,7 @@ export const getProblemListApi = useDefineApi<
     },
     Page<"problems", ProblemInfo>
 >({
-    url: "/problem",
+    url: "/problem/",
     method: "get"
 });
 
@@ -33,7 +33,7 @@ export const insertProblemApi = useDefineApi<
     },
     number
 >({
-    url: "/problem",
+    url: "/problem/",
     method: "post"
 });
 
@@ -43,7 +43,7 @@ export const updateProblemApi = useDefineApi<
     },
     null
 >({
-    url: "/problem",
+    url: "/problem/",
     method: "put"
 })
 
@@ -99,7 +99,7 @@ export const uploadTestcaseApi = useDefineApi<
     },
     number
 >({
-    url: "/testcase",
+    url: "/testcase/",
     method: "post"
 })
 
@@ -109,7 +109,7 @@ export const updateTestcaseApi = useDefineApi<
     },
     null
 >({
-    url: "/testcase",
+    url: "/testcase/",
     method: "put"
 })
 
@@ -147,7 +147,7 @@ export const uploadSolutionApi = useDefineApi<
     },
     number
 >({
-    url: "/solution",
+    url: "/solution/",
     method: "post"
 })
 
@@ -157,7 +157,7 @@ export const updateSolutionApi = useDefineApi<
     },
     null
 >({
-    url: "/solution",
+    url: "/solution/",
     method: "put"
 })
 

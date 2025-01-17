@@ -9,7 +9,7 @@ export const getTagListApi = useDefineApi<
     },
     Page<"tags", Tag>
 >({
-    url: "/tag",
+    url: "/tag/",
     method: "get"
 });
 
@@ -29,7 +29,7 @@ export const insertTagApi = useDefineApi<
     },
     number
 >({
-    url: "/tag",
+    url: "/tag/",
     method: "post"
 });
 
@@ -39,6 +39,6 @@ export const updateTagApi = useDefineApi<
     },
     null
 >({
-    url: "/tag",
+    url: "/tag/",
     method: "put"
 });
