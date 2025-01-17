@@ -203,7 +203,6 @@ const addExistingTestcase = async (testcase: Testcase) => {
             serial: maxSerial + 1,
         }
     });
-    console.log('addExistingTestcase', testcase);
 };
 
 defineExpose({

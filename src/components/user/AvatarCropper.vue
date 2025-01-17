@@ -66,7 +66,6 @@ const upload = async () => {
                     ElMessage.error('裁剪结果不是有效的 Blob 对象', cropData);
                     return;
                 };
-                console.log(cropData)
                 const formData = new FormData();
                 formData.append('file', cropData, imgName.value);
                 await execute({
@@ -82,7 +81,6 @@ const upload = async () => {
             })
     } catch (error) {
         ElMessage.error('图片裁剪失败');
-        console.log(error)
     } finally {
         loading.value = false;
         close();

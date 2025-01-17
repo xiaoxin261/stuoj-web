@@ -65,8 +65,6 @@ const handleReset = () => {
 };
 
 const handleConfirm = () => {
-    console.log(params.value)
-
     emit('update:params', params.value);
     emit('confirmClicked');
 };

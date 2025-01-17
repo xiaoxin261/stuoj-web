@@ -104,7 +104,6 @@ const validateEmail = (rule: any, value: any, callback: any) => {
 };
 
 const validateVerifyCode = (rule: any, value: any, callback: any) => {
-  console.log(value.length)
   if (value === '') {
     callback(new Error('验证码为空'))
   } else if (value.length !== 6) {
