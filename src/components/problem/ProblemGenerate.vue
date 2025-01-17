@@ -1,14 +1,14 @@
 <template>
     <ElContainer v-loading="loading" style="display: flex;flex-direction: column;">
-      <div class="section">
-        <el-alert type="info">
-          输入标签，点击生成按钮，将自动生成题目。
-        </el-alert>
-      </div>
-      <br/>
+        <div class="section">
+            <el-alert type="info">
+                输入标签，点击生成按钮，将自动生成题目。
+            </el-alert>
+        </div>
+        <br />
         <div class="section">
             <div class="title">
-                <h2>题目（可选）</h2>
+                <h5>题目（可选）</h5>
                 <ElButtonGroup>
                     <ElButton type="primary" :icon="DArrowLeft" @click="insert">插入到题面</ElButton>
                     <ElButton type="info" @click="reset">从题面获取
@@ -144,6 +144,7 @@ const generate = async () => {
 <style scoped>
 .title {
     display: flex;
+    align-items: center;
     justify-content: space-between;
 }
 

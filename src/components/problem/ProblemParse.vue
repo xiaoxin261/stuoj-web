@@ -7,14 +7,14 @@
     </div>
     <div class="section">
       <div class="title">
-        <h2>待解析数据</h2>
+        <h5>待解析数据</h5>
       </div>
       <ElInput v-model="problem_data" type="textarea" :autosize="{ minRows: 5, maxRows: 10 }"></ElInput>
     </div>
     <br/>
     <div class="section">
       <div class="title">
-        <h2>题目</h2>
+        <h4>题目</h4>
         <ElButtonGroup>
           <ElButton type="primary" :icon="DArrowLeft" @click="insert">插入到题面</ElButton>
           <ElButton type="info" @click="parse">解析题目数据</ElButton>
@@ -146,6 +146,7 @@ const parse = async () => {
 <style scoped>
 .title {
   display: flex;
+  align-items: center;
   justify-content: space-between;
 }
 

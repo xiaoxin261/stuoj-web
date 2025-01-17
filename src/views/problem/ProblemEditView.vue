@@ -11,7 +11,7 @@
       <ElCard class="box-card">
         <div class="section">
           <div class="title">
-            <h2>题目</h2>
+            <h5>题目</h5>
             <div>
               <FPSImport @import-fps="handleImportFPS"  />
               <ElButton v-if="problemId !== 0" type="info" :icon="Refresh" @click="reset" style="margin-left: 10px;" >重置</ElButton>
@@ -272,22 +272,26 @@ const handleUpdateTag = async () => {
     const tagsToAdd = tags.value.filter(tag => !oldTags.value.some(oldTag => oldTag.id === tag.id));
 
     for (const tag of tagsToRemove) {
-      await problemRemoveTagExecute({
-        data: {
-          problem_id: problemId.value,
-          tag_id: tag.id
-        }
-      });
-    }
+      if (tag.id !== undefined) {
+        await problemRemoveTagExecute({
+          data: {
+            problem_id: problemId.value,
+            tag_id: tag.id
+          }
+        });
+      };
+    };
 
     for (const tag of tagsToAdd) {
-      await problemAddTagExecute({
-        data: {
-          problem_id: problemId.value,
-          tag_id: tag.id
-        }
-      });
-    }
+      if (tag.id !== undefined) {
+        await problemAddTagExecute({
+          data: {
+            problem_id: problemId.value,
+            tag_id: tag.id
+          }
+        });
+      };
+    };
 
     oldTags.value = [...tags.value];
     ElNotification.success({
@@ -354,6 +358,7 @@ const handleImportFPS = (data: { problem: ProblemInfo, solutions: Solution[], te
 <style scoped>
 .title {
   display: flex;
+  align-items: center;
   justify-content: space-between;
 }
 

@@ -8,7 +8,7 @@
     <br/>
     <div class="section">
       <div class="title">
-        <h2>题目</h2>
+        <h5>题目</h5>
         <ElButtonGroup>
           <ElButton type="primary" :icon="DArrowLeft" @click="insert">插入到题面</ElButton>
           <ElButton type="info" @click="reset">从题面获取
@@ -97,6 +97,7 @@ const translate = async () => {
 <style scoped>
 .title {
   display: flex;
+  align-items: center;
   justify-content: space-between;
 }
 
