@@ -133,6 +133,7 @@ const columnMap: { [key: string]: string } = {
   "标题": "title",
   "难度": "difficulty",
   "创建时间": "create_time",
+  "更新时间": "update_time",
 };
 
 const sortChange = (data: { column: { label: keyof typeof columnMap }, order: string | null }) => {
@@ -140,7 +141,6 @@ const sortChange = (data: { column: { label: keyof typeof columnMap }, order: st
     emit('update:order', data.order === "ascending" ? "asc" : "desc");
     emit('update:order-by', columnMap[data.column.label]);
     emit('update');
-    console.log(columnMap[data.column.label],data.column.label);
   }
 };
 </script>
