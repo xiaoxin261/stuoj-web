@@ -47,10 +47,12 @@ onMounted(async () => {
         blogForm.value.content = res.value.content ?? "";
         blogForm.value.title = res.value.title ?? "";
         blogForm.value.status = res.value.status ?? 0;
-        blogForm.value.problem_id = res.value.problem_id ?? 0;
-      };
+        if (res.value.problem) {
+          blogForm.value.problem_id = res.value.problem.id ?? 0;
+        }
+      }
     });
-  };
+  }
   if (problem.value) {
     blogForm.value.problem_id = parseInt(problem.value, 10);
   }
@@ -107,7 +109,7 @@ const onEdit = async () => {
         </el-form-item>
         <el-form-item>
           <el-button v-if="!blogId" type="primary" @click="onSubmit">发布</el-button>
-          <el-button v-else type="" @click="onEdit">修改</el-button>
+          <el-button v-else @click="onEdit">修改</el-button>
           <BlogStatusSelect style="margin-left: 10px; width: 100px;" v-model:status="blogForm.status" />
         </el-form-item>
       </el-form>
