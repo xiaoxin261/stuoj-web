@@ -51,6 +51,13 @@ export const renderMarkDown = (text: string) => {
         { regex: /(?<!\\)<([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})>/gim, replacement: '<a href="mailto:$1">$1</a>' },
     ];
 
+    // 提取并替换公式，使用占位符
+    const latexs: string[] = [];
+    text = text.replace(/(?<!\\)\$([\s\S]*?)\$/gim, (match, p1) => {
+        latexs.push(p1);
+        return `LATEX_${latexs.length - 1}`;
+    });
+
     // 提取并替换代码块，使用占位符
     const codeBlocks: string[] = [];
     text = text.replace(/(?<!\\)```([\s\S]*?)```/gim, (match, p1) => {
@@ -83,6 +90,11 @@ export const renderMarkDown = (text: string) => {
 
     // 去除用于转义的反斜杠字符，除非该反斜杠前有反斜杠
     html = html.replace(/\\(?!\\)/g, '');
+
+    // 恢复公式
+    html = html.replace(/LATEX_(\d+)/g, (match, p1) => {
+        return `\$${latexs[parseInt(p1)]}\$`;
+    });
 
     // 恢复代码块
     html = html.replace(/CODE_BLOCK_(\d+)/g, (match, p1) => {
