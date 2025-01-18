@@ -78,7 +78,8 @@
         </ElCard>
         <br />
         <el-card>
-          <CodeRun v-if="problemInfo.id" :problem="problemId" :input_text="problemInfo.sample_input" />
+          <CodeRun v-if="problemInfo.id" :problem="problemId" :input_text="problemInfo.sample_input"
+            :lang-id="record?.language_id" :source_text="record?.source_code" />
         </el-card>
       </ElCol>
       <ElCol :span="6">
@@ -106,21 +107,27 @@
               <span>{{ ((problemInfo.memory_limit ?? 0) / 1024).toFixed(2) }} MB</span>
             </div>
             <div class="problem-info-item">
-                <span>题目标签</span>
-                <span><ElButton size="small" @click="toggleTagsVisibility" :icon="tagsFlag ? 'View' : 'Hide'" /></span>
+              <span>题目标签</span>
+              <span>
+                <ElButton size="small" @click="toggleTagsVisibility" :icon="tagsFlag ? 'View' : 'Hide'" />
+              </span>
             </div>
             <div class="problem-info-item" v-if="tagsFlag">
-              <ProblemTagShow :tag-ids="problemInfo.tag_ids ?? []"/>
+              <ProblemTagShow :tag-ids="problemInfo.tag_ids ?? []" />
             </div>
           </div>
-          <br/>
+          <br />
           <div>
             <el-button>
               <a :href="`/record?problem=${problemInfo.id}`">
-                <el-icon><List /></el-icon>&nbsp;提交记录
+                <el-icon>
+                  <List />
+                </el-icon>&nbsp;提交记录
               </a>
             </el-button>
-            <el-button disabled><el-icon><StarFilled /></el-icon>&nbsp;收藏</el-button>
+            <el-button disabled><el-icon>
+                <StarFilled />
+              </el-icon>&nbsp;收藏</el-button>
           </div>
         </ElCard>
         <ElCard shadow="always" style="margin-top: 20px;">
@@ -142,18 +149,27 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { Difficulty, DifficultyColor, type ProblemInfo, type Solution, type Tag } from "@/types/Problem";
+import { Difficulty, DifficultyColor, type ProblemInfo } from "@/types/Problem";
 import { useRouteParams } from "@vueuse/router";
 import { getProblemApi } from "@/apis/problem";
 import { DifficultyMap } from "@/types/Problem";
 import { formatDateStr } from "@/utils/date";
 import { Notebook, StarFilled } from "@element-plus/icons-vue";
+import { getRecordListApi } from "@/apis/record";
+import type { Submission } from "@/types/Record";
+import { OrderBy } from "@/types/misc";
+import { userStore } from "@/stores/user";
 
 const problemId = useRouteParams<number>("id");
 
+const { id } = userStore();
+
 const { state, execute } = getProblemApi();
+const { execute: recordExecute } = getRecordListApi();
 
 const problemInfo = ref<ProblemInfo>({} as ProblemInfo);
+
+const record = ref<Submission>();
 
 const tagsFlag = ref<boolean>(false);
 
@@ -162,13 +178,25 @@ const toggleTagsVisibility = () => {
 };
 
 onMounted(async () => {
+  await recordExecute({
+    params: {
+      user: String(id.value),
+      problem: String(problemId.value),
+      page: 1,
+      size: 1,
+      order: "desc",
+      order_by: OrderBy.create_time
+    }
+  }).then((res) => {
+    record.value = res.value?.submissions[0];
+  });
   await execute({
     id: problemId.value,
   });
   if (state.value) {
     problemInfo.value = state.value.problem;
     document.title = `[${problemInfo.value.id}] ${problemInfo.value.title} - 题目 - STUOJ`;
-  }
+  };
 });
 </script>
 
@@ -192,6 +220,7 @@ onMounted(async () => {
   display: block;
   font-size: 13px;
 }
+
 .problem-output,
 .problem-sample {
   white-space: pre-wrap;

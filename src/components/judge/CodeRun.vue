@@ -3,7 +3,8 @@
     <div class="button-container">
         <LanguageSelect v-model:id="languageId" style="width: 50%; margin-right: 2%;" />
         <ElButton class="debug-button" @click="handleDebug" :disabled="languageId === 0">调试</ElButton>
-        <ElButton v-if="props.problem" class="submit-button" type="primary" @click="handleSubmit"  :disabled="languageId === 0">提交</ElButton>
+        <ElButton v-if="props.problem" class="submit-button" type="primary" @click="handleSubmit"
+            :disabled="languageId === 0">提交</ElButton>
     </div>
     <div class="result-container" v-if="resultFlag">
         <ElContainer class="result-container-content">
@@ -36,7 +37,6 @@ import { ref, watch } from 'vue';
 import { TestRun } from '@/apis/judge';
 import { Submit } from '@/apis/judge';
 import RecordInfo from '@/components/record/RecordInfo.vue';
-import type { Language } from '@/types/Judge';
 
 const { execute: testExcute, state: testState } = TestRun();
 const { execute: submitExcute, state: submitState } = Submit();
@@ -48,14 +48,16 @@ const props = withDefaults(defineProps<{
     options?: any,
     problem?: number | string,
     input_text?: string,
+    langId?: number,
+    source_text?: string,
 }>(), {
     options: () => ({}),
     theme: 'monokai',
     input_text: '',
 });
 
-const languageId = ref(0);
-const code_text = ref("");
+const languageId = ref(props.langId || 0);
+const code_text = ref(props.source_text || '');
 const debug_input = ref(props.input_text);
 const debug_output = ref("");
 const resultFlag = ref(false);
@@ -68,7 +70,7 @@ const recordInfoRef = ref<InstanceType<typeof RecordInfo> | null>(null); // 显�
 
 const emit = defineEmits(['update:modelValue']);
 
-watch(() => code_text, (newValue) => {
+watch(() => code_text.value, (newValue) => {
     emit('update:modelValue', newValue);
 });
 
@@ -107,7 +109,7 @@ const handleSubmit = async () => {
             problem_id = parseInt(match[0], 10);
         }
     } else {
-      problem_id = props.problem;
+        problem_id = props.problem;
     }
     if (problem_id != undefined)
         await submitExcute({

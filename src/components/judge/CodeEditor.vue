@@ -30,7 +30,7 @@ onMounted(() => {
     editorInstance.getSession().setMode(`ace/mode/${mode.value}`);
     editorInstance.setTheme(`ace/theme/${theme.value}`);
     editorInstance.setOptions(options.value);
-
+    editorInstance.setValue(props.modelValue);
     editorInstance.on('change', () => {
         const content = editorInstance.getValue();
         emit('update:modelValue', content);

@@ -1,6 +1,7 @@
 import type { UserInfo } from "./User";
 import type { JudgeStatus } from "./Judge";
 import type { ProblemInfo } from "./Problem";
+import type { OrderBy } from "./misc";
 
 export interface Submission {
     create_time: string;
@@ -40,7 +41,7 @@ export interface RecordParams {
     language?: number,
     problem?: string,
     order?: string,
-    order_by?: string,
+    order_by?: OrderBy,
     "start-time"?: string,
     status?: JudgeStatus,
     user?: string
