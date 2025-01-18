@@ -14,7 +14,7 @@ const params = ref<BlogParams>({
 onBeforeMount(() => {
   const problem = useRouteQuery<string>("problem");
   if (problem.value) {
-    params.value.problem = parseInt(problem.value, 10); // 修改此行
+    params.value.problem = parseInt(problem.value, 10);
   }
 });
 </script>
