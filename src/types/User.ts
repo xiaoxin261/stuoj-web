@@ -1,4 +1,5 @@
 import {Colors} from "@/types/Colors";
+import type { OrderBy } from "./misc";
 
 export interface UserInfo {
     avatar: string;
@@ -55,5 +56,5 @@ export interface UserParams {
     tag?: string,
     status?: number,
     order?: string,
-    order_by?: string
+    order_by?: OrderBy
 }
