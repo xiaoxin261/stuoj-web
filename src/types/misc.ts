@@ -19,12 +19,16 @@ export const AlbumMap = {
 }
 
 export enum OrderBy {
+    id = "id",
     user = "user_id",
     problem = "problem_id",
     blog = "blog_id",
     create_time = "create_time",
     update_time = "update_time",
     status = "status",
+    username="username",
+    email="email",
+    role="role",
 }
 
 export const OrderByMap = {
