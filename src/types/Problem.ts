@@ -1,5 +1,6 @@
 import { Colors } from "@/types/Colors";
 import type { UserInfo } from "./User";
+import type { OrderBy } from "./misc";
 
 export interface ProblemInfo {
     create_time?: string;
@@ -181,5 +182,5 @@ export interface ProblemParams {
     tag?: string,
     status?: number,
     order?: string,
-    order_by?: string,
+    order_by?: OrderBy,
 }

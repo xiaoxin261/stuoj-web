@@ -19,6 +19,7 @@ export const AlbumMap = {
 }
 
 export enum OrderBy {
+    id = "id",
     user = "user_id",
     problem = "problem_id",
     blog = "blog_id",
