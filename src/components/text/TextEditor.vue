@@ -393,10 +393,10 @@ const toggleCodeBlock = () => {
   const end = textarea.selectionEnd;
   const selectedText = textarea.value.substring(start, end);
 
-  const codeBlockText = `\`\`${selectedText}\`\``;
+  const codeBlockText = `\`\`\`\n${selectedText}\n\`\`\``;
   textarea.setRangeText(codeBlockText, start, end, 'end');
   text.value = textarea.value;
-  textarea.setSelectionRange(start + 2, start + 2 + selectedText.length);
+  textarea.setSelectionRange(start + 4, start + 4 + selectedText.length);
   textarea.focus();
 };
 
