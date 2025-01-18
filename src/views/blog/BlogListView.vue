@@ -1,13 +1,21 @@
 <script setup lang="ts">
 import type { BlogParams } from '@/types/Blog';
 import { OrderBy } from '@/types/misc';
-import { ref } from 'vue';
+import { useRouteQuery } from '@vueuse/router';
+import { onBeforeMount, onMounted, ref } from 'vue';
 
 const params = ref<BlogParams>({
   page: 1,
   size: 10,
   order_by: OrderBy.create_time,
   order: 'desc',
+});
+
+onBeforeMount(() => {
+  const problem = useRouteQuery<string>("problem");
+  if (problem.value) {
+    params.value.problem = parseInt(problem.value, 10); // 修改此行
+  }
 });
 </script>
 
@@ -66,7 +74,7 @@ const params = ref<BlogParams>({
           <FastPost />
         </el-card>
         <el-divider></el-divider>
-        <Blogs :params="params"/>
+        <Blogs :params="params" />
       </el-col>
     </el-row>
   </div>

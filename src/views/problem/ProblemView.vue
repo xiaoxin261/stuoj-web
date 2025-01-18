@@ -132,14 +132,22 @@
         </ElCard>
         <ElCard shadow="always" style="margin-top: 20px;">
           <template #header>
-            <strong>相关博客</strong>
+            <div style="display:flex;justify-content:space-between;">
+              <strong>相关博客</strong>
+              <ElButton type="primary" @click="toggleBlogsVisibility">{{ blogsFlag ? '收起' : '展开' }}</ElButton>
+            </div>
           </template>
-          <div class="problem-info">
-            <ul>
-              <li>博客1</li>
-              <li>博客2</li>
-              <li>博客3</li>
+          <div class="problem-info" v-if="blogsFlag">
+            <ul v-for="blog in blogs" :key="blog.id">
+              <li>
+                <a :href="`/blog/${blog.id}`">{{ blog.title }}</a>
+              </li>
             </ul>
+            <div v-if="blogs.length === 0">暂无相关博客</div>
+            <div style="display:flex;justify-content: space-between;">
+              <ElButton type="primary" @click="toEditBlog">写博客</ElButton>
+              <ElButton type="primary" @click="toQueryBlog">查看更多</ElButton>
+            </div>
           </div>
         </ElCard>
       </ElCol>
@@ -159,6 +167,9 @@ import { getRecordListApi } from "@/apis/record";
 import type { Submission } from "@/types/Record";
 import { OrderBy } from "@/types/misc";
 import { userStore } from "@/stores/user";
+import { getBlogListApi } from "@/apis/blog";
+import { ElButton } from "element-plus";
+import type { BlogInfo } from "@/types/Blog";
 
 const problemId = useRouteParams<number>("id");
 
@@ -166,6 +177,7 @@ const { id } = userStore();
 
 const { state, execute } = getProblemApi();
 const { execute: recordExecute } = getRecordListApi();
+const { execute: blogExecute } = getBlogListApi();
 
 const problemInfo = ref<ProblemInfo>({} as ProblemInfo);
 
@@ -175,6 +187,22 @@ const tagsFlag = ref<boolean>(false);
 
 const toggleTagsVisibility = () => {
   tagsFlag.value = !tagsFlag.value;
+};
+
+const blogsFlag = ref<boolean>(false);
+
+const toggleBlogsVisibility = () => {
+  blogsFlag.value = !blogsFlag.value;
+};
+
+const blogs = ref<BlogInfo[]>([]);
+
+const toEditBlog = () => {
+  window.open(`/blog/edit?problem=${problemId.value}`);
+};
+
+const toQueryBlog = () => {
+  window.open(`/blog?problem=${problemId.value}`);
 };
 
 onMounted(async () => {
@@ -197,8 +225,18 @@ onMounted(async () => {
       problemInfo.value = state.value.problem;
       document.title = `[${problemInfo.value.id}] ${problemInfo.value.title} - 题目 - STUOJ`;
     };
-  })
-
+  });
+  blogExecute({
+    params: {
+      problem: problemId.value,
+      page: 1,
+      size: 3,
+      order: "desc",
+      order_by: OrderBy.create_time
+    }
+  }).then((res) => {
+    blogs.value = res.value?.blogs ?? [];
+  });
 });
 </script>
 
