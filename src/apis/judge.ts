@@ -1,5 +1,6 @@
 import { useDefineApi } from "@/stores/useDefineApi"
 import type { Language } from "@/types/Judge"
+import type { Judgement } from "@/types/Record";
 
 export const Submit = useDefineApi<
     {
@@ -31,13 +32,7 @@ export const TestRun = useDefineApi<
             source_code: string;
         }
     },
-    {
-        memory: number;
-        status: number;
-        stdout: string;
-        time: number;
-        [property: string]: any;
-    }
+    Judgement
 >({
     url: "/judge/testrun",
     method: "post"

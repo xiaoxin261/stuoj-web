@@ -7,7 +7,7 @@
             :disabled="languageId === 0">提交</ElButton>
     </div>
     <div class="result-container" v-if="resultFlag">
-        <ElContainer class="result-container-content">
+        <ElContainer v-loading="loading" class="result-container-content">
             <ElHeader class="result-container-header">
                 <h1>{{ debugFlag ? '调试结果' : '提交结果' }}</h1>
             </ElHeader>
@@ -17,11 +17,18 @@
                     <ElInput type="textarea" v-model="debug_input" resize="none"
                         :autosize="{ minRows: 2, maxRows: 20 }" />
                     <h3>输出</h3>
-                    <ElInput type="textarea" v-model="debug_output" resize="none" :readonly="true"
+                    <ElInput type="textarea" v-model="debug_out" resize="none" :readonly="true"
                         :autosize="{ minRows: 2, maxRows: 20 }" />
                     <div v-if="testState && testState.code === 1">
-                        <ElText style="margin-right: 20px;">运行时间:{{ time }}s</ElText>
-                        <ElText>运行内存:{{ memory }}KB</ElText>
+                        <ElText style="margin-right: 20px;">运行时间:{{ debug_state?.time }}s</ElText>
+                        <ElText>运行内存:{{ debug_state?.memory }}KB</ElText>
+                    </div>
+                    <div v-else>
+                        <ElText v-if="!debug_state?.stdout" type="danger">空输出</ElText>
+                        <br />
+                        <ElText type="danger">
+                            {{ (debug_state?.compile_output || '') + '\n' + (debug_state?.stderr || '') }}
+                        </ElText>
                     </div>
                 </div>
                 <div v-else>
@@ -37,6 +44,7 @@ import { ref, watch } from 'vue';
 import { TestRun } from '@/apis/judge';
 import { Submit } from '@/apis/judge';
 import RecordInfo from '@/components/record/RecordInfo.vue';
+import type { Judgement } from '@/types/Record';
 
 const { execute: testExcute, state: testState } = TestRun();
 const { execute: submitExcute, state: submitState } = Submit();
@@ -56,15 +64,15 @@ const props = withDefaults(defineProps<{
     input_text: '',
 });
 
+const loading = ref(false);
+
 const languageId = ref(props.langId || 0);
 const code_text = ref(props.source_text || '');
 const debug_input = ref(props.input_text);
-const debug_output = ref("");
+const debug_out = ref('');
+const debug_state = ref<Judgement>();
 const resultFlag = ref(false);
 const debugFlag = ref(false);
-const time = ref(0);
-const memory = ref(0);
-const state = ref(0);
 const judge_id = ref(0);
 const recordInfoRef = ref<InstanceType<typeof RecordInfo> | null>(null); // 显式声明类型
 
@@ -75,11 +83,13 @@ watch(() => code_text.value, (newValue) => {
 });
 
 const handleDebug = async () => {
+    loading.value = true;
     debugFlag.value = true;
     resultFlag.value = true;
     if (recordInfoRef.value) {
         recordInfoRef.value.clear(); // 清空子组件内容
     }
+    
     await testExcute({
         data: {
             language_id: languageId.value,
@@ -88,14 +98,14 @@ const handleDebug = async () => {
         }
     });
     if (testState.value) {
-        debug_output.value = testState.value.stdout;
-        memory.value = testState.value.memory;
-        time.value = testState.value.time;
-        state.value = testState.value.status;
+        debug_out.value = testState.value.stdout ?? '';
+        debug_state.value = testState.value;
     }
+    loading.value = false;
 };
 
 const handleSubmit = async () => {
+    loading.value = true;
     debugFlag.value = false;
     resultFlag.value = true;
     if (recordInfoRef.value) {
@@ -122,6 +132,7 @@ const handleSubmit = async () => {
     if (submitState.value) {
         judge_id.value = submitState.value;
     }
+    loading.value = false;
 };
 </script>
 
