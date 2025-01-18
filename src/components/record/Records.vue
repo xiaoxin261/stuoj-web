@@ -4,7 +4,8 @@
     </ElCard>
     <br v-if="select" />
     <ElCard>
-        <RecordList :admin="admin" v-model:submissions="submissions" @delete="handleQuery" />
+        <RecordList :admin="admin" v-model:submissions="submissions" @update="handleQuery"
+            v-model:order-by="paramsSelect.order_by" v-model:order="paramsSelect.order" />
         <br />
         <ElPagination class="pagination" v-model:current-page="paramsPage.page" v-model:page-size="paramsPage.size"
             :page-sizes="[10, 20, 50, 100]" :size="'small'" :background="true"
@@ -17,7 +18,7 @@
 import { onBeforeMount, onMounted, ref } from 'vue';
 import { getRecordListApi } from '@/apis/record';
 import { type RecordParams, type Submission } from '@/types/Record';
-import { type Page } from '@/types/misc';
+import { OrderBy, type Page } from '@/types/misc';
 import { useRoute } from 'vue-router';
 
 const { execute } = getRecordListApi();
@@ -37,6 +38,8 @@ const paramsSelect = ref<RecordParams>({
     size: 20,
     user: props.userId?.toString(),
     problem: props.problemId?.toString(),
+    order_by: OrderBy.create_time,
+    order: 'desc'
 });
 
 const paramsPage = ref<RecordParams>({

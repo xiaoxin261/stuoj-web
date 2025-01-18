@@ -1,5 +1,5 @@
 <template>
-  <ElTable :data="submissions" :key="certinfoKey" style="width: 100%" lazy>
+  <ElTable :data="submissions" style="width: 100%" @sort-change="sortChange" lazy>
     <ElTableColumn type="expand" width="50">
       <template #default="scope">
         <div class="judgements-table-container">
@@ -9,48 +9,54 @@
     </ElTableColumn>
     <ElTableColumn label="用户" width="150">
       <template #default="scope">
-        <AvatarInfo :user="scope.row.user" name :name-size="16"
-                    @click="handelUserClick(scope.row.user)" />
+        <AvatarInfo :user="scope.row.user" name :name-size="16" @click="handelUserClick(scope.row.user)" />
       </template>
     </ElTableColumn>
-    <ElTableColumn label="分数" width="100">
+    <ElTableColumn label="分数" width="100" sortable="custom" >
       <template #default="scope">
         <a :href="`/record/${scope.row.id}`">
           <ScoreShow :score="scope.row.score" :size="16" :status="scope.row.status" status-show />
         </a>
       </template>
     </ElTableColumn>
-    <ElTableColumn label="题目" show-overflow-tooltip>
-      <template #default="scope" >
+    <ElTableColumn label="题目" show-overflow-tooltip sortable="custom" >
+      <template #default="scope">
         <ProblemName :problem="scope.row.problem" :size="16" />
       </template>
     </ElTableColumn>
-    <ElTableColumn label="代码长度" width="100">
+    <ElTableColumn label="代码长度" width="110" sortable="custom" >
       <template #default="scope">
-        <el-icon><Document /></el-icon>
+        <el-icon>
+          <Document />
+        </el-icon>
         {{ scope.row.length }}B
       </template>
     </ElTableColumn>
-    <ElTableColumn label="耗时" width="100">
+    <ElTableColumn label="耗时" width="100" sortable="custom" >
       <template #default="scope">
-        <el-icon><Timer /></el-icon>
+        <el-icon>
+          <Timer />
+        </el-icon>
         {{ scope.row.time }}s
       </template>
     </ElTableColumn>
-    <ElTableColumn label="内存" width="100">
+    <ElTableColumn label="内存" width="100" sortable="custom" >
       <template #default="scope">
-        <el-icon><Coin /></el-icon>
+        <el-icon>
+          <Coin />
+        </el-icon>
         {{ scope.row.memory }}KB
       </template>
     </ElTableColumn>
     <ElTableColumn label="语言" width="150">
       <template #default="scope">
         <ElTooltip :content="languages.find((lang: Language) => lang.id === scope.row.language_id)?.name || 'Unknown'">
-          <span class="ellipsis">{{ languages.find((lang: Language) => lang.id === scope.row.language_id)?.name || 'Unknown' }}</span>
+          <span class="ellipsis">{{ languages.find((lang: Language) => lang.id === scope.row.language_id)?.name ||
+            'Unknown' }}</span>
         </ElTooltip>
       </template>
     </ElTableColumn>
-    <ElTableColumn label="提交时间" width="150">
+    <ElTableColumn label="提交时间" width="150" sortable="custom" >
       <template #default="scope">
         {{ formatDateTimeStr(scope.row.create_time) }}
       </template>
@@ -73,13 +79,14 @@ import type { Language } from '@/types/Judge';
 import { formatDateTimeStr } from '@/utils/date';
 import { deleteRecordApi } from '@/apis/record';
 import { ElNotification } from 'element-plus';
+import type { OrderBy } from '@/types/misc';
 
 
 const { execute } = deleteRecordApi();
 
 const { getLanguages } = langStore();
 
-const emit = defineEmits(['delete']);
+const emit = defineEmits(['update', 'update:order', 'update:order-by']);
 
 const props = defineProps({
   submissions: {
@@ -89,6 +96,14 @@ const props = defineProps({
   admin: {
     type: Boolean,
     default: false
+  },
+  orderBy: {
+    type: String as PropType<OrderBy>,
+    default: () => ''
+  },
+  order: {
+    type: String as PropType<string>,
+    default: () => null
   }
 });
 
@@ -106,22 +121,33 @@ const handelUserClick = (user: UserInfo) => {
   router.push(`/user/${user.id}`);
 };
 
-// 使用certinfoKey在submissions更新后让表格重新渲染，否则表格不会更新
-const certinfoKey = ref(0);
-watch(() => props.submissions, () => {
-  certinfoKey.value++
-});
-
 const handleDelete = (id: number) => {
   execute({
     id: id
   }).then(() => {
-    emit('delete');
+    emit('update');
     ElNotification.success({
       title: '删除成功',
       type: 'success'
     });
   });
+};
+
+const columnMap: { [key: string]: string } = {
+  "分数": "score",
+  "题目": "problem_id",
+  "代码长度": "length",
+  "耗时": "time",
+  "内存": "memory",
+  "提交时间": "create_time",
+};
+
+const sortChange = (data: { column: { label: keyof typeof columnMap }, order: string | null }) => {
+  if (data.order && data.column.label in columnMap) {
+    emit('update:order', data.order === "ascending" ? "asc" : "desc");
+    emit('update:order-by', columnMap[data.column.label]);
+    emit('update');
+  }
 };
 
 </script>
