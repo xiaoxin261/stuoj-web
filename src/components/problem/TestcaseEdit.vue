@@ -4,14 +4,24 @@
         <ElButton type="primary" @click="unfold">{{ unfoldFlag ? '收起' : '展开' }}</ElButton>
     </div>
     <ElForm v-if="unfoldFlag" :model="localTestcase" label-width="auto">
-        <ElFormItem label="测试点ID" label-position="right">
-            <ElInput v-model="localTestcase.id" disabled />
-        </ElFormItem>
-        <ElFormItem label="题目ID" label-position="right">
-            <ElInput v-model="localTestcase.problem_id" disabled />
-        </ElFormItem>
-        <ElFormItem label="测试点编号" label-position="right">
-            <ElInput v-model="localTestcase.serial" disabled />
+        <ElFormItem label-position="right">
+            <ElRow :gutter="20">
+                <ElCol :span="8">
+                    <ElFormItem label="测试点ID" label-position="right">
+                        <ElInput v-model="localTestcase.id" disabled />
+                    </ElFormItem>
+                </ElCol>
+                <ElCol :span="8">
+                    <ElFormItem label="题目ID" label-position="right">
+                        <ElInput v-model="localTestcase.problem_id" disabled />
+                    </ElFormItem>
+                </ElCol>
+                <ElCol :span="8">
+                    <ElFormItem label="测试点编号" label-position="right">
+                        <ElInput v-model="localTestcase.serial" />
+                    </ElFormItem>
+                </ElCol>
+            </ElRow>
         </ElFormItem>
         <ElFormItem label="输入" label-position="right">
             <ElInput v-model="localTestcase.test_input" type="textarea" />
