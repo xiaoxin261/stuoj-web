@@ -1,5 +1,5 @@
 <template>
-  <ElTable :data="submissions" style="width: 100%" @sort-change="sortChange" lazy>
+  <ElTable :data="submissions" :key="certinfoKey" style="width: 100%" @sort-change="sortChange" lazy>
     <ElTableColumn type="expand" width="50">
       <template #default="scope">
         <div class="judgements-table-container">
@@ -150,6 +150,11 @@ const sortChange = (data: { column: { label: keyof typeof columnMap }, order: st
   }
 };
 
+// 使用certinfoKey在submissions更新后让表格重新渲染，否则表格不会更新
+const certinfoKey = ref(0);
+watch(() => props.submissions, () => {
+  certinfoKey.value++
+});
 </script>
 
 <style scoped>
