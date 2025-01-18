@@ -4,7 +4,8 @@
     </ElCard>
     <br />
     <ElCard>
-        <ProblemList :admin="admin" :problems="problems" @update="handleQuery" />
+        <ProblemList :admin="admin" :problems="problems" @update="handleQuery" v-model:order-by="paramsSelect.order_by"
+            v-model:order="paramsSelect.order" />
         <br />
         <ElPagination class="pagination" v-model:current-page="paramsPage.page" v-model:page-size="paramsPage.size"
             :page-sizes="[10, 20, 50, 100]" :size="'small'" :background="true"
@@ -15,9 +16,9 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import type { Page } from '@/types/misc';
+import { OrderBy, type Page } from '@/types/misc';
 import type { ProblemInfo, ProblemParams } from '@/types/Problem';
-import {getProblemListApi} from '@/apis/problem';
+import { getProblemListApi } from '@/apis/problem';
 
 
 const props = withDefaults(defineProps<{
@@ -27,7 +28,10 @@ const props = withDefaults(defineProps<{
 });
 
 const { execute } = getProblemListApi();
-const paramsSelect = ref<ProblemParams>();
+const paramsSelect = ref<ProblemParams>({
+    page: 1,
+    size: 20,
+});
 const paramsPage = ref<ProblemParams>({
     page: 1,
     size: 20,

@@ -3,9 +3,10 @@
     <ElCheckbox v-model="tagFlag" label="标签" />
     <ElCheckbox v-model="timeFlag" label="时间" />
   </div>
-  <el-table :data="problems" style="width: 100%" @selection-change="handleSelectionChange" stripe>
+  <el-table :data="problems" style="width: 100%" @selection-change="handleSelectionChange" stripe
+    @sort-change="sortChange">
     <el-table-column v-if="admin" type="selection" width="55" />
-<!--
+    <!--
     <el-table-column v-if="!admin" label="状态" width="80px">
       <template #default="scope: Scope">
         <span v-if="scope.row.id % 3 == 0"><el-icon>
@@ -16,10 +17,10 @@
             <CloseBold />
           </el-icon></span>
       </template>
-    </el-table-column>
+</el-table-column>
 -->
-    <el-table-column label="ID" prop="id" width="80px" sortable />
-    <el-table-column label="标题" show-overflow-tooltip>
+    <el-table-column label="ID" prop="id" width="80px" sortable="custom" />
+    <el-table-column label="标题" show-overflow-tooltip sortable="custom">
       <template #default="scope">
         <router-link :to="'/problem/' + scope.row.id">
           {{ scope.row.title }}
@@ -31,21 +32,21 @@
         <ProblemTagShow :tag-ids="scope.row.tag_ids" />
       </template>
     </el-table-column>
-    <el-table-column v-if="timeFlag" label="创建时间" width="120">
+    <el-table-column v-if="timeFlag" label="创建时间" width="120" sortable="custom">
       <template #default="scope">
         <span>
           {{ formatDateStr(scope.row.create_time) }}
         </span>
       </template>
     </el-table-column>
-    <el-table-column v-if="timeFlag" label="更新时间" width="120">
+    <el-table-column v-if="timeFlag" label="更新时间" width="120" sortable="custom">
       <template #default="scope">
         <span>
-          {{ formatDateStr(scope.row.create_time) }}
+          {{ formatDateStr(scope.row.update_time) }}
         </span>
       </template>
     </el-table-column>
-    <el-table-column label="难度" width="100">
+    <el-table-column label="难度" width="100" sortable="custom">
       <template #default="scope: Scope">
         <el-tag :color="DifficultyColor[scope.row.difficulty]" style="color: #fff">
           {{ DifficultyMap[scope.row.difficulty] }}
@@ -77,10 +78,13 @@ import { deleteProblemApi } from '@/apis/problem';
 import router from '@/router';
 import ProblemTagShow from './ProblemTagShow.vue';
 import { ElNotification } from "element-plus";
+import type { OrderBy } from '@/types/misc';
 
 const props = withDefaults(defineProps<{
   problems: ProblemInfo[];
   admin?: boolean;
+  orderBy?: OrderBy;
+  order?: string;
 }>(), {
   problems: () => [] as ProblemInfo[],
   admin: false,
@@ -110,7 +114,7 @@ interface Scope {
   };
 }
 
-const emit = defineEmits(['update']);
+const emit = defineEmits(['update', 'update:order', 'update:order-by']);
 const { execute: deleteExecute } = deleteProblemApi();
 const handleDelete = (id: number) => {
   deleteExecute({
@@ -122,5 +126,21 @@ const handleDelete = (id: number) => {
       type: 'success'
     });
   });
+};
+
+const columnMap: { [key: string]: string } = {
+  "ID": "id",
+  "标题": "title",
+  "难度": "difficulty",
+  "创建时间": "create_time",
+};
+
+const sortChange = (data: { column: { label: keyof typeof columnMap }, order: string | null }) => {
+  if (data.order && data.column.label in columnMap) {
+    emit('update:order', data.order === "ascending" ? "asc" : "desc");
+    emit('update:order-by', columnMap[data.column.label]);
+    emit('update');
+    console.log(columnMap[data.column.label],data.column.label);
+  }
 };
 </script>
