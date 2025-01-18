@@ -189,14 +189,16 @@ onMounted(async () => {
     }
   }).then((res) => {
     record.value = res.value?.submissions[0];
-  });
-  await execute({
-    id: problemId.value,
-  });
-  if (state.value) {
-    problemInfo.value = state.value.problem;
-    document.title = `[${problemInfo.value.id}] ${problemInfo.value.title} - 题目 - STUOJ`;
-  };
+  }).finally(async () => {
+    await execute({
+      id: problemId.value,
+    });
+    if (state.value) {
+      problemInfo.value = state.value.problem;
+      document.title = `[${problemInfo.value.id}] ${problemInfo.value.title} - 题目 - STUOJ`;
+    };
+  })
+
 });
 </script>
 
