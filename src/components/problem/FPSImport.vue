@@ -2,7 +2,7 @@
     <ElButton plain @click="showDialog">
         导入FPS
     </ElButton>
-    <ElDialog v-model="dialogVisible" width="900px"><template #header="{ titleClass }">
+    <ElDialog v-model="dialogVisible" width="80%"><template #header="{ titleClass }">
             <div class="fps-header">
                 <h4 :class="titleClass">导入FPS</h4>
                 <el-button type="primary" @click="handleClickSelectFile">
@@ -15,7 +15,7 @@
             <input ref="fileInput" type="file" accept=".xml" style="display: none;" @change="onFileChange" />
         </template>
         <ElRow :gutter="20">
-            <ElCol :span="16">
+            <ElCol :span="18">
                 <ElDescriptions border class="fps-info" :column="2" label-width="80px" style="margin-bottom: 10px;">
                     <ElDescriptionsItem label="题目" :span="2">{{ fpsSelect?.problem.title }}</ElDescriptionsItem>
                     <ElDescriptionsItem label="描述" :span="2">{{ fpsSelect?.problem.description }}</ElDescriptionsItem>
@@ -44,9 +44,9 @@
                     <ElTableColumn label="代码" prop="source_code" />
                 </ElTable>
             </ElCol>
-            <ElCol :span="8">
-                <ElTable :data="fps" highlight-current-row @current-change="handleCurrentChange" max-height="500"
-                    stripe>
+            <ElCol :span="6">
+                <ElTable :data="fps" :key="certinfoKey" highlight-current-row @current-change="handleCurrentChange"
+                    max-height="500" stripe>
                     <ElTableColumn label="序号" type="index" width="55" />
                     <ElTableColumn label="题目" prop="problem.title" />
                     <ElTableColumn label="测试" prop="testcases.length" width="55" />
@@ -100,12 +100,14 @@ const handleClickSelectFile = () => {
 const fps = ref<{ problem: FpsProblemInfo, solutions: FpsSolution[], testcases: FpsTestcase[] }[]>();
 const fpsSelect = ref<{ problem: FpsProblemInfo, solutions: FpsSolution[], testcases: FpsTestcase[] } | null>();
 
+// 使用certinfoKey在submissions更新后让表格重新渲染，否则表格不会更新
+const certinfoKey = ref(0);
 const onFileChange = async (event: Event) => {
     const target = event.target as HTMLInputElement;
     const files = target.files;
     if (!files || files.length === 0) {
         return;
-    }
+    };
 
     const file = files[0];
     if (file.type !== 'text/xml') {
@@ -115,7 +117,7 @@ const onFileChange = async (event: Event) => {
             type: 'error',
         });
         return;
-    }
+    };
 
     const formData = new FormData();
     formData.append('file', file);
@@ -128,6 +130,7 @@ const onFileChange = async (event: Event) => {
     }).then((res) => {
         fps.value = res.value;
     });
+    certinfoKey.value++;
 };
 
 const handleCurrentChange = (row: { problem: FpsProblemInfo, solutions: FpsSolution[], testcases: FpsTestcase[] }) => {
@@ -153,5 +156,9 @@ const importFPS = () => {
 .fps-footer {
     display: flex;
     justify-content: flex-end;
+}
+.fps-info{
+    width: 100%;
+    overflow: auto;
 }
 </style>
