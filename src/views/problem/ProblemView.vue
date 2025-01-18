@@ -78,7 +78,7 @@
         </ElCard>
         <br />
         <el-card>
-          <CodeRun :problem="problemId" :input_text="problemInfo.sample_input" />
+          <CodeRun v-if="problemInfo.id" :problem="problemId" :input_text="problemInfo.sample_input" />
         </el-card>
       </ElCol>
       <ElCol :span="6">
