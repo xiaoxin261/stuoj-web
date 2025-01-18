@@ -41,14 +41,15 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch, watchEffect } from 'vue';
-import { ElMessage, ElTableColumn, ElTag } from 'element-plus';
+import { onMounted, onUnmounted, ref, watch, watchEffect } from 'vue';
+import { ElMessage, ElMessageBox, ElTableColumn, ElTag } from 'element-plus';
 import { CircleCloseFilled, Warning, CircleCheck, Upload } from '@element-plus/icons-vue';
 import type { Solution } from '@/types/Problem';
 import { getSolutionApi, uploadSolutionApi, updateSolutionApi, deleteSolutionApi, getProblemApi } from '@/apis/problem';
 import { GetLanguages } from '@/apis/judge';
 import type { Language } from '@/types/Judge';
 import { generateRandomHash } from '@/utils/hash';
+import { onBeforeRouteLeave, type NavigationGuardNext, type RouteLocationNormalized } from 'vue-router';
 
 const props = withDefaults(defineProps<{
     solution?: Solution,
@@ -214,7 +215,46 @@ const addExistingSolution = (solution: Solution) => {
 defineExpose({
     refreshSolutions,
     addExistingSolution,
-})
+});
+
+const showLeaveConfirmation = (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+    const hasUnsavedChanges = solutions.value.some(solutions => solutions.checked);
+    if (hasUnsavedChanges) {
+        ElMessageBox.confirm(
+            '题解列表中有未保存的数据，是否离开？',
+            '提示',
+            {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+            }
+        ).then(() => {
+            next(); // 用户确认离开
+        }).catch(() => {
+            next(false); // 用户取消离开
+        });
+    } else {
+        next(); // 没有未保存的更改，直接允许离开
+    }
+};
+
+const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+    const hasUnsavedChanges = solutions.value.some(solutions => solutions.checked);
+    if (hasUnsavedChanges) {
+        event.preventDefault();
+        event.returnValue = ''; // 兼容旧版浏览器
+    }
+};
+
+onMounted(() => {
+    window.addEventListener('beforeunload', handleBeforeUnload);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('beforeunload', handleBeforeUnload);
+});
+
+onBeforeRouteLeave(showLeaveConfirmation);
 </script>
 
 <style scoped>
