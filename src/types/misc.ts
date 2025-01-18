@@ -26,6 +26,9 @@ export enum OrderBy {
     create_time = "create_time",
     update_time = "update_time",
     status = "status",
+    username="username",
+    email="email",
+    role="role",
 }
 
 export const OrderByMap = {
