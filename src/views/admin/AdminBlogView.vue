@@ -73,18 +73,16 @@ onMounted (() => {
               </router-link>
             </template>
           </el-table-column>
-          <el-table-column label="作者ID" width="100">
+          <el-table-column label="作者" width="100">
             <template #default="scope">
-              <router-link :to="'/user/' + scope.row.user_id">
-                {{ scope.row.user_id }}
-              </router-link>
+              <AvatarInfo :user="scope.row.user" name :name-size="16" />
             </template>
           </el-table-column>
           <el-table-column label="关联题目" width="100">
             <template #default="scope">
-              <div v-if="scope.row.problem_id">
-                <router-link :to="'/problem/' + scope.row.problem_id">
-                  {{ scope.row.problem_id }}
+              <div v-if="scope.row.problem.id">
+                <router-link :to="'/problem/' + scope.row.problem.id">
+                  {{ scope.row.problem.id }}
                 </router-link>
               </div>
               <div v-else>
