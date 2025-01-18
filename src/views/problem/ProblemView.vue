@@ -90,8 +90,8 @@
           <div class="problem-info">
             <div class="problem-info-item">
               <span>题目来源</span>
-              <span>{{ problemInfo.source }}</span>
             </div>
+            <span v-if="problemInfo.source">{{ problemInfo.source }}</span>
             <div class="problem-info-item">
               <span>题目难度</span>
               <el-tag :color="DifficultyColor[problemInfo.difficulty as Difficulty]" style="color: white">
@@ -138,15 +138,15 @@
             </div>
           </template>
           <div class="problem-info" v-if="blogsFlag">
-            <ul v-for="blog in blogs" :key="blog.id">
-              <li>
+            <ul v-if="blogs.length !== 0">
+              <li v-for="blog in blogs" :key="blog.id">
                 <a :href="`/blog/${blog.id}`">{{ blog.title }}</a>
               </li>
             </ul>
-            <div v-if="blogs.length === 0">暂无相关博客</div>
+            <span v-else style="text-align: center">暂无相关博客<br/><br/></span>
             <div style="display:flex;justify-content: space-between;">
-              <ElButton type="primary" @click="toEditBlog">写博客</ElButton>
-              <ElButton type="primary" @click="toQueryBlog">查看更多</ElButton>
+              <ElButton type="primary" @click="toEditBlog">写篇博客</ElButton>
+              <ElButton @click="toQueryBlog">查看更多</ElButton>
             </div>
           </div>
         </ElCard>
