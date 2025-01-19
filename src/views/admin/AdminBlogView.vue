@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { getBlogListApi } from '@/apis/blog';
+import {deleteBlogApi, getBlogListApi} from '@/apis/blog';
 import {onMounted, ref} from "vue";
 import { BlogStatusMap, BlogStatusColor } from '@/types/Blog';
 import { formatDateStr } from "@/utils/date";
 import type { BlogInfo } from '@/types/Blog';
 import type { Page } from '@/types/misc';
 import router from "@/router";
+import {ElNotification} from "element-plus";
 
 interface Scope {
   row: {
@@ -49,6 +50,16 @@ const handleCreate = () => {
 const handleEdit = (row: BlogInfo) => {
   router.push(`/blog/edit?id=${row.id}`);
 }
+
+const { execute: deleteBlogExecute } = deleteBlogApi();
+const handleDelete = async (row: BlogInfo) => {
+  await deleteBlogExecute({
+    id: row.id
+  }).then(() => {
+    getList();
+    ElNotification({ type: 'success', message: '删除成功' });
+  });
+};
 
 </script>
 
@@ -120,7 +131,7 @@ const handleEdit = (row: BlogInfo) => {
           <el-table-column align="right" width="150">
             <template #default="scope">
               <el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
-              <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)" disabled>删除</el-button>
+              <el-button size="small" type="danger" @click="handleDelete(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
