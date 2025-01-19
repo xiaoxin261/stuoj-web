@@ -218,15 +218,7 @@ onMounted(async () => {
   }).then((res) => {
     record.value = res.value?.submissions[0];
   }).finally(async () => {
-    await execute({
-      id: problemId.value,
-    });
-    if (state.value) {
-      problemInfo.value = state.value.problem;
-      document.title = `[${problemInfo.value.id}] ${problemInfo.value.title} - 题目 - STUOJ`;
-    };
-  });
-  blogExecute({
+    blogExecute({
     params: {
       problem: problemId.value,
       page: 1,
@@ -236,6 +228,14 @@ onMounted(async () => {
     }
   }).then((res) => {
     blogs.value = res.value?.blogs ?? [];
+  });
+    await execute({
+      id: problemId.value,
+    });
+    if (state.value) {
+      problemInfo.value = state.value.problem;
+      document.title = `[${problemInfo.value.id}] ${problemInfo.value.title} - 题目 - STUOJ`;
+    };
   });
 });
 </script>
