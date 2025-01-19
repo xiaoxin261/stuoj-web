@@ -74,7 +74,7 @@ onBeforeMount(() => {
           <FastPost />
         </el-card>
         <el-divider></el-divider>
-        <Blogs :params="params" />
+        <BlogsComp :params="params" />
       </el-col>
     </el-row>
   </div>

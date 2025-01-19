@@ -4,7 +4,7 @@ import { computed, onMounted, ref } from "vue";
 import { Album } from '@/types/misc';
 import TextEditor from '@/components/text/TextEditor.vue';
 import { BlogStatus } from '@/types/Blog';
-import { useRouteParams, useRouteQuery } from '@vueuse/router';
+import { useRouteQuery } from '@vueuse/router';
 import router from '@/router';
 import { ElNotification } from 'element-plus';
 
@@ -35,7 +35,7 @@ const problem_id = computed({
   }
 });
 
-const blogId = useRouteParams<string>("id");
+const blogId = useRouteQuery<string>("id");
 const problem = useRouteQuery<string>("problem");
 
 onMounted(async () => {
@@ -52,8 +52,7 @@ onMounted(async () => {
         }
       }
     });
-  }
-  if (problem.value) {
+  } else if (problem.value) {
     blogForm.value.problem_id = parseInt(problem.value, 10);
   }
 });

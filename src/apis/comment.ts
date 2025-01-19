@@ -1,12 +1,12 @@
 import { useDefineApi } from "@/stores/useDefineApi";
-import { type commentInfo, type commentParams } from "@/types/Comment";
+import { type CommentInfo, type CommentParams } from "@/types/Comment";
 import type { Page } from "@/types/misc";
 
 export const getCommentListApi = useDefineApi<
     {
-        params: commentParams;
+        params: CommentParams;
     },
-    Page<"comments", commentInfo>
+    Page<"comments", CommentInfo>
 >({
     url: "/comment/",
     method: "get"

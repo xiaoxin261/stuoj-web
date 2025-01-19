@@ -1,8 +1,8 @@
 import type { UserInfo } from "./User";
-import type { BlogInfo } from "./Blog";
+import {Colors} from "@/types/Colors";
 
-export interface commentInfo {
-    blog: BlogInfo;
+export interface CommentInfo {
+    blog: CommentInfo;
     content: string;
     create_time: string;
     id: number;
@@ -12,7 +12,7 @@ export interface commentInfo {
     [property: string]: any;
 }
 
-export interface commentParams{
+export interface CommentParams {
     page: number,
     size: number,
     user?: number,
@@ -22,4 +22,19 @@ export interface commentParams{
     order_by?: string,
     "start-time"?: string,
     "end-time"?: string
+}
+
+export enum CommentStatus {
+    Banned = 1,
+    Public = 2,
+}
+
+export const CommentStatusMap = {
+    [CommentStatus.Banned]: "屏蔽",
+    [CommentStatus.Public]: "公开",
+}
+
+export const CommentStatusColor = {
+    [CommentStatus.Banned]: Colors.yellow,
+    [CommentStatus.Public]: Colors.green,
 }

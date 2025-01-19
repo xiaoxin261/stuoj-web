@@ -50,9 +50,9 @@ const onSubmit = async () => {
   });
 };
 
-const handleEdit = async () => {
-  router.push(`/blog/edit/${blogId.value}`);
-};
+const handleEdit = (row: BlogInfo) => {
+  router.push(`/blog/edit?id=${row.id}`);
+}
 
 const dialogVisible = ref(false);
 

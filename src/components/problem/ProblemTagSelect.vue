@@ -14,12 +14,6 @@
           :label="tag.data.name" type="primary">
           {{ tag.data.name }}
         </ElCheckTag>
-        <template #footer>
-          <el-pagination v-model:current-page="params.page" v-model:page-size="params.size"
-            :page-sizes="[10, 20, 50, 100]" :size="'small'" :background="true"
-            layout="total, sizes, prev, pager, next, jumper" :total="tagPage?.total" @size-change="getList"
-            @current-change="getList" />
-        </template>
       </el-card>
     </div>
     <template #footer>

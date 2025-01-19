@@ -117,7 +117,7 @@ const submitEdit = () => {
       <el-card>
         <el-table :data="tags" style="width: 100%" stripe>
           <el-table-column type="selection" :selectable="selectable" width="55" />
-          <el-table-column label="ID" prop="id" width="80" sortable/>
+          <el-table-column label="ID" prop="id" width="80" />
           <el-table-column label="标签" prop="name" />
           <el-table-column label="关联题目数" >
             <template #default="scope">

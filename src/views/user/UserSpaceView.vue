@@ -81,7 +81,7 @@
         </el-row>
       </el-tab-pane>
       <el-tab-pane label="博客">
-        <Blogs :params="blogParams" :select-exclude="['user']"/>
+        <BlogsComp :params="blogParams" :select-exclude="['user']"/>
       </el-tab-pane>
       <el-tab-pane label="记录">
         <Records :userId="userId" :select="false" />
