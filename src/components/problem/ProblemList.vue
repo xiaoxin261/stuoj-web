@@ -102,8 +102,8 @@ watch(() => props.problems.map(problem => problem.id), () => {
   tagReady.value = false;
 });
 
-const handleEdit = async (row: ProblemInfo) => {
-  await router.push(`/problem/edit?id=${row.id}`);
+const handleEdit = (row: ProblemInfo) => {
+  router.push(`/problem/edit?id=${row.id}`);
 }
 
 interface Scope {
