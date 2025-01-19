@@ -76,33 +76,38 @@ onMounted(() => {
       <el-card>
         <el-table :data="users" style="width: 100%" @sort-change="sortChange" stripe>
           <el-table-column type="selection" :selectable="selectable" width="55" />
-          <el-table-column label="ID" prop="id" width="80" sortable="custom" />
-          <el-table-column label="头像" width="80">
+          <el-table-column label="ID" prop="id" width="80" />
+          <el-table-column label="用户" width="200">
             <template #default="scope">
-              <Avatar :src="scope.row.avatar" />
+              <AvatarInfo :user="scope.row" name :name-size="16" />
             </template>
           </el-table-column>
-          <el-table-column label="用户名" sortable="custom">
+          <el-table-column label="邮箱" width="250" prop="email" show-overflow-tooltip/>
+          <el-table-column label="个性签名" show-overflow-tooltip>
             <template #default="scope">
-              <router-link :to="'/user/' + scope.row.id">
-                {{ scope.row.username }}
-              </router-link>
+                {{ scope.row.signature }}
             </template>
           </el-table-column>
-          <el-table-column label="邮箱" width="200" prop="email" show-overflow-tooltip sortable="custom" />
-          <el-table-column label="注册时间" width="120px" sortable="custom">
+          <el-table-column label="注册时间" width="120px">
             <template #default="scope">
               <span>
                 {{ formatDateStr(scope.row.create_time) }}
               </span>
             </template>
           </el-table-column>
-          <el-table-column label="角色" width="80" sortable="custom">
+          <el-table-column label="更新时间" width="120">
+            <template #default="scope">
+              <span>
+                {{ formatDateStr(scope.row.update_time) }}
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column label="角色" width="80">
             <template #default="scope: Scope">
               <UserRoleTag :role="scope.row.role" />
             </template>
           </el-table-column>
-          <el-table-column align="right" width="300">
+          <el-table-column align="right" width="100">
             <template #default="scope">
               <ToUserSettingButton :user-id="scope.row.id" />
             </template>

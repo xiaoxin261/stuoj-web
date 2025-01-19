@@ -72,17 +72,17 @@ const handleDelete = (row: CommentInfo) => {
       <el-card>
         <el-table :data="comments" style="width: 100%" stripe>
           <el-table-column type="selection" :selectable="selectable" width="55" />
-          <el-table-column label="ID" prop="id" width="80px" sortable/>
+          <el-table-column label="ID" prop="id" width="80px" />
+          <el-table-column label="作者" width="150">
+            <template #default="scope">
+              <AvatarInfo :user="scope.row.user" name :name-size="16" />
+            </template>
+          </el-table-column>
           <el-table-column label="博客" show-overflow-tooltip>
             <template #default="scope">
               <router-link :to="'/blog/' + scope.row.blog.id">
                 {{ scope.row.blog.title }}
               </router-link>
-            </template>
-          </el-table-column>
-          <el-table-column label="作者" width="150">
-            <template #default="scope">
-              <AvatarInfo :user="scope.row.user" name :name-size="16" />
             </template>
           </el-table-column>
           <el-table-column label="内容" show-overflow-tooltip>
@@ -102,7 +102,7 @@ const handleDelete = (row: CommentInfo) => {
           <el-table-column label="更新时间" width="120">
             <template #default="scope">
               <span>
-                {{ formatDateStr(scope.row.create_time) }}
+                {{ formatDateStr(scope.row.update_time) }}
               </span>
             </template>
           </el-table-column>

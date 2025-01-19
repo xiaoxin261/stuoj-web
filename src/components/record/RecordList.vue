@@ -12,19 +12,19 @@
         <AvatarInfo :user="scope.row.user" name :name-size="16" @click="handelUserClick(scope.row.user)" />
       </template>
     </ElTableColumn>
-    <ElTableColumn label="分数" width="100" sortable="custom" >
+    <ElTableColumn label="分数" width="100" >
       <template #default="scope">
         <a :href="`/record/${scope.row.id}`">
           <ScoreShow :score="scope.row.score" :size="16" :status="scope.row.status" status-show />
         </a>
       </template>
     </ElTableColumn>
-    <ElTableColumn label="题目" show-overflow-tooltip sortable="custom" >
+    <ElTableColumn label="题目" show-overflow-tooltip >
       <template #default="scope">
         <ProblemName :problem="scope.row.problem" :size="16" />
       </template>
     </ElTableColumn>
-    <ElTableColumn label="代码长度" width="110" sortable="custom" >
+    <ElTableColumn label="代码长度" width="110" >
       <template #default="scope">
         <el-icon>
           <Document />
@@ -32,13 +32,13 @@
         {{ scope.row.length }}B
       </template>
     </ElTableColumn>
-    <ElTableColumn label="耗时" width="100" sortable="custom" >
+    <ElTableColumn label="耗时" width="100" >
       <template #default="scope">
         <el-icon><Timer /></el-icon>
         {{ scope.row.time }}s
       </template>
     </ElTableColumn>
-    <ElTableColumn label="内存" width="100" sortable="custom" >
+    <ElTableColumn label="内存" width="100" >
       <template #default="scope">
         <el-icon>
           <Coin />
@@ -54,7 +54,7 @@
         </ElTooltip>
       </template>
     </ElTableColumn>
-    <ElTableColumn label="提交时间" width="150" sortable="custom" >
+    <ElTableColumn label="提交时间" width="150">
       <template #default="scope">
         {{ formatDateTimeStr(scope.row.create_time) }}
       </template>
