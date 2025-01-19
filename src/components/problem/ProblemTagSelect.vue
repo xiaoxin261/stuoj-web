@@ -108,7 +108,6 @@ const handleConfirm = () => {
   const selectedTagIds = wsTags.value.filter(tag => tag.checked).map(tag => tag.data.id);
   emit('update:tagIds', selectedTagIds);
   savedWsTags = null; // 确认后清空保存的状态
-  console.log(selectedTagIds);
 };
 
 const handleCancel = () => {

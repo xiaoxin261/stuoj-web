@@ -4,19 +4,19 @@
     </div>
     <ElCard v-show="showCard" style="margin-bottom: 5px;">
         <ElForm :model="params">
-            <ElFormItem :inline="true">
-                <ElInput class="form-item-input" v-model="params.problem" placeholder="题目ID" clearable />&nbsp;
-                <ElInput class="form-item-input" v-model="params.user" placeholder="用户ID" clearable />
+            <ElFormItem :inline="true"  v-if="!selectExclude.includes('problem') || !selectExclude.includes('user')">
+                <ElInput v-if="!selectExclude.includes('problem')" class="form-item-input" v-model="params.problem" placeholder="题目ID" clearable />&nbsp;
+                <ElInput v-if="!selectExclude.includes('user')" class="form-item-input" v-model="params.user" placeholder="用户ID" clearable />
             </ElFormItem>
-            <ElFormItem label-position="top">
+            <ElFormItem label-position="top" v-if="!selectExclude.includes('time')">
                 <TimeSelect v-model:time="params['start-time']" placeholder="开始时间" margin="1px" ref="startTimeRef" />
                 <span style="margin: 0 10px;">-</span>
                 <TimeSelect v-model:time="params['end-time']" placeholder="结束时间" margin="1px" ref="endTimeRef" />
             </ElFormItem>
-            <ElFormItem label-position="left">
-                <BlogStatusSelect class="form-item-input" v-model:status="params.status" clearable />&nbsp;
+            <ElFormItem label-position="left" v-if="!selectExclude.includes('status')">
+                <TagSelect v-model:arr-str="params.status" :str-map="BlogStatusMap" ref="statusTagSelectRef" />
             </ElFormItem>
-            <ElFormItem>
+            <ElFormItem v-if="!selectExclude.includes('order')">
                 <OrderSelect :exclude="[OrderBy.blog]" v-model:order-by="params.order_by" v-model:order="params.order"
                     ref="orderRef" />
             </ElFormItem>
@@ -29,17 +29,19 @@
 </template>
 
 <script setup lang="ts">
-import type { BlogParams } from '@/types/Blog';
+import { BlogStatusMap, type BlogParams } from '@/types/Blog';
 import { Operation } from '@element-plus/icons-vue';
 import { ElButton } from 'element-plus';
 import { ref, type PropType } from 'vue';
 import TimeSelect from '../form/TimeSelect.vue';
 import OrderSelect from '../OrderSelect.vue';
 import { OrderBy } from '@/types/misc';
+import TagSelect from '@/components/TagSelect.vue';
 
 const startTimeRef = ref<InstanceType<typeof TimeSelect>>();
 const endTimeRef = ref<InstanceType<typeof TimeSelect>>();
 const orderRef = ref<InstanceType<typeof OrderSelect>>();
+const statusTagSelectRef = ref<InstanceType<typeof TagSelect> | null>(null);
 
 const showCard = ref(false);
 
@@ -47,6 +49,10 @@ const props = defineProps({
     params: {
         type: Object as PropType<BlogParams>,
         default: () => ({}),
+    },
+    selectExclude: {
+        type: Array as PropType<string[]>,
+        default: []
     },
 });
 
@@ -62,13 +68,13 @@ const handleReset = () => {
     startTimeRef.value?.reset();
     endTimeRef.value?.reset();
     orderRef.value?.reset();
+    statusTagSelectRef.value?.reset();
 };
 
 const handleConfirm = () => {
     emit('update:params', params.value);
     emit('confirmClicked');
 };
-
 </script>
 
 <style scoped>
