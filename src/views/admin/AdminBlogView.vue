@@ -46,6 +46,10 @@ const handleCreate = () => {
   router.push("/blog/edit");
 }
 
+const handleEdit = (row: BlogInfo) => {
+  router.push(`/blog/edit?id=${row.id}`);
+}
+
 </script>
 
 <template>
@@ -70,7 +74,7 @@ const handleCreate = () => {
           <el-table-column label="ID" prop="id" width="80px" sortable/>
           <el-table-column label="标题" show-overflow-tooltip>
             <template #default="scope">
-              <router-link :to="'/blog/' + scope.row.blog_id">
+              <router-link :to="'/blog/' + scope.row.id">
                 {{ scope.row.title }}
               </router-link>
             </template>
@@ -115,7 +119,7 @@ const handleCreate = () => {
           </el-table-column>
           <el-table-column align="right" width="150">
             <template #default="scope">
-              <el-button size="small" @click="handleEdit(scope.$index, scope.row)" disabled>编辑</el-button>
+              <el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
               <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)" disabled>删除</el-button>
             </template>
           </el-table-column>
