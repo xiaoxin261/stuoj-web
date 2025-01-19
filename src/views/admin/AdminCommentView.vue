@@ -113,7 +113,7 @@ const handleDelete = (row: CommentInfo) => {
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column align="right" width="150">
+          <el-table-column align="right" width="100">
             <template #default="scope">
               <el-button size="small" type="danger" @click="handleDelete(scope.row)">删除</el-button>
             </template>
