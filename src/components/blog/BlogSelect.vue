@@ -14,7 +14,7 @@
                 <TimeSelect v-model:time="params['end-time']" placeholder="结束时间" margin="1px" ref="endTimeRef" />
             </ElFormItem>
             <ElFormItem label-position="left">
-                <BlogStatusSelect class="form-item-input" v-model:status="params.status" clearable />&nbsp;
+                <TagSelect v-model:arr-str="params.status" :str-map="BlogStatusMap" ref="statusTagSelectRef" />
             </ElFormItem>
             <ElFormItem>
                 <OrderSelect :exclude="[OrderBy.blog]" v-model:order-by="params.order_by" v-model:order="params.order"
@@ -29,17 +29,20 @@
 </template>
 
 <script setup lang="ts">
-import type { BlogParams } from '@/types/Blog';
+import { BlogStatusMap, type BlogParams } from '@/types/Blog';
 import { Operation } from '@element-plus/icons-vue';
 import { ElButton } from 'element-plus';
 import { ref, type PropType } from 'vue';
 import TimeSelect from '../form/TimeSelect.vue';
 import OrderSelect from '../OrderSelect.vue';
 import { OrderBy } from '@/types/misc';
+import TagSelect from '@/components/TagSelect.vue';
 
 const startTimeRef = ref<InstanceType<typeof TimeSelect>>();
 const endTimeRef = ref<InstanceType<typeof TimeSelect>>();
 const orderRef = ref<InstanceType<typeof OrderSelect>>();
+const statusTagSelectRef = ref<InstanceType<typeof TagSelect> | null>(null);
+
 
 const showCard = ref(false);
 
@@ -62,6 +65,7 @@ const handleReset = () => {
     startTimeRef.value?.reset();
     endTimeRef.value?.reset();
     orderRef.value?.reset();
+    statusTagSelectRef.value?.reset();
 };
 
 const handleConfirm = () => {

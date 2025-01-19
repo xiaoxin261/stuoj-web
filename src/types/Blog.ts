@@ -42,7 +42,7 @@ export interface BlogParams {
     user?: number,
     problem?: number,
     title?: string,
-    status?: number,
+    status?: string,
     order?: string,
     order_by?: OrderBy,
     "start-time"?: string,
