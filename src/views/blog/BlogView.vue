@@ -10,6 +10,7 @@ import { Role } from "@/types/User";
 import router from "@/router";
 import { ElNotification } from "element-plus";
 import Comments from "@/components/comment/Comments.vue";
+import {Comment, DocumentAdd, Edit, Reading, View} from "@element-plus/icons-vue";
 
 const commentRef = ref<InstanceType<typeof Comments>>();
 
@@ -88,21 +89,19 @@ const handleConfirmDelete = async () => {
         </div>
       </div>
       <div>
-        <el-icon>
-          <View />
-        </el-icon>&nbsp;?
+        <el-icon><View /></el-icon>
+        &nbsp;?
         <el-divider direction="vertical"></el-divider>
-        <el-icon>
-          <Comment />
-        </el-icon>&nbsp;?
+        <el-icon><Comment /></el-icon>
+        &nbsp;?
         <el-divider direction="vertical"></el-divider>
-        <el-icon>
-          <Timer />
-        </el-icon>&nbsp;{{ formatDateTimeStr(blog?.create_time ?? "") }}
+        <el-icon><Reading /></el-icon>
         <el-divider direction="vertical"></el-divider>
-        <el-icon>
-          <Timer />
-        </el-icon>&nbsp;{{ formatDateTimeStr(blog?.update_time ?? "") }}
+        <el-icon><DocumentAdd /></el-icon>
+        &nbsp;{{ formatDateTimeStr(blog?.create_time ?? "") }}
+        <el-divider direction="vertical"></el-divider>
+        <el-icon><Edit /></el-icon>
+        &nbsp;{{ formatDateTimeStr(blog?.update_time ?? "") }}
         <el-divider direction="vertical"></el-divider>
         <ElButton
           v-if="blog.user && (info.role >= Role.Admin || (blog.user.id === id && blog.status !== BlogStatus.Banned))"
