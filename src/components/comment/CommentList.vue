@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import type { commentInfo } from '@/types/Comment';
+import type { CommentInfo } from '@/types/Comment';
 import { ref, type PropType } from 'vue';
 import { formatDateTimeStr } from '@/utils/date';
 import { deleteCommentApi } from '@/apis/comment';
@@ -34,7 +34,7 @@ const { execute } = deleteCommentApi();
 
 const props = defineProps({
     comments: {
-        type: Array as PropType<commentInfo[]>,
+        type: Array as PropType<CommentInfo[]>,
         default: () => []
     }
 });

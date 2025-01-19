@@ -21,17 +21,17 @@
 
 <script setup lang="ts">
 import { ref, type PropType } from 'vue';
-import type { commentParams } from '@/types/Comment';
+import type { CommentParams } from '@/types/Comment';
 import TimeSelect from '../form/TimeSelect.vue';
 
 const props = defineProps({
     params: {
-        type: Object as PropType<commentParams>,
+        type: Object as PropType<CommentParams>,
         default: () => ({})
     }
 });
 
-const params = ref<commentParams>({
+const params = ref<CommentParams>({
     ...props.params
 });
 const emit = defineEmits(['update:params', 'confirmClicked']);

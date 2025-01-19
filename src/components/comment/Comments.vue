@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import { onBeforeMount, onMounted, ref } from 'vue';
 import { getCommentListApi } from '@/apis/comment';
-import type { commentParams, commentInfo } from '@/types/Comment';
+import type { CommentParams, CommentInfo } from '@/types/Comment';
 import { type Page } from '@/types/misc';
 import { useRoute } from 'vue-router';
 
@@ -30,20 +30,20 @@ const props = withDefaults(defineProps<{
     select: true,
 });
 
-const paramsSelect = ref<commentParams>({
+const paramsSelect = ref<CommentParams>({
     page: 1,
     size: 20,
     user: props.userId,
     blog: props.blogId,
 });
 
-const paramsPage = ref<commentParams>({
+const paramsPage = ref<CommentParams>({
     page: 1,
     size: 20,
 });
 
 
-const params = ref<commentParams>({
+const params = ref<CommentParams>({
     page: 1,
     size: 20,
 });
@@ -60,7 +60,7 @@ onBeforeMount(() => {
     };
 });
 
-const commentPage = ref<Page<'comments', commentInfo>>();
+const commentPage = ref<Page<'comments', CommentInfo>>();
 
 const handleQuery = async () => {
     params.value = {
