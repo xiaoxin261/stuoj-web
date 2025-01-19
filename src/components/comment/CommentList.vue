@@ -9,9 +9,8 @@
                             <ElButton type="danger" text>删除</ElButton>
                         </template>
                     </ElPopconfirm>
-                    <el-icon>
-                        <Timer />
-                    </el-icon>&nbsp;{{ formatDateTimeStr(comment.create_time) }}
+                  <el-icon><DocumentAdd /></el-icon>
+                  &nbsp;{{ formatDateTimeStr(comment.create_time) }}
                 </div>
             </div>
             <br />

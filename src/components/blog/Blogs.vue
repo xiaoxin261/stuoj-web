@@ -91,13 +91,11 @@ onMounted(() => {
             <Comment />
           </el-icon>&nbsp;?
           <el-divider direction="vertical"></el-divider>
-          <el-icon>
-            <Timer />
-          </el-icon>&nbsp;{{ formatDateTimeStr(blog.create_time) }}
+          <el-icon><DocumentAdd /></el-icon>
+          &nbsp;{{ formatDateTimeStr(blog.create_time) }}
           <el-divider direction="vertical"></el-divider>
-          <el-icon>
-            <Timer />
-          </el-icon>&nbsp;{{ formatDateTimeStr(blog.update_time) }}
+          <el-icon><Edit /></el-icon>
+          &nbsp;{{ formatDateTimeStr(blog.update_time) }}
           <el-divider direction="vertical"></el-divider>
           <el-tag>tag</el-tag>&nbsp;
           <el-tag>tag</el-tag>&nbsp;

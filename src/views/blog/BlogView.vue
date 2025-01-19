@@ -4,12 +4,13 @@ import { BlogStatus, type BlogInfo } from "@/types/Blog";
 import { useRouteParams } from "@vueuse/router";
 import { getBlogApi, deleteBlogApi } from "@/apis/blog";
 import { uploadCommentApi } from "@/apis/comment";
-import { formatDateTimeStr } from "../../utils/date";
+import { formatDateTimeStr } from "@/utils/date";
 import { userStore } from "@/stores/user";
 import { Role } from "@/types/User";
 import router from "@/router";
 import { ElNotification } from "element-plus";
 import Comments from "@/components/comment/Comments.vue";
+import {Comment, DocumentAdd, Edit, Reading, View} from "@element-plus/icons-vue";
 
 const commentRef = ref<InstanceType<typeof Comments>>();
 
@@ -31,7 +32,7 @@ onMounted(async () => {
   if (state.value) {
     blog.value = state.value
     document.title = `${blog.value.title} - 博客 - STUOJ`;
-  };
+  }
 });
 
 const commentForm = ref({
@@ -88,32 +89,32 @@ const handleConfirmDelete = async () => {
         </div>
       </div>
       <div>
-        <el-icon>
-          <View />
-        </el-icon>&nbsp;?
+        <el-icon><View /></el-icon>&nbsp;?
         <el-divider direction="vertical"></el-divider>
-        <el-icon>
-          <Comment />
-        </el-icon>&nbsp;?
+        <el-icon><Comment /></el-icon>&nbsp;?
         <el-divider direction="vertical"></el-divider>
-        <el-icon>
-          <Timer />
-        </el-icon>&nbsp;{{ formatDateTimeStr(blog?.create_time ?? "") }}
+        <el-icon><Reading /></el-icon>&nbsp;
+        <span v-if="blog?.problem && blog?.problem?.id !== 0">
+        <router-link :to="{ path: '/problem/' + blog?.problem?.id }">
+          [{{ blog?.problem?.id }}] {{ blog?.problem?.title }}
+        </router-link>
+        </span>
+        <span v-else>未关联题目</span>
         <el-divider direction="vertical"></el-divider>
-        <el-icon>
-          <Timer />
-        </el-icon>&nbsp;{{ formatDateTimeStr(blog?.update_time ?? "") }}
+        <el-icon><DocumentAdd /></el-icon>
+        &nbsp;{{ formatDateTimeStr(blog?.create_time ?? "") }}
         <el-divider direction="vertical"></el-divider>
-        <ElButton
-          v-if="blog.user && (info.role >= Role.Admin || (blog.user.id === id && blog.status !== BlogStatus.Banned))"
-          text @click="handleEdit()">编辑</ElButton>
-        <ElButton
-          v-if="blog.user && (info.role >= Role.Admin || (blog.user.id === id && blog.status !== BlogStatus.Banned))"
-          type="danger" text @click="handleDelete()">删除</ElButton>
+        <el-icon><Edit /></el-icon>
+        &nbsp;{{ formatDateTimeStr(blog?.update_time ?? "") }}
+        <span v-if="blog.user && (info.role >= Role.Admin || (blog.user.id === id && blog.status !== BlogStatus.Banned))">
+        <el-divider direction="vertical"></el-divider>
+        <ElButton text @click="handleEdit()">编辑</ElButton>
+        <el-divider direction="vertical"></el-divider>
+        <ElButton type="danger" text @click="handleDelete()">删除</ElButton>
+        </span>
       </div>
       <br />
       <div>
-        <el-tag>tag</el-tag>&nbsp;
         <el-tag>tag</el-tag>&nbsp;
         <el-tag>tag</el-tag>&nbsp;
         <el-tag>tag</el-tag>&nbsp;

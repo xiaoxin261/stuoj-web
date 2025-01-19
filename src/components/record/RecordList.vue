@@ -34,9 +34,7 @@
     </ElTableColumn>
     <ElTableColumn label="耗时" width="100" sortable="custom" >
       <template #default="scope">
-        <el-icon>
-          <Timer />
-        </el-icon>
+        <el-icon><Timer /></el-icon>
         {{ scope.row.time }}s
       </template>
     </ElTableColumn>
@@ -80,6 +78,7 @@ import { formatDateTimeStr } from '@/utils/date';
 import { deleteRecordApi } from '@/apis/record';
 import { ElNotification } from 'element-plus';
 import type { OrderBy } from '@/types/misc';
+import {Timer} from "@element-plus/icons-vue";
 
 
 const { execute } = deleteRecordApi();

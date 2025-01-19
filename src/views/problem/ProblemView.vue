@@ -38,13 +38,11 @@
                 <Failed />
               </el-icon>&nbsp;?
               <el-divider direction="vertical"></el-divider>
-              <el-icon>
-                <Timer />
-              </el-icon>&nbsp;{{ formatDateStr(problemInfo?.create_time ?? "") }}
+              <el-icon><DocumentAdd /></el-icon>
+              &nbsp;{{ formatDateStr(problemInfo?.create_time ?? "") }}
               <el-divider direction="vertical"></el-divider>
-              <el-icon>
-                <Timer />
-              </el-icon>&nbsp;{{ formatDateStr(problemInfo?.update_time ?? "") }}
+              <el-icon><Edit /></el-icon>
+              &nbsp;{{ formatDateStr(problemInfo?.update_time ?? "") }}
               <el-divider direction="vertical"></el-divider>
             </div>
           </div>
@@ -162,7 +160,7 @@ import { useRouteParams } from "@vueuse/router";
 import { getProblemApi } from "@/apis/problem";
 import { DifficultyMap } from "@/types/Problem";
 import { formatDateStr } from "@/utils/date";
-import { Notebook, StarFilled } from "@element-plus/icons-vue";
+import {DocumentAdd, Notebook, StarFilled} from "@element-plus/icons-vue";
 import { getRecordListApi } from "@/apis/record";
 import type { Submission } from "@/types/Record";
 import { OrderBy } from "@/types/misc";
