@@ -5,6 +5,7 @@ import { BlogStatusMap, BlogStatusColor } from '@/types/Blog';
 import { formatDateStr } from "@/utils/date";
 import type { BlogInfo } from '@/types/Blog';
 import type { Page } from '@/types/misc';
+import router from "@/router";
 
 interface Scope {
   row: {
@@ -41,6 +42,9 @@ onMounted (() => {
   getList();
 })
 
+const handleCreate = () => {
+  router.push("/blog/edit");
+}
 
 </script>
 
@@ -55,7 +59,7 @@ onMounted (() => {
           <strong>博客管理</strong>
         </el-col>
         <el-col :span="20" style="text-align: right">
-          <el-button type="primary" @click="" disabled>创建博客</el-button>
+          <el-button type="primary" @click="handleCreate">发表博客</el-button>
           <el-button type="danger" @click="" disabled>批量删除</el-button>
         </el-col>
       </el-row>
@@ -76,11 +80,11 @@ onMounted (() => {
               <AvatarInfo :user="scope.row.user" name :name-size="16" />
             </template>
           </el-table-column>
-          <el-table-column label="关联题目" width="100">
+          <el-table-column label="关联题目" show-overflow-tooltip>
             <template #default="scope">
               <div v-if="scope.row.problem.id">
                 <router-link :to="'/problem/' + scope.row.problem.id">
-                  {{ scope.row.problem.id }}
+                  [{{ scope.row.problem.id }}] {{ scope.row.problem.title }}
                 </router-link>
               </div>
               <div v-else>
@@ -109,11 +113,9 @@ onMounted (() => {
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column align="right" width="300">
+          <el-table-column align="right" width="150">
             <template #default="scope">
               <el-button size="small" @click="handleEdit(scope.$index, scope.row)" disabled>编辑</el-button>
-              <el-button size="small" type="primary" @click="handleReview(scope.$index, scope.row)" disabled>审核</el-button>
-              <el-button size="small" type="warning" @click="handleBan(scope.$index, scope.row)" disabled>屏蔽</el-button>
               <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)" disabled>删除</el-button>
             </template>
           </el-table-column>
