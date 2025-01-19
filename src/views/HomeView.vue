@@ -57,7 +57,7 @@
               <strong>公告栏</strong>
             </div>
           </template>
-          <Blogs :select="false" :params="blogParams" />
+          <NoticeList/>
         </el-card>
         <el-card style="margin-bottom: 20px">
           <template #header>
@@ -89,8 +89,7 @@ import BlogRecommend from "@/components/blog/BlogRecommend.vue";
 import Banner1 from "@/assets/images/banner/stuoj.jpg";
 import Banner2 from "@/assets/images/banner/acm-icpc.jpg";
 import Banner3 from "@/assets/images/banner/jf.jpg";
-import { BlogStatus, type BlogParams } from '@/types/Blog';
-import { OrderBy } from '@/types/misc';
+import NoticeList from "@/components/blog/NoticeList.vue";
 
 const banners = ref([Banner1, Banner2, Banner3]);
 
@@ -117,13 +116,6 @@ const gotoProblem = () => {
   }
 };
 
-const blogParams = ref<BlogParams>({
-  page: 1,
-  size: 5,
-  status:BlogStatus.Notice,
-  order_by: OrderBy.create_time,
-  order: 'desc',
-});
 </script>
 
 <style>
