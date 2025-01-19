@@ -190,9 +190,23 @@ const toggleTagsVisibility = () => {
 };
 
 const blogsFlag = ref<boolean>(false);
-
+const isBlogsFetched = ref<boolean>(false);
 const toggleBlogsVisibility = () => {
   blogsFlag.value = !blogsFlag.value;
+  if (isBlogsFetched.value)
+    return;
+  isBlogsFetched.value = true;
+  blogExecute({
+    params: {
+      problem: problemId.value,
+      page: 1,
+      size: 3,
+      order: "desc",
+      order_by: OrderBy.create_time
+    }
+  }).then((res) => {
+    blogs.value = res.value?.blogs ?? [];
+  });
 };
 
 const blogs = ref<BlogInfo[]>([]);
@@ -218,17 +232,7 @@ onMounted(async () => {
   }).then((res) => {
     record.value = res.value?.submissions[0];
   }).finally(async () => {
-    blogExecute({
-    params: {
-      problem: problemId.value,
-      page: 1,
-      size: 3,
-      order: "desc",
-      order_by: OrderBy.create_time
-    }
-  }).then((res) => {
-    blogs.value = res.value?.blogs ?? [];
-  });
+    
     await execute({
       id: problemId.value,
     });
