@@ -5,7 +5,6 @@ import { BlogStatusMap, BlogStatusColor } from '@/types/Blog';
 import { formatDateStr } from "@/utils/date";
 import type { BlogInfo } from '@/types/Blog';
 import type { Page } from '@/types/misc';
-import {userStore} from "@/stores/user";
 
 interface Scope {
   row: {
@@ -24,7 +23,6 @@ const params = ref<BlogParams>({
   page: 1,
   size: 10
 });
-const { token } = userStore();
 
 const getList = async () => {
   await execute({
@@ -73,7 +71,7 @@ onMounted (() => {
               </router-link>
             </template>
           </el-table-column>
-          <el-table-column label="作者" width="100">
+          <el-table-column label="作者" width="150">
             <template #default="scope">
               <AvatarInfo :user="scope.row.user" name :name-size="16" />
             </template>
