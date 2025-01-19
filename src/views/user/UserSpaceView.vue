@@ -81,7 +81,7 @@
         </el-row>
       </el-tab-pane>
       <el-tab-pane label="博客">
-        <Blogs :params="blogParams" />
+        <Blogs :params="blogParams" :select-exclude="['user']"/>
       </el-tab-pane>
       <el-tab-pane label="记录">
         <Records :userId="userId" :select="false" />
@@ -142,7 +142,7 @@ const blogParams = ref<BlogParams>({
   page: 1,
   size: 5,
   user: userId.value,
-  status: BlogStatus.Public,
+  status: BlogStatus.Public.toString(),
   order_by: OrderBy.create_time,
   order: 'desc',
 });

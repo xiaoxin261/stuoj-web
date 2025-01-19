@@ -18,7 +18,11 @@ const props = defineProps({
   select: {
     type: Boolean,
     default: true
-  }
+  },
+  selectExclude: {
+    type: Array as PropType<string[]>,
+    default: []
+  },
 });
 
 interface BlogParams {
@@ -59,7 +63,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <BlogSelect v-if="select" v-model:params="params" @confirm-clicked="getList" />
+  <BlogSelect v-if="select" v-model:params="params" :select-exclude="selectExclude" @confirm-clicked="getList" />
   <div v-for="blog in blogs" :key="certinfoKey">
     <router-link :to="'/blog/' + blog.id">
       <el-card class="blogCard">
