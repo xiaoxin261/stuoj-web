@@ -4,10 +4,10 @@
             <el-input v-model="params.title" />
         </el-form-item>
         <el-form-item label="难度" label-position="right">
-            <ProblemDifficultySelect v-model:difficulty="params.difficulty" ref="difficultySelectRef" />
+            <ProblemDifficultyTagSelect v-model:difficulty="params.difficulty" ref="difficultySelectRef" />
         </el-form-item>
         <el-form-item v-if="admin" label="状态" label-position="right">
-            <ProblemStatusSelect v-model:status="params.status" ref="statusSelectRef" />
+            <ProblemStatusTagSelect v-model:status="params.status" ref="statusSelectRef" />
         </el-form-item>
         <el-form-item label-width="auto">
             <ProblemTag layout="horizontal" :remove-flag="true" v-model:tag-ids="tagIds" ref="problemTagRef" />
@@ -23,8 +23,8 @@
 import { ref } from 'vue';
 import type { ProblemParams } from '@/types/Problem';
 import ProblemTag from '@/components/problem/ProblemTag.vue';
-import ProblemDifficultySelect from '@/components/problem/ProblemDifficultySelect.vue';
-import ProblemStatusSelect from '@/components/problem/ProblemStatusSelect.vue';
+import ProblemDifficultyTagSelect from './ProblemDifficultyTagSelect.vue';
+import ProblemStatusTagSelect from './ProblemStatusTagSelect.vue';
 
 const props = withDefaults(defineProps<{
     params?: ProblemParams;
@@ -40,8 +40,8 @@ const emit = defineEmits(['update:params', 'confirmClicked']);
 const params = ref<ProblemParams>(props.params);
 
 const problemTagRef = ref<InstanceType<typeof ProblemTag> | null>(null);
-const difficultySelectRef = ref<InstanceType<typeof ProblemDifficultySelect> | null>(null);
-const statusSelectRef = ref<InstanceType<typeof ProblemStatusSelect> | null>(null);
+const difficultySelectRef = ref<InstanceType<typeof ProblemDifficultyTagSelect> | null>(null);
+const statusSelectRef = ref<InstanceType<typeof ProblemStatusTagSelect> | null>(null);
 const handleReset = () => {
     if (difficultySelectRef.value)
         difficultySelectRef.value.reset();
