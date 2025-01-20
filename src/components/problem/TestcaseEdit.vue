@@ -30,15 +30,24 @@
             <ElInput v-model="localTestcase.test_output" type="textarea" />
         </ElFormItem>
         <ElFormItem>
-            <ElButton type="primary" @click="handleSubmit">提交</ElButton>
-            <ElButton @click="handleReset">重置</ElButton>
+            <div class="button-group">
+                <ElSwitch v-model="testEditAutoSumit" active-text="自动提交" />
+                <div style="width: 50%; display: flex; justify-content: flex-end;">
+                    <ElButton @click="handleReset">重置</ElButton>
+                    <ElButton type="primary" @click="handleSubmit">提交</ElButton>
+                </div>
+            </div>
         </ElFormItem>
     </ElForm>
 </template>
 
 <script setup lang="ts">
 import type { Testcase } from '@/types/Problem';
+import { ElSwitch } from 'element-plus';
 import { ref, watch } from 'vue';
+import { miscStore } from '@/stores/misc';
+
+const { testEditAutoSumit } = miscStore();
 
 const props = withDefaults(defineProps<{
     testcase?: Testcase,
@@ -60,6 +69,8 @@ const unfold = () => {
 
 const emit = defineEmits(['update:testcase']);
 
+const oldTestcase = ref<Testcase>({ ...props.testcase });
+
 const localTestcase = ref<Testcase>({ ...props.testcase });
 
 const handleSubmit = async () => {
@@ -68,13 +79,21 @@ const handleSubmit = async () => {
 
 const handleReset = () => {
     if (props.testcase)
-        localTestcase.value = { ...props.testcase };
+        localTestcase.value = { ...oldTestcase.value };
 };
 
 watch(props, () => {
-    if (props.testcase)
+    if (props.testcase && props.testcase.hash !== localTestcase.value.hash) {
+        oldTestcase.value = { ...props.testcase };
         localTestcase.value = { ...props.testcase };
+    }
 });
+
+watch(localTestcase, () => {
+    if (testEditAutoSumit.value && props.testcase.hash === localTestcase.value.hash)
+        handleSubmit();
+}, { deep: true });
+
 </script>
 
 <style scoped>
@@ -83,5 +102,11 @@ watch(props, () => {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+}
+
+.button-group {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 </style>

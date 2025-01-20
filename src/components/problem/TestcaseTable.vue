@@ -2,10 +2,9 @@
     <div class="test-case-table">
         <div class="button-group">
             <ElButton type="info" @click="refreshTestcases" icon="Refresh" style="width: 80px;">刷新</ElButton>
-            <ElButton type="primary" @click="addTestcase" icon="CirclePlus">添加测试数据</ElButton>
         </div>
-        <ElTable :data="testcases" style="width: 100%;" @current-change="handleCurrentChange" highlight-current-row
-            stripe>
+        <ElTable :data="testcases" style="width: 100%;" :max-height="300" @current-change="handleCurrentChange"
+            highlight-current-row stripe>
             <ElTableColumn label="编号" prop="data.serial" />
             <ElTableColumn label="脏位" prop="checked" width="65">
                 <template #default="scope">
@@ -27,8 +26,11 @@
                 <ElCheckbox v-model="scope.row.deleted" size="large" />
             </ElTableColumn>
         </ElTable>
-        <ElButton type="primary" @click="uploadTestcase" :icon="Upload" style="width: 100px; margin-top: 10px;">更新
-        </ElButton>
+        <div class="button-group">
+            <ElButton @click="addTestcase" icon="CirclePlus">添加测试数据</ElButton>
+            <ElButton type="primary" @click="uploadTestcase" :icon="Upload" style="width: 100px; margin-top: 10px;">更新
+            </ElButton>
+        </div>
     </div>
 </template>
 
@@ -108,7 +110,7 @@ const reset = async (id: number) => {
             if (res.value) {
                 testcases.value[index].data = {
                     ...res.value,
-                    hash: generateRandomHash(),
+                    hash: testcases.value[index].data.hash,
                 };
             }
         });
@@ -185,7 +187,7 @@ watch(() => props.testcase, (newTestcase) => {
             });
         }
     }
-});
+}, { deep: true });
 
 watchEffect(() => {
     testcases.value.forEach(testcase => {

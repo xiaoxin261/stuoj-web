@@ -2,10 +2,9 @@
     <div class="solution-table">
         <div class="button-group">
             <ElButton type="info" @click="refreshSolutions" icon="Refresh" style="width: 80px;">刷新</ElButton>
-            <ElButton type="primary" @click="addSolution" icon="CirclePlus">添加题解</ElButton>
         </div>
-        <ElTable :data="solutions" style="width: 100%;" @current-change="handleCurrentChange" highlight-current-row
-            stripe>
+        <ElTable :data="solutions" style="width: 100%;" :max-height="300" @current-change="handleCurrentChange"
+            highlight-current-row stripe>
             <ElTableColumn label="语言">
                 <template #default="scope">
                     <ElTooltip
@@ -35,8 +34,12 @@
                 <ElCheckbox v-model="scope.row.deleted" size="large" />
             </ElTableColumn>
         </ElTable>
-        <ElButton type="primary" @click="uploadSolution" :icon="Upload" style="width: 100px; margin-top: 10px;">更新
-        </ElButton>
+        <div class="button-group">
+            <ElButton @click="addSolution" icon="CirclePlus">添加题解</ElButton>
+            <ElButton type="primary" @click="uploadSolution" :icon="Upload" style="width: 100px; margin-top: 10px;">更新
+            </ElButton>
+        </div>
+
     </div>
 </template>
 
