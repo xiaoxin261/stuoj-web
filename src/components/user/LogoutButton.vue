@@ -1,5 +1,5 @@
 <template>
-    <ElButton class="LogoutButton" type="danger" @click="handelLogout" :icon="SwitchButton">登出</ElButton>
+    <ElButton class="LogoutButton" type="danger" size="small" @click="handelLogout" :icon="SwitchButton">登出</ElButton>
 </template>
 
 <script setup lang="ts">

@@ -1,5 +1,8 @@
 <template>
-    <ElButton class="ToUserSettingButton" type="default" plain @click="dialogVisible = !dialogVisible" :icon="SetUp" />
+    <ElButton class="ToUserSettingButton" size="small" @click="dialogVisible = !dialogVisible">
+      <el-icon><SetUp /></el-icon>&nbsp;
+      设置
+    </ElButton>
     <ElDialog v-model="dialogVisible" title="修改信息" width="500" append-to-body >
         <div class="avatar-container">
             <AvatarCropper v-model:user="info" />
@@ -123,11 +126,6 @@ watch(() => dialogVisible.value, async () => {
 </script>
 
 <style>
-.ToUserSettingButton {
-    height: 30px;
-    width: 30px;
-}
-
 .avatar-container {
     display: flex;
     justify-content: center;

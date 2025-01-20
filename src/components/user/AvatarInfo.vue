@@ -8,9 +8,14 @@
       <template #default>
         <div>
           <ElContainer direction="vertical">
-            <div class="UserNameText">{{ info.username }}</div>
-            <ElContainer v-if="id == userId" style="justify-content: center;">
-              <LogoutButton v-if="id !== 0 && id == userId" />
+            <div class="user-popover">
+              <span class="UserNameText">{{ info.username }}</span><br/>
+              <UserRoleTag :role="info.role"/><br/><br/>
+              <span style="font-size: 16px;">{{ info.email }}</span>
+            </div>
+            <ElContainer v-if="id !== 0 && id == userId" style="justify-content: center; margin-top:20px">
+              <UserSetting />
+              <LogoutButton />
             </ElContainer>
           </ElContainer>
         </div>
@@ -25,7 +30,7 @@
 import { onBeforeMount, onMounted, ref } from 'vue';
 import { userStore } from '@/stores/user';
 import { getUserInfoApi } from '@/apis/user';
-import { type UserInfo } from '@/types/User';
+import {Role, type UserInfo} from '@/types/User';
 import router from '@/router';
 
 const { id, isLogin, info: info_ } = userStore();
@@ -89,12 +94,12 @@ const handelClick = () => {
   flex-direction: row;
 }
 
+.user-popover {
+  text-align: center;
+}
+
 .UserNameText {
-  display: flex;
-  justify-content: center;
   font-size: 25px;
   color: #303133;
-  margin-top: 10px;
-  margin-bottom: 20px;
 }
 </style>

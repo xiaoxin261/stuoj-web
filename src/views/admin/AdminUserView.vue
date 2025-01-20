@@ -107,9 +107,9 @@ onMounted(() => {
               <UserRoleTag :role="scope.row.role" />
             </template>
           </el-table-column>
-          <el-table-column align="right" width="100">
+          <el-table-column align="right" width="150">
             <template #default="scope">
-              <ToUserSettingButton :user-id="scope.row.id" />
+              <UserSetting :user-id="scope.row.id" />
             </template>
           </el-table-column>
         </el-table>

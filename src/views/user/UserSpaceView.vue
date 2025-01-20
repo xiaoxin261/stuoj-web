@@ -55,6 +55,16 @@
           </el-col>
           <el-col :span="8">
             <el-card>
+              <template #header>
+                <div class="user-info-item">
+                  <span class="info-label">
+                    <strong>用户信息</strong>
+                  </span>
+                  <span class="info-value">
+                    <UserSetting v-if="id !== 0 && id == userId" />
+                  </span>
+                </div>
+              </template>
               <div class="user-info">
                 <div class="user-info-item">
                   <span class="info-label">ID</span>
@@ -71,9 +81,6 @@
                 <div class="user-info-item">
                   <span class="info-label">注册时间</span>
                   <span class="info-value">{{ formatDateTimeStr(info?.create_time) }}</span>
-                </div>
-                <div style="display: flex; justify-content: flex-end;">
-                  <ToUserSettingButton v-show="info_.role >= Role.Admin || id === userId" />
                 </div>
               </div>
             </el-card>
