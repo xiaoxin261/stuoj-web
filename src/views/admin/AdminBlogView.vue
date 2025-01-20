@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {deleteBlogApi, getBlogListApi} from '@/apis/blog';
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 import { BlogStatusMap, BlogStatusColor } from '@/types/Blog';
 import { formatDateStr } from "@/utils/date";
 import type { BlogInfo } from '@/types/Blog';
@@ -61,6 +61,11 @@ const handleDelete = async (row: BlogInfo) => {
   });
 };
 
+// 使用key在更新后让表格重新渲染，否则表格不会更新
+const key = ref(0);
+watch(() => blogs.value, () => {
+  key.value++
+});
 </script>
 
 <template>
@@ -80,7 +85,7 @@ const handleDelete = async (row: BlogInfo) => {
       </el-row>
       <el-divider></el-divider>
       <el-card>
-        <el-table :data="blogs" style="width: 100%" stripe>
+        <el-table :data="blogs" :key="key" style="width: 100%" stripe>
           <el-table-column type="selection" :selectable="selectable" width="55" />
           <el-table-column label="ID" prop="id" width="80px" />
           <el-table-column label="作者" width="150">
