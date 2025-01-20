@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 import type { Tag } from '@/types/Problem';
 import type { Page } from '@/types/misc';
 import {deleteTagApi, getTagListApi, insertTagApi, updateTagApi} from "@/apis/tag";
@@ -96,6 +96,12 @@ const submitEdit = () => {
   });
   editDialogVisible.value = false
 }
+
+// 使用key在更新后让表格重新渲染，否则表格不会更新
+const key = ref(0);
+watch(() => tags.value, () => {
+  key.value++
+});
 </script>
 
 <template>
@@ -115,7 +121,7 @@ const submitEdit = () => {
       </el-row>
       <el-divider></el-divider>
       <el-card>
-        <el-table :data="tags" style="width: 100%" stripe>
+        <el-table :data="tags" :key="key" style="width: 100%" stripe>
           <el-table-column type="selection" :selectable="selectable" width="55" />
           <el-table-column label="ID" prop="id" width="80" />
           <el-table-column label="标签" prop="name" />
