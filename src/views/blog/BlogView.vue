@@ -100,9 +100,8 @@ const handleConfirmDelete = async () => {
         &nbsp;{{ formatDateTimeStr(blog?.update_time ?? "") }}
         <span v-if="blog.user && (info.role >= Role.Admin || (blog.user.id === id && blog.status !== BlogStatus.Banned))">
             <el-divider direction="vertical"></el-divider>
-            <ElButton text @click="handleEdit()">编辑</ElButton>
-            <el-divider direction="vertical"></el-divider>
-            <ElButton type="danger" text @click="handleDelete()">删除</ElButton>
+            <ElButton size="small" @click="handleEdit()">编辑</ElButton>
+            <ElButton size="small" type="danger" @click="handleDelete()">删除</ElButton>
           </span>
       </div>
       <el-divider></el-divider>
@@ -112,11 +111,12 @@ const handleConfirmDelete = async () => {
         <el-icon><Reading /></el-icon>&nbsp;
         <span v-if="blog?.problem && blog?.problem?.id !== 0">
           关联题目:
-        <router-link :to="{ path: '/problem/' + blog?.problem?.id }">
-          [P{{ blog?.problem?.id }}] {{ blog?.problem?.title }}
-        </router-link>
+          <router-link :to="{ path: '/problem/' + blog?.problem?.id }">
+            [P{{ blog?.problem?.id }}] {{ blog?.problem?.title }}
+          </router-link>
         </span>
-        <span v-else>未关联题目</span><br/><br/>
+        <span v-else>未关联题目</span>
+        <el-divider direction="vertical"></el-divider>
         <el-icon><PriceTag /></el-icon>&nbsp;
         <el-tag>tag</el-tag>&nbsp;
         <el-tag>tag</el-tag>&nbsp;
