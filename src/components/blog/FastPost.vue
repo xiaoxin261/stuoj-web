@@ -40,7 +40,7 @@ const handleEdit = () => {
       <el-input v-model="blogForm.title" placeholder="标题" clearable />
     </el-form-item>
     <el-form-item>
-      <TextEditor v-model:text="blogForm.content" :album="Album.blog" placeholder="分享一些有趣的事吧..." ref="textEditorRef" />
+      <TextEditor v-model:text="blogForm.content" :min-row="5" :album="Album.blog" placeholder="分享一些有趣的事吧..." ref="textEditorRef" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="onSubmit">快速发布</el-button>

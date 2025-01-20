@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getUserListApi } from '@/apis/user';
-import { onMounted, ref } from "vue";
+import {onMounted, ref, watch} from "vue";
 import { UserRoleMap } from '@/types/User';
 import { formatDateStr } from "@/utils/date";
 import type { UserInfo, UserParams } from '@/types/User';
@@ -54,7 +54,11 @@ onMounted(() => {
   getList();
 })
 
-
+// 使用key在更新后让表格重新渲染，否则表格不会更新
+const key = ref(0);
+watch(() => users.value, () => {
+  key.value++
+});
 </script>
 
 <template>
@@ -74,7 +78,7 @@ onMounted(() => {
       </el-row>
       <el-divider></el-divider>
       <el-card>
-        <el-table :data="users" style="width: 100%" @sort-change="sortChange" stripe>
+        <el-table :data="users" :key="key" style="width: 100%" @sort-change="sortChange" stripe>
           <el-table-column type="selection" :selectable="selectable" width="55" />
           <el-table-column label="ID" prop="id" width="80" />
           <el-table-column label="用户" width="200">

@@ -103,8 +103,7 @@ const onEdit = async () => {
           <el-input v-model="problem_id" placeholder="关联题目ID" clearable />
         </el-form-item>
         <el-form-item>
-          <TextEditor v-model:text="blogForm.content" :max-row="100" :album="Album.blog" placeholder="分享一些有趣的事吧..."
-            ref="textEditorRef" />
+          <TextEditor v-model:text="blogForm.content" :max-row="100" :min-row="20" :album="Album.blog" placeholder="分享一些有趣的事吧..." ref="textEditorRef" />
         </el-form-item>
         <el-form-item>
           <el-button v-if="!blogId" type="primary" @click="onSubmit">发布</el-button>

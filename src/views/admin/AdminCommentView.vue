@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {deleteCommentApi, getCommentListApi} from '@/apis/comment';
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 import { CommentStatusMap, CommentStatusColor } from '@/types/Comment';
 import { formatDateStr } from "@/utils/date";
 import type { CommentInfo } from '@/types/Comment';
@@ -52,6 +52,12 @@ const handleDelete = (row: CommentInfo) => {
     ElNotification({ type: 'success', message: '删除成功' });
   });
 };
+
+// 使用key在更新后让表格重新渲染，否则表格不会更新
+const key = ref(0);
+watch(() => comments.value, () => {
+  key.value++
+});
 </script>
 
 <template>
@@ -70,7 +76,7 @@ const handleDelete = (row: CommentInfo) => {
       </el-row>
       <el-divider></el-divider>
       <el-card>
-        <el-table :data="comments" style="width: 100%" stripe>
+        <el-table :data="comments" :key="key" style="width: 100%" stripe>
           <el-table-column type="selection" :selectable="selectable" width="55" />
           <el-table-column label="ID" prop="id" width="80px" />
           <el-table-column label="作者" width="150">
