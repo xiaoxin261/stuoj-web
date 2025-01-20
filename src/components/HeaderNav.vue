@@ -57,6 +57,13 @@ watchEffect(() => {
   margin: 0 auto;
 }
 
+@media (max-width: 1200px) {
+  .menu {
+    width: 100%;
+    margin: 0 0;
+  }
+}
+
 .logo {
   display: flex;
   align-items: center;

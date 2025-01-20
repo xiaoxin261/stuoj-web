@@ -3,6 +3,14 @@
     margin: 0 auto;
 }
 
+@media (max-width: 1200px) {
+    .container-main {
+        width: 100%;
+        margin: 0 0;
+        min-width: 1000px;
+    }
+}
+
 a:link {
     text-decoration: none;
 }
