@@ -30,9 +30,9 @@
             <ElInput v-model="currentTestcase.test_output" type="textarea" />
         </ElFormItem>
         <ElFormItem>
-                <div style="width: 100%; display: flex; justify-content: flex-end;">
-                    <ElButton @click="handleReset">重置</ElButton>
-                </div>
+            <div style="width: 100%; display: flex; justify-content: flex-end;">
+                <ElButton @click="handleReset">重置</ElButton>
+            </div>
         </ElFormItem>
     </ElForm>
 </template>

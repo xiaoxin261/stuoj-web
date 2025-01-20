@@ -3,7 +3,7 @@
         <div class="button-group">
             <ElButton type="info" @click="refreshTestcases" icon="Refresh" style="width: 80px;">刷新</ElButton>
         </div>
-        <ElTable :data="testcases" style="width: 100%;" :max-height="300" @current-change="handleCurrentChange"
+        <ElTable :data="testcases" style="width: 100%;" :height="300" @current-change="handleCurrentChange"
             highlight-current-row stripe>
             <ElTableColumn label="编号" prop="data.serial" />
             <ElTableColumn label="脏位" prop="checked" width="65">
@@ -38,7 +38,7 @@
 import { onMounted, onUnmounted, watch } from 'vue';
 import { CircleCloseFilled, Warning, CircleCheck, Upload } from '@element-plus/icons-vue';
 import { ElTableColumn, ElTag, ElMessageBox } from 'element-plus';
-import { problemEditStore, type TemTestcase } from '@/stores/problemEdit';
+import { problemEditStore, type TemData } from '@/stores/problemEdit';
 import type { Testcase } from '@/types/Problem';
 import { generateRandomHash } from '@/utils/hash';
 import { onBeforeRouteLeave, type NavigationGuardNext, type RouteLocationNormalized } from 'vue-router';
@@ -53,7 +53,7 @@ const props = withDefaults(defineProps<{
 
 const addTestcase = async () => {
     const maxSerial = Math.max(0, ...testcases.value.map(tc => tc.data.serial ?? 0));
-    const newTestcase: TemTestcase = {
+    const newTestcase: TemData<Testcase> = {
         checked: true,
         deleted: false,
         data: {
@@ -68,7 +68,7 @@ const addTestcase = async () => {
     testcases.value.push(newTestcase);
 };
 
-const handleCurrentChange = async (val: TemTestcase) => {
+const handleCurrentChange = async (val: TemData<Testcase>) => {
     currentTestcase.value = { ...val.data };
 };
 
