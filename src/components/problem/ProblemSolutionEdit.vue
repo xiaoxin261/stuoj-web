@@ -3,40 +3,40 @@
         <h4>题解修改</h4>
         <ElButton type="primary" @click="unfold">{{ unfoldFlag ? '收起' : '展开' }}</ElButton>
     </div>
-    <ElForm v-if="unfoldFlag" :model="localSolution" label-width="auto">
-        <ElFormItem label="ID" label-position="right">
-            <ElInput v-model="localSolution.id" disabled />
-        </ElFormItem>
-        <ElFormItem label="题目ID" label-position="right">
-            <ElInput v-model="localSolution.problem_id" disabled />
+    <ElForm v-if="unfoldFlag" :model="currentSolution" label-width="auto">
+        <ElFormItem label-position="right">
+            <ElRow :gutter="20">
+                <ElCol :span="12">
+                    <ElFormItem label="测试点ID" label-position="right">
+                        <ElInput v-model="currentSolution.id" disabled />
+                    </ElFormItem>
+                </ElCol>
+                <ElCol :span="12">
+                    <ElFormItem label="题目ID" label-position="right">
+                        <ElInput v-model="currentSolution.problem_id" disabled />
+                    </ElFormItem>
+                </ElCol>
+            </ElRow>
         </ElFormItem>
         <ElFormItem label="语言" label-position="right">
-            <LanguageSelect v-model:id="localSolution.language_id" />
+            <LanguageSelect v-model:id="currentSolution.language_id" />
         </ElFormItem>
         <ElFormItem label="代码" label-position="right">
-            <ElInput v-model="localSolution.source_code" type="textarea" :autosize="{ minRows: 10, maxRows: 20 }" />
+            <ElInput v-model="currentSolution.source_code" type="textarea" :autosize="{ minRows: 10, maxRows: 20 }" />
         </ElFormItem>
         <ElFormItem>
-            <ElButton type="primary" @click="handleSubmit">提交</ElButton>
-            <ElButton @click="handleReset">重置</ElButton>
+            <div style="width: 100%; display: flex; justify-content: flex-end;">
+                <ElButton @click="handleReset">重置</ElButton>
+            </div>
         </ElFormItem>
     </ElForm>
 </template>
 
 <script setup lang="ts">
-import type { Solution } from '@/types/Problem';
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
+import { problemEditStore } from '@/stores/problemEdit';
 
-const props = withDefaults(defineProps<{
-    solution?: Solution,
-}>(), {
-    solution: () => ({
-        id: 0,
-        problem_id: 0,
-        language_id: 0,
-        source_code: '',
-    }),
-});
+const { currentSolution, resetCurrentSolution } = problemEditStore();
 
 const unfoldFlag = ref(false);
 
@@ -44,23 +44,10 @@ const unfold = () => {
     unfoldFlag.value = !unfoldFlag.value;
 };
 
-const emit = defineEmits(['update:solution']);
-
-const localSolution = ref<Solution>({ ...props.solution });
-
-const handleSubmit = async () => {
-    emit('update:solution', localSolution.value);
-};
-
 const handleReset = () => {
-    if (props.solution)
-        localSolution.value = { ...props.solution };
+    resetCurrentSolution();
 };
 
-watch(props, () => {
-    if (props.solution)
-        localSolution.value = { ...props.solution };
-});
 </script>
 
 <style scoped>
