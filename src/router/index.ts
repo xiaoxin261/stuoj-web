@@ -11,7 +11,7 @@ const router = createRouter({
       component: () => import('../views/HomeView.vue'),
       meta: {
         permission: Role.Visitor,
-        title: 'STUOJ',
+        title: 'STUOJ - 汕头大学疾风算法协会 Online Judge',
       },
     },
     {
