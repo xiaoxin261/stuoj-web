@@ -25,9 +25,8 @@
 import { onBeforeMount, onMounted, ref } from 'vue';
 import { userStore } from '@/stores/user';
 import { getUserInfoApi } from '@/apis/user';
-import { Role, type UserInfo } from '@/types/User';
+import { type UserInfo } from '@/types/User';
 import router from '@/router';
-import { roleTypes } from "element-plus";
 
 const { id, isLogin, info: info_ } = userStore();
 
@@ -52,10 +51,11 @@ let userId = ref(props.userId);
 
 onBeforeMount(async () => {
   if (!info.value.id) {
-    if (!userId.value)
+    if (!userId.value) {
       userId.value = id.value;
-    updateInfo();
-  };
+    }
+    await updateInfo();
+  }
 });
 
 const updateInfo = async () => {
@@ -68,15 +68,15 @@ const updateInfo = async () => {
     });
     if (state.value) {
       info.value = state.value;
-    };
-  };
+    }
+  }
 };
 
 const handelClick = () => {
-  if (!isLogin.value) {
+  if (!isLogin.value && !info.value.id) {
     router.push('/user/login');
   } else {
-    router.push(`/user/${userId.value}`);
+    router.push(`/user/${info.value.id}`);
   }
 }
 

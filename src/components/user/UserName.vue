@@ -1,7 +1,8 @@
 <template>
     <a v-if="user_info && user_info.id" class="color-none" :href="`/user/${user_info.id}`">
-        <span class="user-name" :style="{ fontSize: props.size + 'px', color: userColor }">{{ user_info.username
-            }}</span>
+        <span class="user-name" :style="{ fontSize: props.size + 'px', color: userColor }">
+          {{ user_info.username }}
+        </span>
     </a>
 </template>
 
