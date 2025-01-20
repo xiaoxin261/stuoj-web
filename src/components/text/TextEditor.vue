@@ -149,14 +149,14 @@ const props = withDefaults(defineProps<{
   letterSpacing?: string;
   lineHeight?: string;
   minRow?: number;
-  maxRow?: number
+  maxRow?: number;
 }>(), {
   placeholder: '',
   fontSize: '16px',
   letterSpacing: 'normal',
   lineHeight: 'normal',
   minRow: 10,
-  maxRow: 20
+  maxRow: 20,
 });
 
 const editorShow = ref(true);
