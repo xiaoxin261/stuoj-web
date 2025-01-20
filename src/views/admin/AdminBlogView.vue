@@ -104,7 +104,7 @@ watch(() => blogs.value, () => {
             <template #default="scope">
               <div v-if="scope.row.problem.id">
                 <router-link :to="'/problem/' + scope.row.problem.id">
-                  [{{ scope.row.problem.id }}] {{ scope.row.problem.title }}
+                  [P{{ scope.row.problem.id }}] {{ scope.row.problem.title }}
                 </router-link>
               </div>
               <div v-else>

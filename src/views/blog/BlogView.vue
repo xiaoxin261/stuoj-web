@@ -10,7 +10,7 @@ import { Role } from "@/types/User";
 import router from "@/router";
 import { ElNotification } from "element-plus";
 import Comments from "@/components/comment/Comments.vue";
-import {Comment, DocumentAdd, Edit, Reading, View} from "@element-plus/icons-vue";
+import {Comment, DocumentAdd, Edit, PriceTag, Reading, View} from "@element-plus/icons-vue";
 
 const commentRef = ref<InstanceType<typeof Comments>>();
 
@@ -93,36 +93,36 @@ const handleConfirmDelete = async () => {
         <el-divider direction="vertical"></el-divider>
         <el-icon><Comment /></el-icon>&nbsp;?
         <el-divider direction="vertical"></el-divider>
-        <el-icon><Reading /></el-icon>&nbsp;
-        <span v-if="blog?.problem && blog?.problem?.id !== 0">
-        <router-link :to="{ path: '/problem/' + blog?.problem?.id }">
-          [{{ blog?.problem?.id }}] {{ blog?.problem?.title }}
-        </router-link>
-        </span>
-        <span v-else>未关联题目</span>
-        <el-divider direction="vertical"></el-divider>
         <el-icon><DocumentAdd /></el-icon>
         &nbsp;{{ formatDateTimeStr(blog?.create_time ?? "") }}
         <el-divider direction="vertical"></el-divider>
         <el-icon><Edit /></el-icon>
         &nbsp;{{ formatDateTimeStr(blog?.update_time ?? "") }}
         <span v-if="blog.user && (info.role >= Role.Admin || (blog.user.id === id && blog.status !== BlogStatus.Banned))">
-        <el-divider direction="vertical"></el-divider>
-        <ElButton text @click="handleEdit()">编辑</ElButton>
-        <el-divider direction="vertical"></el-divider>
-        <ElButton type="danger" text @click="handleDelete()">删除</ElButton>
-        </span>
-      </div>
-      <br />
-      <div>
-        <el-tag>tag</el-tag>&nbsp;
-        <el-tag>tag</el-tag>&nbsp;
-        <el-tag>tag</el-tag>&nbsp;
-        <el-tag>tag</el-tag>&nbsp;
+            <el-divider direction="vertical"></el-divider>
+            <ElButton text @click="handleEdit()">编辑</ElButton>
+            <el-divider direction="vertical"></el-divider>
+            <ElButton type="danger" text @click="handleDelete()">删除</ElButton>
+          </span>
       </div>
       <el-divider></el-divider>
       <TextView :content="blog?.content || ''" />
-      <br />
+      <el-divider></el-divider>
+      <div>
+        <el-icon><Reading /></el-icon>&nbsp;
+        <span v-if="blog?.problem && blog?.problem?.id !== 0">
+          关联题目:
+        <router-link :to="{ path: '/problem/' + blog?.problem?.id }">
+          [P{{ blog?.problem?.id }}] {{ blog?.problem?.title }}
+        </router-link>
+        </span>
+        <span v-else>未关联题目</span><br/><br/>
+        <el-icon><PriceTag /></el-icon>&nbsp;
+        <el-tag>tag</el-tag>&nbsp;
+        <el-tag>tag</el-tag>&nbsp;
+        <el-tag>tag</el-tag>&nbsp;
+        <el-tag>tag</el-tag>&nbsp;
+      </div>
     </el-card>
     <br />
     <el-card>

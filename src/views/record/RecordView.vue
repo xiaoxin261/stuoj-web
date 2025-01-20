@@ -14,7 +14,7 @@
         <ElCard>
           <div class="problem-title">
             <router-link :to="{ path: '/problem/' + record?.problem.id }">
-              <h1>[{{ record?.problem.id }}] {{ record?.problem.title }}</h1>
+              <h1>[P{{ record?.problem.id }}] {{ record?.problem.title }}</h1>
             </router-link>
           </div>
           <el-divider></el-divider>

@@ -12,7 +12,7 @@
       <ElCol :span="18">
         <ElCard shadow="always">
           <div class="problem-title">
-            <h1>[{{ problemInfo.id }}] {{ problemInfo.title }}</h1>
+            <h1>[P{{ problemInfo.id }}] {{ problemInfo.title }}</h1>
             <div>
               <el-icon>
                 <View />
@@ -43,7 +43,6 @@
               <el-divider direction="vertical"></el-divider>
               <el-icon><Edit /></el-icon>
               &nbsp;{{ formatDateStr(problemInfo?.update_time ?? "") }}
-              <el-divider direction="vertical"></el-divider>
             </div>
           </div>
           <el-divider></el-divider>
@@ -237,7 +236,7 @@ onMounted(async () => {
     if (state.value) {
       problemInfo.value = state.value.problem;
       document.title = `[${problemInfo.value.id}] ${problemInfo.value.title} - 题目 - STUOJ`;
-    };
+    }
   });
 });
 </script>
