@@ -75,6 +75,7 @@ watch(() => props.content, async (newContent) => {
     position: relative;
     padding-left: 40px; /* 为行号预留空间 */
     background-color: #2d2d2d; /* 设置黑色背景 */
+    color: #ddd;
 }
 
 .markdown-content-container pre code {
