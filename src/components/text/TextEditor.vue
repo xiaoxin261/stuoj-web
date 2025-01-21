@@ -270,6 +270,7 @@ const handleEnterKey = (event: Event | KeyboardEvent) => {
   textarea.value = beforeCursor + newText + afterCursor;
   textarea.selectionStart = textarea.selectionEnd = start + newText.length;
   event.preventDefault();
+  text.value = textarea.value;
 };
 
 const toggleBold = (event: MouseEvent) => {
