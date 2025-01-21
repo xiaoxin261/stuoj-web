@@ -126,6 +126,7 @@ const handleResetPassword = async (formEl: FormInstance | undefined) => {
 </script>
 
 <template>
+  <div class="container-full">
   <el-container>
     <el-main>
       <el-row justify="space-around">
@@ -161,6 +162,7 @@ const handleResetPassword = async (formEl: FormInstance | undefined) => {
       </el-row>
     </el-main>
   </el-container>
+  </div>
 </template>
 
 <style scoped></style>

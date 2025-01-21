@@ -62,69 +62,73 @@ watch(() => users.value, () => {
 </script>
 
 <template>
-  <el-container>
-    <el-aside width="200px">
-      <AdminMenu></AdminMenu>
-    </el-aside>
-    <el-main>
-      <el-row justify="space-between">
-        <el-col :span="4">
-          <strong>用户管理</strong>
-        </el-col>
-        <el-col :span="20" style="text-align: right">
-          <el-button type="primary" @click="" disabled>创建用户</el-button>
-          <el-button type="danger" @click="" disabled>批量删除</el-button>
-        </el-col>
-      </el-row>
-      <el-divider></el-divider>
-      <el-card>
-        <el-table :data="users" :key="key" style="width: 100%" @sort-change="sortChange" stripe>
-          <el-table-column type="selection" :selectable="selectable" width="55" />
-          <el-table-column label="ID" prop="id" width="80" />
-          <el-table-column label="用户" width="200">
-            <template #default="scope">
-              <AvatarInfo :user="scope.row" name :name-size="16" />
-            </template>
-          </el-table-column>
-          <el-table-column label="邮箱" width="250" prop="email" show-overflow-tooltip/>
-          <el-table-column label="个性签名" show-overflow-tooltip>
-            <template #default="scope">
+  <div class="container-full">
+    <el-container>
+      <el-aside width="200px">
+        <AdminMenu></AdminMenu>
+      </el-aside>
+      <el-main>
+        <el-row justify="space-between">
+          <el-col :span="4">
+            <strong>用户管理</strong>
+          </el-col>
+          <el-col :span="20" style="text-align: right">
+            <el-button type="primary" @click="" disabled>创建用户</el-button>
+            <el-button type="danger" @click="" disabled>批量删除</el-button>
+          </el-col>
+        </el-row>
+        <el-divider></el-divider>
+        <el-card>
+          <el-table :data="users" :key="key" style="width: 100%" @sort-change="sortChange" stripe>
+            <el-table-column type="selection" :selectable="selectable" width="55" />
+            <el-table-column label="ID" prop="id" width="80" />
+            <el-table-column label="用户" width="200">
+              <template #default="scope">
+                <AvatarInfo :user="scope.row" name :name-size="16" />
+              </template>
+            </el-table-column>
+            <el-table-column label="邮箱" width="250" prop="email" show-overflow-tooltip/>
+            <el-table-column label="个性签名" show-overflow-tooltip>
+              <template #default="scope">
                 {{ scope.row.signature }}
-            </template>
-          </el-table-column>
-          <el-table-column label="注册时间" width="120px">
-            <template #default="scope">
+              </template>
+            </el-table-column>
+            <el-table-column label="注册时间" width="120px">
+              <template #default="scope">
               <span>
                 {{ formatDateStr(scope.row.create_time) }}
               </span>
-            </template>
-          </el-table-column>
-          <el-table-column label="更新时间" width="120">
-            <template #default="scope">
+              </template>
+            </el-table-column>
+            <el-table-column label="更新时间" width="120">
+              <template #default="scope">
               <span>
                 {{ formatDateStr(scope.row.update_time) }}
               </span>
-            </template>
-          </el-table-column>
-          <el-table-column label="角色" width="80">
-            <template #default="scope: Scope">
-              <UserRoleTag :role="scope.row.role" />
-            </template>
-          </el-table-column>
-          <el-table-column align="right" width="150">
-            <template #default="scope">
-              <UserSetting :user-id="scope.row.id" />
-            </template>
-          </el-table-column>
-        </el-table>
-        <br />
-        <el-pagination v-model:current-page="params.page" v-model:page-size="params.size"
-          :page-sizes="[10, 20, 50, 100]" :size="'small'" :background="true"
-          layout="total, sizes, prev, pager, next, jumper" :total="userPage?.total" @size-change="getList"
-          @current-change="getList" />
-      </el-card>
-    </el-main>
-  </el-container>
+              </template>
+            </el-table-column>
+            <el-table-column label="角色" width="80">
+              <template #default="scope: Scope">
+                <UserRoleTag :role="scope.row.role" />
+              </template>
+            </el-table-column>
+            <el-table-column align="right" width="150">
+              <template #default="scope">
+                <UserSetting :user-id="scope.row.id" />
+              </template>
+            </el-table-column>
+          </el-table>
+          <br />
+          <el-pagination v-model:current-page="params.page" v-model:page-size="params.size"
+                         :page-sizes="[10, 20, 50, 100]" :size="'small'" :background="true"
+                         layout="total, sizes, prev, pager, next, jumper" :total="userPage?.total" @size-change="getList"
+                         @current-change="getList" />
+        </el-card>
+      </el-main>
+    </el-container>
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+</style>

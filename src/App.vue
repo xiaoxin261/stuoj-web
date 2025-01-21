@@ -1,6 +1,8 @@
 <template>
-  <HeaderNav />
   <ElContainer class="app-container">
+    <el-header class="app-header">
+      <HeaderNav />
+    </el-header>
     <ElMain class="main-content">
       <RouterView />
     </ElMain>
@@ -34,8 +36,21 @@
   padding: 0;
 }
 
-.router-view {
-  width: 100%; /* 确保 RouterView 的宽度为 100% */
-  /* 添加其他必要的样式 */
+.app-header {
+  width: 80%;
 }
+
+@media (max-width: 1200px) {
+  .app-header {
+    width: 100%;
+  }
+  .app-container {
+    min-width: 1000px;
+  }
+}
+
+router-view {
+  width: 100%; /* 确保 RouterView 的宽度为 100% */
+}
+
 </style>

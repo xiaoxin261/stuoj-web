@@ -61,6 +61,7 @@ watch(() => comments.value, () => {
 </script>
 
 <template>
+  <div class="container-full">
   <el-container>
     <el-aside width="200px">
       <AdminMenu></AdminMenu>
@@ -140,6 +141,7 @@ watch(() => comments.value, () => {
       </el-card>
     </el-main>
   </el-container>
+  </div>
 </template>
 
 <style scoped>

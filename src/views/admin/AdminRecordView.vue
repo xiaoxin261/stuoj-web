@@ -2,6 +2,7 @@
 </script>
 
 <template>
+  <div class="container-full">
   <el-container>
     <el-aside width="200px">
       <AdminMenu></AdminMenu>
@@ -19,6 +20,7 @@
       <Records :admin="true" />
     </el-main>
   </el-container>
+  </div>
 </template>
 
 <style scoped></style>

@@ -3,6 +3,7 @@
 </script>
 
 <template>
+  <div class="container-full">
   <el-container>
     <el-aside width="200px">
       <AdminMenu></AdminMenu>
@@ -20,6 +21,7 @@
       <EmptyPage></EmptyPage>
     </el-main>
   </el-container>
+  </div>
 </template>
 
 <style scoped>

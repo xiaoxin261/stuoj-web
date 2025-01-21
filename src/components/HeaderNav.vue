@@ -1,26 +1,48 @@
 <template>
-  <el-menu class="menu" mode="horizontal" :ellipsis="false" router>
-    <div class="logo">
-      <a href="/">
-        <img src="@/assets/images/logo/icon.png" alt="Logo" />
-      </a>
-      <div class="logo-text">
-        <span style="font-weight: bolder">STUOJ</span>
-        <span style="font-size: 12px;">stuoj.com</span>
+  <div v-if="windowWidth > 1200">
+    <el-menu class="menu" mode="horizontal" :ellipsis="false" router>
+      <div class="logo">
+        <a href="/">
+          <img src="@/assets/images/logo/icon.png" alt="Logo" />
+        </a>
+        <div class="logo-text">
+          <span style="font-weight: bolder">STUOJ</span>
+          <span style="font-size: 12px;">stuoj.com</span>
+        </div>
       </div>
-    </div>
-    <el-menu-item v-for="link in menuLinks" :key="link.index" :index="link.index">
-      <el-icon>
-        <component :is="link.icon" />
-      </el-icon>
-      <span>{{ link.text }}</span>
-    </el-menu-item>
-    <div class="menu-space"><!-- 占位 --></div>
-    <el-menu-item>
-      <AvatarInfo />
-    </el-menu-item>
-  </el-menu>
-
+      <el-menu-item v-for="link in menuLinks" :key="link.index" :index="link.index">
+        <el-icon>
+          <component :is="link.icon" />
+        </el-icon>
+        <span>{{ link.text }}</span>
+      </el-menu-item>
+      <div class="menu-space"><!-- 占位 --></div>
+      <el-menu-item>
+        <AvatarInfo />
+      </el-menu-item>
+    </el-menu>
+  </div>
+  <div v-else>
+    <el-menu class="menu" mode="horizontal" :ellipsis="false" router>
+      <div class="logo">
+      </div>
+      <el-sub-menu index="">
+        <template #title>
+          <img src="@/assets/images/logo/icon.png" alt="Logo" width="80" />
+        </template>
+        <el-menu-item v-for="link in menuLinks" :key="link.index" :index="link.index">
+          <el-icon>
+            <component :is="link.icon" />
+          </el-icon>
+          <span>{{ link.text }}</span>
+        </el-menu-item>
+      </el-sub-menu>
+      <div class="menu-space"><!-- 占位 --></div>
+      <el-menu-item>
+        <AvatarInfo />
+      </el-menu-item>
+    </el-menu>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -28,6 +50,14 @@ import { computed, ref, watchEffect } from 'vue';
 import { userStore } from '@/stores/user';
 import { Collection, Flag, FolderOpened, HomeFilled, List, Notebook, Setting } from "@element-plus/icons-vue";
 import { Role } from "@/types/User";
+
+const windowWidth = ref(window.innerWidth);
+watchEffect(() => {
+  windowWidth.value = window.innerWidth;
+});
+window.addEventListener('resize', () => {
+  windowWidth.value = window.innerWidth;
+});
 
 const { info } = userStore();
 const username = ref(info?.value?.username || '未登录')
@@ -53,15 +83,7 @@ watchEffect(() => {
 
 <style scoped>
 .menu {
-  width: 80%;
-  margin: 0 auto;
-}
-
-@media (max-width: 1200px) {
-  .menu {
-    width: 100%;
-    margin: 0 0;
-  }
+  width: 100%;
 }
 
 .logo {

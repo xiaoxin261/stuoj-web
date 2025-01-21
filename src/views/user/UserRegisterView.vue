@@ -1,4 +1,5 @@
 <template>
+  <div class="container-full">
   <el-container>
     <el-main>
       <el-row justify="space-around">
@@ -42,6 +43,7 @@
       </el-row>
     </el-main>
   </el-container>
+  </div>
 </template>
 
 <script setup lang="ts">

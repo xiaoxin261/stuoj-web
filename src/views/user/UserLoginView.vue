@@ -1,36 +1,38 @@
 <template>
-    <el-container>
-      <el-main>
-        <el-row justify="space-around">
-          <el-col :span="12">
-            <el-card>
-              <h1>用户登录</h1>
-              <br/>
-              <el-form :model="req" label-width="80px">
-                <el-form-item label="邮箱">
-                  <el-input v-model="req.email" />
-                </el-form-item>
-                <el-form-item label="密码">
-                  <el-input type="password" v-model="req.password" />
-                </el-form-item>
-                <el-form-item>
-                  <el-checkbox-group>
-                    <el-checkbox label="记住密码" disabled/>
-                  </el-checkbox-group>
-                </el-form-item>
-                <el-form-item>
-                  <el-button type="primary" @click="handleLogin">登录</el-button>
-                  &nbsp;&nbsp;
-                  <router-link to="/user/register"><el-button>注册</el-button></router-link>
-                  &nbsp;&nbsp;
-                  <router-link to="/user/forgot"><el-button>忘记密码？</el-button></router-link>
-                </el-form-item>
-              </el-form>
-            </el-card>
-          </el-col>
-        </el-row>
-      </el-main>
-    </el-container>
+   <div class="container-full">
+     <el-container>
+       <el-main>
+         <el-row justify="space-around">
+           <el-col :span="12">
+             <el-card>
+               <h1>用户登录</h1>
+               <br/>
+               <el-form :model="req" label-width="80px">
+                 <el-form-item label="邮箱">
+                   <el-input v-model="req.email" />
+                 </el-form-item>
+                 <el-form-item label="密码">
+                   <el-input type="password" v-model="req.password" />
+                 </el-form-item>
+                 <el-form-item>
+                   <el-checkbox-group>
+                     <el-checkbox label="记住密码" disabled/>
+                   </el-checkbox-group>
+                 </el-form-item>
+                 <el-form-item>
+                   <el-button type="primary" @click="handleLogin">登录</el-button>
+                   &nbsp;&nbsp;
+                   <router-link to="/user/register"><el-button>注册</el-button></router-link>
+                   &nbsp;&nbsp;
+                   <router-link to="/user/forgot"><el-button>忘记密码？</el-button></router-link>
+                 </el-form-item>
+               </el-form>
+             </el-card>
+           </el-col>
+         </el-row>
+       </el-main>
+     </el-container>
+   </div>
 </template>
 
 <script setup lang="ts">

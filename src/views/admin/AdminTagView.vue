@@ -105,6 +105,7 @@ watch(() => tags.value, () => {
 </script>
 
 <template>
+  <div class="container-full">
   <el-container>
     <el-aside width="200px">
       <AdminMenu></AdminMenu>
@@ -186,6 +187,7 @@ watch(() => tags.value, () => {
       </div>
     </template>
   </el-dialog>
+  </div>
 </template>
 
 <style scoped>
