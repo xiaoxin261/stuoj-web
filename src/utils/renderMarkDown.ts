@@ -5,7 +5,6 @@ import 'highlight.js/styles/default.css';
 import sub from 'markdown-it-sub';
 import sup from 'markdown-it-sup';
 // import { default as emoji }from 'markdown-it-emoji';
-import taskLists from 'markdown-it-task-lists';
 import footnote from 'markdown-it-footnote';
 import ins from 'markdown-it-ins';
 import mark from 'markdown-it-mark';
@@ -24,7 +23,6 @@ export const mdi = new MarkdownIt({
     .use(sub)
     .use(sup)
     // .use(emoji)
-    .use(taskLists)
     .use(footnote)
     .use(ins)
     .use(mark)
