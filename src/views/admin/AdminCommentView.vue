@@ -94,9 +94,7 @@ watch(() => comments.value, () => {
           </el-table-column>
           <el-table-column label="内容" show-overflow-tooltip>
             <template #default="scope">
-              <router-link :to="'/comment/' + scope.row.comment_id">
-                {{ scope.row.content }}
-              </router-link>
+              {{ scope.row.content }}
             </template>
           </el-table-column>
           <el-table-column label="创建时间" width="120">

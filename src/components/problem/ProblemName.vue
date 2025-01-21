@@ -1,7 +1,8 @@
 <template>
     <a class="color-none" :href="`/problem/${problem_info.id}`">
-        <span class="problem-name" :style="{ fontSize: props.size + 'px', color: problemColor }">{{ problem_info.title
-            }}</span>
+        <span class="problem-name" :style="{ fontSize: props.size + 'px', color: problemColor }">
+          {{ problem_info.title }}
+        </span>
     </a>
 </template>
 
