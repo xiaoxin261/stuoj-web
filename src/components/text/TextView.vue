@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { ref, watch, defineProps, computed, nextTick } from 'vue';
-import { renderMarkAndLaTeX } from '../../utils/renderMarkAndLaTeX';
+import mdi from '@/utils/renderMarkDown';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/github-dark.css';
 
@@ -26,7 +26,7 @@ const customStyle = computed(() => ({
 
 watch(() => props.content, async (newContent) => {
     markdown.value = newContent;
-    renderedMarkdown.value = await renderMarkAndLaTeX(newContent);
+    renderedMarkdown.value = await mdi.render(newContent);
     nextTick(() => {
         document.querySelectorAll('code').forEach((block) => {
             return hljs.highlightBlock(block as HTMLElement);
@@ -37,33 +37,9 @@ watch(() => props.content, async (newContent) => {
 
 <!-- 去除scoped，否则markdown样式无法生效 -->
 <style>
-.markdown-content-container {
-    max-width: 100%;
-    overflow: auto;
-    white-space: pre-wrap;
-}
-
-.markdown-content-container img {
-    max-width: 100%;
-    height: auto;
-    object-fit: contain;
-}
-
-.markdown-content-container p,
-.markdown-content-container ul,
-.markdown-content-container ol,
-.markdown-content-container pre,
-.markdown-content-container blockquote {
+.markdown-content-container p{
     margin: 0;
 }
-
-.markdown-content-container blockquote {
-    padding: 10px 20px;
-    margin: 0 0 20px;
-    border-left: 5px solid #ccc;
-    background-color: #f9f9f9;
-}
-
 .markdown-content-container code {
     padding: 0;
     position: relative;
