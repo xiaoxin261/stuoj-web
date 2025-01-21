@@ -18,6 +18,16 @@
           </strong>
         </ElButton>
       </ElTooltip>
+      <ElTooltip content="上标" placement="top">
+        <ElButton class="toolbar-button" text size="default" @mousedown.prevent="toggleSuperscript">
+          <strong>T</strong><sup>S</sup>
+        </ElButton>
+      </ElTooltip>
+      <ElTooltip content="下标" placement="top">
+        <ElButton class="toolbar-button" text size="default" @mousedown.prevent="toggleSubscript">
+          <strong>T</strong><sub><i>S</i></sub>
+        </ElButton>
+      </ElTooltip>
       <ElTooltip content="斜体" placement="top">
         <ElButton class="toolbar-button" text size="default" @mousedown.prevent="toggleItalic">
           <i>I</i>
@@ -63,7 +73,16 @@
           <strong>- - -</strong>
         </ElButton>
       </ElTooltip>
-
+      <ElTooltip content="脚注" placement="top">
+        <ElButton class="toolbar-button" text size="default" @click="toggleFootnote">
+          <strong>F</strong>
+        </ElButton>
+      </ElTooltip>
+      <ElTooltip content="高亮" placement="top">
+        <ElButton class="toolbar-button" text size="default" @click="toggleHighlight">
+          <strong>H</strong>
+        </ElButton>
+      </ElTooltip>
     </div>
     <div class="toolbar-divider" />
     <div class="toolbar-section">
@@ -289,6 +308,38 @@ const toggleBold = (event: MouseEvent) => {
   textarea.focus();
 };
 
+const toggleSuperscript = (event: MouseEvent) => {
+  event.preventDefault();
+  const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
+  if (!textarea) return;
+
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const selectedText = textarea.value.substring(start, end);
+
+  const boldText = `^${selectedText}^`;
+  textarea.setRangeText(boldText, start, end, 'end');
+  text.value = textarea.value;
+  textarea.setSelectionRange(start + 1, start + 1 + selectedText.length);
+  textarea.focus();
+};
+
+const toggleSubscript = (event: MouseEvent) => {
+  event.preventDefault();
+  const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
+  if (!textarea) return;
+
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const selectedText = textarea.value.substring(start, end);
+
+  const boldText = `~${selectedText}~`;
+  textarea.setRangeText(boldText, start, end, 'end');
+  text.value = textarea.value;
+  textarea.setSelectionRange(start + 1, start + 1 + selectedText.length);
+  textarea.focus();
+}
+
 const toggleItalic = (event: MouseEvent) => {
   event.preventDefault();
   const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
@@ -496,6 +547,36 @@ const toggleHorizontalRule = () => {
   text.value = textarea.value;
   textarea.focus();
 };
+
+const toggleFootnote = () => {
+  const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
+  if (!textarea) return;
+
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const selectedText = textarea.value.substring(start, end);
+
+  const mathText = `^[${selectedText}]`;
+  textarea.setRangeText(mathText, start, end, 'end');
+  text.value = textarea.value;
+  textarea.setSelectionRange(start + 2, start + 2 + selectedText.length);
+  textarea.focus();
+}
+
+const toggleHighlight = () => {
+  const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
+  if (!textarea) return;
+
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const selectedText = textarea.value.substring(start, end);
+
+  const mathText = `==${selectedText}==`;
+  textarea.setRangeText(mathText, start, end, 'end');
+  text.value = textarea.value;
+  textarea.setSelectionRange(start + 2, start + 2 + selectedText.length);
+  textarea.focus();
+}
 
 const handleKeyDown = (event: Event | KeyboardEvent) => {
   if (!(event instanceof KeyboardEvent)) return;
