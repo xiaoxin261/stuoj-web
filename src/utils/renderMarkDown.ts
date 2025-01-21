@@ -12,6 +12,7 @@ export const renderMarkDown = (text: string) => {
                 return `<blockquote>${'<blockquote>'.repeat(level - 1)}<p>${p1.trim()}</p>${'</blockquote>'.repeat(level - 1)}</blockquote>`;
             }
         },
+        { regex: /(?<!\\)\n/gim, replacement: '<br />' },
         { regex: /(?<!\\)###### (.*$)/gim, replacement: '<h6>$1</h6>' },
         { regex: /(?<!\\)##### (.*$)/gim, replacement: '<h5>$1</h5>' },
         { regex: /(?<!\\)#### (.*$)/gim, replacement: '<h4>$1</h4>' },
@@ -49,6 +50,10 @@ export const renderMarkDown = (text: string) => {
         { regex: /(?<!\\)``([\s\S]*?)``/gim, replacement: '<code>$1</code>' },
         { regex: /(?<!\\)<((https?:\/\/[^\s]+))>/gim, replacement: '<a href="$1">$1</a>' },
         { regex: /(?<!\\)<([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})>/gim, replacement: '<a href="mailto:$1">$1</a>' },
+        {
+            regex: /^(?!<blockquote|<h[1-6]|<hr|<img|<a|<ul|<ol|<strong|<em|<pre|<code|<li|<s).*$/gm,
+            replacement: (match: string) => `<p>${match.trim()}</p>`
+        },
     ];
 
     // 提取并替换公式，使用占位符
@@ -104,7 +109,6 @@ export const renderMarkDown = (text: string) => {
     html = html.replace(/CODE_ROW_(\d+)/g, (match, p1) => {
         return `<code>${codeBlocks[parseInt(p1)].replace(/</g, '&lt;')}</code>`;
     });
-
     
     return html.trim();
 }
