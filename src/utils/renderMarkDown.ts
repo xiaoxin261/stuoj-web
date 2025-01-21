@@ -1,110 +1,155 @@
-export const renderMarkDown = (text: string) => {
-    interface Rule {
-        regex: RegExp;
-        replacement: string | ((match: string, p1: string, p2?: string, p3?: string, p4?: string, p5?: string) => string);
+import MarkdownIt from 'markdown-it';
+import 'katex/dist/katex.min.css';
+import 'highlight.js/styles/default.css';
+
+import sub from 'markdown-it-sub';
+import sup from 'markdown-it-sup';
+// import { default as emoji }from 'markdown-it-emoji';
+import footnote from 'markdown-it-footnote';
+import ins from 'markdown-it-ins';
+import mark from 'markdown-it-mark';
+import katex from 'katex';
+import 'katex/dist/katex.min.css';
+
+export const mdi = new MarkdownIt({
+    html: true,
+    xhtmlOut: true,
+    breaks: true,
+    langPrefix: 'language-',
+    linkify: true,
+    typographer: true,
+    quotes: '“”‘’',
+})
+    .use(sub)
+    .use(sup)
+    // .use(emoji)
+    .use(footnote)
+    .use(ins)
+    .use(mark)
+
+// 禁用 image 规则
+mdi.disable('image');
+delete mdi.renderer.rules.image;
+
+// 自定义 image 规则
+mdi.renderer.rules.image_custom = (tokens, idx, options, env, self) => {
+    const token = tokens[idx];
+    const altText = token.children ? self.renderInlineAsText(token.children, options, env) : '';
+    const src = token.attrGet('src') || '';
+    let width = '', height = '', align = '';
+
+    // 解析可能存在的宽度、高度和对齐参数
+    if (token.attrIndex('title') !== -1) {
+        const title = token.attrGet('title');
+        const regex = /(\d*)x?(\d*)?\s*:\s*(left|right|center)?/;
+        const matches = title?.match(regex);
+        if (matches) {
+            width = matches[1] || '';
+            height = matches[2] || '';
+            align = matches[3] || '';
+        }
     }
 
-    const rules: Rule[] = [
-        {
-            regex: /(?<!\\)^\>+(.*)/gim, replacement: (match: string, p1: string) => {
-                const matchResult = match.match(/^\>+/);
-                const level = matchResult ? matchResult[0].length : 0;
-                return `<blockquote>${'<blockquote>'.repeat(level - 1)}<p>${p1.trim()}</p>${'</blockquote>'.repeat(level - 1)}</blockquote>`;
-            }
-        },
-        { regex: /(?<!\\)###### (.*$)/gim, replacement: '<h6>$1</h6>' },
-        { regex: /(?<!\\)##### (.*$)/gim, replacement: '<h5>$1</h5>' },
-        { regex: /(?<!\\)#### (.*$)/gim, replacement: '<h4>$1</h4>' },
-        { regex: /(?<!\\)### (.*$)/gim, replacement: '<h3>$1</h3>' },
-        { regex: /(?<!\\)## (.*$)/gim, replacement: '<h2>$1</h2>' },
-        { regex: /(?<!\\)# (.*$)/gim, replacement: '<h1>$1</h1>' },
-        { regex: /(?<!\\)---/gim, replacement: '<hr />' },
-        {
-            regex: /(?<!\\)\!\[(.*?)\]\((.*?)(?: \s*=\s*(\d*)?x?(\d*))?(?: \s*:(left|right|center))?\)/gim, replacement: (match: string, alt: string, src?: string, width?: string, height?: string, align?: string) => {
-                let imgTag = `<img alt="${alt}" src="${src}"`;
-                if (width) imgTag += ` width="${width}"`;
-                if (height) imgTag += ` height="${height}"`;
-                if (align) {
-                    imgTag = `<div align="${align}">${imgTag} /></div>`;
-                } else {
-                    imgTag += ' />';
-                }
-                return imgTag;
-            }
-        },
-        { regex: /(?<!\\)\[(.*?)\]\((.*?)\)/gim, replacement: '<a href="$2">$1</a>' },
-        // { regex: /(?<!\\)  $/gim, replacement: '<br />' },
-        { regex: /(?<!\\)~~(.+?)~~/gim, replacement: '<s>$1</s>' },
-        { regex: /(?<!\\)- (.*$)/gim, replacement: '<ul><li>$1</li></ul>' },
-        { regex: /(?<!\\)(\d+)\. (.*$)/gim, replacement: '<ol><li>$2</li></ol>' },
-        { regex: /(?<!\\)\*\*\*(.+?)\*\*\*/gim, replacement: '<strong><em>$1</em></strong>' },
-        { regex: /(?<!\\)^___(.+?)___$/gim, replacement: '<strong><em>$1</em></strong>' },
-        { regex: /(?<!\\)\*\*(.+?)\*\*/gim, replacement: '<strong>$1</strong>' },
-        { regex: /(?<!\\)^__(.+?)__$/gim, replacement: '<strong>$1</strong>' },
-        { regex: /(?<!\\)\*(.+?)\*/gim, replacement: '<em>$1</em>' },
-        { regex: /(?<!\\)^_(.+?)_$/gim, replacement: '<em>$1</em>' },
-        { regex: /(?<!\\)__\*(.+?)\*__/gim, replacement: '<strong><em>$1</em></strong>' },
-        { regex: /(?<!\\)\*\*_(.+?)_\*\*/gim, replacement: '<strong><em>$1</em></strong>' },
-        { regex: /(?<!\\)```([\s\S]*?)```/gim, replacement: '<pre><code>$1</code></pre>' },
-        { regex: /(?<!\\)``([\s\S]*?)``/gim, replacement: '<code>$1</code>' },
-        { regex: /(?<!\\)<((https?:\/\/[^\s]+))>/gim, replacement: '<a href="$1">$1</a>' },
-        { regex: /(?<!\\)<([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})>/gim, replacement: '<a href="mailto:$1">$1</a>' },
-    ];
+    let imgTag = `<img alt="${altText}" src="${src}"`;
+    if (width) imgTag += ` width="${width}"`;
+    if (height) imgTag += ` height="${height}"`;
+    if (align) {
+        imgTag = `<div align="${align}">${imgTag} /></div>`;
+    } else {
+        imgTag += ' />';
+    }
+    return imgTag;
+};
 
-    // 提取并替换公式，使用占位符
-    const latexs: string[] = [];
-    text = text.replace(/(?<!\\)\$([\s\S]*?)\$/gim, (match, p1) => {
-        latexs.push(p1);
-        return `LATEX_${latexs.length - 1}`;
-    });
+// 定义一个插件来应用新的规则
+mdi.use((md) => {
+    md.inline.ruler.before('link', 'image_custom', (state, silent) => {
+        const pos = state.pos;
+        const max = state.posMax;
 
-    // 提取并替换代码块，使用占位符
-    const codeBlocks: string[] = [];
-    text = text.replace(/(?<!\\)```([\s\S]*?)```/gim, (match, p1) => {
-        codeBlocks.push(p1);
-        return `CODE_BLOCK_${codeBlocks.length - 1}`;
-    });
-    text = text.replace(/(?<!\\)``([\s\S]*?)``/gim, (match, p1) => {
-        codeBlocks.push(p1);
-        return `CODE_ROW_${codeBlocks.length - 1}`;
-    });
-    let html = text;
-    rules.forEach(rule => {
-        if (typeof rule.replacement === 'string') {
-            html = html.replace(rule.regex, rule.replacement);
-        } else {
-            html = html.replace(rule.regex, rule.replacement);
+        // 正确的正则表达式匹配
+        const regex = /(?<!\\)\!\[(.*?)\]\((.*?)(?: \s*=\s*(\d*)?x?(\d*))?(?: \s*:(left|right|center))?\)/gim;
+        const match = regex.exec(state.src.slice(pos, max));
+
+        if (!match) return false;
+
+        const [fullMatch, alt, url, w, h, alignment] = match;
+
+        // 如果是静默模式（silent），仅检查是否匹配而不生成令牌
+        if (silent) return true;
+
+        // 创建令牌
+        const token = state.push('image_custom', 'img', 0);
+        token.attrs = [
+            ['src', url],
+            ['alt', alt]
+        ];
+        if (w || h || alignment) {
+            token.attrSet('title', `${w || ''} ${h || ''} : ${alignment || ''}`.trim());
         }
+
+        // 更新状态的位置
+        state.pos += fullMatch.length;
+
+        return true;
+    });
+});
+
+// 定义渲染LaTeX函数
+const renderLaTeX = (formula: string, displayMode: boolean) => {
+    try {
+        return katex.renderToString(formula, {
+            throwOnError: false,
+            displayMode: displayMode
+        });
+    } catch (error) {
+        console.error('LaTeX rendering error:', error);
+        return `$${displayMode ? '$' : ''}${formula}$${displayMode ? '$' : ''}`;
+    }
+};
+
+// 添加自定义规则来处理LaTeX
+mdi.use((md) => {
+    md.inline.ruler.before('escape', 'latex_inline', (state, silent) => {
+        const pos = state.pos;
+        const max = state.posMax;
+
+        // 匹配内联LaTeX公式
+        const regexInline = /(?<!\\)\$(?!\$)([\s\S]*?)\$(?!\$)/g;
+        const matchInline = regexInline.exec(state.src.slice(pos, max));
+
+        if (!silent && matchInline) {
+            const [fullMatch, formula] = matchInline;
+            const token = state.push('latex', '', 0);
+            token.content = renderLaTeX(formula.trim(), false);
+            state.pos += fullMatch.length;
+            return true;
+        }
+
+        return false;
     });
 
-    // 修复跨行分为多段引用的问题
-    html = html.replace(/<\/blockquote>\s*<blockquote>/gim, '');
+    md.block.ruler.before('fence', 'latex_block', (state, startLine, endLine, silent) => {
+        let pos = state.bMarks[startLine] + state.tShift[startLine];
+        const max = state.eMarks[startLine];
 
-    // 修复无序列表跨行变为多段的问题
-    html = html.replace(/<\/ul>\s*<ul>/gim, '');
+        // 匹配块级LaTeX公式
+        const regexBlock = /^(?<!\\)\$\$(?!\$)[\s\S]*?(?<!\\)\$\$/;
+        const matchBlock = state.src.slice(pos, max).match(regexBlock);
 
-    // 修复有序列表跨行变为多段的问题
-    html = html.replace(/<\/ol>\s*<ol>/gim, '');
+        if (!silent && matchBlock) {
+            const formula = matchBlock[0].slice(2, -2).trim(); // 去掉外侧的 $$
+            const token = state.push('latex', '', 0);
+            token.content = renderLaTeX(formula, true);
+            state.line = startLine + 1;
+            return true;
+        }
 
-    html=html.replace(/\\</,'&lt;');
-
-    // 去除用于转义的反斜杠字符，除非该反斜杠前有反斜杠
-    html = html.replace(/\\(?!\\)/g, '');
-
-    // 恢复公式
-    html = html.replace(/LATEX_(\d+)/g, (match, p1) => {
-        return `\$${latexs[parseInt(p1)]}\$`;
+        return false;
     });
 
-    // 恢复代码块
-    html = html.replace(/CODE_BLOCK_(\d+)/g, (match, p1) => {
-        return `<pre><code>${codeBlocks[parseInt(p1)].replace(/</g, '&lt;')}</code></pre>`;
-    });
-    
-    html = html.replace(/CODE_ROW_(\d+)/g, (match, p1) => {
-        return `<code>${codeBlocks[parseInt(p1)].replace(/</g, '&lt;')}</code>`;
-    });
+    // 自定义渲染规则
+    md.renderer.rules.latex = (tokens, idx) => tokens[idx].content;
+});
 
-    
-    return html.trim();
-}
+export default mdi;
