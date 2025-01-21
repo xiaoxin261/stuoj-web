@@ -314,10 +314,10 @@ const toggleUnderline = (event: MouseEvent) => {
   const end = textarea.selectionEnd;
   const selectedText = textarea.value.substring(start, end);
 
-  const underlineText = `<u>${selectedText}</u>`;
+  const underlineText = `++${selectedText}++`;
   textarea.setRangeText(underlineText, start, end, 'end');
   text.value = textarea.value;
-  textarea.setSelectionRange(start + 3, start + 3 + selectedText.length);
+  textarea.setSelectionRange(start + 2, start + 2 + selectedText.length);
   textarea.focus();
 };
 

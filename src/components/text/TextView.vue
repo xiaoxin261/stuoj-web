@@ -37,8 +37,11 @@ watch(() => props.content, async (newContent) => {
 
 <!-- 去除scoped，否则markdown样式无法生效 -->
 <style>
-.markdown-content-container p{
-    margin: 0;
+.markdown-content-container blockquote {
+    padding: 10px 20px;
+    margin: 0 0 20px;
+    border-left: 5px solid #ccc;
+    background-color: #f9f9f9;
 }
 .markdown-content-container code {
     padding: 0;
