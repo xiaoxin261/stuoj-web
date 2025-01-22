@@ -142,7 +142,7 @@ const options = ref<{ id: string; name: string }[]>([
             <el-table-column label="ID" prop="id" width="80" />
             <el-table-column label="语言" prop="name" />
             <el-table-column label="序号" prop="serial" />
-            <el-table-column label="映射ID" prop="map_id" v-if="info.value?.role >= Role.Root"/>
+            <el-table-column label="映射ID" prop="map_id" v-if="info.role >= Role.Root"/>
             <el-table-column label="状态" width="80">
               <template #default="scope">
                 <el-tag :color="LanguageStatusColor[scope.row.status as number] " style="color: #fff">
@@ -150,7 +150,7 @@ const options = ref<{ id: string; name: string }[]>([
                 </el-tag>
               </template>
             </el-table-column>
-            <el-table-column align="right" width="150" v-if="info.value?.role >= Role.Admin">
+            <el-table-column align="right" width="150" v-if="info.role >= Role.Admin">
               <template #default="scope">
                 <el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
               </template>
