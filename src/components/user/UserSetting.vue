@@ -36,6 +36,7 @@ import { SetUp } from "@element-plus/icons-vue"
 import { userStore } from "@/stores/user";
 import { getUserInfoApi, ModifyUserInfo, modifyUserRoleApi } from "@/apis/user";
 import { Role, type UserInfo } from "@/types/User";
+import { ElMessage } from "element-plus";
 
 const { id, info: localInfo } = userStore();
 
@@ -95,6 +96,7 @@ const handleConfirm = () => {
     }).then((res) => {
         refresh();
     });
+    ElMessage.success("已请求修改");
 };
 
 const refresh = async () => {
