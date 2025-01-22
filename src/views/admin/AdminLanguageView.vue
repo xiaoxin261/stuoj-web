@@ -152,7 +152,7 @@ const options = ref<{ id: string; name: string }[]>([
             </el-table-column>
             <el-table-column align="right" width="150" v-if="info.role >= Role.Admin">
               <template #default="scope">
-                <el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
+                <el-button size="small" @click="handleEdit(scope.row)" disabled>编辑</el-button>
               </template>
             </el-table-column>
           </el-table>
