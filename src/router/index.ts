@@ -183,6 +183,14 @@ const router = createRouter({
       }
     },
     {
+      path: '/admin/language',
+      component: () => import('@/views/admin/AdminLanguageView.vue'),
+      meta: {
+        title: '语言管理 - STUOJ',
+        permission: Role.Editor,
+      }
+    },
+    {
       path: '/admin/collection',
       component: () => import('@/views/admin/AdminCollectionView.vue'),
       meta: {

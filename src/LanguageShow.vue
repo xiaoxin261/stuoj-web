@@ -4,11 +4,11 @@
 </template>
 
 <script setup lang="ts">
-import { GetLanguages } from '@/apis/judge';
+import { getLanguageListApi } from '@/apis/judge';
 import type { Language } from '@/types/Judge';
 import { onMounted, ref, watchEffect } from 'vue';
 
-const { execute, state } = GetLanguages();
+const { execute, state } = getLanguageListApi();
 const options = ref<Language[]>([]);
 const props = defineProps<{
     langId?: number;

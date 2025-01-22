@@ -1,5 +1,19 @@
 <script setup lang="ts">
-import { Collection, Flag, HomeFilled, List, Notebook, PriceTag, Reading, UserFilled, WarnTriangleFilled, Comment, Histogram, Tools } from "@element-plus/icons-vue";
+import {
+  Collection,
+  Flag,
+  HomeFilled,
+  List,
+  Notebook,
+  PriceTag,
+  Reading,
+  UserFilled,
+  WarnTriangleFilled,
+  Comment,
+  Histogram,
+  Tools,
+  Postcard
+} from "@element-plus/icons-vue";
 import { computed, ref } from "vue";
 import { userStore } from '@/stores/user';
 import { Role } from "@/types/User";
@@ -13,6 +27,7 @@ const menuLinks = computed(() => {
     { index: '/admin/user', icon: UserFilled, text: '用户管理', role: Role.Admin },
     { index: '/admin/problem', icon: Reading, text: '题目管理', role: Role.Editor },
     { index: '/admin/tag', icon: PriceTag, text: '标签管理', role: Role.Editor },
+    { index: '/admin/language', icon: Postcard, text: '语言管理', role: Role.Editor },
     { index: '/admin/record', icon: List, text: '记录管理', role: Role.Admin },
     { index: '/admin/collection', icon: Collection, text: '题单管理', role: Role.Admin },
     { index: '/admin/contest', icon: Flag, text: '比赛管理', role: Role.Admin },
