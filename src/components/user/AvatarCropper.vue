@@ -85,9 +85,7 @@ const upload = async () => {
         loading.value = false;
         close();
     }
-
-
-
+    ElMessage.success("已请求修改");
 };
 
 const fileInput = ref<HTMLInputElement | null>(null);
