@@ -63,6 +63,11 @@
           <strong>>_</strong>
         </ElButton>
       </ElTooltip>
+      <ElTooltip content="插入表格" placement="top">
+        <ElButton class="toolbar-button" text size="default" @click="showTableDialog">
+          <strong>|</strong>
+        </ElButton>
+      </ElTooltip>
       <ElTooltip content="数学公式" placement="top">
         <ElButton class="toolbar-button" text size="default" @click="toggleMath">
           <strong>∑</strong>
@@ -146,6 +151,20 @@
     <template #footer>
       <ElButton @click="linkDialogVisible = false">取消</ElButton>
       <ElButton type="primary" @click="confirmInsertLink">确定</ElButton>
+    </template>
+  </ElDialog>
+  <ElDialog v-model="tableDialogVisible" title="插入表格">
+    <ElForm>
+      <ElFormItem label="行数">
+        <ElInput v-model.number="tableRows" class="form-item-input" type="number" min="1" />
+      </ElFormItem>
+      <ElFormItem label="列数">
+        <ElInput v-model.number="tableColumns" class="form-item-input" type="number" min="1" />
+      </ElFormItem>
+    </ElForm>
+    <template #footer>
+      <ElButton @click="tableDialogVisible = false">取消</ElButton>
+      <ElButton type="primary" @click="insertTable">确定</ElButton>
     </template>
   </ElDialog>
 </template>
@@ -452,6 +471,51 @@ const toggleCodeBlock = () => {
   textarea.focus();
 };
 
+const tableDialogVisible = ref(false);
+const tableRows = ref(1);
+const tableColumns = ref(1);
+
+const showTableDialog = () => {
+  tableDialogVisible.value = true;
+};
+
+const insertTable = () => {
+  const rows = tableRows.value;
+  const columns = tableColumns.value;
+
+  let tableMarkdown = '|';
+  for (let i = 0; i < columns; i++) {
+    tableMarkdown += '     ' + '|';
+  }
+  tableMarkdown += '\n|';
+  for (let i = 0; i < columns; i++) {
+    tableMarkdown += ' --- |';
+  }
+  tableMarkdown += '\n';
+  for (let i = 0; i < rows - 1; i++) {
+    tableMarkdown += '|';
+    for (let j = 0; j < columns; j++) {
+      tableMarkdown += '     |';
+    }
+    tableMarkdown += '\n';
+  }
+
+  const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
+  if (!textarea) return;
+
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  textarea.setRangeText(tableMarkdown, start, end, 'end');
+  text.value = textarea.value;
+  textarea.setSelectionRange(start + tableMarkdown.length, start + tableMarkdown.length);
+  textarea.focus();
+
+  tableDialogVisible.value = false;
+  tableRows.value = 1;
+  tableColumns.value = 1;
+};
+
+
 const toggleMath = () => {
   const textarea = document.querySelector('.editor textarea') as HTMLTextAreaElement;
   if (!textarea) return;
@@ -687,6 +751,7 @@ const maxPreviewHeight = computed(() => {
 .preview {
   flex: 1;
   border: 1px solid #ebeef5;
+  font-family: 'Fira Code', 'Microsoft YaHei', monospace;
 }
 
 .editor {
