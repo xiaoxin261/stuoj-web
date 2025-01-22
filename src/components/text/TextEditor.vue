@@ -18,6 +18,11 @@
           </strong>
         </ElButton>
       </ElTooltip>
+      <ElTooltip content="斜体" placement="top">
+        <ElButton class="toolbar-button" text size="default" @mousedown.prevent="toggleItalic">
+          <i>I</i>
+        </ElButton>
+      </ElTooltip>
       <ElTooltip content="上标" placement="top">
         <ElButton class="toolbar-button" text size="default" @mousedown.prevent="toggleSuperscript">
           <strong>T</strong><sup>S</sup>
@@ -26,11 +31,6 @@
       <ElTooltip content="下标" placement="top">
         <ElButton class="toolbar-button" text size="default" @mousedown.prevent="toggleSubscript">
           <strong>T</strong><sub><i>S</i></sub>
-        </ElButton>
-      </ElTooltip>
-      <ElTooltip content="斜体" placement="top">
-        <ElButton class="toolbar-button" text size="default" @mousedown.prevent="toggleItalic">
-          <i>I</i>
         </ElButton>
       </ElTooltip>
       <ElTooltip content="下划线" placement="top">
