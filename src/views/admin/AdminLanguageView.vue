@@ -1,14 +1,9 @@
 <script setup lang="ts">
-import {onMounted, ref, watch} from "vue";
+import {onBeforeMount, onMounted, ref, watch} from "vue";
 import {type Language, LanguageStatus, LanguageStatusColor, LanguageStatusMap} from '@/types/Judge';
 import type {Page} from '@/types/misc';
-import {getLanguageListApi} from "@/apis/judge";
-
-interface Scope {
-  row: {
-    status: keyof typeof LanguageStatusMap;
-  };
-}
+import {getLanguageListApi, updateLanguageApi} from "@/apis/judge";
+import {ElNotification} from "element-plus";
 
 interface LanguageParams {
   page: number
@@ -50,9 +45,9 @@ const language = ref<Language>({
   status: LanguageStatus.Enabled,
 });
 
+/*
 const addDialogVisible = ref(false)
 
-/*
 const { execute: insertExecute } = insertLanguageApi();
 const handleCreate = () => {
   addDialogVisible.value = true
@@ -71,6 +66,7 @@ const submitAdd = () => {
   });
   addDialogVisible.value = false
 }
+*/
 
 const editDialogVisible = ref(false)
 
@@ -79,6 +75,9 @@ const handleEdit = (t: Language) => {
   editDialogVisible.value = true
   language.value.id = t.id
   language.value.name = t.name
+  language.value.serial = t.serial
+  language.value.mapId = t.map_id
+  language.value.status = t.status
 }
 
 const submitEdit = () => {
@@ -93,13 +92,28 @@ const submitEdit = () => {
   });
   editDialogVisible.value = false
 }
-*/
 
 // 使用key在更新后让表格重新渲染，否则表格不会更新
 const key = ref(0);
 watch(() => languages.value, () => {
   key.value++
 });
+
+const options = ref<{ id: string; name: string }[]>([
+  {
+    id: '1',
+    name: '弃用'
+  },
+  {
+    id: '2',
+    name: '停用'
+  },
+  {
+    id: '3',
+    name: '启用'
+  }
+]);
+console.log(options)
 </script>
 
 <template>
@@ -126,9 +140,9 @@ watch(() => languages.value, () => {
             <el-table-column label="序号" prop="serial" />
             <el-table-column label="映射ID" prop="map_id" />
             <el-table-column label="状态" width="80">
-              <template #default="scope: Scope">
-                <el-tag :color="LanguageStatusColor[scope.row.status] " style="color: #fff">
-                  {{ LanguageStatusMap[scope.row.status] }}
+              <template #default="scope">
+                <el-tag :color="LanguageStatusColor[scope.row.status as number] " style="color: #fff">
+                  {{ LanguageStatusMap[scope.row.status as number] }}
                 </el-tag>
               </template>
             </el-table-column>
@@ -173,6 +187,22 @@ watch(() => languages.value, () => {
         </el-form-item>
         <el-form-item label="语言名" :label-width="formLabelWidth">
           <el-input v-model="language.name" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="序号" :label-width="formLabelWidth">
+          <el-input v-model="language.serial" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="映射ID" :label-width="formLabelWidth">
+          <el-input v-model="language.mapId" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="状态" :label-width="formLabelWidth">
+          <el-select v-model="language.status" placeholder="请选择状态" style="width: 100%">
+            <el-option
+                v-for="item in options"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+            />
+          </el-select>
         </el-form-item>
       </el-form>
       <template #footer>

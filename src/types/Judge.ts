@@ -15,13 +15,13 @@ export enum LanguageStatus {
     Enabled = 3,
 }
 
-export const LanguageStatusMap = {
+export const LanguageStatusMap: { [key: number]: string } = {
     [LanguageStatus.Deprecated]: "弃用",
     [LanguageStatus.Disabled]: "禁用",
     [LanguageStatus.Enabled]: "启用",
 }
 
-export const LanguageStatusColor = {
+export const LanguageStatusColor: { [key: number]: string } = {
     [LanguageStatus.Deprecated]: Colors.red,
     [LanguageStatus.Disabled]: Colors.yellow,
     [LanguageStatus.Enabled]: Colors.green,
