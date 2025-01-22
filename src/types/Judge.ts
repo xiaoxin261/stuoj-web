@@ -1,9 +1,30 @@
 import {Colors} from "@/types/Colors";
 
 export interface Language {
-    id: number;
+    id?: number;
     name: string;
+    serial?: number;
+    mapId?: number;
+    status?: LanguageStatus;
     [property: string]: any;
+}
+
+export enum LanguageStatus {
+    Deprecated = 1,
+    Disabled = 2,
+    Enabled = 3,
+}
+
+export const LanguageStatusMap = {
+    [LanguageStatus.Deprecated]: "弃用",
+    [LanguageStatus.Disabled]: "禁用",
+    [LanguageStatus.Enabled]: "启用",
+}
+
+export const LanguageStatusColor = {
+    [LanguageStatus.Deprecated]: Colors.red,
+    [LanguageStatus.Disabled]: Colors.yellow,
+    [LanguageStatus.Enabled]: Colors.green,
 }
 
 export enum JudgeStatus {
