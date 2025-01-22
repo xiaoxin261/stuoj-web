@@ -39,24 +39,30 @@ watch(() => props.content, async (newContent) => {
 <style>
 .markdown-content-container {
     font-family: 'Fira Code', 'Microsoft YaHei', monospace;
+    font-feature-settings: "liga" 0, "calt" 0, "clig" 0;
 }
+
 .markdown-content-container blockquote {
     padding: 10px 20px;
     margin: 0 0 20px;
     border-left: 5px solid #ccc;
     background-color: #f9f9f9;
 }
+
 .markdown-content-container code {
     padding: 0;
     position: relative;
-    background-color: #2d2d2d; /* 设置黑色背景 */
+    background-color: #2d2d2d;
+    /* 设置黑色背景 */
 }
 
 .markdown-content-container pre {
     padding: 0;
     position: relative;
-    padding-left: 40px; /* 为行号预留空间 */
-    background-color: #2d2d2d; /* 设置黑色背景 */
+    padding-left: 40px;
+    /* 为行号预留空间 */
+    background-color: #2d2d2d;
+    /* 设置黑色背景 */
     color: #ddd;
 }
 
@@ -64,12 +70,14 @@ watch(() => props.content, async (newContent) => {
 .markdown-content-container pre {
     font-family: 'Fira Code', monospace !important;
     background-color: #2d2d2d;
+    font-feature-settings: "liga" 0, "calt" 0, "clig" 0;
 }
 
 .markdown-content-container pre code {
     padding: 0;
     display: block;
-    background-color: transparent; /* 使代码块背景透明 */
+    background-color: transparent;
+    /* 使代码块背景透明 */
     overflow-x: auto;
 }
 

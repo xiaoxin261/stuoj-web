@@ -119,7 +119,7 @@
     </div>
   </div>
   <div class="text-editor">
-    <ElInput v-show="editorShow" v-model="text" type="textarea" :placeholder="placeholder"
+    <ElInput v-model="text" type="textarea" :placeholder="placeholder"
       :autosize="{ minRows: minRow }" resize="none" class="editor" inputStyle="border: none;"
       @keydown.enter="handleEnterKey" @keydown="handleKeyDown" />
     <TextView v-show="previewShow" v-model:content="text" :fontSize="fontSize" :letterSpacing="letterSpacing"
@@ -751,12 +751,16 @@ const maxPreviewHeight = computed(() => {
 .preview {
   flex: 1;
   border: 1px solid #ebeef5;
-  font-family: 'Fira Code', 'Microsoft YaHei', monospace;
 }
 
 .editor {
   min-height: 100%;
   overflow-y: auto;
+}
+
+.editor ::v-deep(.el-textarea__inner) {
+  font-family: 'Fira Code', 'Microsoft YaHei', monospace;
+  font-feature-settings: "liga" 0, "calt" 0, "clig" 0;
 }
 
 .preview {
