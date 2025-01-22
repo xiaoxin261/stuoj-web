@@ -29,6 +29,7 @@ const getList = async () => {
     // languagePage.value = state.value;
     // languages.value = languagePage.value.languages;
     languages.value = state.value;
+    console.log(languages.value);
   }
 }
 

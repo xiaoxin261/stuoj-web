@@ -1,6 +1,6 @@
 <template>
     <div class="container-main">
-        <Problems />
+        <ProblemsComp />
     </div>
 </template>
 
