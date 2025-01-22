@@ -45,7 +45,7 @@
         </div>
       </div>
     </el-card>
-    <el-tabs type="border-card">
+    <el-tabs type="border-card" v-model="tabName">
       <el-tab-pane label="主页">
         <el-row :gutter="20">
           <el-col :span="16">
@@ -88,7 +88,7 @@
         </el-row>
       </el-tab-pane>
       <el-tab-pane label="博客">
-        <BlogsComp :params="blogParams" :select-exclude="['user']"/>
+        <BlogsComp :params="blogParams" :select-exclude="['user']" />
       </el-tab-pane>
       <el-tab-pane label="记录">
         <Records :userId="userId" :select="false" />
@@ -118,6 +118,7 @@ import UserRoleTag from "../../components/user/UserRoleTag.vue";
 import { formatDateTimeStr } from "@/utils/date";
 import { BlogStatus, type BlogParams } from "@/types/Blog";
 import { OrderBy } from "@/types/misc";
+import router from "@/router";
 
 const { info: info_, id } = userStore();
 const { execute } = getUserInfoApi();
@@ -149,9 +150,17 @@ const blogParams = ref<BlogParams>({
   page: 1,
   size: 5,
   user: userId.value,
-  status: BlogStatus.Public.toString(),
   order_by: OrderBy.create_time,
   order: 'desc',
+});
+
+const tabName = ref('0');
+
+onBeforeMount(() => {
+  const tabPane = router.currentRoute.value.query.tab;
+  tabName.value = tabPane ? tabPane.toString() : '0';
+  const blogStatus = router.currentRoute.value.query.blog_status;
+  blogParams.value.status = blogStatus ? blogStatus.toString() : BlogStatus.Public.toString();
 });
 
 watchEffect(() => {
