@@ -1,7 +1,7 @@
 <template>
     <div class="solution-table">
         <div class="button-group">
-            <ElButton type="info" @click="refreshSolutions" icon="Refresh" style="width: 80px;">刷新</ElButton>
+            <ElButton type="info" :disabled="loading" @click="handleRefresh" icon="Refresh" style="width: 80px;">刷新</ElButton>
         </div>
         <ElTable :data="solutions" style="width: 100%;" :height="300" @current-change="handleCurrentChange"
             highlight-current-row stripe>
@@ -35,8 +35,8 @@
             </ElTableColumn>
         </ElTable>
         <div class="button-group">
-            <ElButton @click="addSolution" icon="CirclePlus">添加题解</ElButton>
-            <ElButton type="primary" @click="uploadSolution" :icon="Upload">更新</ElButton>
+            <ElButton :disabled="loading" @click="addSolution" icon="CirclePlus">添加题解</ElButton>
+            <ElButton type="primary" :disabled="loading" @click="handleConfirm" :icon="Upload">更新</ElButton>
         </div>
     </div>
 </template>
@@ -63,6 +63,8 @@ const props = withDefaults(defineProps<{
 });
 
 const languages = ref<Language[]>([]);
+
+const loading = ref(false);
 
 onMounted(async () => {
     getLanguages().then((res) => {
@@ -92,9 +94,6 @@ const handleCurrentChange = async (val: TemData<Solution>) => {
 };
 
 watch(() => props.problemId, () => {
-    solutions.value.forEach(solution => {
-        solution.data.problem_id = props.problemId ?? 0;
-    });
     problemId.value = props.problemId ?? 0;
 }, { immediate: true });
 
@@ -152,6 +151,18 @@ onUnmounted(() => {
 });
 
 onBeforeRouteLeave(showLeaveConfirmation);
+
+const handleRefresh = async () => {
+    loading.value = true;
+    await refreshSolutions();
+    loading.value = false;
+};
+
+const handleConfirm = async () => {
+    loading.value = true;
+    await uploadSolution();
+    loading.value = false;
+};
 </script>
 
 <style scoped>

@@ -1,10 +1,10 @@
 <template>
     <div class="test-case-table">
         <div class="button-group">
-            <ElButton type="info" @click="refreshTestcases" icon="Refresh" style="width: 80px;">刷新</ElButton>
+            <ElButton type="info" :disabled="loading" @click="handleRefresh" icon="Refresh" style="width: 80px;">刷新</ElButton>
         </div>
-        <ElTable :data="testcases" style="width: 100%;" :height="300" @current-change="handleCurrentChange"
-            highlight-current-row stripe>
+        <ElTable v-loading="loading" :data="testcases" style="width: 100%;" :height="300"
+            @current-change="handleCurrentChange" highlight-current-row stripe>
             <ElTableColumn label="编号" prop="data.serial" />
             <ElTableColumn label="脏位" prop="checked" width="65">
                 <template #default="scope">
@@ -27,15 +27,15 @@
             </ElTableColumn>
         </ElTable>
         <div class="button-group">
-            <ElButton @click="addTestcase" icon="CirclePlus">添加测试数据</ElButton>
-            <ElButton type="primary" @click="uploadTestcase" :icon="Upload" style="width: 100px; margin-top: 10px;">更新
+            <ElButton :disabled="loading" @click="addTestcase" icon="CirclePlus">添加测试数据</ElButton>
+            <ElButton type="primary" :disabled="loading" @click="handleConfirm" :icon="Upload" style="width: 100px; margin-top: 10px;">更新
             </ElButton>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, watch } from 'vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { CircleCloseFilled, Warning, CircleCheck, Upload } from '@element-plus/icons-vue';
 import { ElTableColumn, ElTag, ElMessageBox } from 'element-plus';
 import { problemEditStore, type TemData } from '@/stores/problemEdit';
@@ -50,6 +50,8 @@ const props = withDefaults(defineProps<{
 }>(), {
     problemId: 0,
 });
+
+const loading = ref(false);
 
 const addTestcase = async () => {
     const maxSerial = Math.max(0, ...testcases.value.map(tc => tc.data.serial ?? 0));
@@ -73,9 +75,6 @@ const handleCurrentChange = async (val: TemData<Testcase>) => {
 };
 
 watch(() => props.problemId, () => {
-    testcases.value.forEach(testcase => {
-        testcase.data.problem_id = props.problemId ?? 0;
-    });
     problemId.value = props.problemId ?? 0;
 }, { immediate: true });
 
@@ -117,6 +116,18 @@ const showLeaveConfirmation = (to: RouteLocationNormalized, from: RouteLocationN
         next(); // 没有未保存的更改，直接允许离开
     }
 };
+
+const handleRefresh = async () => {
+    loading.value = true;
+    await refreshTestcases();
+    loading.value = false;
+}
+
+const handleConfirm = async () => {
+    loading.value = true;
+    await uploadTestcase();
+    loading.value = false;
+}
 
 const handleBeforeUnload = (event: BeforeUnloadEvent) => {
     const hasUnsavedChanges = testcases.value.some(testcase => testcase.checked);

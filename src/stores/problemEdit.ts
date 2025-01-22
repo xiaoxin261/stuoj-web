@@ -284,6 +284,20 @@ export const problemEditStore = createGlobalState(() => {
         }
     }, { deep: true });
 
+
+    watch(() => problemId.value, () => {
+        testcases.value.forEach(testcase => {
+            testcase.data.problem_id = problemId.value ?? 0;
+            testcase.data.id = 0;
+            testcase.checked = true;
+        });
+        solutions.value.forEach(testcase => {
+            testcase.data.problem_id = problemId.value ?? 0;
+            testcase.data.id = 0;
+            testcase.checked = true;
+        });
+    }, { immediate: true });
+
     return {
         problemId,
         testcases,
