@@ -17,8 +17,6 @@ export const mdi = new MarkdownIt({
     breaks: true,
     langPrefix: 'language-',
     linkify: true,
-    typographer: true,
-    quotes: '“”‘’',
 })
     .use(sub)
     .use(sup)
