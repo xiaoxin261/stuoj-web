@@ -1,56 +1,64 @@
 .container-main {
-    width: 80%;
-    margin: 0 auto;
+  width: 80%;
+  margin: 0 auto;
 }
 
 .container-full {
-    width: 100%;
-    margin: 0 0;
+  width: 100%;
+  margin: 0 0;
 }
 
 @media (max-width: 1200px) {
-    .container-main {
-        width: 100%;
-        margin: 0 0;
-        min-width: 1200px;
-    }
+  .container-main {
+    width: 100%;
+    margin: 0 0;
+    min-width: 1200px;
+  }
 
-    .container-full {
-        width: 100%;
-        margin: 0 0;
-        min-width: 1200px;
-    }
+  .container-full {
+    width: 100%;
+    margin: 0 0;
+    min-width: 1200px;
+  }
+}
+
+@font-face {
+  font-family: "Fira Code";
+  src: url("/fonts/FiraCode/FiraCode-Regular.woff2") format("woff2"),
+    url("/fonts/FiraCode/FiraCode-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
 a:link {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 a:visited {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 a:hover {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 a:active {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .color-none {
-    color: unset;
+  color: unset;
 }
 
 .ellipsis {
-    display: inline-block;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.title{
-    font-size: 1.8rem;
-    font-weight: 600;
+.title {
+  font-size: 1.8rem;
+  font-weight: 600;
 }

@@ -37,6 +37,9 @@ watch(() => props.content, async (newContent) => {
 
 <!-- 去除scoped，否则markdown样式无法生效 -->
 <style>
+.markdown-content-container {
+    font-family: 'Fira Code', 'Microsoft YaHei', monospace;
+}
 .markdown-content-container blockquote {
     padding: 10px 20px;
     margin: 0 0 20px;
@@ -57,10 +60,42 @@ watch(() => props.content, async (newContent) => {
     color: #ddd;
 }
 
+.markdown-content-container code,
+.markdown-content-container pre {
+    font-family: 'Fira Code', monospace !important;
+    background-color: #2d2d2d;
+}
+
 .markdown-content-container pre code {
     padding: 0;
     display: block;
     background-color: transparent; /* 使代码块背景透明 */
     overflow-x: auto;
+}
+
+.markdown-content-container table {
+    max-width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.markdown-content-container th,
+.markdown-content-container td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.markdown-content-container th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.markdown-content-container tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.markdown-content-container tr:hover {
+    background-color: #f1f1f1;
 }
 </style>
