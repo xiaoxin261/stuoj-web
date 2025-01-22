@@ -93,61 +93,63 @@ mdi.use((md) => {
     });
 });
 
-// 定义渲染LaTeX函数
-const renderLaTeX = (formula: string, displayMode: boolean) => {
-    try {
-        return katex.renderToString(formula, {
-            throwOnError: false,
-            displayMode: displayMode
-        });
-    } catch (error) {
-        console.error('LaTeX rendering error:', error);
-        return `$${displayMode ? '$' : ''}${formula}$${displayMode ? '$' : ''}`;
-    }
+export const markdownItLatexPlugin = (md: { core: { ruler: { before: (arg0: string, arg1: string, arg2: (state: any) => void) => void; }; }; renderer: { rules: { latex_inline: (tokens: any, idx: any) => any; latex_block: (tokens: any, idx: any) => string; }; }; }) => {
+    // 使用 renderLaTeX 函数来预处理 Markdown 内容
+    md.core.ruler.before('normalize', 'latex_render', (state) => {
+        state.src = renderLaTeX(state.src);
+    });
+
+    md.renderer.rules.latex_inline = (tokens, idx) => tokens[idx].content;
+    md.renderer.rules.latex_block = (tokens, idx) => `<div class="katex-block">${tokens[idx].content}</div>`;
 };
 
-// 添加自定义规则来处理LaTeX
-mdi.use((md) => {
-    md.inline.ruler.before('escape', 'latex_inline', (state, silent) => {
-        const pos = state.pos;
-        const max = state.posMax;
-
-        // 匹配内联LaTeX公式
-        const regexInline = /(?<!\\)\$(?!\$)([\s\S]*?)\$(?!\$)/g;
-        const matchInline = regexInline.exec(state.src.slice(pos, max));
-
-        if (!silent && matchInline) {
-            const [fullMatch, formula] = matchInline;
-            const token = state.push('latex', '', 0);
-            token.content = renderLaTeX(formula.trim(), false);
-            state.pos += fullMatch.length;
-            return true;
-        }
-
-        return false;
-    });
-
-    md.block.ruler.before('fence', 'latex_block', (state, startLine, endLine, silent) => {
-        let pos = state.bMarks[startLine] + state.tShift[startLine];
-        const max = state.eMarks[startLine];
-
-        // 匹配块级LaTeX公式
-        const regexBlock = /^(?<!\\)\$\$(?!\$)[\s\S]*?(?<!\\)\$\$/;
-        const matchBlock = state.src.slice(pos, max).match(regexBlock);
-
-        if (!silent && matchBlock) {
-            const formula = matchBlock[0].slice(2, -2).trim(); // 去掉外侧的 $$
-            const token = state.push('latex', '', 0);
-            token.content = renderLaTeX(formula, true);
-            state.line = startLine + 1;
-            return true;
-        }
-
-        return false;
-    });
-
-    // 自定义渲染规则
-    md.renderer.rules.latex = (tokens, idx) => tokens[idx].content;
+// 直接在 MarkdownIt 实例上添加 LaTeX 渲染规则
+mdi.core.ruler.before('normalize', 'latex_render', (state) => {
+    state.src = renderLaTeX(state.src);
 });
+
+mdi.renderer.rules.latex_inline = (tokens, idx) => tokens[idx].content;
+mdi.renderer.rules.latex_block = (tokens, idx) => `<div class="katex-block">${tokens[idx].content}</div>`;
+
+function renderLaTeX(text: string): string {
+    try {
+        // 正则表达式匹配行内和块级 LaTeX 公式
+        const inlineRegex = /(?<!\\)\$(?!\$)([\s\S]*?)\$(?!\$)/g;
+        const blockRegex = /(?<!\\)\$\$([\s\S]*?)\$\$/g;
+
+        let result = text;
+
+        // 处理块级公式
+        result = result.replace(blockRegex, (match, formula) => {
+            try {
+                return `<div class="katex-block">${katex.renderToString(formula.trim(), { throwOnError: false, displayMode: true })}</div>`;
+            } catch (error) {
+                console.error('Block LaTeX rendering error:', error);
+                return match;
+            }
+        });
+
+        // 处理行内公式
+        result = result.replace(inlineRegex, (match, formula) => {
+            try {
+                const renderedFormula = katex.renderToString(formula.trim(), { throwOnError: false });
+                if (renderedFormula) {
+                    return renderedFormula;
+                } else {
+                    console.warn('Failed to render LaTeX formula:', formula);
+                    return match;
+                }
+            } catch (error) {
+                console.error('Inline LaTeX rendering error:', error);
+                return match;
+            }
+        });
+
+        return result;
+    } catch (error) {
+        console.error('Unexpected error during LaTeX rendering:', error);
+        return text;
+    }
+}
 
 export default mdi;
