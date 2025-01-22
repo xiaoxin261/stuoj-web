@@ -4,6 +4,10 @@ import {type Language, LanguageStatus, LanguageStatusColor, LanguageStatusMap} f
 import type {Page} from '@/types/misc';
 import {getLanguageListApi, updateLanguageApi} from "@/apis/judge";
 import {ElNotification} from "element-plus";
+import {userStore} from "@/stores/user";
+import {Role} from "@/types/User";
+
+const { info } = userStore();
 
 interface LanguageParams {
   page: number
@@ -29,7 +33,7 @@ const getList = async () => {
     // languagePage.value = state.value;
     // languages.value = languagePage.value.languages;
     languages.value = state.value;
-    console.log(languages.value);
+    // console.log(languages.value);
   }
 }
 
@@ -114,7 +118,6 @@ const options = ref<{ id: string; name: string }[]>([
     name: '启用'
   }
 ]);
-console.log(options)
 </script>
 
 <template>
@@ -139,7 +142,7 @@ console.log(options)
             <el-table-column label="ID" prop="id" width="80" />
             <el-table-column label="语言" prop="name" />
             <el-table-column label="序号" prop="serial" />
-            <el-table-column label="映射ID" prop="map_id" />
+            <el-table-column label="映射ID" prop="map_id" v-if="info.value?.role >= Role.Root"/>
             <el-table-column label="状态" width="80">
               <template #default="scope">
                 <el-tag :color="LanguageStatusColor[scope.row.status as number] " style="color: #fff">
@@ -147,9 +150,9 @@ console.log(options)
                 </el-tag>
               </template>
             </el-table-column>
-            <el-table-column align="right" width="300">
+            <el-table-column align="right" width="150" v-if="info.value?.role >= Role.Admin">
               <template #default="scope">
-                <el-button size="small" @click="handleEdit(scope.row)" disabled>编辑</el-button>
+                <el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -195,7 +198,7 @@ console.log(options)
         <el-form-item label="映射ID" :label-width="formLabelWidth">
           <el-input v-model="language.mapId" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="状态" :label-width="formLabelWidth">
+        <el-form-item label="状态" :label-width="formLabelWidth" v-if="info.value?.role >= Role.Root">
           <el-select v-model="language.status" placeholder="请选择状态" style="width: 100%">
             <el-option
                 v-for="item in options"
