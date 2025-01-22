@@ -7,11 +7,15 @@ import { BlogStatus } from '@/types/Blog';
 import { useRouteQuery } from '@vueuse/router';
 import router from '@/router';
 import { ElNotification } from 'element-plus';
+import { userStore } from '@/stores/user';
 
 
 const { execute: createBlogExecute } = createBlogApi();
 const { execute: getBlogExecute } = getBlogApi();
 const { execute: updateBlogExecute } = updateBlogApi();
+
+const { id } = userStore();
+
 const blogForm = ref({
   title: "",
   content: "",
@@ -90,6 +94,10 @@ const onEdit = async () => {
   });
 };
 
+const handleDraft = () => {
+  window.open(`/user/${id.value}?tab=1&blog_status=2`);
+}
+
 </script>
 
 <template>
@@ -103,12 +111,18 @@ const onEdit = async () => {
           <el-input v-model="problem_id" placeholder="关联题目ID" clearable />
         </el-form-item>
         <el-form-item>
-          <TextEditor v-model:text="blogForm.content" :max-row="100" :min-row="20" :album="Album.blog" placeholder="分享一些有趣的事吧..." ref="textEditorRef" />
+          <TextEditor v-model:text="blogForm.content" :max-row="100" :min-row="20" :album="Album.blog"
+            placeholder="分享一些有趣的事吧..." ref="textEditorRef" />
         </el-form-item>
         <el-form-item>
-          <el-button v-if="!blogId" type="primary" @click="onSubmit">发布</el-button>
-          <el-button v-else @click="onEdit">修改</el-button>
-          <BlogStatusSelect style="margin-left: 10px; width: 100px;" v-model:status="blogForm.status" />
+          <div style="display: flex;justify-content: space-between;width: 100%;">
+            <ElButton @click="handleDraft">草稿箱</ElButton>
+            <div>
+              <BlogStatusSelect style="margin-left: 10px; width: 100px;" v-model:status="blogForm.status" />
+              <el-button v-if="!blogId" type="primary" @click="onSubmit">发布</el-button>
+              <el-button v-else @click="onEdit">修改</el-button>
+            </div>
+          </div>
         </el-form-item>
       </el-form>
     </el-card>
