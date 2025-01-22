@@ -103,6 +103,11 @@
     </div>
     <div class="toolbar-divider" />
     <div class="toolbar-section right-aligned">
+      <ElTooltip content="帮助手册" placement="top">
+        <ElButton class="toolbar-button" text size="default" @click="help">
+          <strong>?</strong>
+        </ElButton>
+      </ElTooltip>
       <ElTooltip content="撤回" placement="top">
         <ElButton class="toolbar-button" text size="default" @click="undo">
           <strong>↩</strong>
@@ -223,6 +228,10 @@ const saveHistory = () => {
   history.value.push(text.value);
   historyIndex.value++;
 };
+
+const help = () => {
+  window.open("https://stuoj.com/blog/28", "_blank");
+}
 
 const undo = () => {
   if (historyIndex.value > 0) {
