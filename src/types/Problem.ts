@@ -19,6 +19,7 @@ export interface ProblemInfo {
     title: string;
     update_time?: string;
     tag_ids?: number[];
+    user_ids: number[];
     [property: string]: any;
 }
 
