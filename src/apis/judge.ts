@@ -16,7 +16,7 @@ export const Submit = useDefineApi<
     method: "post",
 });
 
-export const GetLanguages = useDefineApi<
+export const getLanguageListApi = useDefineApi<
     {},
     Language[]
 >({
