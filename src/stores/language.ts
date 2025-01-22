@@ -1,11 +1,11 @@
 import { createGlobalState } from "@vueuse/core";
-import { GetLanguages } from "@/apis/judge";
+import { getLanguageListApi } from "@/apis/judge";
 import { ref } from "vue";
 import type { Language } from "@/types/Judge";
 
 
 export const langStore = createGlobalState(() => {
-    const { execute: getLanguagesExecute } = GetLanguages();
+    const { execute: getLanguagesExecute } = getLanguageListApi();
     const languages = ref<Language[]>([]);
 
     const getLanguages = async () => {

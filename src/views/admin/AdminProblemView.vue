@@ -23,7 +23,7 @@ const handleCreate = () => {
         </el-col>
       </el-row>
       <el-divider></el-divider>
-        <Problems :admin="true"/>
+        <ProblemsComp :admin="true"/>
     </el-main>
   </el-container>
   </div>
