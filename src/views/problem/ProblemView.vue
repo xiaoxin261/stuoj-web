@@ -38,10 +38,14 @@
                 <Failed />
               </el-icon>&nbsp;?
               <el-divider direction="vertical"></el-divider>
-              <el-icon><DocumentAdd /></el-icon>
+              <el-icon>
+                <DocumentAdd />
+              </el-icon>
               &nbsp;{{ formatDateStr(problemInfo?.create_time ?? "") }}
               <el-divider direction="vertical"></el-divider>
-              <el-icon><Edit /></el-icon>
+              <el-icon>
+                <Edit />
+              </el-icon>
               &nbsp;{{ formatDateStr(problemInfo?.update_time ?? "") }}
             </div>
           </div>
@@ -130,6 +134,17 @@
         <ElCard shadow="always" style="margin-top: 20px;">
           <template #header>
             <div style="display:flex;justify-content:space-between;">
+              <strong>题目编辑者</strong>
+              <ElButton type="primary" @click="toggleEditUserVisibility">{{ editUserFlag ? '收起' : '展开' }}</ElButton>
+            </div>
+          </template>
+          <div v-if="editUserFlag" class="avatar-container">
+            <AvatarInfo v-for="(user) in problemInfo.user_ids" :key="user" :user-id="user" />
+          </div>
+        </ElCard>
+        <ElCard shadow="always" style="margin-top: 20px;">
+          <template #header>
+            <div style="display:flex;justify-content:space-between;">
               <strong>相关博客</strong>
               <ElButton type="primary" @click="toggleBlogsVisibility">{{ blogsFlag ? '收起' : '展开' }}</ElButton>
             </div>
@@ -140,7 +155,7 @@
                 <a :href="`/blog/${blog.id}`">{{ blog.title }}</a>
               </li>
             </ul>
-            <span v-else style="text-align: center">暂无相关博客<br/><br/></span>
+            <span v-else style="text-align: center">暂无相关博客<br /><br /></span>
             <div style="display:flex;justify-content: space-between;">
               <ElButton type="primary" @click="toEditBlog">写篇博客</ElButton>
               <ElButton @click="toQueryBlog">查看更多</ElButton>
@@ -159,7 +174,7 @@ import { useRouteParams } from "@vueuse/router";
 import { getProblemApi } from "@/apis/problem";
 import { DifficultyMap } from "@/types/Problem";
 import { formatDateStr } from "@/utils/date";
-import {DocumentAdd, Notebook, StarFilled} from "@element-plus/icons-vue";
+import { DocumentAdd, Notebook, StarFilled } from "@element-plus/icons-vue";
 import { getRecordListApi } from "@/apis/record";
 import type { Submission } from "@/types/Record";
 import { OrderBy } from "@/types/misc";
@@ -185,6 +200,12 @@ const tagsFlag = ref<boolean>(false);
 const toggleTagsVisibility = () => {
   tagsFlag.value = !tagsFlag.value;
 };
+
+const toggleEditUserVisibility = () => {
+  editUserFlag.value = !editUserFlag.value;
+};
+
+const editUserFlag = ref<boolean>(false);
 
 const blogsFlag = ref<boolean>(false);
 const isBlogsFetched = ref<boolean>(false);
@@ -229,7 +250,7 @@ onMounted(async () => {
   }).then((res) => {
     record.value = res.value?.submissions[0];
   }).finally(async () => {
-    
+
     await execute({
       id: problemId.value,
     });
@@ -291,5 +312,11 @@ onMounted(async () => {
   display: flex;
   flex-direction: row;
   font-size: 16px;
+}
+
+.avatar-container {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
 }
 </style>
