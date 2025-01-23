@@ -130,6 +130,11 @@
                 <StarFilled />
               </el-icon>&nbsp;收藏</el-button>
           </div>
+          <div v-if="problemInfo.has_user_submission" class="problem-info-item" style="margin-top: 10px;">
+            <span>最高分数</span>
+            <ScoreShow :score="problemInfo.user_score ?? 0"
+              :status="problemInfo.user_score === 100 ? JudgeStatus.Accepted : JudgeStatus.WrongAnswer" />
+          </div>
         </ElCard>
         <ElCard shadow="always" style="margin-top: 20px;">
           <template #header>
@@ -182,6 +187,7 @@ import { userStore } from "@/stores/user";
 import { getBlogListApi } from "@/apis/blog";
 import { ElButton } from "element-plus";
 import type { BlogInfo } from "@/types/Blog";
+import { JudgeStatus } from "@/types/Judge";
 
 const problemId = useRouteParams<number>("id");
 

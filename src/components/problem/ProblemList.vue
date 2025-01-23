@@ -6,19 +6,21 @@
   <el-table :data="problems" style="width: 100%" @selection-change="handleSelectionChange" stripe
     @sort-change="sortChange">
     <el-table-column v-if="admin" type="selection" width="55" />
-    <!--
+
     <el-table-column v-if="!admin" label="状态" width="80px">
-      <template #default="scope: Scope">
-        <span v-if="scope.row.id % 3 == 0"><el-icon>
+      <template #default="scope">
+        <span v-if="!scope.row.has_user_submission"><el-icon>
             <SemiSelect />
           </el-icon></span>
-        <span v-else-if="scope.row.id % 3 == 1"><el-icon color="#67C23A"><Select /></el-icon></span>
-        <span v-else><el-icon color="#F56C6C">
-            <CloseBold />
+        <span v-else-if="scope.row.user_score < 100">
+          <ScoreShow :score="scope.row.user_score" :status="JudgeStatus.WrongAnswer" />
+        </span>
+        <span v-else><el-icon :color="Colors.green">
+            <Select />
           </el-icon></span>
       </template>
-</el-table-column>
--->
+    </el-table-column>
+
     <el-table-column label="ID" prop="id" width="80px" />
     <el-table-column label="标题" show-overflow-tooltip>
       <template #default="scope">
@@ -79,6 +81,9 @@ import router from '@/router';
 import ProblemTagShow from './ProblemTagShow.vue';
 import { ElNotification } from "element-plus";
 import type { OrderBy } from '@/types/misc';
+import { Select } from '@element-plus/icons-vue';
+import { JudgeStatus } from '@/types/Judge';
+import { Colors } from '@/types/Colors';
 
 const props = withDefaults(defineProps<{
   problems: ProblemInfo[];
