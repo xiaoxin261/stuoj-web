@@ -131,9 +131,20 @@
               </el-icon>&nbsp;收藏</el-button>
           </div>
           <div v-if="problemInfo.has_user_submission" class="problem-info-item" style="margin-top: 10px;">
-            <span>最高分数</span>
+            <span>历史最高分数</span>
             <ScoreShow :score="problemInfo.user_score ?? 0"
               :status="problemInfo.user_score === 100 ? JudgeStatus.Accepted : JudgeStatus.WrongAnswer" />
+          </div>
+        </ElCard>
+        <ElCard shadow="always" style="margin-top: 20px;">
+          <template #header>
+            <div style="display:flex;justify-content:space-between;">
+              <strong>前三AC用户</strong>
+              <ElButton type="primary" @click="toggleACUserVisibility">{{ ACUserFlag ? '收起' : '展开' }}</ElButton>
+            </div>
+          </template>
+          <div v-if="ACUserFlag" class="avatar-container">
+            <AvatarInfo v-for="(user) in ACUsers" :key="user.id" :user="user" />
           </div>
         </ElCard>
         <ElCard shadow="always" style="margin-top: 20px;">
@@ -188,6 +199,7 @@ import { getBlogListApi } from "@/apis/blog";
 import { ElButton } from "element-plus";
 import type { BlogInfo } from "@/types/Blog";
 import { JudgeStatus } from "@/types/Judge";
+import type { UserInfo } from "@/types/User";
 
 const problemId = useRouteParams<number>("id");
 
@@ -231,6 +243,32 @@ const toggleBlogsVisibility = () => {
   }).then((res) => {
     blogs.value = res.value?.blogs ?? [];
   });
+};
+
+const ACUserFlag = ref<boolean>(false);
+const isUsersFetched = ref<boolean>(false);
+
+const ACUsers = ref<UserInfo[]>([]);
+
+const toggleACUserVisibility = () => {
+  ACUserFlag.value = !ACUserFlag.value;
+  if (isUsersFetched.value)
+    return;
+  isUsersFetched.value = true;
+  recordExecute({
+    params: {
+      problem: problemId.value.toString(),
+      page: 1,
+      size: 3,
+      order: "asc",
+      order_by: OrderBy.create_time,
+      status: JudgeStatus.Accepted,
+      distinct: "user_id",
+      exclude_history: true
+    }
+  }).then((res) => {
+    ACUsers.value = res.value?.submissions.filter((submission) => submission.status === JudgeStatus.Accepted).map((submission) => submission.user) ?? [];
+  })
 };
 
 const blogs = ref<BlogInfo[]>([]);
