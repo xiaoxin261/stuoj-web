@@ -21,8 +21,8 @@
       </template>
     </el-table-column>
 
-    <el-table-column label="ID" prop="id" width="80px" />
-    <el-table-column label="标题" show-overflow-tooltip>
+    <el-table-column label="ID" prop="id" width="80px" sortable="custom" />
+    <el-table-column label="标题" show-overflow-tooltip sortable="custom">
       <template #default="scope">
         <router-link :to="'/problem/' + scope.row.id">
           {{ scope.row.title }}
@@ -34,21 +34,21 @@
         <ProblemTagShow :tag-ids="scope.row.tag_ids" />
       </template>
     </el-table-column>
-    <el-table-column v-if="timeFlag" label="创建时间" width="120">
+    <el-table-column v-if="timeFlag" label="创建时间" width="120" sortable="custom">
       <template #default="scope">
         <span>
           {{ formatDateStr(scope.row.create_time) }}
         </span>
       </template>
     </el-table-column>
-    <el-table-column v-if="timeFlag" label="更新时间" width="120">
+    <el-table-column v-if="timeFlag" label="更新时间" width="120" sortable="custom">
       <template #default="scope">
         <span>
           {{ formatDateStr(scope.row.update_time) }}
         </span>
       </template>
     </el-table-column>
-    <el-table-column label="难度" width="100">
+    <el-table-column label="难度" width="100" sortable="custom">
       <template #default="scope: Scope">
         <el-tag :color="DifficultyColor[scope.row.difficulty]" style="color: #fff">
           {{ DifficultyMap[scope.row.difficulty] }}
