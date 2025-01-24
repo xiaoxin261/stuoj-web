@@ -46,4 +46,5 @@ export interface RecordParams {
     status?: JudgeStatus,
     user?: string,
     exclude_history?: boolean,
+    distinct?: string,
 }
