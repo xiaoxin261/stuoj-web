@@ -1,6 +1,7 @@
 import { useDefineApi } from "@/stores/useDefineApi"
 import type { Page } from "@/types/misc";
 import type { Judgement, RecordParams, Submission } from "@/types/Record"
+import type { UserInfo } from "@/types/User";
 
 export const getRecordListApi = useDefineApi<
     {
@@ -22,6 +23,19 @@ export const getRecordInfoApi = useDefineApi<
     }
 >({
     url: "/record",
+    method: "get"
+})
+
+export const getAcUserApi = useDefineApi<
+    {
+        params: {
+            problem: number;
+            size: number;
+        };
+    },
+    UserInfo[]
+>({
+    url: "/record/ac/user",
     method: "get"
 })
 

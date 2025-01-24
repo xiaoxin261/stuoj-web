@@ -191,7 +191,7 @@ import { getProblemApi } from "@/apis/problem";
 import { DifficultyMap } from "@/types/Problem";
 import { formatDateStr } from "@/utils/date";
 import { DocumentAdd, Notebook, StarFilled } from "@element-plus/icons-vue";
-import { getRecordListApi } from "@/apis/record";
+import { getRecordListApi, getAcUserApi } from "@/apis/record";
 import type { Submission } from "@/types/Record";
 import { OrderBy } from "@/types/misc";
 import { userStore } from "@/stores/user";
@@ -207,6 +207,7 @@ const { id } = userStore();
 
 const { state, execute } = getProblemApi();
 const { execute: recordExecute } = getRecordListApi();
+const { execute: acUserExecute } = getAcUserApi();
 const { execute: blogExecute } = getBlogListApi();
 
 const problemInfo = ref<ProblemInfo>({} as ProblemInfo);
@@ -255,19 +256,13 @@ const toggleACUserVisibility = () => {
   if (isUsersFetched.value)
     return;
   isUsersFetched.value = true;
-  recordExecute({
+  acUserExecute({
     params: {
-      problem: problemId.value.toString(),
-      page: 1,
-      size: 3,
-      order: "asc",
-      order_by: OrderBy.create_time,
-      status: JudgeStatus.Accepted,
-      distinct: "user_id",
-      exclude_history: true
+      problem: problemId.value,
+      size:3,
     }
   }).then((res) => {
-    ACUsers.value = res.value?.submissions.filter((submission) => submission.status === JudgeStatus.Accepted).map((submission) => submission.user) ?? [];
+    ACUsers.value = res.value ?? [];
   })
 };
 

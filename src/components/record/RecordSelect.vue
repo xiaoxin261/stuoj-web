@@ -14,9 +14,6 @@
             <JudgeStatusSelect class="form-item-input" v-model:status="params.status" />&nbsp;
             <LanguageSelect class="form-item-input" clearable placeholder="编程语言" style="width: 240px;"
                 v-model:id="params.language" ref="languageRef" />
-            <ElSelect v-model="params.distinct" placeholder="去重" style="width: 240px;" clearable>
-                <el-option v-for="(value, key) in distinctMap" :key="key" :value="key" :label="value" />
-            </ElSelect>
         </ElFormItem>
         <el-form-item>
             <el-button @click="handleReset">重置</el-button>
@@ -49,20 +46,12 @@ const handleReset = () => {
     params.value = {
         page: 1,
         size: 20,
-        distinct: ''
     };
     emit('update:params', params.value);
     startTimeRef.value?.reset();
     endTimeRef.value?.reset();
     languageRef.value?.reset();
 };
-
-const distinctMap = {
-    "user_id": "用户",
-    "problem_id": "题目ID",
-    "language_id": "编程语言",
-    "status": "状态",
-}
 
 const handleConfirm = () => {
     emit('update:params', params.value);
