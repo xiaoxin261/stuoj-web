@@ -3,7 +3,7 @@
         <ElFormItem :inline="true">
             <ElInput class="form-item-input" v-model="params.problem" placeholder="题目ID" clearable />&nbsp;
             <ElInput class="form-item-input" v-model="params.user" placeholder="用户ID" clearable />&nbsp;
-            <ElSwitch v-model="params.exclude_history" size="small" active-text="排除历史编辑者" />
+            <ElSwitch v-model="params.exclude_history" size="small" active-text="排除题目编辑者" />
         </ElFormItem>
         <ElFormItem label-position="top">
             <TimeSelect v-model:time="params['start-time']" placeholder="开始时间" margin="1px" ref="startTimeRef" />
