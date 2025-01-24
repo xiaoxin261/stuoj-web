@@ -2,7 +2,8 @@
     <ElForm :model="params">
         <ElFormItem :inline="true">
             <ElInput class="form-item-input" v-model="params.problem" placeholder="题目ID" clearable />&nbsp;
-            <ElInput class="form-item-input" v-model="params.user" placeholder="用户ID" clearable />
+            <ElInput class="form-item-input" v-model="params.user" placeholder="用户ID" clearable />&nbsp;
+            <ElSwitch v-model="params.exclude_history" size="small" active-text="排除历史编辑者" />
         </ElFormItem>
         <ElFormItem label-position="top">
             <TimeSelect v-model:time="params['start-time']" placeholder="开始时间" margin="1px" ref="startTimeRef" />
@@ -25,6 +26,7 @@ import { ref } from 'vue';
 import { type RecordParams } from '@/types/Record';
 import TimeSelect from '../form/TimeSelect.vue';
 import LanguageSelect from '../judge/LanguageSelect.vue';
+import { ElSwitch } from 'element-plus';
 
 const props = withDefaults(defineProps<{
     params: RecordParams
