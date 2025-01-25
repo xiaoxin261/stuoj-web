@@ -83,7 +83,7 @@ onBeforeMount(async () => {
 const updateInfo = async () => {
   if (userId.value === id.value) {
     info.value = info_.value;
-  } else if (!info.value) {
+  } else if (!props.user.id) {
     const { state, execute } = getUserInfoApi();
     await execute({
       id: userId.value,

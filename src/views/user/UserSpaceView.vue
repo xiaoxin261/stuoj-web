@@ -20,8 +20,6 @@
           <div>{{ signature }}</div>
         </div>
         <div class="user-statistic">
-
-
           <div class="statistic-item">
             <span class="statistic-label">提交</span>
             <span class="statistic-value">{{ info?.submit_count }}</span>
