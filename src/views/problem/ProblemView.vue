@@ -130,6 +130,22 @@
                 <StarFilled />
               </el-icon>&nbsp;收藏</el-button>
           </div>
+          <div v-if="problemInfo.has_user_submission" class="problem-info-item" style="margin-top: 10px;">
+            <span>历史最高分数</span>
+            <ScoreShow :score="problemInfo.user_score ?? 0"
+              :status="problemInfo.user_score === 100 ? JudgeStatus.Accepted : JudgeStatus.WrongAnswer" />
+          </div>
+        </ElCard>
+        <ElCard shadow="always" style="margin-top: 20px;">
+          <template #header>
+            <div style="display:flex;justify-content:space-between;">
+              <strong>前三AC用户</strong>
+              <ElButton type="primary" @click="toggleACUserVisibility">{{ ACUserFlag ? '收起' : '展开' }}</ElButton>
+            </div>
+          </template>
+          <div v-if="ACUserFlag" class="avatar-container">
+            <AvatarInfo v-for="(user) in ACUsers" :key="user.id" :user="user" />
+          </div>
         </ElCard>
         <ElCard shadow="always" style="margin-top: 20px;">
           <template #header>
@@ -175,13 +191,15 @@ import { getProblemApi } from "@/apis/problem";
 import { DifficultyMap } from "@/types/Problem";
 import { formatDateStr } from "@/utils/date";
 import { DocumentAdd, Notebook, StarFilled } from "@element-plus/icons-vue";
-import { getRecordListApi } from "@/apis/record";
+import { getRecordListApi, getAcUserApi } from "@/apis/record";
 import type { Submission } from "@/types/Record";
 import { OrderBy } from "@/types/misc";
 import { userStore } from "@/stores/user";
 import { getBlogListApi } from "@/apis/blog";
 import { ElButton } from "element-plus";
 import type { BlogInfo } from "@/types/Blog";
+import { JudgeStatus } from "@/types/Judge";
+import type { UserInfo } from "@/types/User";
 
 const problemId = useRouteParams<number>("id");
 
@@ -189,6 +207,7 @@ const { id } = userStore();
 
 const { state, execute } = getProblemApi();
 const { execute: recordExecute } = getRecordListApi();
+const { execute: acUserExecute } = getAcUserApi();
 const { execute: blogExecute } = getBlogListApi();
 
 const problemInfo = ref<ProblemInfo>({} as ProblemInfo);
@@ -225,6 +244,26 @@ const toggleBlogsVisibility = () => {
   }).then((res) => {
     blogs.value = res.value?.blogs ?? [];
   });
+};
+
+const ACUserFlag = ref<boolean>(false);
+const isUsersFetched = ref<boolean>(false);
+
+const ACUsers = ref<UserInfo[]>([]);
+
+const toggleACUserVisibility = () => {
+  ACUserFlag.value = !ACUserFlag.value;
+  if (isUsersFetched.value)
+    return;
+  isUsersFetched.value = true;
+  acUserExecute({
+    params: {
+      problem: problemId.value,
+      size:3,
+    }
+  }).then((res) => {
+    ACUsers.value = res.value ?? [];
+  })
 };
 
 const blogs = ref<BlogInfo[]>([]);

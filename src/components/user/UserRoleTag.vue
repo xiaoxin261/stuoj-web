@@ -1,5 +1,5 @@
 <template>
-    <el-tag :color="UserRoleColor[role]" style="color: #fff">
+    <el-tag :color="UserRoleColor[role]" style="color: #fff; width: 50px;">
         {{ UserRoleMap[role] }}
     </el-tag>
 </template>

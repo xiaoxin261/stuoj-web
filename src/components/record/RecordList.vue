@@ -9,22 +9,22 @@
     </ElTableColumn>
     <ElTableColumn label="用户" width="150">
       <template #default="scope">
-        <AvatarInfo :user="scope.row.user" name :name-size="16" @click="handelUserClick(scope.row.user)" />
+        <AvatarInfo :user="scope.row.user" name :name-size="16" />
       </template>
     </ElTableColumn>
-    <ElTableColumn label="分数" width="100" >
+    <ElTableColumn label="分数" width="100" sortable="custom">
       <template #default="scope">
         <a :href="`/record/${scope.row.id}`">
           <ScoreShow :score="scope.row.score" :size="16" :status="scope.row.status" status-show />
         </a>
       </template>
     </ElTableColumn>
-    <ElTableColumn label="题目" show-overflow-tooltip >
+    <ElTableColumn label="题目" show-overflow-tooltip>
       <template #default="scope">
         <ProblemName :problem="scope.row.problem" :size="16" />
       </template>
     </ElTableColumn>
-    <ElTableColumn label="代码长度" width="110" >
+    <ElTableColumn label="代码长度" width="110" sortable="custom">
       <template #default="scope">
         <el-icon>
           <Document />
@@ -32,13 +32,15 @@
         {{ scope.row.length }}B
       </template>
     </ElTableColumn>
-    <ElTableColumn label="耗时" width="100" >
+    <ElTableColumn label="耗时" width="100" sortable="custom">
       <template #default="scope">
-        <el-icon><Timer /></el-icon>
+        <el-icon>
+          <Timer />
+        </el-icon>
         {{ scope.row.time }}s
       </template>
     </ElTableColumn>
-    <ElTableColumn label="内存" width="100" >
+    <ElTableColumn label="内存" width="100" sortable="custom">
       <template #default="scope">
         <el-icon>
           <Coin />
@@ -54,7 +56,7 @@
         </ElTooltip>
       </template>
     </ElTableColumn>
-    <ElTableColumn label="提交时间" width="150">
+    <ElTableColumn label="提交时间" width="150" sortable="custom">
       <template #default="scope">
         {{ formatDateTimeStr(scope.row.create_time) }}
       </template>
@@ -70,15 +72,13 @@
 <script setup lang="ts">
 import { onMounted, ref, type PropType, watch } from 'vue';
 import type { Submission } from '@/types/Record';
-import type { UserInfo } from '@/types/User';
-import router from '@/router';
 import { langStore } from '@/stores/language';
 import type { Language } from '@/types/Judge';
 import { formatDateTimeStr } from '@/utils/date';
 import { deleteRecordApi } from '@/apis/record';
 import { ElNotification } from 'element-plus';
 import type { OrderBy } from '@/types/misc';
-import {Timer} from "@element-plus/icons-vue";
+import { Timer } from "@element-plus/icons-vue";
 
 
 const { execute } = deleteRecordApi();
@@ -115,10 +115,6 @@ onMounted(async () => {
     }
   });
 });
-
-const handelUserClick = (user: UserInfo) => {
-  router.push(`/user/${user.id}`);
-};
 
 const handleDelete = (id: number) => {
   execute({

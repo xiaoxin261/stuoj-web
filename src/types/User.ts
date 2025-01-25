@@ -10,6 +10,9 @@ export interface UserInfo {
     signature?: string;
     update_time?: string;
     username: string;
+    ac_count?: number;
+    submit_count?: number;
+    blog_count?: number;
     [property: string]: any;
 }
 

@@ -44,5 +44,6 @@ export interface RecordParams {
     order_by?: OrderBy,
     "start-time"?: string,
     status?: JudgeStatus,
-    user?: string
+    user?: string,
+    exclude_history?: boolean,
 }

@@ -19,7 +19,9 @@ export interface ProblemInfo {
     title: string;
     update_time?: string;
     tag_ids?: number[];
-    user_ids: number[];
+    user_ids?: number[];
+    user_score?: number;
+    has_user_submission?: boolean;
     [property: string]: any;
 }
 

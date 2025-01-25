@@ -24,15 +24,15 @@
 
           <div class="statistic-item">
             <span class="statistic-label">提交</span>
-            <span class="statistic-value">?</span>
+            <span class="statistic-value">{{ info?.submit_count }}</span>
           </div>
           <div class="statistic-item">
             <span class="statistic-label">AC</span>
-            <span class="statistic-value">?</span>
+            <span class="statistic-value">{{ info?.ac_count }}</span>
           </div>
           <div class="statistic-item">
             <span class="statistic-label">博客</span>
-            <span class="statistic-value">?</span>
+            <span class="statistic-value">{{ info?.blog_count }}</span>
           </div>
           <div class="statistic-item">
             <span class="statistic-label">题单</span>
