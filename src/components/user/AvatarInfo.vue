@@ -1,6 +1,6 @@
 <template>
   <div class="avatar-info">
-    <el-popover :width="300"
+    <el-popover :width="300" @before-enter="loadInfo"
       popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;">
       <template #reference>
         <Avatar :src="info?.avatar" :size="size" @click="handelClick" />
@@ -9,9 +9,20 @@
         <div>
           <ElContainer direction="vertical">
             <div class="user-popover">
-              <span class="UserNameText">{{ info.username }}</span><br/>
-              <UserRoleTag :role="info.role"/><br/><br/>
-              <span style="font-size: 16px;">{{ info.email }}</span>
+              <UserName :user="info" :size="25" />
+              <UserRoleTag style="margin-bottom: 5px;" :role="info.role" />
+              <span style="font-size: 16px; margin-bottom: 5px; color:#303133">{{ info.signature }}</span>
+              <div class="user-popover-info">
+                <div style="display: flex;justify-content: center; gap: 10px;">
+                  <span style="display: flex;justify-content: center; gap: 5px;">提交<div style="color: #000;">{{
+                    info.submit_count }}</div></span>
+                  <span style="display: flex;justify-content: center; gap: 5px;">AC<div style="color: #000;">{{
+                    info.ac_count }}</div></span>
+                  <span style="display: flex;justify-content: center; gap: 5px;">博客<div style="color: #000;">{{
+                    info.blog_count }}</div></span>
+                </div>
+              </div>
+              <span style="font-size: 16px; color: #606266">{{ info.email }}</span>
             </div>
             <ElContainer v-if="id !== 0 && id == userId" style="justify-content: center; margin-top:20px">
               <UserSetting />
@@ -27,10 +38,10 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, onMounted, ref } from 'vue';
+import { onBeforeMount, ref } from 'vue';
 import { userStore } from '@/stores/user';
 import { getUserInfoApi } from '@/apis/user';
-import {Role, type UserInfo} from '@/types/User';
+import { type UserInfo } from '@/types/User';
 import router from '@/router';
 
 const { id, isLogin, info: info_ } = userStore();
@@ -51,22 +62,28 @@ const props = withDefaults(defineProps<{
   popover: true
 });
 
-let info = ref<UserInfo>(props.user);
-let userId = ref(props.userId);
+const info = ref<UserInfo>(props.user);
+const userId = ref(props.userId);
 
 onBeforeMount(async () => {
+  if (!props.userId && !props.user) {
+    console.error("头像组件缺少参数");
+    return;
+  }
   if (!info.value.id) {
     if (!userId.value) {
       userId.value = id.value;
     }
-    await updateInfo();
+  } else {
+    userId.value = info.value.id;
   }
+  await updateInfo();
 });
 
 const updateInfo = async () => {
   if (userId.value === id.value) {
-    info = info_;
-  } else {
+    info.value = info_.value;
+  } else if (!info.value) {
     const { state, execute } = getUserInfoApi();
     await execute({
       id: userId.value,
@@ -74,6 +91,16 @@ const updateInfo = async () => {
     if (state.value) {
       info.value = state.value;
     }
+  }
+};
+
+const loadInfo = async () => {
+  const { state, execute } = getUserInfoApi();
+  await execute({
+    id: userId.value,
+  });
+  if (state.value) {
+    info.value = state.value;
   }
 };
 
@@ -95,11 +122,21 @@ const handelClick = () => {
 }
 
 .user-popover {
-  text-align: center;
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .UserNameText {
   font-size: 25px;
   color: #303133;
+}
+
+.user-popover-info {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-bottom: 5px;
 }
 </style>
