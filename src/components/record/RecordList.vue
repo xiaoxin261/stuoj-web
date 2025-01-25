@@ -9,7 +9,7 @@
     </ElTableColumn>
     <ElTableColumn label="用户" width="150">
       <template #default="scope">
-        <AvatarInfo :user="scope.row.user" name :name-size="16" @click="handelUserClick(scope.row.user)" />
+        <AvatarInfo :user="scope.row.user" name :name-size="16" />
       </template>
     </ElTableColumn>
     <ElTableColumn label="分数" width="100" sortable="custom">
@@ -72,8 +72,6 @@
 <script setup lang="ts">
 import { onMounted, ref, type PropType, watch } from 'vue';
 import type { Submission } from '@/types/Record';
-import type { UserInfo } from '@/types/User';
-import router from '@/router';
 import { langStore } from '@/stores/language';
 import type { Language } from '@/types/Judge';
 import { formatDateTimeStr } from '@/utils/date';
@@ -117,10 +115,6 @@ onMounted(async () => {
     }
   });
 });
-
-const handelUserClick = (user: UserInfo) => {
-  router.push(`/user/${user.id}`);
-};
 
 const handleDelete = (id: number) => {
   execute({
