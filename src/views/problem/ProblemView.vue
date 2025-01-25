@@ -144,7 +144,8 @@
             </div>
           </template>
           <div v-if="ACUserFlag" class="avatar-container">
-            <AvatarInfo v-for="(user) in ACUsers" :key="user.id" :user="user" />
+            <AvatarInfo v-if="ACUsers.length > 0" v-for="(user) in ACUsers" :key="user.id" :user="user" />
+            <div v-else>暂无AC用户，快来成为第一个切题的人吧</div>
           </div>
         </ElCard>
         <ElCard shadow="always" style="margin-top: 20px;">
@@ -259,7 +260,7 @@ const toggleACUserVisibility = () => {
   acUserExecute({
     params: {
       problem: problemId.value,
-      size:3,
+      size: 3,
     }
   }).then((res) => {
     ACUsers.value = res.value ?? [];
