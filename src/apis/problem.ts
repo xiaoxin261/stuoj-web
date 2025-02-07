@@ -179,20 +179,3 @@ export const getProblemHistoryApi = useDefineApi<
     url: "/problem/history",
     method: "get"
 })
-
-export const uploadFPSApi = useDefineApi<
-    {
-        headers: {
-            "Content-Type": "multipart/form-data"
-        },
-        data: FormData
-    },
-    {
-        problem: FpsProblemInfo
-        solutions: FpsSolution[]
-        testcases: FpsTestcase[]
-    }[]
->({
-    url: "/problem/fps",
-    method: "post"
-})

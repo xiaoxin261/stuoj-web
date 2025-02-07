@@ -69,8 +69,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { ElNotification } from 'element-plus';
-import { uploadFPSApi } from '@/apis/problem';
-import type { FpsProblemInfo, FpsSolution, FpsTestcase, ProblemInfo, Solution, Testcase } from "@/types/Problem";
+import { parseFpsXml } from '@/utils/parseFps';
+import type { ProblemInfo, Solution, Testcase } from "@/types/Problem";
 import LanguageShow from '@/LanguageShow.vue';
 
 const props = defineProps<{
@@ -80,8 +80,6 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits(['update:problem', 'update:testcases', 'update:solutions', 'import-fps']);
-
-const { execute } = uploadFPSApi();
 
 const dialogVisible = ref(false);
 
@@ -97,17 +95,15 @@ const handleClickSelectFile = () => {
     }
 };
 
-const fps = ref<{ problem: FpsProblemInfo, solutions: FpsSolution[], testcases: FpsTestcase[] }[]>();
-const fpsSelect = ref<{ problem: FpsProblemInfo, solutions: FpsSolution[], testcases: FpsTestcase[] } | null>();
+const fps = ref<{ problem: ProblemInfo, solutions: Solution[], testcases: Testcase[] }[]>();
+const fpsSelect = ref<{ problem: ProblemInfo, solutions: Solution[], testcases: Testcase[] } | null>();
 
 // 使用certinfoKey在submissions更新后让表格重新渲染，否则表格不会更新
 const certinfoKey = ref(0);
 const onFileChange = async (event: Event) => {
     const target = event.target as HTMLInputElement;
     const files = target.files;
-    if (!files || files.length === 0) {
-        return;
-    };
+    if (!files || files.length === 0) return;
 
     const file = files[0];
     if (file.type !== 'text/xml') {
@@ -117,23 +113,35 @@ const onFileChange = async (event: Event) => {
             type: 'error',
         });
         return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = async () => {
+        try {
+            const xmlText = reader.result as string;
+            // 使用更新后的 parseFpsXml 解析，直接获取 ProblemInfo、Testcase、Solution 结构
+            const fpsParsed = await parseFpsXml(xmlText);
+            fps.value = fpsParsed.items;
+            certinfoKey.value++;
+        } catch (err: any) {
+            ElNotification({
+                title: '错误',
+                message: '解析FPS文件出错：' + err.message,
+                type: 'error',
+            });
+        }
     };
-
-    const formData = new FormData();
-    formData.append('file', file);
-
-    await execute({
-        headers: {
-            "Content-Type": "multipart/form-data"
-        },
-        data: formData
-    }).then((res) => {
-        fps.value = res.value;
-    });
-    certinfoKey.value++;
+    reader.onerror = () => {
+        ElNotification({
+            title: '错误',
+            message: '文件读取失败',
+            type: 'error',
+        });
+    };
+    reader.readAsText(file);
 };
 
-const handleCurrentChange = (row: { problem: FpsProblemInfo, solutions: FpsSolution[], testcases: FpsTestcase[] }) => {
+const handleCurrentChange = (row: { problem: ProblemInfo, solutions: Solution[], testcases: Testcase[] }) => {
     fpsSelect.value = row;
     emit('update:problem', row.problem);
     emit('update:testcases', row.testcases);
@@ -157,7 +165,8 @@ const importFPS = () => {
     display: flex;
     justify-content: flex-end;
 }
-.fps-info{
+
+.fps-info {
     width: 100%;
     overflow: auto;
 }

@@ -96,7 +96,6 @@ export interface ProblemHistory {
 }
 
 export interface FpsProblemInfo {
-    create_time: string;
     description: string;
     input: string;
     memory_limit: number;
@@ -105,7 +104,6 @@ export interface FpsProblemInfo {
     sample_output: string;
     time_limit: number;
     title: string;
-    update_time: string;
     [property: string]: any;
 }
 
