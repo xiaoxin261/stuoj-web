@@ -10,8 +10,9 @@ function getElementTextContent(parent: Element, tag: string): string | undefined
 /**
  * 解析传入的 FPS 格式 XML 字符串，并返回包含 ProblemInfo、Testcase、Solution 的对象
  * @param xmlString XML 文件内容字符串
+ * @param onProgress 进度回调函数
  */
-export async function parseFpsXml(xmlString: string): Promise<{
+export async function parseFpsXml(xmlString: string, onProgress?: (current: number, total: number) => void): Promise<{
     version: string;
     items: {
         problem: ProblemInfo;
@@ -65,16 +66,17 @@ export async function parseFpsXml(xmlString: string): Promise<{
         return 0;
     }
 
-
-    // 解析 <item> 节点数组
+    // 解析 <item> 节点数组（使用异步循环以支持逐步更新）
     const itemEls = fpsEl.querySelectorAll("item");
+    const total = itemEls.length;
     const items: {
         problem: ProblemInfo;
         testcases: Testcase[];
         solutions: Solution[];
     }[] = [];
 
-    itemEls.forEach(itemEl => {
+    for (let i = 0; i < total; i++) {
+        const itemEl = itemEls[i];
         const title = getElementTextContent(itemEl, "title") || "";
         const description = getElementTextContent(itemEl, "description") || "";
         const inputStr = getElementTextContent(itemEl, "input") || "";
@@ -139,9 +141,16 @@ export async function parseFpsXml(xmlString: string): Promise<{
             });
         }
 
-
         items.push({ problem, testcases, solutions });
-    });
+
+        // 每处理完成一项更新进度，并每 10 项让出控制权，保证界面更新
+        if (onProgress) {
+            onProgress(i + 1, total);
+        }
+        if ((i + 1) % 10 === 0) {
+            await new Promise(resolve => setTimeout(resolve, 0));
+        }
+    }
 
     return {
         version,

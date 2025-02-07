@@ -13,6 +13,9 @@
                 </el-button>
             </div>
             <input ref="fileInput" type="file" accept=".xml" style="display: none;" @change="onFileChange" />
+            <div v-if="parsingProgress > 0 && parsingProgress < 100" style="margin: 10px 0;">
+                <ElProgress :percentage="parsingProgress" />
+            </div>
         </template>
         <ElRow :gutter="20">
             <ElCol :span="18">
@@ -100,6 +103,7 @@ const fpsSelect = ref<{ problem: ProblemInfo, solutions: Solution[], testcases: 
 
 // 使用certinfoKey在submissions更新后让表格重新渲染，否则表格不会更新
 const certinfoKey = ref(0);
+const parsingProgress = ref(0);
 const onFileChange = async (event: Event) => {
     const target = event.target as HTMLInputElement;
     const files = target.files;
@@ -119,10 +123,15 @@ const onFileChange = async (event: Event) => {
     reader.onload = async () => {
         try {
             const xmlText = reader.result as string;
-            // 使用更新后的 parseFpsXml 解析，直接获取 ProblemInfo、Testcase、Solution 结构
-            const fpsParsed = await parseFpsXml(xmlText);
+            parsingProgress.value = 0;
+            // 传入回调函数，每处理一定项更新一次进度
+            const fpsParsed = await parseFpsXml(xmlText, (current: number, total: number) => {
+                parsingProgress.value = Math.round((current / total) * 100);
+            });
             fps.value = fpsParsed.items;
             certinfoKey.value++;
+            // 最后置为 100%
+            parsingProgress.value = 100;
         } catch (err: any) {
             ElNotification({
                 title: '错误',
