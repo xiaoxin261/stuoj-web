@@ -111,22 +111,22 @@
           <ElCard class="box-card" style="width: 50%;">
             <ElTabs v-model="activeName">
               <ElTabPane label="测试数据" name="testcase">
-                <TestcaseTable v-model:testcase="testcase" v-bind:problem-id="problemId" ref="testTableRef" />
+                <TestcaseTable v-bind:problem-id="problemId" ref="testTableRef" />
               </ElTabPane>
               <ElTabPane label="题解" name="solution">
-                <ProblemSolutionTable v-model:solution="solution" v-bind:problem-id="problemId" ref="solutionTableRef" />
+                <ProblemSolutionTable v-bind:problem-id="problemId" ref="solutionTableRef" />
               </ElTabPane>
             </ElTabs>
           </ElCard>
         </div>
         <ElCard v-show="activeName === 'testcase'" style="margin-top: 10px;">
-          <TestcaseEdit v-model:testcase="testcase" />
+          <TestcaseEdit />
         </ElCard>
         <ElCard v-show="activeName === 'testcase'" style="margin-top: 10px;">
           <DataMake v-bind:global="global" />
         </ElCard>
         <ElCard v-show="activeName === 'solution'" style="margin-top: 10px;">
-          <ProblemSolutionEdit v-model:solution="solution" />
+          <ProblemSolutionEdit />
         </ElCard>
         <ElCard style="margin-top: 10px;">
           <div class="debug-title">
@@ -206,8 +206,6 @@ const memoryLimitMB = computed({
 
 const testTableRef = ref<InstanceType<typeof TestcaseTable> | null>(null);
 const solutionTableRef = ref<InstanceType<typeof ProblemSolutionTable> | null>(null);
-const testcase = ref<Testcase>();
-const solution = ref<Solution>();
 const global = ref<Global>({
   rows: []
 });
@@ -229,11 +227,15 @@ const reset = async () => {
     return;
   }
   await getProblemExecute({
-    id: problemId.value
+    id: problemId.value,
+    params: {
+      testcases: true,
+      solutions: true,
+    }
   }).then(async (res) => {
     if (res.value) {
-      problem.value = res.value.problem;
-      oldTagIds.value = res.value.problem.tag_ids || [];
+      problem.value = res.value;
+      oldTagIds.value = res.value.tag_ids || [];
       tagIds.value = oldTagIds.value;
     }
   });
