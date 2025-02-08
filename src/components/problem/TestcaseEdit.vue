@@ -18,7 +18,7 @@
                 </ElCol>
                 <ElCol :span="8">
                     <ElFormItem label="测试点编号" label-position="right">
-                        <ElInput v-model="currentTestcase.serial" />
+                        <ElInputNumber v-model="currentTestcase.serial" />
                     </ElFormItem>
                 </ElCol>
             </ElRow>

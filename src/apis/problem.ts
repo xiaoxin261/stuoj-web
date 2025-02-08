@@ -1,6 +1,7 @@
 import { useDefineApi } from "@/stores/useDefineApi";
-import type { FpsProblemInfo, FpsSolution, FpsTestcase, Global, ProblemHistory, ProblemInfo, ProblemParams, Solution, Tag, Testcase } from "@/types/Problem";
+import type { Global, ProblemHistory, ProblemInfo, ProblemParams, Solution, Testcase } from "@/types/Problem";
 import type { Page } from "@/types/misc";
+
 
 export const getProblemListApi = useDefineApi<
     {
@@ -15,12 +16,12 @@ export const getProblemListApi = useDefineApi<
 export const getProblemApi = useDefineApi<
     {
         id: number
+        params?: {
+            testcases?: boolean,
+            solutions?: boolean,
+        }
     },
-    {
-        problem: ProblemInfo
-        solutions?: Solution[]
-        testcases?: Testcase[]
-    }
+    ProblemInfo
 >({
     url: "/problem",
     method: "get"

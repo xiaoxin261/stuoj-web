@@ -85,6 +85,9 @@ export const problemEditStore = createGlobalState(() => {
         }
         await getProblemExecute({
             id: problemId.value,
+            params: {
+                testcases: true,
+            }
         }).then((res) => {
             if (res.value?.testcases) {
                 testcases.value = res.value.testcases.map((testcase: Testcase) => {
@@ -173,6 +176,9 @@ export const problemEditStore = createGlobalState(() => {
         }
         await getProblemExecute({
             id: problemId.value,
+            params: {
+                solutions: true,
+            }
         }).then((res) => {
             if (res.value?.solutions) {
                 solutions.value = res.value.solutions.map((solution: Solution) => {

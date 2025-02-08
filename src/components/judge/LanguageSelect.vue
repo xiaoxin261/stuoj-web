@@ -1,7 +1,7 @@
 <template>
     <ElSelect v-model="selectedId" @change="handleSelectChange" :clearable="clearable" :placeholder="placeholder"
         ref="selectRef">
-        <ElOption v-for="item in options" :key="item.id" :label="item.name" :value="item.id" :disabled="item.disabled">
+        <ElOption v-for="item in options" :key="item.id" :label="item.name" :value="item.id!" :disabled="item.disabled">
             {{ item.name }}</ElOption>
     </ElSelect>
 </template>
@@ -52,6 +52,7 @@ const handleSelectChange = (value: number) => {
 
 watchEffect(() => {
     selectedValue.value = props.lang;
+    selectedId.value = props.id;
 });
 
 

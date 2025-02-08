@@ -295,7 +295,7 @@ onMounted(async () => {
       id: problemId.value,
     });
     if (state.value) {
-      problemInfo.value = state.value.problem;
+      problemInfo.value = state.value;
       document.title = `[P${problemInfo.value.id}] ${problemInfo.value.title} - 题目 - STUOJ`;
     }
   });
