@@ -22,6 +22,8 @@ export interface ProblemInfo {
     user_ids?: number[];
     user_score?: number;
     has_user_submission?: boolean;
+    solutions?: Solution[];
+    testcases?: Testcase[];
     [property: string]: any;
 }
 
@@ -184,4 +186,6 @@ export interface ProblemParams {
     status?: string,
     order?: string,
     order_by?: OrderBy,
+    testcases?: boolean,
+    solutions?: boolean,
 }
