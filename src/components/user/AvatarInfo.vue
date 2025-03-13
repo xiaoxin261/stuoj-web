@@ -44,7 +44,7 @@ import { getUserInfoApi } from '@/apis/user';
 import { type UserInfo } from '@/types/User';
 import router from '@/router';
 
-const { id, isLogin, info: info_ } = userStore();
+const { id, isLogin, info: info_, getUserInfoByUserId } = userStore();
 
 const props = withDefaults(defineProps<{
   userId?: number;
@@ -84,24 +84,12 @@ const updateInfo = async () => {
   if (userId.value === id.value) {
     info.value = info_.value;
   } else if (!props.user.id) {
-    const { state, execute } = getUserInfoApi();
-    await execute({
-      id: userId.value,
-    });
-    if (state.value) {
-      info.value = state.value;
-    }
+    info.value = await getUserInfoByUserId(userId.value) || {} as UserInfo;
   }
 };
 
 const loadInfo = async () => {
-  const { state, execute } = getUserInfoApi();
-  await execute({
-    id: userId.value,
-  });
-  if (state.value) {
-    info.value = state.value;
-  }
+  info.value = await getUserInfoByUserId(userId.value) || {} as UserInfo;
 };
 
 const handelClick = () => {
