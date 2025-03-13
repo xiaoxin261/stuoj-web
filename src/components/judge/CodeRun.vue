@@ -1,8 +1,9 @@
 <template>
     <CodeEditor v-model="code_text" :mode="mode" :theme="theme" :options="options" />
     <div class="button-container">
-        <LanguageSelect v-model:id="languageId" style="width: 50%; margin-right: 2%;" />
-        <ElButton class="debug-button" @click="handleDebug" :disabled="languageId === 0" :loading="loading">调试</ElButton>
+        <LanguageSelect v-model:id="languageId" status-disabled style="width: 50%; margin-right: 2%;" />
+        <ElButton class="debug-button" @click="handleDebug" :disabled="languageId === 0" :loading="loading">调试
+        </ElButton>
         <ElButton v-if="props.problem" class="submit-button" type="primary" @click="handleSubmit"
             :disabled="languageId === 0" :loading="loading">提交</ElButton>
     </div>
@@ -89,7 +90,7 @@ const handleDebug = async () => {
     if (recordInfoRef.value) {
         recordInfoRef.value.clear(); // 清空子组件内容
     }
-    
+
     await testExcute({
         data: {
             language_id: languageId.value,

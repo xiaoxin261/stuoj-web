@@ -1,9 +1,9 @@
-import {Colors} from "@/types/Colors";
+import { Colors } from "@/types/Colors";
 
 export interface Language {
     id?: number;
     name: string;
-    serial?: number;
+    serial: number;
     mapId?: number;
     status?: LanguageStatus;
     [property: string]: any;
@@ -26,6 +26,12 @@ export const LanguageStatusColor: { [key: number]: string } = {
     [LanguageStatus.Disabled]: Colors.yellow,
     [LanguageStatus.Enabled]: Colors.green,
 }
+
+export const LanguageStatusButtonType: Record<number, 'success' | 'danger' | 'warning' | 'info'> = {
+    1: 'info',
+    2: 'danger',
+    3: 'success',
+};
 
 export enum JudgeStatus {
     Unknown = 0,

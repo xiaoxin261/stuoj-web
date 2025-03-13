@@ -1,7 +1,7 @@
 import { createGlobalState } from "@vueuse/core";
 import { getLanguageListApi } from "@/apis/language";
 import { ref } from "vue";
-import type { Language } from "@/types/Judge";
+import { LanguageStatus, type Language } from "@/types/Judge";
 
 
 export const langStore = createGlobalState(() => {
@@ -19,10 +19,18 @@ export const langStore = createGlobalState(() => {
                     id: 0,
                     name: '请选择语言',
                     disabled: true,
+                    serial: 10000,
                 }));
             };
         });
+        languages.value.sort((a, b) => a.serial - b.serial);
         return languages;
     };
-    return { getLanguages };
+
+    const refreshLanguages = async () => {
+        languages.value = [];
+        return await getLanguages();
+    }
+
+    return { getLanguages, refreshLanguages };
 });
