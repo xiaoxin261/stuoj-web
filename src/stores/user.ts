@@ -9,6 +9,40 @@ export const userStore = createGlobalState(() => {
 
   const token = useStorage("token", "");
 
+  const userMap = new Map<number, UserInfo>();
+  // 在 userStore 内部添加
+  const pendingRequests = new Map<number, Promise<UserInfo | undefined>>();
+
+  const getUserInfoByUserId = async (userId: number) => {
+    if (!userId) return;
+
+    // 1. 尝试从缓存获取
+    let userInfo = userMap.get(userId);
+    if (userInfo) return userInfo;
+
+    // 2. 检查是否已有进行中的请求
+    if (pendingRequests.has(userId)) {
+      return pendingRequests.get(userId)!; // 复用已有请求
+    }
+
+    // 3. 创建新请求并加锁
+    const promise = new Promise<UserInfo | undefined>((resolve) => {
+      execute({ id: userId }).then((state) => {
+        if (state.value) {
+          userInfo = state.value;
+          userMap.set(userId, userInfo); // 缓存结果
+          resolve(userInfo);
+        } else {
+          resolve(undefined);
+        }
+        pendingRequests.delete(userId); // 请求完成后释放锁
+      });
+    });
+
+    pendingRequests.set(userId, promise);
+    return promise;
+  };
+
   const updateToken = (_token: string) => {
     token.value = _token;
   };
@@ -71,5 +105,6 @@ export const userStore = createGlobalState(() => {
     updateToken,
     isLogin,
     clearToken,
+    getUserInfoByUserId,
   };
 });
