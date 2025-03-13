@@ -1,7 +1,5 @@
 import { useDefineApi } from "@/stores/useDefineApi"
-import type { Language } from "@/types/Judge"
 import type { Judgement } from "@/types/Record";
-import type {Tag} from "@/types/Problem";
 
 export const Submit = useDefineApi<
     {
@@ -15,24 +13,6 @@ export const Submit = useDefineApi<
 >({
     url: "/judge/submit",
     method: "post",
-});
-
-export const getLanguageListApi = useDefineApi<
-    {},
-    Language[]
->({
-    url: "/judge/language",
-    method: "get"
-});
-
-export const updateLanguageApi = useDefineApi<
-    {
-        data: Language
-    },
-    null
->({
-    url: "/judge/language",
-    method: "put"
 });
 
 export const TestRun = useDefineApi<

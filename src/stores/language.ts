@@ -1,5 +1,5 @@
 import { createGlobalState } from "@vueuse/core";
-import { getLanguageListApi } from "@/apis/judge";
+import { getLanguageListApi } from "@/apis/language";
 import { ref } from "vue";
 import type { Language } from "@/types/Judge";
 
