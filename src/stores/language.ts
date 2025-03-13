@@ -24,5 +24,11 @@ export const langStore = createGlobalState(() => {
         });
         return languages;
     };
-    return { getLanguages };
+
+    const refreshLanguages = async () => {
+        languages.value = [];
+        return await getLanguages();
+    }
+
+    return { getLanguages, refreshLanguages };
 });

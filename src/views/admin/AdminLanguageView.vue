@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import {onBeforeMount, onMounted, ref, watch} from "vue";
-import {type Language, LanguageStatus, LanguageStatusColor, LanguageStatusMap} from '@/types/Judge';
-import type {Page} from '@/types/misc';
-import {getLanguageListApi, updateLanguageApi} from "@/apis/judge";
-import {ElNotification} from "element-plus";
-import {userStore} from "@/stores/user";
-import {Role} from "@/types/User";
+import { onBeforeMount, onMounted, ref, watch } from "vue";
+import { type Language, LanguageStatus, LanguageStatusColor, LanguageStatusMap } from '@/types/Judge';
+import type { Page } from '@/types/misc';
+import { updateLanguageApi } from "@/apis/language";
+import { langStore } from '@/stores/language';
+import { ElNotification } from "element-plus";
+import { userStore } from "@/stores/user";
+import { Role } from "@/types/User";
 
+const { refreshLanguages } = langStore();
 const { info } = userStore();
 
 interface LanguageParams {
@@ -16,28 +18,16 @@ interface LanguageParams {
 
 const languagePage = ref<Page<"languages", Language>>();
 const languages = ref<Language[]>([]);
-const { state, execute } = getLanguageListApi();
 const params = ref<LanguageParams>({
   page: 1,
   size: 10
 });
 
 const getList = async () => {
-  await execute({
-    params: {
-      ...params.value,
-    }
-  });
-
-  if (state.value) {
-    // languagePage.value = state.value;
-    // languages.value = languagePage.value.languages;
-    languages.value = state.value;
-    // console.log(languages.value);
-  }
+  languages.value = (await refreshLanguages()).value
 }
 
-onMounted (() => {
+onMounted(() => {
   getList();
 })
 
@@ -49,29 +39,6 @@ const language = ref<Language>({
   mapId: 0,
   status: LanguageStatus.Enabled,
 });
-
-/*
-const addDialogVisible = ref(false)
-
-const { execute: insertExecute } = insertLanguageApi();
-const handleCreate = () => {
-  addDialogVisible.value = true
-  language.value.name = ''
-}
-
-const submitAdd = () => {
-  insertExecute({
-    data: language.value
-  }).then(() => {
-    getList();
-    ElNotification.success({
-      title: '创建成功',
-      type: 'success'
-    });
-  });
-  addDialogVisible.value = false
-}
-*/
 
 const editDialogVisible = ref(false)
 
@@ -131,9 +98,6 @@ const options = ref<{ id: string; name: string }[]>([
           <el-col :span="4">
             <strong>语言管理</strong>
           </el-col>
-          <el-col :span="20" style="text-align: right">
-            <el-button type="primary" @click="handleCreate" disabled>创建语言</el-button>
-          </el-col>
         </el-row>
         <el-divider></el-divider>
         <el-card>
@@ -142,10 +106,10 @@ const options = ref<{ id: string; name: string }[]>([
             <el-table-column label="ID" prop="id" width="80" />
             <el-table-column label="语言" prop="name" />
             <el-table-column label="序号" prop="serial" />
-            <el-table-column label="映射ID" prop="map_id" v-if="info.role >= Role.Root"/>
+            <el-table-column label="映射ID" prop="map_id" v-if="info.role >= Role.Root" />
             <el-table-column label="状态" width="80">
               <template #default="scope">
-                <el-tag :color="LanguageStatusColor[scope.row.status as number] " style="color: #fff">
+                <el-tag :color="LanguageStatusColor[scope.row.status as number]" style="color: #fff">
                   {{ LanguageStatusMap[scope.row.status as number] }}
                 </el-tag>
               </template>
@@ -156,18 +120,11 @@ const options = ref<{ id: string; name: string }[]>([
               </template>
             </el-table-column>
           </el-table>
-          <br/>
-          <el-pagination
-              v-model:current-page="params.page"
-              v-model:page-size="params.size"
-              :page-sizes="[10, 20, 50, 100]"
-              :size="'small'"
-              :background="true"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="languagePage?.total"
-              @size-change="getList"
-              @current-change="getList"
-          />
+          <br />
+          <el-pagination v-model:current-page="params.page" v-model:page-size="params.size"
+            :page-sizes="[10, 20, 50, 100]" :size="'small'" :background="true"
+            layout="total, sizes, prev, pager, next, jumper" :total="languagePage?.total" @size-change="getList"
+            @current-change="getList" />
         </el-card>
       </el-main>
     </el-container>
@@ -187,7 +144,7 @@ const options = ref<{ id: string; name: string }[]>([
     <el-dialog v-model="editDialogVisible" title="修改语言" width="500">
       <el-form :model="language">
         <el-form-item label="ID" :label-width="formLabelWidth">
-          <el-input v-model="language.id" readonly/>
+          <el-input v-model="language.id" readonly />
         </el-form-item>
         <el-form-item label="语言名" :label-width="formLabelWidth">
           <el-input v-model="language.name" autocomplete="off" />
@@ -200,12 +157,7 @@ const options = ref<{ id: string; name: string }[]>([
         </el-form-item>
         <el-form-item label="状态" :label-width="formLabelWidth" v-if="info.value?.role >= Role.Root">
           <el-select v-model="language.status" placeholder="请选择状态" style="width: 100%">
-            <el-option
-                v-for="item in options"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id"
-            />
+            <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item.id" />
           </el-select>
         </el-form-item>
       </el-form>
@@ -219,6 +171,4 @@ const options = ref<{ id: string; name: string }[]>([
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
