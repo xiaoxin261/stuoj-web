@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onBeforeMount, onMounted, ref, watch } from "vue";
-import { type Language, LanguageStatus, LanguageStatusColor, LanguageStatusMap } from '@/types/Judge';
+import { type Language, LanguageStatus, LanguageStatusButtonType, LanguageStatusMap } from '@/types/Judge';
 import type { Page } from '@/types/misc';
 import { updateLanguageApi } from "@/apis/language";
 import { langStore } from '@/stores/language';
@@ -24,46 +24,18 @@ const params = ref<LanguageParams>({
 });
 
 const getList = async () => {
-  languages.value = (await refreshLanguages()).value
+  const refreshedLanguages = (await refreshLanguages()).value;
+  languages.value = refreshedLanguages.map(lang => ({
+    ...lang,
+    originalSerial: lang.serial // 新增 originalSerial 字段并初始化为 serial 的值
+  }));
 }
 
 onMounted(() => {
   getList();
 })
 
-const formLabelWidth = '140px';
-const language = ref<Language>({
-  id: 0,
-  name: '',
-  serial: 0,
-  mapId: 0,
-  status: LanguageStatus.Enabled,
-});
-
-const editDialogVisible = ref(false)
-
 const { execute: updateExecute } = updateLanguageApi();
-const handleEdit = (t: Language) => {
-  editDialogVisible.value = true
-  language.value.id = t.id
-  language.value.name = t.name
-  language.value.serial = t.serial
-  language.value.mapId = t.map_id
-  language.value.status = t.status
-}
-
-const submitEdit = () => {
-  updateExecute({
-    data: language.value
-  }).then(() => {
-    getList();
-    ElNotification.success({
-      title: '修改成功',
-      type: 'success'
-    });
-  });
-  editDialogVisible.value = false
-}
 
 // 使用key在更新后让表格重新渲染，否则表格不会更新
 const key = ref(0);
@@ -71,20 +43,40 @@ watch(() => languages.value, () => {
   key.value++
 });
 
-const options = ref<{ id: string; name: string }[]>([
-  {
-    id: '1',
-    name: '弃用'
-  },
-  {
-    id: '2',
-    name: '停用'
-  },
-  {
-    id: '3',
-    name: '启用'
+const handleStatusChange = (status: number, row: Language) => {
+  // 调用 API 更新语言状态
+  updateExecute({
+    data: { ...row, status }
+  }).then(() => {
+    ElNotification.success({
+      title: '状态更新成功',
+      type: 'success'
+    });
+    getList(); // 刷新语言列表
+  });
+};
+
+const handleSerialChange = (row: Language) => {
+  // 获取原始序号（从新增的 originalSerial 字段中读取）
+  const originalSerial = row.originalSerial;
+
+  // 检查序号是否发生变化
+  if (row.serial === originalSerial) {
+    return; // 如果序号未变化，则直接返回，不发送请求
   }
-]);
+
+  // 更新序号
+  updateExecute({
+    data: { ...row }
+  }).then(() => {
+    ElNotification.success({
+      title: '序号更新成功',
+      type: 'success'
+    });
+    getList(); // 刷新语言列表以同步 originalSerial
+  });
+};
+
 </script>
 
 <template>
@@ -102,21 +94,31 @@ const options = ref<{ id: string; name: string }[]>([
         <el-divider></el-divider>
         <el-card>
           <el-table :data="languages" :key="key" style="width: 100%" stripe>
-            <el-table-column type="selection" :selectable="selectable" width="55" />
             <el-table-column label="ID" prop="id" width="80" />
             <el-table-column label="语言" prop="name" />
-            <el-table-column label="序号" prop="serial" />
-            <el-table-column label="映射ID" prop="map_id" v-if="info.role >= Role.Root" />
-            <el-table-column label="状态" width="80">
+            <el-table-column label="序号" width="150">
               <template #default="scope">
-                <el-tag :color="LanguageStatusColor[scope.row.status as number]" style="color: #fff">
-                  {{ LanguageStatusMap[scope.row.status as number] }}
-                </el-tag>
+                <el-input-number v-model="scope.row.serial" :min="1" size="small"
+                  @change="handleSerialChange(scope.row)" @blur="handleSerialChange(scope.row)" />
               </template>
             </el-table-column>
-            <el-table-column align="right" width="150" v-if="info.role >= Role.Admin">
+            <el-table-column label="映射ID" prop="map_id" v-if="info.role >= Role.Root" />
+            <el-table-column label="状态" width="100">
               <template #default="scope">
-                <el-button size="small" @click="handleEdit(scope.row)" disabled>编辑</el-button>
+                <el-dropdown>
+                  <el-button size="small" :type="LanguageStatusButtonType[scope.row.status as number]">
+                    {{ LanguageStatusMap[scope.row.status as number] }}
+                    <el-icon><arrow-down /></el-icon>
+                  </el-button>
+                  <template #dropdown>
+                    <el-dropdown-menu>
+                      <el-dropdown-item v-for="(statusName, statusValue) in LanguageStatusMap" :key="statusValue"
+                        @click="handleStatusChange(Number(statusValue), scope.row)">
+                        {{ statusName }}
+                      </el-dropdown-item>
+                    </el-dropdown-menu>
+                  </template>
+                </el-dropdown>
               </template>
             </el-table-column>
           </el-table>
@@ -128,46 +130,6 @@ const options = ref<{ id: string; name: string }[]>([
         </el-card>
       </el-main>
     </el-container>
-    <el-dialog v-model="addDialogVisible" title="创建语言" width="500">
-      <el-form :model="language">
-        <el-form-item label="语言名" :label-width="formLabelWidth">
-          <el-input v-model="language.name" autocomplete="off" />
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button @click="addDialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="submitAdd">创建</el-button>
-        </div>
-      </template>
-    </el-dialog>
-    <el-dialog v-model="editDialogVisible" title="修改语言" width="500">
-      <el-form :model="language">
-        <el-form-item label="ID" :label-width="formLabelWidth">
-          <el-input v-model="language.id" readonly />
-        </el-form-item>
-        <el-form-item label="语言名" :label-width="formLabelWidth">
-          <el-input v-model="language.name" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="序号" :label-width="formLabelWidth">
-          <el-input v-model="language.serial" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="映射ID" :label-width="formLabelWidth">
-          <el-input v-model="language.mapId" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="状态" :label-width="formLabelWidth" v-if="info.value?.role >= Role.Root">
-          <el-select v-model="language.status" placeholder="请选择状态" style="width: 100%">
-            <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item.id" />
-          </el-select>
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button @click="editDialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="submitEdit">修改</el-button>
-        </div>
-      </template>
-    </el-dialog>
   </div>
 </template>
 
