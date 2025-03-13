@@ -1,13 +1,14 @@
 <template>
     <ElSelect v-model="selectedId" @change="handleSelectChange" :clearable="clearable" :placeholder="placeholder"
         ref="selectRef">
-        <ElOption v-for="item in options" :key="item.id" :label="item.name" :value="item.id!" :disabled="item.disabled">
+        <ElOption v-for="item in options" :key="item.id" :label="item.name" :value="item.id!"
+            :disabled="item.disabled || (statusDisabled && (item.status === LanguageStatus.Disabled || item.status === LanguageStatus.Deprecated))">
             {{ item.name }}</ElOption>
     </ElSelect>
 </template>
 
 <script setup lang="ts">
-import type { Language } from '@/types/Judge';
+import { LanguageStatus, type Language } from '@/types/Judge';
 import { onBeforeMount, ref, watchEffect, type PropType } from 'vue';
 import { langStore } from '@/stores/language';
 import { ElSelect } from 'element-plus';
@@ -31,6 +32,10 @@ const props = defineProps({
     placeholder: {
         type: String as PropType<string>,
         default: '请选择语言'
+    },
+    statusDisabled: {
+        type: Boolean as PropType<boolean>,
+        default: false,
     }
 });
 
