@@ -6,30 +6,56 @@ import { updateLanguageApi } from "@/apis/language";
 import { langStore } from '@/stores/language';
 import { ElNotification } from "element-plus";
 import { userStore } from "@/stores/user";
-import { Role } from "@/types/User";
+import { VueDraggable } from 'vue-draggable-plus';
+import { DCaret } from "@element-plus/icons-vue";
+
+interface LanguageItem extends Language {
+  // 新增字段
+  originalSerial: number; // 原始序号
+  originalStatus: LanguageStatus; // 原始状态
+  isSerialModified: boolean; // 序号是否被修改
+  isStatusModified: boolean; // 状态是否被修改
+}
 
 const { refreshLanguages } = langStore();
-const { info } = userStore();
+const loading = ref(false);
 
-interface LanguageParams {
-  page: number
-  size: number
-}
-
-const languagePage = ref<Page<"languages", Language>>();
-const languages = ref<Language[]>([]);
-const params = ref<LanguageParams>({
-  page: 1,
-  size: 10
-});
+const languages = ref<LanguageItem[]>([]);
 
 const getList = async () => {
+  loading.value = true;
   const refreshedLanguages = (await refreshLanguages()).value;
-  languages.value = refreshedLanguages.map(lang => ({
+  const filteredLanguages = refreshedLanguages.slice(0, -1);
+  languages.value = filteredLanguages.map(lang => ({
     ...lang,
-    originalSerial: lang.serial // 新增 originalSerial 字段并初始化为 serial 的值
+    originalSerial: lang.serial,
+    originalStatus: lang.status ?? LanguageStatus.Enabled,
+    isSerialModified: false,
+    isStatusModified: false,
   }));
+  loading.value = false;
 }
+
+const handleDragEnd = () => {
+  languages.value.forEach((lang, index) => {
+    const newSerial = index + 1;
+    if (lang.originalSerial !== newSerial) {
+      lang.isSerialModified = true;
+    } else {
+      lang.isSerialModified = false;
+    }
+    lang.serial = newSerial;
+  });
+};
+
+const handleStatusChange = (language: LanguageItem, newStatus: number) => {
+  if (language.originalStatus !== newStatus) {
+    language.isStatusModified = true;
+  } else {
+    language.isStatusModified = false;
+  }
+  language.status = newStatus;
+};
 
 onMounted(() => {
   getList();
@@ -43,39 +69,26 @@ watch(() => languages.value, () => {
   key.value++
 });
 
-const handleStatusChange = (status: number, row: Language) => {
-  // 调用 API 更新语言状态
-  updateExecute({
-    data: { ...row, status }
-  }).then(() => {
-    ElNotification.success({
-      title: '状态更新成功',
-      type: 'success'
-    });
-    getList(); // 刷新语言列表
-  });
-};
-
-const handleSerialChange = (row: Language) => {
-  // 获取原始序号（从新增的 originalSerial 字段中读取）
-  const originalSerial = row.originalSerial;
-
-  // 检查序号是否发生变化
-  if (row.serial === originalSerial) {
-    return; // 如果序号未变化，则直接返回，不发送请求
+const updateHandle = async () => {
+  loading.value = true;
+  for (const language of languages.value) {
+    if (language.isSerialModified || language.isStatusModified) {
+      await updateExecute(
+        {
+          data: language
+        }
+      ).then(() => {
+        ElNotification.success({
+          title: '修改成功' + language.name,
+          type: 'success'
+        });
+      });
+    }
   }
-
-  // 更新序号
-  updateExecute({
-    data: { ...row }
-  }).then(() => {
-    ElNotification.success({
-      title: '序号更新成功',
-      type: 'success'
-    });
-    getList(); // 刷新语言列表以同步 originalSerial
-  });
+  getList();
+  loading.value = false;
 };
+
 
 </script>
 
@@ -85,52 +98,65 @@ const handleSerialChange = (row: Language) => {
       <el-aside width="200px">
         <AdminMenu></AdminMenu>
       </el-aside>
-      <el-main>
+      <el-main v-loading="loading">
         <el-row justify="space-between">
           <el-col :span="4">
             <strong>语言管理</strong>
           </el-col>
+          <el-col :span="20" style="text-align: right;">
+            <el-button icon="refresh" type="info" @click="getList()">刷新</el-button>
+            <el-button icon="upload" type="primary" @click="updateHandle()">更新</el-button>
+          </el-col>
         </el-row>
         <el-divider></el-divider>
-        <el-card>
-          <el-table :data="languages" :key="key" style="width: 100%" stripe>
-            <el-table-column label="ID" prop="id" width="80" />
-            <el-table-column label="语言" prop="name" />
-            <el-table-column label="序号" width="150">
-              <template #default="scope">
-                <el-input-number v-model="scope.row.serial" :min="1" size="small"
-                  @change="handleSerialChange(scope.row)" @blur="handleSerialChange(scope.row)" />
-              </template>
-            </el-table-column>
-            <el-table-column label="映射ID" prop="map_id" v-if="info.role >= Role.Root" />
-            <el-table-column label="状态" width="100">
-              <template #default="scope">
-                <el-dropdown>
-                  <el-button size="small" :type="LanguageStatusButtonType[scope.row.status as number]">
-                    {{ LanguageStatusMap[scope.row.status as number] }}
-                    <el-icon><arrow-down /></el-icon>
-                  </el-button>
-                  <template #dropdown>
-                    <el-dropdown-menu>
-                      <el-dropdown-item v-for="(statusName, statusValue) in LanguageStatusMap" :key="statusValue"
-                        @click="handleStatusChange(Number(statusValue), scope.row)">
-                        {{ statusName }}
-                      </el-dropdown-item>
-                    </el-dropdown-menu>
-                  </template>
-                </el-dropdown>
-              </template>
-            </el-table-column>
-          </el-table>
-          <br />
-          <el-pagination v-model:current-page="params.page" v-model:page-size="params.size"
-            :page-sizes="[10, 20, 50, 100]" :size="'small'" :background="true"
-            layout="total, sizes, prev, pager, next, jumper" :total="languagePage?.total" @size-change="getList"
-            @current-change="getList" />
-        </el-card>
+        <VueDraggable v-model="languages" :animation="150" handle=".handle" class="flex flex-col gap-2"
+          @end="handleDragEnd" :force-fallback="true">
+          <template v-for="(language, index) in languages" :key="language.id">
+            <div class="language-item">
+              <el-row>
+                <el-col :span="1">
+                  <el-button icon="DCaret" style="width: 10px;" class="handle cursor-move" text />
+                </el-col>
+                <el-col :span="18">
+                  {{ language.name }}
+                </el-col>
+                <el-col :span="2">
+                  <span :class="{ 'text-red': language.isSerialModified }">
+                    {{ language.originalSerial }} → {{ language.serial }}
+                  </span>
+                </el-col>
+                <el-col :span="3">
+                  <el-dropdown trigger="click" @command="(value: number) => handleStatusChange(language, value)">
+                    <el-button size="small" :type="LanguageStatusButtonType[language.status as number]">
+                      {{ LanguageStatusMap[language.status as number] }}
+                      <el-icon><arrow-down /></el-icon>
+                    </el-button>
+                    <template #dropdown>
+                      <el-dropdown-menu>
+                        <el-dropdown-item v-for="(statusName, statusValue) in LanguageStatusMap" :key=statusValue
+                          :command="Number(statusValue)">
+                          {{ statusName }}
+                        </el-dropdown-item>
+                      </el-dropdown-menu>
+                    </template>
+                  </el-dropdown>
+                  <span v-if="language.isStatusModified" class="original-status text-red ml-2">
+                    (原：{{ LanguageStatusMap[language.originalStatus] }})
+                  </span>
+                </el-col>
+              </el-row>
+            </div>
+          </template>
+        </VueDraggable>
       </el-main>
     </el-container>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.language-item {
+  padding: 10px;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.3s;
+}
+</style>
