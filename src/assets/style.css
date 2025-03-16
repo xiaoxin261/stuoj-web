@@ -62,3 +62,56 @@ a:active {
   font-size: 1.8rem;
   font-weight: 600;
 }
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.gap-2 {
+  gap: 2px;
+}
+
+.gap-4 {
+  gap: 4px;
+}
+
+.gap-8 {
+  gap: 8px;
+}
+
+.gap-16 {
+  gap: 16px;
+}
+
+.gap-24 {
+  gap: 24px;
+}
+
+.p-4 {
+  padding: 4px;
+}
+
+.rounded {
+  border-radius: 4px;
+}
+
+.align-items-stretch {
+  align-items: stretch; /* 使子元素高度自动拉伸对齐 */
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row; /* 明确设置行内排列 */
+}
+
+.padding-container {
+  padding: 8px;
+}
+
+.text-red {
+  color: red;
+}
