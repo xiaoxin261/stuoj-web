@@ -188,4 +188,5 @@ export interface ProblemParams {
     order_by?: OrderBy,
     testcases?: boolean,
     solutions?: boolean,
+    detail?: boolean,
 }

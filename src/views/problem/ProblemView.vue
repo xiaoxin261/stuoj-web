@@ -293,6 +293,9 @@ onMounted(async () => {
 
     await execute({
       id: problemId.value,
+      params: {
+        detail: true,
+      }
     });
     if (state.value) {
       problemInfo.value = state.value;
