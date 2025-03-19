@@ -4,7 +4,7 @@
 </template>
 
 <script setup lang="ts">
-import { getLanguageListApi } from '@/apis/judge';
+import { getLanguageListApi } from '@/apis/language';
 import type { Language } from '@/types/Judge';
 import { onMounted, ref, watchEffect } from 'vue';
 
