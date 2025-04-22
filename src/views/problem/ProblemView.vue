@@ -324,6 +324,8 @@ onMounted(async () => {
 .problem-sample-output {
   display: block;
   font-size: 13px;
+  font-family: 'Consolas';
+  font-weight: 500;
 }
 
 .problem-output,
