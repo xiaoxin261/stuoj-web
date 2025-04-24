@@ -5,7 +5,7 @@
 <script lang="ts" setup>
 import { ref, onMounted, watch, toRefs, onUnmounted } from 'vue';
 import ace from 'brace';
-import 'brace/mode/javascript'; // 根据需要加载其他语言模式
+import 'brace/mode/c_cpp'; // 加载cpp语言模式
 import 'brace/theme/monokai'; // 根据需要加载其他主题
 
 const props = withDefaults(defineProps<{
@@ -16,6 +16,7 @@ const props = withDefaults(defineProps<{
 }>(), {
     options: () => ({}),
     theme: 'monokai',
+    mode: 'c_cpp',
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -70,7 +71,7 @@ watch(theme, (newTheme) => {
 watch(mode, (newMode) => {
     const editorInstance = ace.edit(editor.value as unknown as HTMLElement);
     editorInstance.getSession().setMode(`ace/mode/${newMode}`);
-});
+}, { immediate: true });
 
 onUnmounted(() => {
     const editorInstance = ace.edit(editor.value as unknown as HTMLElement);
