@@ -35,6 +35,31 @@ onMounted(() => {
         const content = editorInstance.getValue();
         emit('update:modelValue', content);
     });
+
+    // 添加括号自动补全功能
+    editorInstance.on('change', (delta) => {
+        // 仅在插入左括号时触发补全
+        if (delta.action === 'insert' &&
+            (delta.lines[0] === '(' || delta.lines[0] === '[' || delta.lines[0] === '{')) {
+            const cursor = editorInstance.getCursorPosition();
+            const session = editorInstance.getSession();
+            const line = session.getLine(cursor.row);
+
+            const closingChar = delta.lines[0] === '(' ? ')' :
+                delta.lines[0] === '[' ? ']' : '}';
+            // 检查后面是否已经有匹配的右括号
+            if (cursor.column >= line.length || line.charAt(cursor.column) !== closingChar) {
+                // 将光标移动到右括号位置
+                const newCursor = {
+                    row: cursor.row,
+                    column: cursor.column + 1
+                };
+                session.insert(newCursor, closingChar);
+                // 将光标移回左括号和右括号之间
+                editorInstance.moveCursorTo(cursor.row, cursor.column);
+            }
+        }
+    });
 });
 
 watch(theme, (newTheme) => {
