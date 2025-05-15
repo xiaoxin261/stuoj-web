@@ -49,7 +49,7 @@ const _req = async <T>(config: AxiosRequestConfig): Promise<ApiResponse<T> | und
     realData = { code: 0, msg: '请求失败', data: null } as ApiResponse<T>;
   else
     realData = result.data;
-  if (realData.code === 0) {
+  if (realData.code !== 1) {
     throw new Error(`Error: ${realData.msg}`);
   }
   return realData as ApiResponse<T>;
