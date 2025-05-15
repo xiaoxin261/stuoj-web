@@ -48,7 +48,6 @@ export const GetId = useDefineApi<
 
 export const uploadAvatarApi = useDefineApi<
     {
-        id: number;
         data: FormData;
     },
     null

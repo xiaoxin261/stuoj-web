@@ -60,16 +60,21 @@ const upload = async () => {
 
     loading.value = true;
     try {
+
         await cropper.value.getCropBlob(
             async (cropData: any) => {
+                if (!user.value) {
+                    ElMessage.error('用户信息未加载');
+                    return;
+                }
                 if (!(cropData instanceof Blob)) {
                     ElMessage.error('裁剪结果不是有效的 Blob 对象', cropData);
                     return;
                 };
                 const formData = new FormData();
                 formData.append('file', cropData, imgName.value);
+                formData.append('id', user.value.id.toString());
                 await execute({
-                    id: user.value?.id || 0,
                     data: formData
                 }).then((res) => {
                     if (res.value && user.value) {
