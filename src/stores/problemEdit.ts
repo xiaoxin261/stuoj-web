@@ -1,4 +1,4 @@
-import { deleteSolutionApi, deleteTestcaseApi, getProblemApi, getSolutionApi, getTestcaseApi, updateSolutionApi, updateTestcaseApi, uploadSolutionApi, uploadTestcaseApi } from "@/apis/problem";
+import { deleteSolutionApi, deleteTestcaseApi, getSolutionApi, getTestcaseApi, updateSolutionApi, updateTestcaseApi, uploadSolutionApi, uploadTestcaseApi, getTestcaseListApi, getSolutionListApi } from "@/apis/problem";
 import type { Solution, Testcase } from "@/types/Problem";
 import { generateRandomHash } from "@/utils/hash";
 import { createGlobalState } from "@vueuse/core";
@@ -13,7 +13,7 @@ export interface TemData<T> {
 };
 
 export const problemEditStore = createGlobalState(() => {
-    const { execute: getProblemExecute } = getProblemApi();
+    const { execute: getTestcaseListExecute } = getTestcaseListApi();
     const { execute: getTestcaseExecute } = getTestcaseApi();
     const { execute: uploadTestcaseExecute } = uploadTestcaseApi();
     const { execute: updateTestcaseExecute } = updateTestcaseApi();
@@ -83,13 +83,14 @@ export const problemEditStore = createGlobalState(() => {
             ElMessage.error('请先上传题目');
             return;
         }
-        await getProblemExecute({
-            id: problemId.value,
+        await getTestcaseListExecute({
             params: {
-                testcases: true,
+                problem: problemId.value,
+                page: 1,
+                size: 100,
             }
         }).then((res) => {
-            if (res.value?.testcases) {
+            if (res.value) {
                 testcases.value = res.value.testcases.map((testcase: Testcase) => {
                     return {
                         checked: false,
@@ -100,6 +101,11 @@ export const problemEditStore = createGlobalState(() => {
                         },
                     };
                 });
+                for (const testcase of testcases.value) {
+                    if (testcase.data.id !== 0 && testcase.data.id !== undefined) {
+                        resetTestcase(testcase.data.id);
+                    }
+                }
             }
         });
     };
@@ -154,7 +160,7 @@ export const problemEditStore = createGlobalState(() => {
     }, { deep: true });
 
 
-
+    const { execute: getSolutionListExecute } = getSolutionListApi();
     const { execute: getSolutionExecute } = getSolutionApi();
     const { execute: uploadSolutionExecute } = uploadSolutionApi();
     const { execute: updateSolutionExecute } = updateSolutionApi();
@@ -174,10 +180,11 @@ export const problemEditStore = createGlobalState(() => {
             ElMessage.error('请先上传题目');
             return;
         }
-        await getProblemExecute({
-            id: problemId.value,
+        await getSolutionListExecute({
             params: {
-                solutions: true,
+                problem: problemId.value,
+                page: 1,
+                size: 100,
             }
         }).then((res) => {
             if (res.value?.solutions) {

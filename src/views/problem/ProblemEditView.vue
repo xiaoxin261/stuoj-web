@@ -96,6 +96,10 @@
                 <ProblemDifficultySelect v-model:model-value="problem.difficulty" style="width: 40%;" />
                 <ProblemStatusSelect v-model:model-value="problem.status" style="width: 40%;" />
               </div>
+              <ElDivider />
+              <ProblemTag tags-size="default" layout="vertical" :remove-flag="true" v-model:tag-ids="problem.tag_ids"
+                v-model:tags="tags" />
+              <ElDivider />
               <div style="margin-top: 10px; display: flex; justify-content: flex-end;">
                 <ElTooltip content="创建为新题">
                   <ElButton type="primary" @click="handleUpload">创建</ElButton>
@@ -103,12 +107,6 @@
                 <ElTooltip content="更新该题">
                   <ElButton v-if="problemId !== 0" type="primary" @click="handleUpdate">更新</ElButton>
                 </ElTooltip>
-              </div>
-              <ElDivider />
-              <ProblemTag tags-size="default" layout="vertical" :remove-flag="true" v-model:tag-ids="tagIds"
-                v-model:tags="tags" />
-              <div style="display: flex; justify-content: flex-end;">
-                <ElButton type="primary" @click="handleUpdateTag">更新标签</ElButton>
               </div>
             </div>
           </ElCard>
@@ -169,7 +167,7 @@
 import { onBeforeMount, ref, h, computed } from 'vue';
 import { ElInputNumber, ElLink, ElNotification, ElRow, ElTabPane } from 'element-plus';
 import { type ProblemInfo, type Testcase, type Global, type Tag, type Solution } from '@/types/Problem';
-import { getProblemApi, insertProblemApi, updateProblemApi, problemRemoveTagApi, problemAddTagApi } from '@/apis/problem';
+import { getProblemApi, insertProblemApi, updateProblemApi, problemRemoveTagApi, problemAddTagApi, getTestcaseListApi } from '@/apis/problem';
 import { useRoute } from 'vue-router';
 import TestcaseTable from '@/components/problem/TestcaseTable.vue';
 import TestcaseEdit from '@/components/problem/TestcaseEdit.vue';
@@ -184,8 +182,6 @@ const workingArea = ref(['题面', '数据'])
 const { execute: getProblemExecute } = getProblemApi();
 const { execute: updateProblemExecute } = updateProblemApi();
 const { execute: uploadProblemExecute } = insertProblemApi();
-const { execute: problemRemoveTagExecute } = problemRemoveTagApi();
-const { execute: problemAddTagExecute } = problemAddTagApi();
 const problem = ref<ProblemInfo>({
   title: '',
   description: '',
@@ -197,6 +193,7 @@ const problem = ref<ProblemInfo>({
   difficulty: 0,
   memory_limit: 131072,
   time_limit: 1,
+  tag_ids: [],
 });
 
 const memoryLimitMB = computed({
@@ -216,9 +213,7 @@ const global = ref<Global>({
 const route = useRoute();
 let problemId = ref<number>(0);
 
-const tagIds = ref<number[]>([]);
 const tags = ref<Tag[]>([]);
-const oldTagIds = ref<number[]>([]);
 
 const activeName = ref<string>('testcase');
 
@@ -232,16 +227,10 @@ const reset = async () => {
   }
   await getProblemExecute({
     id: problemId.value,
-    params: {
-      testcases: true,
-      solutions: true,
-      detail: true,
-    }
+    params: {}
   }).then(async (res) => {
     if (res.value) {
       problem.value = res.value;
-      oldTagIds.value = res.value.tag_ids || [];
-      tagIds.value = oldTagIds.value;
     }
   });
 }
@@ -277,41 +266,6 @@ const handleDebugFlag = () => {
   debugFlag.value = !debugFlag.value;
 };
 
-const handleUpdateTag = async () => {
-  if (problemId.value) {
-    const tagsToRemove = oldTagIds.value.filter(tag => !tags.value.some(newTag => newTag.id === tag));
-    const tagsToAdd = tagIds.value.filter(tag => !oldTagIds.value.includes(tag));
-
-    for (const tag of tagsToRemove) {
-      if (tag !== undefined) {
-        await problemRemoveTagExecute({
-          data: {
-            problem_id: problemId.value,
-            tag_id: tag
-          }
-        });
-      };
-    };
-
-    for (const tag of tagsToAdd) {
-      if (tag !== undefined) {
-        await problemAddTagExecute({
-          data: {
-            problem_id: problemId.value,
-            tag_id: tag
-          }
-        });
-      };
-    };
-
-    oldTagIds.value = [...tagIds.value];
-    ElNotification.success({
-      title: '标签更新成功',
-      message: '标签已成功更新'
-    });
-  }
-};
-
 const handleUpload = async () => {
   uploadProblemExecute({
     data: problem.value
@@ -340,9 +294,9 @@ const handleUpdate = async () => {
     return;
   }
   problem.value.id = problemId.value;
-  updateProblemExecute({
+  await updateProblemExecute({
     data: problem.value
-  }).then(() => {
+  }).then((res) => {
     ElNotification.success({
       title: '更新成功',
       message: h(ElLink, {

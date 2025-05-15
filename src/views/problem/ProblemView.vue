@@ -156,7 +156,7 @@
             </div>
           </template>
           <div v-if="editUserFlag" class="avatar-container">
-            <AvatarInfo v-for="(user) in problemInfo.user_ids" :key="user" :user-id="user" />
+            <AvatarInfo v-for="(user) in problemInfo.user" :user="user" />
           </div>
         </ElCard>
         <ElCard shadow="always" style="margin-top: 20px;">
@@ -293,9 +293,6 @@ onMounted(async () => {
 
     await execute({
       id: problemId.value,
-      params: {
-        detail: true,
-      }
     });
     if (state.value) {
       problemInfo.value = state.value;

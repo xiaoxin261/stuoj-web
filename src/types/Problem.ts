@@ -18,12 +18,11 @@ export interface ProblemInfo {
     time_limit?: number;
     title: string;
     update_time?: string;
-    tag_ids?: number[];
+    tag_ids: number[];
     user_ids?: number[];
     user_score?: number;
     has_user_submission?: boolean;
-    solutions?: Solution[];
-    testcases?: Testcase[];
+    user?: UserInfo[];
     [property: string]: any;
 }
 
@@ -46,8 +45,8 @@ export interface Testcase {
     id?: number;
     problem_id?: number;
     serial?: number;
-    test_input: string;
-    test_output: string;
+    test_input?: string;
+    test_output?: string;
     [property: string]: any;
 }
 
@@ -186,7 +185,4 @@ export interface ProblemParams {
     status?: string,
     order?: string,
     order_by?: OrderBy,
-    testcases?: boolean,
-    solutions?: boolean,
-    detail?: boolean,
 }
