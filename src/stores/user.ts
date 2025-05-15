@@ -75,7 +75,7 @@ export const userStore = createGlobalState(() => {
   };
 
 
-  const getUserInfo = async (userInfo?: UserInfo) => {
+  const getSelfUserInfo = async (userInfo?: UserInfo) => {
     if (!isLogin.value)
       return;
     if (userInfo) {
@@ -83,9 +83,6 @@ export const userStore = createGlobalState(() => {
     } else {
       if (id.value === 0) {
         await getId();
-      }
-      if (id.value === 0) {
-        return;
       }
       const state = await execute({
         id: id.value
@@ -98,7 +95,7 @@ export const userStore = createGlobalState(() => {
 
   return {
     getId,
-    getUserInfo,
+    getSelfUserInfo,
     id,
     info,
     token,

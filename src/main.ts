@@ -19,11 +19,11 @@ import { userStore } from './stores/user'
 
 const app = createApp(App)
 
-const { getUserInfo, isLogin } = userStore();
+const { getSelfUserInfo, isLogin } = userStore();
 
 const initApp = async () => {
     try {
-        isLogin.value && (await getUserInfo());
+        isLogin.value && (await getSelfUserInfo());
         app.use(router);
         app.use(ElementPlus, {
             locale: zhCn,
