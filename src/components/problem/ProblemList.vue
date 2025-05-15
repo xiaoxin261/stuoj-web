@@ -65,7 +65,6 @@
     <el-table-column v-if="admin" align="right" width="200">
       <template #default="scope">
         <el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
-        <el-button size="small" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -76,10 +75,8 @@ import { ref, watch } from 'vue';
 import { type ProblemInfo, ProblemStatusMap, ProblemStatusColor } from '@/types/Problem';
 import { DifficultyMap, DifficultyColor } from '@/types/Problem';
 import { formatDateStr } from "@/utils/date";
-import { deleteProblemApi } from '@/apis/problem';
 import router from '@/router';
 import ProblemTagShow from './ProblemTagShow.vue';
-import { ElNotification } from "element-plus";
 import type { OrderBy } from '@/types/misc';
 import { Select } from '@element-plus/icons-vue';
 import { JudgeStatus } from '@/types/Judge';
@@ -120,18 +117,6 @@ interface Scope {
 }
 
 const emit = defineEmits(['update', 'update:order', 'update:order-by']);
-const { execute: deleteExecute } = deleteProblemApi();
-const handleDelete = (id: number) => {
-  deleteExecute({
-    id: id
-  }).then(() => {
-    emit('update');
-    ElNotification.success({
-      title: '删除成功',
-      type: 'success'
-    });
-  });
-};
 
 const columnMap: { [key: string]: string } = {
   "ID": "id",

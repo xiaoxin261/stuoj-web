@@ -47,16 +47,6 @@ export const updateProblemApi = useDefineApi<
     method: "put"
 })
 
-export const deleteProblemApi = useDefineApi<
-    {
-        id: number
-    },
-    null
->({
-    url: "/problem",
-    method: "delete"
-})
-
 export const problemAddTagApi = useDefineApi<
     {
         data: {
