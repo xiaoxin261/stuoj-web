@@ -192,7 +192,7 @@ import { getProblemApi } from "@/apis/problem";
 import { DifficultyMap } from "@/types/Problem";
 import { formatDateStr } from "@/utils/date";
 import { DocumentAdd, Notebook, StarFilled } from "@element-plus/icons-vue";
-import { getRecordListApi, getAcUserApi } from "@/apis/record";
+import { getRecordListApi, getRecordInfoApi, getAcUserApi } from "@/apis/record";
 import type { Submission } from "@/types/Record";
 import { OrderBy } from "@/types/misc";
 import { userStore } from "@/stores/user";
@@ -207,7 +207,8 @@ const problemId = useRouteParams<number>("id");
 const { id } = userStore();
 
 const { state, execute } = getProblemApi();
-const { execute: recordExecute } = getRecordListApi();
+const { execute: recordListExecute } = getRecordListApi();
+const { execute: recordInfoExecute } = getRecordInfoApi();
 const { execute: acUserExecute } = getAcUserApi();
 const { execute: blogExecute } = getBlogListApi();
 
@@ -278,7 +279,7 @@ const toQueryBlog = () => {
 };
 
 onMounted(async () => {
-  await recordExecute({
+  await recordListExecute({
     params: {
       user: String(id.value),
       problem: String(problemId.value),
@@ -287,10 +288,15 @@ onMounted(async () => {
       order: "desc",
       order_by: OrderBy.create_time
     }
-  }).then((res) => {
-    record.value = res.value?.submissions[0];
+  }).then(async (res) => {
+    if (res.value?.submissions.length === 0 || res.value?.submissions[0].id === undefined)
+      return;
+    await recordInfoExecute({
+      id: res.value?.submissions[0].id,
+    }).then((res) => {
+      record.value = res.value?.submission;
+    });
   }).finally(async () => {
-
     await execute({
       id: problemId.value,
     });
