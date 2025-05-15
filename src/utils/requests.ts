@@ -29,6 +29,9 @@ instance.interceptors.response.use(function (response) {
         return response;
       });
     } else {
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
       return error.response;
     }
   } else if (error.response) {
