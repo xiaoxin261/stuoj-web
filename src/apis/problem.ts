@@ -83,6 +83,20 @@ export const problemRemoveTagApi = useDefineApi<
     method: "delete"
 })
 
+export const getTestcaseListApi = useDefineApi<
+    {
+        params: {
+            problem: number,
+            page: number,
+            size: number,
+        }
+    },
+    Page<"testcases", Testcase>
+>({
+    url: "/testcase/",
+    method: "get"
+})
+
 export const getTestcaseApi = useDefineApi<
     {
         id: number
@@ -129,6 +143,20 @@ export const datamakeApi = useDefineApi<
 >({
     url: "/testcase/datamake",
     method: "post"
+})
+
+export const getSolutionListApi = useDefineApi<
+    {
+        params: {
+            problem: number,
+            page: number,
+            size: number,
+        }
+    },
+    Page<"solutions", Solution>
+>({
+    url: "/solution/",
+    method: "get"
 })
 
 export const getSolutionApi = useDefineApi<
