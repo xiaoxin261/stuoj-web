@@ -24,10 +24,9 @@ export const getUserInfoApi = useDefineApi<
 
 export const ModifyUserInfo = useDefineApi<
     {
-        id: number;
         data: {
+            id: number;
             username: string;
-            email: string;
             signature: string;
         }
     },

@@ -1,13 +1,15 @@
 <template>
     <ElButton class="ToUserSettingButton" size="small" @click="dialogVisible = !dialogVisible">
-      <el-icon><SetUp /></el-icon>&nbsp;
-      设置
+        <el-icon>
+            <SetUp />
+        </el-icon>&nbsp;
+        设置
     </ElButton>
-    <ElDialog v-model="dialogVisible" title="修改信息" width="500" append-to-body >
+    <ElDialog v-model="dialogVisible" title="修改信息" width="500" append-to-body>
         <div class="avatar-container">
             <AvatarCropper v-model:user="info" />
         </div>
-        <ElForm :model="info_" label-width="80px" style="margin-top: 15px;" >
+        <ElForm :model="info_" label-width="80px" style="margin-top: 15px;">
             <ElFormItem label="用户名">
                 <ElInput v-model="info_.username" />
             </ElFormItem>
@@ -21,12 +23,12 @@
                 <UserRoleSelect v-model="userRole" />
             </ElFormItem>
         </ElForm>
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button @click="handleCancel">取消</el-button>
-          <el-button type="primary" @click="handleConfirm">修改</el-button>
-        </div>
-      </template>
+        <template #footer>
+            <div class="dialog-footer">
+                <el-button @click="handleCancel">取消</el-button>
+                <el-button type="primary" @click="handleConfirm">修改</el-button>
+            </div>
+        </template>
     </ElDialog>
 </template>
 
@@ -87,11 +89,10 @@ const handleConfirm = () => {
         });
     };
     modifyUserInfoExcute({
-        id: info_.value.id,
         data: {
+            id: info_.value.id,
             username: info_.value.username,
             signature: info_.value.signature || info.value.signature || "",
-            email: info_.value.email || info.value.email || "",
         }
     }).then((res) => {
         refresh();
