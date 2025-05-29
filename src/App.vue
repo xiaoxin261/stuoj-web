@@ -37,7 +37,7 @@
 }
 
 .app-header {
-  width: 80%;
+  width: 70%;
 }
 
 @media (max-width: 1200px) {

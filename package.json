@@ -24,6 +24,7 @@
     "element-plus": "^2.8.8",
     "highlight.js": "^11.11.1",
     "katex": "^0.16.19",
+    "less": "^4.3.0",
     "markdown-it-emoji": "^3.0.0",
     "markdown-it-footnote": "^4.0.0",
     "markdown-it-highlight": "^0.2.0",
