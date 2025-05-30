@@ -89,10 +89,19 @@ const router = createRouter({
     {
       path: '/collection',
       name: 'collection',
-      component: () => import('../views/collection/CollectionListView.vue'),
+      component: () => import('../views/collection/CollectionView.vue'),
       meta: {
         permission: Role.Visitor,
         title: '题单 - STUOJ',
+      },
+    },
+    {
+      path: '/collection/:id',
+      name: 'collection-detail',
+      component: () => import('../views/collection/CollectionView.vue'),
+      meta: {
+        permission: Role.Visitor,
+        title: '题单详情 - STUOJ',
       },
     },
     {

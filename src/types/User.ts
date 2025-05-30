@@ -51,6 +51,13 @@ export interface RegisterReq{
     verify_code: string;
 }
 
+export interface UserSimpleData {
+    id: number;
+    name: string;
+    role: Role;
+    avatar: string;
+}
+
 export interface UserParams {
     page: number,
     size: number,

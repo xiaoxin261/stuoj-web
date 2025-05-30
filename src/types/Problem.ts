@@ -176,6 +176,16 @@ export const DifficultyColor = {
     [Difficulty.S]: Colors.black,
 }
 
+export interface ProblemSimpleData {
+    id: number;
+    title: string;
+    source?: string;
+    difficulty: Difficulty;
+    tag_ids?: number[];
+    user_score?: number;
+    has_user_submission?: boolean;
+}
+
 export interface ProblemParams {
     page: number,
     size: number,

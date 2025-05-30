@@ -61,4 +61,26 @@ const menuLinks = computed(() => {
   </el-menu>
 </template>
 
-<style scoped></style>
+<style scoped>
+.el-menu {
+  border-right: none;
+}
+
+.el-menu-item {
+  transition: all 0.3s;
+  color: var(--el-text-color-regular);
+}
+
+:deep(.el-menu-item.is-active) {
+  color: #fff !important;
+  background-color: #409EFF !important;
+  font-weight: bold;
+  border-radius: 4px;
+  margin: 4px;
+}
+
+.el-menu-item:hover {
+  background-color: var(--el-color-primary-light-8);
+  color: var(--el-color-primary) !important;
+}
+</style>
