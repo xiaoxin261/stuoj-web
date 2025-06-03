@@ -6,6 +6,25 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: '/notice/list',
+      name: 'notice-list',
+      component: () => import('@/views/blog/NoticeListView.vue'),
+      meta: {
+        permission: Role.Visitor,
+        title: '公告列表 - STUOJ'
+      }
+    },
+    {
+      path: '/notice/:id',
+      name: 'notice',
+      component: () => import('@/views/blog/NoticeView.vue'),
+      props: true,
+      meta: {
+        permission: Role.Visitor,
+        title: '公告详情 - STUOJ'
+      }
+    },
+    {
       path: '/',
       name: 'home',
       component: () => import('../views/HomeView.vue'),

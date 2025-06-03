@@ -105,7 +105,7 @@
         </el-card>
         <el-card style="margin-bottom: 20px">
           <template #header>
-            <div class="card-header">
+            <div class="card-header pointer"  @click="goToNoticeList" >
               <strong>公告栏</strong>
             </div>
           </template>
@@ -170,6 +170,10 @@ const gotoProblem = () => {
   if (gotoForm.value.problemId) {
     router.push(`/problem/${gotoForm.value.problemId}`);
   }
+};
+
+const goToNoticeList = () => {
+  router.push('/notice/list');
 };
 </script>
 
@@ -257,5 +261,8 @@ const gotoProblem = () => {
     margin: 0 auto;
     text-align: center;
   }
+}
+.pointer:hover{
+    cursor:pointer;
 }
 </style>
