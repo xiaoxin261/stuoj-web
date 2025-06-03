@@ -11,7 +11,7 @@
       </div>
     </div>
     <a :href="problem.href" class="problemBox">
-      <div class="title"><el-icon style="vertical-align: middle;">
+      <div class="title"><el-icon style="font-size: 0.7rem;;">
           <EditPen />
         </el-icon><span>每日一题</span></div>
       <div class="problem">No.{{ problem.id }} {{ problem.text }}</div>
@@ -21,12 +21,17 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { getDailyProblemApi } from '@/apis/problem'
+
 const problem = ref({
   id: 1,
-  text: "A+B问题",
-  href: "/problem/1"
+  text: "加载中...",
+  href: "/problem/1",
+  difficulty: 0,
+  source: ""
 })
 const daysInfo = ref([]);
+const isLoading = ref(false);
 
 function getDaysInfo() {
   const weekDays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
@@ -46,22 +51,39 @@ function getDaysInfo() {
   return result;
 }
 
+const { execute } = getDailyProblemApi();
+
+async function fetchDailyProblem() {
+  isLoading.value = true;
+  try {
+    await execute({}).then((res) => {
+      if (res.value) {
+        problem.value.id = res.value.id;
+        problem.value.text = res.value.title;
+        problem.value.href = `/problem/${res.value.id}`;
+        problem.value.difficulty = res.value.difficulty;
+        problem.value.source = res.value.source;
+      }
+    });
+  } catch (err) {
+    console.error('获取每日一题失败:', err);
+    problem.value.text = "获取题目失败";
+  } finally {
+    isLoading.value = false;
+  }
+}
+
 onMounted(() => {
   daysInfo.value = getDaysInfo();
-  daysInfo.value[0].day = '今'
+  daysInfo.value[0].day = '今';
+  fetchDailyProblem();
 });
-
-
-
-
-
 </script>
 
 <style lang="less" scoped>
 .box {
   margin: 0 auto;
   width: 20rem;
-  height: 9rem;
 
   .weekBox {
     display: flex;
@@ -79,6 +101,7 @@ onMounted(() => {
     .dayBox {
       width: 14%;
       color: #000;
+
       .top {
         padding: 0.6rem;
         height: 1.3rem;
@@ -97,7 +120,8 @@ onMounted(() => {
         text-align: center;
       }
     }
-    .dayBox:hover{
+
+    .dayBox:hover {
       background-color: #f5f5f5;
       border-radius: 0.2rem;
     }
@@ -117,7 +141,8 @@ onMounted(() => {
       font-size: 0.7rem;
       font-weight: 200;
       color: rgb(27, 163, 255);
-
+      display: flex;
+      align-items: center;
       span {
         margin-left: 0.3rem;
       }

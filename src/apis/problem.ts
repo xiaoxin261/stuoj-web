@@ -198,3 +198,23 @@ export const getProblemHistoryApi = useDefineApi<
     url: "/problem/history",
     method: "get"
 })
+
+export const getDailyProblemApi = useDefineApi<
+    {},
+    {
+        code: number,
+        msg: string,
+        data: {
+            difficulty: number,
+            id: number,
+            source: string,
+            title: string,
+            tag_ids: number[] | null,
+            has_user_submission: boolean,
+            user_score?: number
+        }
+    }
+>({
+    url: "/problem/daily",
+    method: "get"
+})

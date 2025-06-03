@@ -24,8 +24,13 @@
               距 <strong>CSP-J/S 2025 第一轮</strong> 还剩 <strong>154 天</strong><br>
               距 <strong>CSP-J/S 2025 第二轮</strong> 还剩 <strong>189 天</strong><br>
             </div>
-            <div class="welcome">欢迎来到STUOJ</div>
-            <div class="button"><el-button type="info" tag="a" href="/user/login" style="width: 100%;">登录/注册</el-button>
+            <div class="welcome" v-if="!isLogin">欢迎来到STUOJ</div>
+            <div class="welcome" v-else><strong>{{ slot }}好，{{ info.username }}</strong> </div>
+            <div class="button" v-if="!isLogin">
+              <el-button type="info" @click="goToLogin" style="width: 100%;">登录/注册</el-button>
+            </div>
+            <div class="button" v-else>
+              <el-button type="info" @click="goToProblemList" style="width: 100%;">去做题</el-button>
             </div>
           </div>
         </el-card>
@@ -33,18 +38,27 @@
     </el-row>
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-card>
-          <DayProblem/>
+        <el-card style="height: 17.3rem;">
+          <DayProblem />
+          <div style="margin: 0 auto; height: 1rem; width: 19rem; border-bottom: 1px solid #f5f5f5;"></div>
+          <el-form :v-model="gotoForm" style="display: flex; justify-content: space-between; margin-top: 2rem;">
+            <el-form-item>
+              <el-input v-model="gotoForm.problemId" placeholder="题目 ID" clearable />
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="gotoProblem">传送</el-button>
+            </el-form-item>
+          </el-form>
         </el-card>
       </el-col>
       <el-col :span="16">
-        <el-card>
+        <el-card style="margin-bottom: 20px;height: 17.3rem; ">
           <template #header>
-            <div class="card-header">
-              <strong>题目推荐</strong>
+            <div class="card-header pointer" @click="goToNoticeList">
+              <strong>公告栏</strong>
             </div>
           </template>
-          <ProblemRecommend />
+          <NoticeList />
         </el-card>
       </el-col>
 
@@ -105,7 +119,7 @@
         </el-card>
         <el-card style="margin-bottom: 20px">
           <template #header>
-            <div class="card-header pointer"  @click="goToNoticeList" >
+            <div class="card-header pointer" @click="goToNoticeList">
               <strong>公告栏</strong>
             </div>
           </template>
@@ -153,10 +167,10 @@ onMounted(() => {
 });
 
 const weeks = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
-const months = [ "一月大", "二月小", "三月大", "四月小", "五月大", "六月小", "七月大", "八月大", "九月小", "十月大", "十一月","十二月"];
+const months = ["一月大", "二月小", "三月大", "四月小", "五月大", "六月小", "七月大", "八月大", "九月小", "十月大", "十一月", "十二月"];
 const date = new Date();
 const year = date.getFullYear();
-const month = months[date.getMonth() ];
+const month = months[date.getMonth()];
 const day = date.getDate();
 const hour = date.getHours();
 const week = weeks[date.getDay()];
@@ -174,6 +188,14 @@ const gotoProblem = () => {
 
 const goToNoticeList = () => {
   router.push('/notice/list');
+};
+
+const goToLogin = () => {
+  router.push('/user/login')
+};
+
+const goToProblemList = () => {
+  router.push('/problem')
 };
 </script>
 
@@ -261,8 +283,14 @@ const goToNoticeList = () => {
     margin: 0 auto;
     text-align: center;
   }
+
+  .greeting{
+    text-align: center;
+    font-weight: 700;
+  }
 }
-.pointer:hover{
-    cursor:pointer;
+
+.pointer:hover {
+  cursor: pointer;
 }
 </style>

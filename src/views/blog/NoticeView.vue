@@ -43,20 +43,20 @@ onMounted(async () => {
 
 <style lang="less" scoped>
 .notice-view {
-  padding: 20px;
-  max-width: 800px;
+  padding: 1.25rem;
+  max-width: 50rem;
   margin: 0 auto;
 
   .title {
-    font-size: 24px;
-    margin-bottom: 16px;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
     color: #333;
   }
 
   .meta {
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
     color: #999;
-    font-size: 14px;
+    font-size: 0.875rem;
   }
 
   .content {
@@ -65,7 +65,7 @@ onMounted(async () => {
 
   .loading, .empty {
     text-align: center;
-    padding: 40px 0;
+    padding: 2.5rem 0;
     color: #666;
   }
 }
