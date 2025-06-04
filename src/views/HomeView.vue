@@ -1,39 +1,8 @@
 <template>
   <div class="container-main">
-    <el-row :gutter="20">
+  <el-row :gutter="20">
       <el-col :span="24">
-        <el-card :body-style="{
-          display: 'flex',
-          width: '100 %',
-          height: '19rem',
-          justifyContent: 'space-between',
-        }">
-          <div class="carousel"><el-carousel height="19rem">
-              <el-carousel-item v-for="(image, index) in banners" :key="index">
-                <img :src="image" alt="banner" class="banner-img" />
-              </el-carousel-item>
-            </el-carousel></div>
-
-          <div class="dayBox">
-            <div class="day">
-              <div class="left">{{ month }}</div>
-              <div class="center">{{ day }}</div>
-              <div class="right">{{ week }}</div>
-            </div>
-            <div class="rise">
-              距 <strong>CSP-J/S 2025 第一轮</strong> 还剩 <strong>154 天</strong><br>
-              距 <strong>CSP-J/S 2025 第二轮</strong> 还剩 <strong>189 天</strong><br>
-            </div>
-            <div class="welcome" v-if="!isLogin">欢迎来到STUOJ</div>
-            <div class="welcome" v-else><strong>{{ slot }}好，{{ info.username }}</strong> </div>
-            <div class="button" v-if="!isLogin">
-              <el-button type="info" @click="goToLogin" style="width: 100%;">登录/注册</el-button>
-            </div>
-            <div class="button" v-else>
-              <el-button type="info" @click="goToProblemList" style="width: 100%;">去做题</el-button>
-            </div>
-          </div>
-        </el-card>
+        <HomeBanner :banners="banners" @goToLogin="goToLogin" />
       </el-col>
     </el-row>
     <el-row :gutter="20">
@@ -88,7 +57,6 @@
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="gotoProblem">传送</el-button>
-              <el-button @click="gotoRandomProblem" disabled>随机传送</el-button>
             </el-form-item>
           </el-form>
         </el-card>
@@ -147,24 +115,16 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import router from "@/router";
 import { userStore } from "@/stores/user";
-import ProblemRecommend from "@/components/problem/ProblemRecommend.vue";
-import BlogRecommend from "@/components/blog/BlogRecommend.vue";
 import Banner1 from "@/assets/images/banner/stuoj.jpg";
 import Banner2 from "@/assets/images/banner/acm-icpc.jpg";
 import Banner3 from "@/assets/images/banner/jf.jpg";
-import NoticeList from "@/components/blog/NoticeList.vue";
-
 const banners = ref([Banner1, Banner2, Banner3]);
 
 const info = ref(userStore().info);
 const isLogin = ref(userStore().isLogin);
-
-onMounted(() => {
-  console.log(`年${year} 月${month} 天${day}  ${week}`)
-});
 
 const weeks = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
 const months = ["一月大", "二月小", "三月大", "四月小", "五月大", "六月小", "七月大", "八月大", "九月小", "十月大", "十一月", "十二月"];
@@ -194,9 +154,6 @@ const goToLogin = () => {
   router.push('/user/login')
 };
 
-const goToProblemList = () => {
-  router.push('/problem')
-};
 </script>
 
 <style lang=less scoped>

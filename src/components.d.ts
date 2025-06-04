@@ -84,6 +84,7 @@ declare module 'vue' {
     FooterBar: typeof import('./components/FooterBar.vue')['default']
     FPSImport: typeof import('./components/problem/FPSImport.vue')['default']
     HeaderNav: typeof import('./components/HeaderNav.vue')['default']
+    HomeBanner: typeof import('./components/home/HomeBanner.vue')['default']
     JudgementsTable: typeof import('./components/record/JudgementsTable.vue')['default']
     JudgeStatusSelect: typeof import('./components/record/JudgeStatusSelect.vue')['default']
     LangSelect: typeof import('./components/form/LangSelect.vue')['default']
